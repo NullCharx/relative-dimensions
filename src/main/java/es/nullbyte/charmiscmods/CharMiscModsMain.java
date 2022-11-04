@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods;
 
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.init.ItemInit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -35,9 +36,11 @@ public class CharMiscModsMain {
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::setup);
+        ItemInit.ITEMS.register(modEventBus);
+
 
         // Register ourselves for server and other game events we are interested in
-        //MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
