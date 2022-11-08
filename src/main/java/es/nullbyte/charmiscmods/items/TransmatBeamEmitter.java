@@ -14,22 +14,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.ClientCommandHandler;
 
-public class AvidShortDistanceParticleTransmitter extends Item {
+public class TransmatBeamEmitter extends Item {
     //https://moddingtutorials.org/advanced-items
-    public AvidShortDistanceParticleTransmitter(Properties properties) {
+    public TransmatBeamEmitter(Properties properties) {
         super(properties);
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         // get where the player is looking and move them there
-        BlockHitResult ray = getPlayerPOVHitResult(world, player, ClipContext.Fluid.NONE); //This makes the range the same as the mining range!
+        BlockHitResult ray = rayTrace(world, player, ClipContext.Fluid.NONE); //This makes the range the same as the mining range!
         BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
         player.setPos(lookPos.getX(), lookPos.getY(), lookPos.getZ());
 
-        // only allow the player to use it every 3 seconds
-        player.getCooldowns().addCooldown(this, 60);
+        //Send a message using player.sendSystemMessage
+
+
+        // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
+        player.getCooldowns().addCooldown(this, 30);
 
         // allow the teleport to cancel fall damage
         player.fallDistance = 0F;
@@ -39,7 +44,7 @@ public class AvidShortDistanceParticleTransmitter extends Item {
 
         // reduce durability
         ItemStack stack = player.getItemInHand(hand);
-        stack.setDamageValue(stack.getDamageValue() + 3);
+        stack.setDamageValue(stack.getDamageValue() + 1);
 
         // break if durability gets to 0
         if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(0);
@@ -65,4 +70,20 @@ public class AvidShortDistanceParticleTransmitter extends Item {
         return material.getItem() == ItemInit.testitem1.get();
     }
 
+    //Custom raytrace method, does the same as standard ,method, but block distance can be set (range)
+    protected static <BlockRayTraceResult> BlockHitResult rayTrace(Level world, Player player, ClipContext.Fluid fluidMode) {
+        double range = 100;//Block distance
+
+        float f = player.getXRot();
+        float f1 = player.getYRot();
+        Vec3 vector3d = player.getEyePosition(1.0F);
+        float f2 = Mth.cos(-f1 * ((float)Math.PI / 180F) - (float)Math.PI);
+        float f3 = Mth.sin(-f1 * ((float)Math.PI / 180F) - (float)Math.PI);
+        float f4 = -Mth.cos(-f * ((float)Math.PI / 180F));
+        float f5 = Mth.sin(-f * ((float)Math.PI / 180F));
+        float f6 = f3 * f4;
+        float f7 = f2 * f4;
+        Vec3 vector3d1 = vector3d.add((double)f6 * range, (double)f5 * range, (double)f7 * range);
+        return world.clip(new ClipContext(vector3d, vector3d1, ClipContext.Block.OUTLINE, fluidMode, player));
+    }
 }

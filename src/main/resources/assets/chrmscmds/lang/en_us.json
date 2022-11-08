@@ -1,5 +1,9 @@
 {
-  "itemGroup.chrmscmds": "Char miscelaneous mod items",
+  "itemGroup.chrmscmds": "Propierty of the Advanced Intelligent Development group",
 
-  "item.chrmscmds.testitem1": "Test item 1! (no functionality)"
+  "item.chrmscmds.testitem1": "Test item 1! (no functionality)",
+
+  "item.chrmscmds.avidsdpt": "AVID short distance particle matter transmitter",
+
+  "item.chrmscmds.transmatbeamemt": "Transmat beam emitter"
 }
