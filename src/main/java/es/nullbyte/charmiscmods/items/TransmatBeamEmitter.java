@@ -1,6 +1,5 @@
 package es.nullbyte.charmiscmods.items;
 
-import com.mojang.math.Vector3d;
 import es.nullbyte.charmiscmods.init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -15,10 +14,7 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraft.network.chat.Component;
-
-import java.awt.*;
 
 public class TransmatBeamEmitter extends Item {
     private int messagesent = 0;
@@ -87,7 +83,8 @@ public class TransmatBeamEmitter extends Item {
     }
 
     //Custom raytrace method, does the same as standard ,method, but block distance can be set (range)
-    protected static <BlockRayTraceResult> BlockHitResult rayTrace(Level world, Player player, ClipContext.Fluid fluidMode) {
+    //There was a protected static <BlockRayTraceResult> here before, but it was removed because it was not needed
+    protected static BlockHitResult rayTrace(Level world, Player player, ClipContext.Fluid fluidMode) {
         double range = 100;//Block distance
 
         float f = player.getXRot();
