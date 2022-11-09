@@ -35,10 +35,7 @@ public class TransmatBeamEmitter extends Item {
         BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
         player.setPos(lookPos.getX(), lookPos.getY(), lookPos.getZ());
 
-
-        //Do nothing for three seconds using ticks
-        //player.sendSystemMessage(Component.literal(String.format("Transmat channel open.")));
-
+        //player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
 
         // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
         player.getCooldowns().addCooldown(this, 30);
