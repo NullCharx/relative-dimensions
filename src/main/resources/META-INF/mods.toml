@@ -42,7 +42,7 @@ authors="Null byte (Char's monodev)" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-A modification solution, the key to access the Advanced Interdimensional Development installations!
+A modification solution, the key to access the Advanced Intelligent Development installations!
 
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.

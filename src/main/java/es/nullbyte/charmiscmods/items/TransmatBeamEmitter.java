@@ -35,10 +35,22 @@ public class TransmatBeamEmitter extends Item {
         BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
         player.setPos(lookPos.getX(), lookPos.getY(), lookPos.getZ());
 
-        //player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
+        //If not checking, the event will fire twice (both in client and server)
+        if (world.isClientSide) {
+            player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
+            if (messagesent ==0) {
+                player.sendSystemMessage(Component.literal(String.format("0")));
+                messagesent = 1;
+            } else {
+                player.sendSystemMessage(Component.literal(String.format("1")));
+                messagesent = 0;
+            }
+        }
+
 
         // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
         player.getCooldowns().addCooldown(this, 30);
+
 
         // allow the teleport to cancel fall damage
         player.fallDistance = 0F;
