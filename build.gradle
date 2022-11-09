@@ -4,7 +4,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-version = 'alpha-0.1'
+version = '0.1'
 group = 'es.nullbyte.charmiscmods' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'chrmscmds'
 

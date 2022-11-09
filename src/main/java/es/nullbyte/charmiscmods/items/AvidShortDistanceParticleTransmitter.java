@@ -11,9 +11,13 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+
+import javax.annotation.Nullable;
+import java.awt.*;
 
 public class AvidShortDistanceParticleTransmitter extends Item {
     //https://moddingtutorials.org/advanced-items
@@ -64,5 +68,4 @@ public class AvidShortDistanceParticleTransmitter extends Item {
     public boolean isValidRepairItem(ItemStack tool, ItemStack material) {
         return material.getItem() == ItemInit.testitem1.get();
     }
-
 }

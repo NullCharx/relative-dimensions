@@ -16,10 +16,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraft.network.chat.Component;
+
+import java.awt.*;
 
 public class TransmatBeamEmitter extends Item {
+    private int messagesent = 0;
     //https://moddingtutorials.org/advanced-items
     public TransmatBeamEmitter(Properties properties) {
+
         super(properties);
     }
 
@@ -30,7 +35,9 @@ public class TransmatBeamEmitter extends Item {
         BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
         player.setPos(lookPos.getX(), lookPos.getY(), lookPos.getZ());
 
-        //Send a message using player.sendSystemMessage
+
+        //Do nothing for three seconds using ticks
+        //player.sendSystemMessage(Component.literal(String.format("Transmat channel open.")));
 
 
         // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
