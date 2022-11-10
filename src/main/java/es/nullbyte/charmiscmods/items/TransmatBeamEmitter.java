@@ -15,13 +15,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 public class TransmatBeamEmitter extends Item {
-    private int messagesent = 0;
+    private static boolean transmatStart = false;
+    private static int ticksCounter = 0;
     //https://moddingtutorials.org/advanced-items
     public TransmatBeamEmitter(Properties properties) {
-
         super(properties);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -34,13 +40,8 @@ public class TransmatBeamEmitter extends Item {
         //If not checking, the event will fire twice (both in client and server)
         if (world.isClientSide) {
             player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
-            if (messagesent ==0) {
-                player.sendSystemMessage(Component.literal(String.format("0")));
-                messagesent = 1;
-            } else {
-                player.sendSystemMessage(Component.literal(String.format("1")));
-                messagesent = 0;
-            }
+            transmatStart = true;
+            player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
         }
 
 
@@ -79,7 +80,7 @@ public class TransmatBeamEmitter extends Item {
 
     @Override
     public boolean isValidRepairItem(ItemStack tool, ItemStack material) {
-        return material.getItem() == ItemInit.testitem1.get();
+        return material.getItem() == ItemInit.TRANSMAT_BEAM_EMITTER.get();
     }
 
     //Custom raytrace method, does the same as standard ,method, but block distance can be set (range)
@@ -98,5 +99,24 @@ public class TransmatBeamEmitter extends Item {
         float f7 = f2 * f4;
         Vec3 vector3d1 = vector3d.add((double)f6 * range, (double)f5 * range, (double)f7 * range);
         return world.clip(new ClipContext(vector3d, vector3d1, ClipContext.Block.OUTLINE, fluidMode, player));
+    }
+
+    @SubscribeEvent
+    public void PlayerTick(TickEvent.PlayerTickEvent event) {
+        if (transmatStart) {
+            ticksCounter++;
+            if (ticksCounter == 30) {
+                event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
+            }else if (ticksCounter == 60) {
+                event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
+            } else if (ticksCounter == 90) {
+                event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
+            } else if (ticksCounter == 110) {
+                ticksCounter = 0;
+                transmatStart = false;
+            }
+        } else {
+            ticksCounter = 0;
+        }
     }
 }

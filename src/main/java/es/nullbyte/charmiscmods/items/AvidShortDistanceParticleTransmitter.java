@@ -66,6 +66,6 @@ public class AvidShortDistanceParticleTransmitter extends Item {
 
     @Override
     public boolean isValidRepairItem(ItemStack tool, ItemStack material) {
-        return material.getItem() == ItemInit.testitem1.get();
+        return material.getItem() == ItemInit.AVID_SDPT.get();
     }
 }
