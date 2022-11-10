@@ -27,13 +27,15 @@ public class TransmatBeamEmitter extends Item {
     //https://moddingtutorials.org/advanced-items
     public TransmatBeamEmitter(Properties properties) {
         super(properties);
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
     }
+//Player capabilities: https://www.youtube.com/watch?v=My70x9LzeUM
+
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         // get where the player is looking and move them there
-        BlockHitResult ray = rayTrace(world, player, ClipContext.Fluid.NONE); //This makes the range the same as the mining range!
+        BlockHitResult ray = rayTrace(world, player, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
         BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
         player.setPos(lookPos.getX(), lookPos.getY(), lookPos.getZ());
 
@@ -41,6 +43,7 @@ public class TransmatBeamEmitter extends Item {
         if (world.isClientSide) {
             player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
             transmatStart = true;
+            //WAIT STILL NEEDED
             player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
         }
 
