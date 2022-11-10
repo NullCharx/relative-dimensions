@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods.items;
 
 import es.nullbyte.charmiscmods.init.ItemInit;
+import es.nullbyte.charmiscmods.transmatstate.PlayerTransmatstateProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -44,9 +45,9 @@ public class TransmatBeamEmitter extends Item {
             player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
             transmatStart = true;
             //WAIT STILL NEEDED
-            player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
         }
 
+        player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
 
         // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
         player.getCooldowns().addCooldown(this, 30);
@@ -107,6 +108,11 @@ public class TransmatBeamEmitter extends Item {
     @SubscribeEvent
     public void PlayerTick(TickEvent.PlayerTickEvent event) {
         if (transmatStart) {
+            event.player.getCapability(PlayerTransmatstateProvider.TRANSMATSTATE_CAPABILITY).ifPresent((state) -> {
+                state.setTransmatstate(state.getTransmatstate()+(int)(Math.random() % 101));
+                state.getTransmatstate();
+            });
+            //HACER ALGO CON LA CAPABILITY
             ticksCounter++;
             if (ticksCounter == 30) {
                 event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
