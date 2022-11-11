@@ -23,8 +23,11 @@ import net.minecraftforge.fml.common.Mod;
 
 import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 public class TransmatBeamEmitter extends Item {
-    private static boolean transmatStart = false;
-    private static int ticksCounter = 0;
+    private boolean transmatStart = false;
+    private boolean particleStart = false;
+
+    private Vec3 posInit = null;
+    private int ticksCounter = 0;
     //https://moddingtutorials.org/advanced-items
     public TransmatBeamEmitter(Properties properties) {
         super(properties);
@@ -35,63 +38,46 @@ public class TransmatBeamEmitter extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+
+        //If not checking, the event will fire twice (both in client and server)
+        if (world.isClientSide()) {
+            player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
+        } else {
+            transmatStart = true;
+            posInit = player.position();
+
+            // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
+            player.getCooldowns().addCooldown(this, 30);
+
+            // reduce durability
+            ItemStack stack = player.getItemInHand(hand);
+            stack.setDamageValue(stack.getDamageValue() + 1);
+
+            // break if durability gets to 0
+            if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(0);
+        }
+        return super.use(world, player, hand);
+    }
+
+    public void transmatEvent(Level world, Player player, InteractionHand hand) {
+
         // get where the player is looking and move them there
         BlockHitResult ray = rayTrace(world, player, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
         BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
         player.setPos(lookPos.getX(), lookPos.getY(), lookPos.getZ());
 
-        //If not checking, the event will fire twice (both in client and server)
-        if (world.isClientSide) {
-            player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
-            transmatStart = true;
-            //WAIT STILL NEEDED
-        }
-
-        player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
-
-        // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
-        player.getCooldowns().addCooldown(this, 30);
-
-
         // allow the teleport to cancel fall damage
         player.fallDistance = 0F;
 
+        player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
         // play a teleport sound. the last two args are volume and pitch
         world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-
-        // reduce durability
-        ItemStack stack = player.getItemInHand(hand);
-        stack.setDamageValue(stack.getDamageValue() + 1);
-
-        // break if durability gets to 0
-        if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(0);
-
-        return super.use(world, player, hand);
-
-    }
-
-    /* makes the item enchantable. done in enchants tutorial
-    @Override
-    public int getEnchantmentValue() {
-        return 10;
-    }*/
-
-    // makes it repairable
-    @Override
-    public boolean isRepairable(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public boolean isValidRepairItem(ItemStack tool, ItemStack material) {
-        return material.getItem() == ItemInit.TRANSMAT_BEAM_EMITTER.get();
     }
 
     //Custom raytrace method, does the same as standard ,method, but block distance can be set (range)
     //There was a protected static <BlockRayTraceResult> here before, but it was removed because it was not needed
     protected static BlockHitResult rayTrace(Level world, Player player, ClipContext.Fluid fluidMode) {
         double range = 100;//Block distance
-
         float f = player.getXRot();
         float f1 = player.getYRot();
         Vec3 vector3d = player.getEyePosition(1.0F);
@@ -108,24 +94,57 @@ public class TransmatBeamEmitter extends Item {
     @SubscribeEvent
     public void PlayerTick(TickEvent.PlayerTickEvent event) {
         if (transmatStart) {
-            event.player.getCapability(PlayerTransmatstateProvider.TRANSMATSTATE_CAPABILITY).ifPresent((state) -> {
-                state.setTransmatstate(state.getTransmatstate()+(int)(Math.random() % 101));
-                state.getTransmatstate();
-            });
-            //HACER ALGO CON LA CAPABILITY
-            ticksCounter++;
-            if (ticksCounter == 30) {
-                event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
+            /*if(!particleStart) {
+                event.player.getCapability(PlayerTransmatstateProvider.TRANSMATSTATE_CAPABILITY).ifPresent((state) -> {
+                    state.setCurrentHand(handInit);
+                    state.setCurrentWorld(worldInit);
+                    state.setCurrentPlayer(playerInit);
+                    state.setCurrentPos(posInit);
+                });
+            }*/
+
+            if(ticksCounter == 0) {
+                event.player.sendSystemMessage(Component.literal(String.format("Locking player position...")));
+                particleStart = true;
+            } else if (ticksCounter == 40) {//
+                event.player.sendSystemMessage(Component.literal(String.format("Plotting local vectorial time-space coordinates...")));
             }else if (ticksCounter == 60) {
-                event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
+                //Play nether treshold sound
+                event.player.sendSystemMessage(Component.literal(String.format("Energizing...")));
             } else if (ticksCounter == 90) {
-                event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
-            } else if (ticksCounter == 110) {
+                event.player.sendSystemMessage(Component.literal(String.format("Target locked...")));
+            } else if (ticksCounter == 120) {
                 ticksCounter = 0;
+                particleStart = false;
+                event.player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
+                transmatEvent(event.player.level, event.player, event.player.getUsedItemHand());
                 transmatStart = false;
             }
-        } else {
-            ticksCounter = 0;
+            ticksCounter++;
+
         }
+        if(particleStart ) {
+            //Generate particle effect
+            //Make the player unable to move
+            event.player.setPos(posInit.x, posInit.y, posInit.z);
+        }
+    }
+
+
+    /* makes the item enchantable. done in enchants tutorial
+    @Override
+    public int getEnchantmentValue() {
+        return 10;
+    }*/
+
+    // makes it repairable
+    @Override
+    public boolean isRepairable(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack tool, ItemStack material) {
+        return material.getItem() == ItemInit.TRANSMAT_BEAM_EMITTER.get();
     }
 }
