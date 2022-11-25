@@ -5,5 +5,8 @@
 
   "item.chrmscmds.avidsdpt": "AVID short distance particle matter transmitter",
 
-  "item.chrmscmds.transmatbeamemt": "Transmat beam emitter"
+  "item.chrmscmds.transmatbeamemt": "Transmat beam emitter",
+
+  "block.chrmscmds.test-block": "Test block! (no functionality)"
+
 }

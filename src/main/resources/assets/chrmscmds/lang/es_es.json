@@ -5,5 +5,7 @@
 
   "item.chrmscmds.avidsdpt": "Transmisor de particulas de corta distancia de AVID",
 
-  "item.chrmscmds.transmatbeamemt": "Emisor de haz transmat"
+  "item.chrmscmds.transmatbeamemt": "Emisor de haz transmat",
+
+  "block.chrmscmds.test-block": "Test block! (sin funcionalidad)"
 }

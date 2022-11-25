@@ -3,6 +3,7 @@ package es.nullbyte.charmiscmods.items;
 import es.nullbyte.charmiscmods.init.ItemInit;
 import es.nullbyte.charmiscmods.transmatstate.PlayerTransmatstateProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -26,6 +27,7 @@ public class TransmatBeamEmitter extends Item {
     private boolean transmatStart = false;
     private boolean particleStart = false;
 
+    private boolean endTransmat = false;
     private Vec3 posInit = null;
     private int ticksCounter = 0;
     //https://moddingtutorials.org/advanced-items
@@ -42,6 +44,7 @@ public class TransmatBeamEmitter extends Item {
         //If not checking, the event will fire twice (both in client and server)
         if (world.isClientSide()) {
             player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
+
         } else {
             transmatStart = true;
             posInit = player.position();
@@ -61,6 +64,7 @@ public class TransmatBeamEmitter extends Item {
 
     public void transmatEvent(Level world, Player player, InteractionHand hand) {
 
+        System.out.println("Transmat event fired");
         // get where the player is looking and move them there
         BlockHitResult ray = rayTrace(world, player, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
         BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
@@ -105,15 +109,16 @@ public class TransmatBeamEmitter extends Item {
 
             if(ticksCounter == 0) {
                 event.player.sendSystemMessage(Component.literal(String.format("Locking player position...")));
+                posInit = event.player.position();
                 particleStart = true;
-            } else if (ticksCounter == 40) {//
+            } else if (ticksCounter == 100) {//
                 event.player.sendSystemMessage(Component.literal(String.format("Plotting local vectorial time-space coordinates...")));
-            }else if (ticksCounter == 60) {
+            }else if (ticksCounter == 200) {
                 //Play nether treshold sound
                 event.player.sendSystemMessage(Component.literal(String.format("Energizing...")));
-            } else if (ticksCounter == 90) {
+            } else if (ticksCounter == 300) {
                 event.player.sendSystemMessage(Component.literal(String.format("Target locked...")));
-            } else if (ticksCounter == 120) {
+            } else if (ticksCounter == 400) {
                 ticksCounter = 0;
                 particleStart = false;
                 event.player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
@@ -121,13 +126,25 @@ public class TransmatBeamEmitter extends Item {
                 transmatStart = false;
             }
             ticksCounter++;
+            if(particleStart) {
+                //Generate particle effect
+                //Make the player unable to move
+                //Generate nether portal particles
+                event.player.setPos(posInit.x, posInit.y, posInit.z);
+                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 1, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 2, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 3, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 4, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 5, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 6, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 7, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 8, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 9, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 10, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                event.player.setPos(posInit.x, posInit.y, posInit.z);
+            }
+        }
 
-        }
-        if(particleStart ) {
-            //Generate particle effect
-            //Make the player unable to move
-            event.player.setPos(posInit.x, posInit.y, posInit.z);
-        }
     }
 
 

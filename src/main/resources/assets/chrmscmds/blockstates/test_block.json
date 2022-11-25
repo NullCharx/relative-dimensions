@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "chrmscmds:block/test_block"
+    }
+  }
+}
