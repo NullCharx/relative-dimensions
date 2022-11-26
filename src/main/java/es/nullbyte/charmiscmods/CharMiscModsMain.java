@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods;
 
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.init.BlockInit;
 import es.nullbyte.charmiscmods.init.ItemInit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -39,7 +40,7 @@ public class CharMiscModsMain {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::setup);
         ItemInit.ITEMS.register(modEventBus);
-
+        BlockInit.BLOCKS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

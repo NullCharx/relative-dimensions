@@ -23,10 +23,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
+import static java.lang.Math.floor;
+
 public class TransmatBeamEmitter extends Item {
     private boolean transmatStart = false;
     private boolean particleStart = false;
     private Vec3 posInit = null;
+    private Vec3 posInitRounded = null;
 
     private Vec3 targetPos = null;
     private int ticksCounter = 0;
@@ -41,44 +44,36 @@ public class TransmatBeamEmitter extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 
+        int secs = 10;
         //If not checking, the event will fire twice (both in client and server)
         if (world.isClientSide()) {
             player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
 
         }
-            transmatStart = true;
-            posInit = player.position();
-
-            // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
-            player.getCooldowns().addCooldown(this, 120);
-
-            // reduce durability
-            ItemStack stack = player.getItemInHand(hand);
-            stack.setDamageValue(stack.getDamageValue() + 1);
-
-            // break if durability gets to 0
-            if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(0);
-        return super.use(world, player, hand);
-    }
-
-    public void transmatObjective(Level world, Player player) {
-
-        // get where the player is looking and move them there
-        BlockHitResult ray = rayTrace(world, player, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
-        BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
+        posInit = player.position();
+        posInitRounded = new Vec3(floor(player.getX()), floor(player.getY()), floor(player.getZ()));
+        transmatStart = true;
+        System.out.println(posInit);
         // allow the teleport to cancel fall damage
         player.fallDistance = 0F;
 
-        player.sendSystemMessage(Component.literal(String.format("Target coordinates acquired: %s", lookPos.toString())));
+        // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
+        player.getCooldowns().addCooldown(this, 20*secs);
 
-        //save the target position
-        targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
+        // reduce durability
+        ItemStack stack = player.getItemInHand(hand);
+        stack.setDamageValue(stack.getDamageValue() + 3);
+
+        // break if durability gets to 0
+        if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(0);
+
+        return super.use(world, player, hand);
     }
 
     //Custom raytrace method, does the same as standard ,method, but block distance can be set (range)
     //There was a protected static <BlockRayTraceResult> here before, but it was removed because it was not needed
     protected static BlockHitResult rayTrace(Level world, Player player, ClipContext.Fluid fluidMode) {
-        double range = 75;//Block distance
+        double range = 100;//Block distance
         float f = player.getXRot();
         float f1 = player.getYRot();
         Vec3 vector3d = player.getEyePosition(1.0F);
@@ -107,7 +102,18 @@ public class TransmatBeamEmitter extends Item {
 
             if(ticksCounter == 0) {
                 event.player.sendSystemMessage(Component.literal(String.format("Locking player position...")));
-                transmatObjective(event.player.level, event.player);
+                event.player.level.playSound(event.player, event.player.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
+
+                //Transmat raytrace----------------------------------------
+                BlockHitResult ray = rayTrace(event.player.level, event.player, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
+                BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
+
+                event.player.sendSystemMessage(Component.literal(String.format("Target coordinates acquired: %s", lookPos.toString())));
+
+                //save the target position
+                targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
+                //---------------------------------------------------
+
                 particleStart = true;
             } else {
                 event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 0.0D, 0.0D);
@@ -125,9 +131,13 @@ public class TransmatBeamEmitter extends Item {
                     event.player.sendSystemMessage(Component.literal(String.format("Generating upstream transmat channel...")));
                 }else if (ticksCounter == 200) {
                     //Play nether treshold sound
-                    event.player.sendSystemMessage(Component.literal(String.format("Energizing...")));
+                    if (event.player.level.isClientSide()) {
+                        event.player.sendSystemMessage(Component.literal(String.format("Energizing...")));
+                    }
                 } else if (ticksCounter == 300) {
-                    event.player.sendSystemMessage(Component.literal(String.format("Target locked...")));
+                    if (event.player.level.isClientSide()) {
+                        event.player.sendSystemMessage(Component.literal(String.format("Target locked...")));
+                }
                 } else if (ticksCounter == 400) {
                     ticksCounter = 0;
                     particleStart = false;
@@ -135,8 +145,13 @@ public class TransmatBeamEmitter extends Item {
                     event.player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
                     // play a teleport sound. the last two args are volume and pitch
                     event.player.level.playSound(event.player, event.player.getX(), event.player.getY(), event.player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                    event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
                     event.player.setPos(targetPos.x, targetPos.y, targetPos.z);
+                    if(event.player.position() == posInitRounded) {
+                        event.player.sendSystemMessage(Component.literal(String.format("Transmat channel error")));
+                    } else {
+                        event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
+                    }
+                    System.out.println(event.player.position());
                 }
             }
             if(particleStart) {
@@ -155,6 +170,7 @@ public class TransmatBeamEmitter extends Item {
                 event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 9, event.player.getZ(), 0.0D, 0.0D, 0.0D);
                 event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 10, event.player.getZ(), 0.0D, 0.0D, 0.0D);
                 event.player.setPos(posInit.x, posInit.y, posInit.z);
+
             }
         }
 

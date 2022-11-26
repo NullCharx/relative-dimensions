@@ -18,11 +18,11 @@ public class ItemInit {
 
     //AVID short distance matter particle transmitter
     public static final RegistryObject<Item> AVID_SDPT = ITEMS.register("avidsdpt",
-            () -> new AvidShortDistanceParticleTransmitter(new Item.Properties().tab(ModCreativeTab.instance)));
+            () -> new AvidShortDistanceParticleTransmitter(new Item.Properties().tab(ModCreativeTab.instance).durability(1000)));
 
     //Transmat beam generator
     public static final RegistryObject<Item> TRANSMAT_BEAM_EMITTER = ITEMS.register("transmatbeamemt",
-            () -> new TransmatBeamEmitter(new Item.Properties().tab(ModCreativeTab.instance)));
+            () -> new TransmatBeamEmitter(new Item.Properties().tab(ModCreativeTab.instance).durability(1000)));
     public static class ModCreativeTab extends CreativeModeTab {
         private ModCreativeTab(int index, String label) {
             super(index, label);
