@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "minecraft:block/sand",
+    "front": "charmscmds:blocks/advtestblock",
+    "side": "minecraft:block/tnt_side"
+  }
+}

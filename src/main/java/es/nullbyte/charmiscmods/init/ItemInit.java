@@ -29,6 +29,12 @@ public class ItemInit {
     //BLOCK ITEMS
     public static final RegistryObject<Item> TESTBLOCK1ITEM = ITEMS.register("testblock",
             () -> new BlockItem(BlockInit.TESTBLOCK1.get(), new Item.Properties().tab(ModCreativeTab.instance)));
+
+    public static final RegistryObject<Item> ADVANCEDTESTBLOCKITEM = ITEMS.register("adbvtestblock",
+            () -> new BlockItem(BlockInit.ADVANCEDTESTBLOCK.get(), new Item.Properties().tab(ModCreativeTab.instance)));
+
+  //  public static final RegistryObject<Item> MOBREPELLANTBEACONITEM = ITEMS.register("mobrepellentbeacon",
+//            () -> new BlockItem(BlockInit.MOBREPELLANTBEACON.get(), new Item.Properties().tab(ModCreativeTab.instance)));
     public static class ModCreativeTab extends CreativeModeTab {
         private ModCreativeTab(int index, String label) {
             super(index, label);

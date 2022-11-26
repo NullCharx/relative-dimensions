@@ -1,17 +1,13 @@
 package es.nullbyte.charmiscmods.init;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
+import es.nullbyte.charmiscmods.blocks.AdvTestBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.util.function.Supplier;
 
 public class BlockInit {
     //https://moddingtutorials.org/basic-blocks
@@ -23,6 +19,10 @@ public class BlockInit {
     public static final RegistryObject<Block> TESTBLOCK1 = BLOCKS.register("testblock",
             () -> new Block(Block.Properties.of(Material.STONE).strength(4f, 1200f).requiresCorrectToolForDrops().lightLevel((state) -> 15)));
 
+    public static final RegistryObject<Block> ADVANCEDTESTBLOCK = BLOCKS.register("advtestblock",
+            () -> new AdvTestBlock(Block.Properties.copy(Blocks.DIRT)));
+    //public static final RegistryObject<Block> MOBREPELLANTBEACON = BLOCKS.register("mobrepellentbeacon",
+    //        () -> new MobRepellentBeaconBlock(Block.Properties.of(Material.STONE).strength(4f, 1200f).requiresCorrectToolForDrops().lightLevel((state) -> 15)));
     // automatically creates items for all your blocks
     // you could do it manually instead by registering BlockItems in your ItemInit class
     /*@SubscribeEvent
