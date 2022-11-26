@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods.init;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,6 +24,11 @@ public class ItemInit {
     //Transmat beam generator
     public static final RegistryObject<Item> TRANSMAT_BEAM_EMITTER = ITEMS.register("transmatbeamemt",
             () -> new TransmatBeamEmitter(new Item.Properties().tab(ModCreativeTab.instance).durability(1000)));
+
+
+    //BLOCK ITEMS
+    public static final RegistryObject<Item> TESTBLOCK1ITEM = ITEMS.register("testblock",
+            () -> new BlockItem(BlockInit.TESTBLOCK1.get(), new Item.Properties().tab(ModCreativeTab.instance)));
     public static class ModCreativeTab extends CreativeModeTab {
         private ModCreativeTab(int index, String label) {
             super(index, label);

@@ -20,12 +20,12 @@ public class BlockInit {
     //You can also use Block.Properties.copy(ANOTHER_BLOCK) to avoid writing things out repeatedly. All vanilla blocks
     // can be accessed with Blocks.INSERT_NAME_HERE so you can copy properties from one of them if you feel like it.
     // Or avoid redundancy by referencing YOUR_BLOCK.get()
-    public static final RegistryObject<Block> TEST_BLOCK = BLOCKS.register("test_block",
+    public static final RegistryObject<Block> TESTBLOCK1 = BLOCKS.register("testblock",
             () -> new Block(Block.Properties.of(Material.STONE).strength(4f, 1200f).requiresCorrectToolForDrops().lightLevel((state) -> 15)));
 
     // automatically creates items for all your blocks
     // you could do it manually instead by registering BlockItems in your ItemInit class
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onRegisterItems(final RegisterEvent event) {
         if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)){
             // for each block we registered above...
@@ -42,5 +42,5 @@ public class BlockInit {
                 event.register(ForgeRegistries.Keys.ITEMS, blockRegistryObject.getId(), blockItemFactory);
             });
         }
-    }
+    }*/
 }
