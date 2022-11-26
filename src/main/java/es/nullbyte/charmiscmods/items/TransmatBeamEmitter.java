@@ -137,7 +137,7 @@ public class TransmatBeamEmitter extends Item {
                 } else if (ticksCounter == 300) {
                     if (event.player.level.isClientSide()) {
                         event.player.sendSystemMessage(Component.literal(String.format("Target locked...")));
-                }
+                    }
                 } else if (ticksCounter == 400) {
                     ticksCounter = 0;
                     particleStart = false;
