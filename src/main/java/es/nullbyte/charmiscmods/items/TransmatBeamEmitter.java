@@ -26,9 +26,9 @@ import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 public class TransmatBeamEmitter extends Item {
     private boolean transmatStart = false;
     private boolean particleStart = false;
-
-    private boolean endTransmat = false;
     private Vec3 posInit = null;
+
+    private Vec3 targetPos = null;
     private int ticksCounter = 0;
     //https://moddingtutorials.org/advanced-items
     public TransmatBeamEmitter(Properties properties) {
@@ -45,12 +45,12 @@ public class TransmatBeamEmitter extends Item {
         if (world.isClientSide()) {
             player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
 
-        } else {
+        }
             transmatStart = true;
             posInit = player.position();
 
             // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
-            player.getCooldowns().addCooldown(this, 30);
+            player.getCooldowns().addCooldown(this, 120);
 
             // reduce durability
             ItemStack stack = player.getItemInHand(hand);
@@ -58,30 +58,27 @@ public class TransmatBeamEmitter extends Item {
 
             // break if durability gets to 0
             if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(0);
-        }
         return super.use(world, player, hand);
     }
 
-    public void transmatEvent(Level world, Player player, InteractionHand hand) {
+    public void transmatObjective(Level world, Player player) {
 
-        System.out.println("Transmat event fired");
         // get where the player is looking and move them there
         BlockHitResult ray = rayTrace(world, player, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
         BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
-        player.setPos(lookPos.getX(), lookPos.getY(), lookPos.getZ());
-
         // allow the teleport to cancel fall damage
         player.fallDistance = 0F;
 
-        player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
-        // play a teleport sound. the last two args are volume and pitch
-        world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+        player.sendSystemMessage(Component.literal(String.format("Target coordinates acquired: %s", lookPos.toString())));
+
+        //save the target position
+        targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
     }
 
     //Custom raytrace method, does the same as standard ,method, but block distance can be set (range)
     //There was a protected static <BlockRayTraceResult> here before, but it was removed because it was not needed
     protected static BlockHitResult rayTrace(Level world, Player player, ClipContext.Fluid fluidMode) {
-        double range = 100;//Block distance
+        double range = 75;//Block distance
         float f = player.getXRot();
         float f1 = player.getYRot();
         Vec3 vector3d = player.getEyePosition(1.0F);
@@ -97,6 +94,7 @@ public class TransmatBeamEmitter extends Item {
 
     @SubscribeEvent
     public void PlayerTick(TickEvent.PlayerTickEvent event) {
+
         if (transmatStart) {
             /*if(!particleStart) {
                 event.player.getCapability(PlayerTransmatstateProvider.TRANSMATSTATE_CAPABILITY).ifPresent((state) -> {
@@ -109,28 +107,43 @@ public class TransmatBeamEmitter extends Item {
 
             if(ticksCounter == 0) {
                 event.player.sendSystemMessage(Component.literal(String.format("Locking player position...")));
-                posInit = event.player.position();
+                transmatObjective(event.player.level, event.player);
                 particleStart = true;
-            } else if (ticksCounter == 100) {//
-                event.player.sendSystemMessage(Component.literal(String.format("Plotting local vectorial time-space coordinates...")));
-            }else if (ticksCounter == 200) {
-                //Play nether treshold sound
-                event.player.sendSystemMessage(Component.literal(String.format("Energizing...")));
-            } else if (ticksCounter == 300) {
-                event.player.sendSystemMessage(Component.literal(String.format("Target locked...")));
-            } else if (ticksCounter == 400) {
-                ticksCounter = 0;
-                particleStart = false;
-                event.player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
-                transmatEvent(event.player.level, event.player, event.player.getUsedItemHand());
-                transmatStart = false;
+            } else {
+                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 2, targetPos.z, 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 3, targetPos.z, 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 4, targetPos.z, 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 5, targetPos.z, 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 6, targetPos.z, 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 7, targetPos.z, 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 8, targetPos.z, 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 9, targetPos.z, 0.0D, 0.0D, 0.0D);
+                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 10, targetPos.z, 0.0D, 0.0D, 0.0D);
+
+                if (ticksCounter == 100) {//
+                    event.player.sendSystemMessage(Component.literal(String.format("Generating upstream transmat channel...")));
+                }else if (ticksCounter == 200) {
+                    //Play nether treshold sound
+                    event.player.sendSystemMessage(Component.literal(String.format("Energizing...")));
+                } else if (ticksCounter == 300) {
+                    event.player.sendSystemMessage(Component.literal(String.format("Target locked...")));
+                } else if (ticksCounter == 400) {
+                    ticksCounter = 0;
+                    particleStart = false;
+                    transmatStart = false;
+                    event.player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
+                    // play a teleport sound. the last two args are volume and pitch
+                    event.player.level.playSound(event.player, event.player.getX(), event.player.getY(), event.player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
+                    event.player.setPos(targetPos.x, targetPos.y, targetPos.z);
+                }
             }
-            ticksCounter++;
             if(particleStart) {
                 //Generate particle effect
                 //Make the player unable to move
                 //Generate nether portal particles
-                event.player.setPos(posInit.x, posInit.y, posInit.z);
+                ticksCounter++;
                 event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 1, event.player.getZ(), 0.0D, 0.0D, 0.0D);
                 event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 2, event.player.getZ(), 0.0D, 0.0D, 0.0D);
                 event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 3, event.player.getZ(), 0.0D, 0.0D, 0.0D);
