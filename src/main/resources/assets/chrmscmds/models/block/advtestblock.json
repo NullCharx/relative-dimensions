@@ -2,7 +2,7 @@
   "parent": "minecraft:block/orientable",
   "textures": {
     "top": "minecraft:block/sand",
-    "front": "charmscmds:blocks/advtestblock",
+    "front": "charmscmds:block/advtestblockt",
     "side": "minecraft:block/tnt_side"
   }
 }

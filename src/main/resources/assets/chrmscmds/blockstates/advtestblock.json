@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=east": {
-      "model": "chrmscmds:block/advtestblocktxt",
+      "model": "chrmscmds:block/advtestblock",
       "y": 90
     },
     "facing=north": {
-      "model": "chrmscmds:block/advtestblocktxt"
+      "model": "chrmscmds:block/advtestblock"
     },
     "facing=south": {
-      "model": "chrmscmds:block/advtestblocktxt",
+      "model": "chrmscmds:block/advtestblock",
       "y": 180
     },
     "facing=west": {
-      "model": "chrmscmds:block/advtestblocktxt",
+      "model": "chrmscmds:block/advtestblock",
       "y": 270
     }
   }

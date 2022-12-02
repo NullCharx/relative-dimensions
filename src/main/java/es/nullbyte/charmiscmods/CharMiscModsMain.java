@@ -3,6 +3,7 @@ package es.nullbyte.charmiscmods;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.init.BlockInit;
 import es.nullbyte.charmiscmods.init.ItemInit;
+import es.nullbyte.charmiscmods.init.TileEntityInit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
@@ -41,6 +42,7 @@ public class CharMiscModsMain {
         modEventBus.addListener(this::setup);
         ItemInit.ITEMS.register(modEventBus);
         BlockInit.BLOCKS.register(modEventBus);
+        TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

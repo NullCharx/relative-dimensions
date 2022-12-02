@@ -34,13 +34,13 @@ public class AdvTestBlock extends Block {
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         ItemStack held = player.getItemInHand(hand);
 
-        if (!world.isClientSide() && held.getItem() == Items.GUNPOWDER){
+        //if (!world.isClientSide() && held.getItem() == Items.GUNPOWDER){
             world.explode(player, pos.getX(), pos.getY(), pos.getZ(), 4.0F, true, Explosion.BlockInteraction.DESTROY);
             held.shrink(1);
             return InteractionResult.CONSUME;
-        }
+        //}
 
-        return super.use(state, world, pos, player, hand, hit);
+        //return super.use(state, world, pos, player, hand, hit);
     }
 
     @Override
