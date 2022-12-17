@@ -7,6 +7,7 @@
 
   "item.chrmscmds.transmatbeamemt": "Transmat beam emitter",
 
-  "block.chrmscmds.test-block": "Test block! (no functionality)"
+  "block.chrmscmds.test-block": "Test block! (no functionality)",
 
+  "block.chrmscmds.tsstraight": "Straight rail, part of the AVID center transit system"
 }

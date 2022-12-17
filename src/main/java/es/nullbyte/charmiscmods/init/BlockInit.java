@@ -1,15 +1,23 @@
 package es.nullbyte.charmiscmods.init;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
+import es.nullbyte.charmiscmods.blocks.AVIDTSStraighRail;
 import es.nullbyte.charmiscmods.blocks.AdvTestBlock;
-import es.nullbyte.charmiscmods.blocks.MobSlayerBlock;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Supplier;
+
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlockInit {
     //https://moddingtutorials.org/basic-blocks
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CharMiscModsMain.MOD_ID);
@@ -23,6 +31,19 @@ public class BlockInit {
     public static final RegistryObject<Block> ADVANCEDTESTBLOCK = BLOCKS.register("advtestblock",
             () -> new AdvTestBlock(Block.Properties.copy(Blocks.DIRT)));
 
-    public static final RegistryObject<Block> MOB_SLAYER = BLOCKS.register("mob_slayer",
-            () -> new MobSlayerBlock(Block.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> STRAIGHTRAIL = BLOCKS.register("tsstraight",
+            () -> new AVIDTSStraighRail(Block.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+
+    @SubscribeEvent
+    public static void onRegisterItems(final RegisterEvent event) {
+        if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)){
+            BLOCKS.getEntries().forEach( (blockRegistryObject) -> {
+                Block block = blockRegistryObject.get();
+                Item.Properties properties = new Item.Properties().tab(ItemInit.ModCreativeTab.instance);
+                Supplier<Item> blockItemFactory = () -> new BlockItem(block, properties);
+                event.register(ForgeRegistries.Keys.ITEMS, blockRegistryObject.getId(), blockItemFactory);
+            });
+        }
+    }
+
 }
