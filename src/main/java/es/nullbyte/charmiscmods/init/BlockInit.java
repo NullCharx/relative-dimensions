@@ -1,8 +1,8 @@
 package es.nullbyte.charmiscmods.init;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
-import es.nullbyte.charmiscmods.blocks.AVIDTSStraighRail;
 import es.nullbyte.charmiscmods.blocks.AdvTestBlock;
+import es.nullbyte.charmiscmods.blocks.AVIDtsrail;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -31,8 +31,8 @@ public class BlockInit {
     public static final RegistryObject<Block> ADVANCEDTESTBLOCK = BLOCKS.register("advtestblock",
             () -> new AdvTestBlock(Block.Properties.copy(Blocks.DIRT)));
 
-    public static final RegistryObject<Block> STRAIGHTRAIL = BLOCKS.register("tsstraight",
-            () -> new AVIDTSStraighRail(Block.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> STRAIGHTRAIL = BLOCKS.register("tsrail",
+            () -> new AVIDtsrail(Block.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
 
     @SubscribeEvent
     public static void onRegisterItems(final RegisterEvent event) {
