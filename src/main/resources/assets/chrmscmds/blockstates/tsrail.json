@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "facing=north,ascending=false": {
+      "model": "chrmscmods:block/tsrail",
+      "uvlock": true
+    },
+    "facing=east,ascending=false": {
+      "model": "chrmscmods:block/tsrail",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,ascending=false": {
+      "model": "chrmscmods:block/tsrail",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,ascending=false": {
+      "model": "chrmscmods:block/tsrail",
+      "y": 270,
+      "uvlock": true
+    }
+  }
+}
+
