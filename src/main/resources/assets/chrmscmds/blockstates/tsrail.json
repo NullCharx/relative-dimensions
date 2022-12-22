@@ -1,19 +1,18 @@
 {
   "variants": {
-    "facing=east": {
+    "direction=north_south,waterlogged=false": {
+      "model": "chrmscmds:block/tsrail"
+    },
+    "direction=east_west,waterlogged=false": {
       "model": "chrmscmds:block/tsrail",
       "y": 90
     },
-    "facing=north": {
-      "model": "chrmscmds:block/tsrail"
+    "direction=north_south,waterlogged=true": {
+      "model": "chrmscmds:block/water/tsrail_water"
     },
-    "facing=south": {
-      "model": "chrmscmds:block/tsrail",
-      "y": 180
-    },
-    "facing=west": {
-      "model": "chrmscmds:block/tsrail",
-      "y": 270
+    "direction=east_west,waterlogged=true": {
+      "model": "chrmscmds:block/water/tsrail_water",
+      "y": 90
     }
   }
 }
