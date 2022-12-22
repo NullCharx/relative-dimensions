@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=east": {
+      "model": "chrmscmds:block/tsrail",
+      "y": 90
+    },
+    "facing=north": {
       "model": "chrmscmds:block/tsrail"
+    },
+    "facing=south": {
+      "model": "chrmscmds:block/tsrail",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "chrmscmds:block/tsrail",
+      "y": 270
     }
   }
 }
