@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.RailShape;
 
 
-public class AVIDtsrail extends RailBlock {
+public class AVIDtsrail extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty ISTILTED = BooleanProperty.create("istilted");
 
