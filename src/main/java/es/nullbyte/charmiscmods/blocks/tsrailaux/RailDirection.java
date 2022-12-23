@@ -9,8 +9,12 @@ public enum RailDirection implements StringRepresentable {
     SOUTH_EAST("south_east"),
     SOUTH_WEST("south_west"),
     NORTH_WEST("north_west"),
-    NORTH_EAST("north_east");
+    NORTH_EAST("north_east"),
 
+    ASCENDING_EAST("ascending_east"),
+    ASCENDING_WEST("ascending_west"),
+    ASCENDING_NORTH("ascending_north"),
+    ASCENDING_SOUTH("ascending_south");
     private final String name;
 
     private RailDirection(String p_61743_) {
@@ -25,6 +29,9 @@ public enum RailDirection implements StringRepresentable {
         return this.name;
     }
 
+    public boolean isAscending() {
+        return this == ASCENDING_NORTH || this == ASCENDING_EAST || this == ASCENDING_SOUTH || this == ASCENDING_WEST;
+    }
 
     public String getSerializedName() {
         return this.name;
