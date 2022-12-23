@@ -50,7 +50,42 @@ public class AVIDtsrail extends Block {
         //Get the direction, as well as the blockstate of the block the player is looking at, to check if it is water.
         BlockState state = this.defaultBlockState().setValue(RAIL_DIRECTION, context.getHorizontalDirection().getAxis()
                 == Direction.Axis.X ? RailDirection.EAST_WEST : RailDirection.NORTH_SOUTH);
-        return context.getLevel().getBlockState(context.getClickedPos()).getMaterial() == Material.WATER ? state.setValue(WATERLOGGED, true) : state;
+        state = context.getLevel().getBlockState(context.getClickedPos()).getMaterial() == Material.WATER ? state.setValue(WATERLOGGED, true) : state;
+
+        //Determine the intersection direction based on the block states of the surrounding blocks
+        RailDirection intersectionDirection = RailDirection.NONE;
+        for (Direction direction : Direction.values()) {
+            BlockPos neighborPos = context.getClickedPos().relative(direction);
+            BlockState neighborState = context.getLevel().getBlockState(neighborPos);
+            if (neighborState.getBlock() instanceof AVIDtsrail && neighborState.getValue(RAIL_DIRECTION) != state.getValue(RAIL_DIRECTION)) {
+                switch (state.getValue(RAIL_DIRECTION)) {
+                    case NORTH_SOUTH:
+                        if (direction == Direction.EAST) {
+                            //It can be north-east or south-east. Check which one is. Check for waterlog too.
+
+                            intersectionDirection = neighborState.getValue(RAIL_DIRECTION) == RailDirection.NORTH_EAST ? RailDirection.NORTH_EAST : RailDirection.SOUTH_EAST;
+                        } else if (direction == Direction.WEST) {
+                            //It can be north-west or south-west. Check which one is
+                            intersectionDirection = neighborState.getValue(RAIL_DIRECTION) == RailDirection.NORTH_WEST ? RailDirection.NORTH_WEST : RailDirection.SOUTH_WEST;
+                        }
+                        break;
+                    case EAST_WEST:
+                        if (direction == Direction.NORTH) {
+                            //It can be north-east or north-west. Check which one is
+                            intersectionDirection = neighborState.getValue(RAIL_DIRECTION) == RailDirection.NORTH_EAST ? RailDirection.NORTH_EAST : RailDirection.NORTH_WEST;
+                        } else if (direction == Direction.SOUTH) {
+                            //It can be south-east or south-west. Check which one is
+                            intersectionDirection = neighborState.getValue(RAIL_DIRECTION) == RailDirection.SOUTH_EAST ? RailDirection.SOUTH_EAST : RailDirection.SOUTH_WEST;
+                        }
+                        break;
+                }
+            }
+        }
+        if (intersectionDirection == RailDirection.NONE) {
+            //If no neighbor is found, return the state as it is
+            return context.getLevel().getBlockState(context.getClickedPos()).getMaterial() == Material.WATER ? state.setValue(WATERLOGGED, true) : state;
+        }
+        return state.setValue(RAIL_DIRECTION, intersectionDirection);
     }
 
     @Override
