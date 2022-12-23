@@ -35,7 +35,8 @@ public class AdvTestBlock extends Block {
         ItemStack held = player.getItemInHand(hand);
 
         //if (!world.isClientSide() && held.getItem() == Items.GUNPOWDER){
-            world.explode(player, pos.getX(), pos.getY(), pos.getZ(), 4.0F, true, Explosion.BlockInteraction.DESTROY);
+            //Explode block 1.19.3 (no current mapping)
+            world.m_46511_(player, pos.getX(), pos.getY(), pos.getZ(), 4.0F, true, Explosion.BlockInteraction.DESTROY);
             held.shrink(1);
             return InteractionResult.CONSUME;
         //}
@@ -45,7 +46,7 @@ public class AdvTestBlock extends Block {
 
     @Override
     public void wasExploded(Level world, BlockPos pos, Explosion explosion) {
-        world.explode(null, pos.getX(), pos.getY(), pos.getZ(), 4.0F, true, Explosion.BlockInteraction.DESTROY);
+        world.m_46511_(null, pos.getX(), pos.getY(), pos.getZ(), 4.0F, true, Explosion.BlockInteraction.DESTROY);
         super.wasExploded(world, pos, explosion);
     }
 

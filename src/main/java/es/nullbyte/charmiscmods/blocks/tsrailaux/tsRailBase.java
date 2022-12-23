@@ -52,6 +52,7 @@ public abstract class tsRailBase extends Block implements ICustomRail {
         super(properties);
         this.isStraight = isStraight;
     }
+    @Override
 
     public VoxelShape getShape(BlockState state, BlockGetter blockGET, BlockPos posotion, CollisionContext context) {
         RailDirection railshape = state.is(this) ? state.getValue(this.getShapeProperty()) : null;
@@ -66,10 +67,12 @@ public abstract class tsRailBase extends Block implements ICustomRail {
         }
 
     }
+    @Override
 
     public boolean canSurvive(BlockState state, LevelReader p_49396_, BlockPos position) {
         return true;
     }
+    @Override
 
     public void onPlace(BlockState state, Level world, BlockPos position, BlockState state2, boolean p_49412_) {
         if (!state2.is(state.getBlock())) {
@@ -84,7 +87,7 @@ public abstract class tsRailBase extends Block implements ICustomRail {
         }
         return state;
     }
-
+    @Override
     public void neighborChanged(BlockState state, Level world, BlockPos position, Block block2, BlockPos position2, boolean p_49382_) {
         if (!world.isClientSide && world.getBlockState(position).is(this)) {
             RailDirection railshape = getRailDirection(state, world, position, null);
@@ -121,7 +124,6 @@ public abstract class tsRailBase extends Block implements ICustomRail {
 
     protected void updateState(BlockState state, Level world, BlockPos position, Block block) {
     }
-
     protected BlockState updateDir(Level world, BlockPos position, BlockState state, boolean p_49371_) {
         if (world.isClientSide) {
             return state;
@@ -131,10 +133,11 @@ public abstract class tsRailBase extends Block implements ICustomRail {
         }
     }
 
+    @Override
     public PushReaction getPistonPushReaction(BlockState state) {
         return PushReaction.NORMAL;
     }
-
+    @Override
     public void onRemove(BlockState state, Level world, BlockPos position, BlockState state2, boolean p_49388_) {
         if (!p_49388_) {
             super.onRemove(state, world, position, state2, p_49388_);
@@ -150,6 +153,7 @@ public abstract class tsRailBase extends Block implements ICustomRail {
         }
     }
 
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
         boolean flag = fluidstate.getType() == Fluids.WATER;
@@ -161,6 +165,7 @@ public abstract class tsRailBase extends Block implements ICustomRail {
 
     @Deprecated //Forge: Use getRailDirection(IBlockAccess, BlockPos, IBlockState, EntityMinecart) for enhanced ability
     public abstract Property<RailDirection> getShapeProperty();
+    @Override
 
     public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor worldAccess, BlockPos position, BlockPos position2) {
         if (state.getValue(WATERLOGGED)) {
@@ -169,12 +174,13 @@ public abstract class tsRailBase extends Block implements ICustomRail {
 
         return super.updateShape(state, direction, state2, worldAccess, position, position2);
     }
+    @Override
 
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-
+    @Override
     /* ======================================== FORGE START =====================================*/
     public boolean isFlexibleRail(BlockState state, BlockGetter world, BlockPos pos)
     {
