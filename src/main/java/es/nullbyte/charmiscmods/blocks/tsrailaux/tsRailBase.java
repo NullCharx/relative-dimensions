@@ -23,11 +23,12 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.extensions.IForgeBaseRailBlock;
 
+import static es.nullbyte.charmiscmods.blocks.AVIDtsrail.RAIL_DIRECTION;
+
 public abstract class tsRailBase extends Block implements ICustomRail {
     //Hitboxes depending on the direction of the rail---------------------------------------------------
     public static final VoxelShape HITBOX_NS = Block.box(4.15, 0.0, 0.0, 12.0, 9.0, 16.0);
     public static final VoxelShape HITBOX_EW = Block.box(0.0, 0.0, 4.15, 16.0, 9.0, 12.0);
-    protected static final VoxelShape HALF_BLOCK_AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
     //-----------------------------------------------------------------------------------------------
     //Waterlogged property, vanilla property, changes wether the blocm is placed on water or not-----
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -55,7 +56,14 @@ public abstract class tsRailBase extends Block implements ICustomRail {
     public VoxelShape getShape(BlockState state, BlockGetter blockGET, BlockPos posotion, CollisionContext context) {
         RailDirection railshape = state.is(this) ? state.getValue(this.getShapeProperty()) : null;
         RailDirection railShape2 = state.is(this) ? getRailDirection(state, blockGET, posotion, null) : null;
-        return HALF_BLOCK_AABB; //Todo custom hitbox
+        RailDirection railDirection = state.getValue(RAIL_DIRECTION);
+        if (railDirection == RailDirection.NORTH_SOUTH) {
+            return HITBOX_NS;
+        } else if (railDirection == RailDirection.EAST_WEST) {
+            return HITBOX_EW;
+        } else {
+            return HITBOX_NS;
+        }
 
     }
 
