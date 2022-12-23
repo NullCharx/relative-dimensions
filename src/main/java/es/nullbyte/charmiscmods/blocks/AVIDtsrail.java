@@ -1,12 +1,14 @@
 package es.nullbyte.charmiscmods.blocks;
 
 import es.nullbyte.charmiscmods.blocks.tsrailaux.RailDirection;
+import es.nullbyte.charmiscmods.blocks.tsrailaux.tsRailBase;
+import es.nullbyte.charmiscmods.blocks.tsrailaux.tsRailState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
@@ -17,93 +19,155 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 
-public class AVIDtsrail extends Block {
-
-    //Hitboxes depending on the direction of the rail---------------------------------------------------
-    public static final VoxelShape HITBOX_NS = Block.box(4.15, 0.0, 0.0, 12.0, 9.0, 16.0);
-    public static final VoxelShape HITBOX_EW = Block.box(0.0, 0.0, 4.15, 16.0, 9.0, 12.0);
-    //-----------------------------------------------------------------------------------------------
-
+public class AVIDtsrail extends tsRailBase {
     //Rail direction property, custom rail direction enum found in ./railaux/RailDirection.java--------
     public static final EnumProperty<RailDirection> RAIL_DIRECTION = EnumProperty.create("direction", RailDirection.class);
     //-----------------------------------------------------------------------------------------------
 
-    //Waterlogged property, vanilla property, changes wether the blocm is placed on water or not-----
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    //-----------------------------------------------------------------------------------------------
-
-    public AVIDtsrail(Properties properties) {
-        super(properties);
+    public AVIDtsrail(Properties properties, Boolean isStraight) {
+        super(properties, isStraight);
         //Call the super constructor and register the default state of the block. In this case, looking north-south and not waterlogged
-        this.registerDefaultState(this.stateDefinition.any().setValue(RAIL_DIRECTION, RailDirection.NORTH_SOUTH));
-        this.registerDefaultState(this.getStateDefinition().any().setValue(WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(RAIL_DIRECTION, RailDirection.NORTH_SOUTH)
+                .setValue(WATERLOGGED, false));
     }
 
+    protected void updateState(BlockState state, Level world, BlockPos position, Block block) {
+        if (block.defaultBlockState().isSignalSource() && (new tsRailState(world, position, state)).countPotentialConnections() == 3) {
+            this.updateDir(world, position, state, false);
+        }
+
+    }
+
+    @Override
+    public Property<RailDirection> getShapeProperty() {
+        return RAIL_DIRECTION;
+    }
+
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        switch (rotation) {
+            case CLOCKWISE_180:
+                switch ((RailDirection)state.getValue(RAIL_DIRECTION)) {
+                    case ASCENDING_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_WEST);
+                    case ASCENDING_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_EAST);
+                    case ASCENDING_NORTH:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_SOUTH);
+                    case ASCENDING_SOUTH:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_NORTH);
+                    case SOUTH_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_WEST);
+                    case SOUTH_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_EAST);
+                    case NORTH_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.SOUTH_EAST);
+                    case NORTH_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.SOUTH_WEST);
+                    case NORTH_SOUTH: //Forge fix: MC-196102
+                    case EAST_WEST:
+                        return state;
+                }
+            case COUNTERCLOCKWISE_90:
+                switch ((RailDirection)state.getValue(RAIL_DIRECTION)) {
+                    case ASCENDING_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_NORTH);
+                    case ASCENDING_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_SOUTH);
+                    case ASCENDING_NORTH:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_WEST);
+                    case ASCENDING_SOUTH:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_EAST);
+                    case SOUTH_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_EAST);
+                    case SOUTH_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.SOUTH_EAST);
+                    case NORTH_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.SOUTH_WEST);
+                    case NORTH_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_WEST);
+                    case NORTH_SOUTH:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.EAST_WEST);
+                    case EAST_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_SOUTH);
+                }
+            case CLOCKWISE_90:
+                switch ((RailDirection)state.getValue(RAIL_DIRECTION)) {
+                    case ASCENDING_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_SOUTH);
+                    case ASCENDING_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_NORTH);
+                    case ASCENDING_NORTH:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_EAST);
+                    case ASCENDING_SOUTH:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_WEST);
+                    case SOUTH_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.SOUTH_WEST);
+                    case SOUTH_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_WEST);
+                    case NORTH_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_EAST);
+                    case NORTH_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.SOUTH_EAST);
+                    case NORTH_SOUTH:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.EAST_WEST);
+                    case EAST_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_SOUTH);
+                }
+            default:
+                return state;
+        }
+    }
+
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        RailDirection railshape = state.getValue(RAIL_DIRECTION);
+        switch (mirror) {
+            case LEFT_RIGHT:
+                switch (railshape) {
+                    case ASCENDING_NORTH:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_SOUTH);
+                    case ASCENDING_SOUTH:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_NORTH);
+                    case SOUTH_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_EAST);
+                    case SOUTH_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_WEST);
+                    case NORTH_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.SOUTH_WEST);
+                    case NORTH_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.SOUTH_EAST);
+                    default:
+                        return super.mirror(state, mirror);
+                }
+            case FRONT_BACK:
+                switch (railshape) {
+                    case ASCENDING_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_WEST);
+                    case ASCENDING_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.ASCENDING_EAST);
+                    case ASCENDING_NORTH:
+                    case ASCENDING_SOUTH:
+                    default:
+                        break;
+                    case SOUTH_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.SOUTH_WEST);
+                    case SOUTH_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.SOUTH_EAST);
+                    case NORTH_WEST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_EAST);
+                    case NORTH_EAST:
+                        return state.setValue(RAIL_DIRECTION, RailDirection.NORTH_WEST);
+                }
+        }
+
+        return super.mirror(state, mirror);
+    }
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         //The blocksate defintion detects both direction and waterlog
         builder.add(RAIL_DIRECTION, WATERLOGGED);
     }
 
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        //Get the direction, as well as the blockstate of the block the player is looking at, to check if it is water.
-        BlockState state = this.defaultBlockState().setValue(RAIL_DIRECTION, context.getHorizontalDirection().getAxis()
-                == Direction.Axis.X ? RailDirection.EAST_WEST : RailDirection.NORTH_SOUTH);
-        state = context.getLevel().getBlockState(context.getClickedPos()).getMaterial() == Material.WATER ? state.setValue(WATERLOGGED, true) : state;
 
-        //Determine the intersection direction based on the block states of the surrounding blocks
-        RailDirection intersectionDirection = RailDirection.NONE;
-        for (Direction direction : Direction.values()) {
-            BlockPos neighborPos = context.getClickedPos().relative(direction);
-            BlockState neighborState = context.getLevel().getBlockState(neighborPos);
-            if (neighborState.getBlock() instanceof AVIDtsrail && neighborState.getValue(RAIL_DIRECTION) != state.getValue(RAIL_DIRECTION)) {
-                switch (state.getValue(RAIL_DIRECTION)) {
-                    case NORTH_SOUTH:
-                        if (direction == Direction.EAST) {
-                            //It can be north-east or south-east. Check which one is. Check for waterlog too.
 
-                            intersectionDirection = neighborState.getValue(RAIL_DIRECTION) == RailDirection.NORTH_EAST ? RailDirection.NORTH_EAST : RailDirection.SOUTH_EAST;
-                        } else if (direction == Direction.WEST) {
-                            //It can be north-west or south-west. Check which one is
-                            intersectionDirection = neighborState.getValue(RAIL_DIRECTION) == RailDirection.NORTH_WEST ? RailDirection.NORTH_WEST : RailDirection.SOUTH_WEST;
-                        }
-                        break;
-                    case EAST_WEST:
-                        if (direction == Direction.NORTH) {
-                            //It can be north-east or north-west. Check which one is
-                            intersectionDirection = neighborState.getValue(RAIL_DIRECTION) == RailDirection.NORTH_EAST ? RailDirection.NORTH_EAST : RailDirection.NORTH_WEST;
-                        } else if (direction == Direction.SOUTH) {
-                            //It can be south-east or south-west. Check which one is
-                            intersectionDirection = neighborState.getValue(RAIL_DIRECTION) == RailDirection.SOUTH_EAST ? RailDirection.SOUTH_EAST : RailDirection.SOUTH_WEST;
-                        }
-                        break;
-                }
-            }
-        }
-        if (intersectionDirection == RailDirection.NONE) {
-            //If no neighbor is found, return the state as it is
-            return context.getLevel().getBlockState(context.getClickedPos()).getMaterial() == Material.WATER ? state.setValue(WATERLOGGED, true) : state;
-        }
-        return state.setValue(RAIL_DIRECTION, intersectionDirection);
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {        // Define the shape of the hitbox here.
-        //return a hitbox depending on the direction of the block
-        RailDirection railDirection = state.getValue(RAIL_DIRECTION);
-        if (railDirection == RailDirection.NORTH_SOUTH) {
-            return HITBOX_NS;
-        } else if (railDirection == RailDirection.EAST_WEST) {
-            return HITBOX_EW;
-        } else {
-            return HITBOX_NS;
-        }
-    }
-
-    @Override
-    public FluidState getFluidState(BlockState state) {
-       //Return water if the block is waterlogged, otherwise return empty fluid
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
 }

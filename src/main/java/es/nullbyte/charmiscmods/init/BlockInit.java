@@ -32,7 +32,7 @@ public class BlockInit {
             () -> new AdvTestBlock(Block.Properties.copy(Blocks.DIRT)));
 
     public static final RegistryObject<Block> STRAIGHTRAIL = BLOCKS.register("tsrail",
-            () -> new AVIDtsrail(Block.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+            () -> new AVIDtsrail(Block.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(1.5F, 6.0F).requiresCorrectToolForDrops(), true));
 
     @SubscribeEvent
     public static void onRegisterItems(final RegisterEvent event) {
