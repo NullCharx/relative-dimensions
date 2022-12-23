@@ -91,7 +91,9 @@ public abstract class tsRailBase extends Block implements ICustomRail {
     }
 
     private static boolean shouldBeRemoved(BlockPos position, Level world, RailDirection shape) {
-        if (!canSupportRigidBlock(world, position.below())) {
+        //If the block below cant support rigid block and is not air, remove the rail.
+        //This allows the rial to obey regular rail rules while still being able to be placed on top of air (hanging)
+        if (!canSupportRigidBlock(world, position.below())&& !world.isEmptyBlock(position.below())) {
             return true;
         } else {
             switch (shape) {
