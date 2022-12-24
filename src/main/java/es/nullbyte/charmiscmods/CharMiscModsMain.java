@@ -6,7 +6,6 @@ import es.nullbyte.charmiscmods.init.*;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -27,10 +26,10 @@ import static es.nullbyte.charmiscmods.init.ItemInit.*;
 @Mod.EventBusSubscriber(modid = CharMiscModsMain.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CharMiscModsMain {
     // Define mod id in a common place for everything to reference
+    private boolean test;
     public static final String MOD_ID = "chrmscmds";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
-    public CreativeModeTab CUSTOM_TAB;
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public CharMiscModsMain() {
@@ -45,7 +44,6 @@ public class CharMiscModsMain {
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
-
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -62,21 +60,14 @@ public class CharMiscModsMain {
     public void addCreative(CreativeModeTabEvent.BuildContents event) {
         //Use this event to add items to a default creative tab
         // Add to ingredients tab
-        if (event.getTab() == CUSTOM_TAB) {
-            event.accept(AVID_SDPT.get());
-            event.accept(TRANSMAT_BEAM_EMITTER.get());
-            event.accept(PLAYER_TRACKER_COMPASS.get());
-            event.accept(TEAM_TRACKER_COMPASS.get());
+        //if (event.getTab() == CreativeModeTabs) {
 
-            //event.accept(TESTBLOCK1.get());
-            //event.accept(ADVANCEDTESTBLOCK.get());
-            //event.accept(STRAIGHTRAIL.get());
-        }
+        //}
     }
 
     @SubscribeEvent
     public void buildContents(CreativeModeTabEvent.Register event) {
-        CUSTOM_TAB = event.registerCreativeModeTab(new ResourceLocation(MOD_ID, "example"), builder ->
+        event.registerCreativeModeTab(new ResourceLocation(MOD_ID, "example"), builder ->
         // Set name of tab to display
         builder.title(Component.translatable("item_group." + MOD_ID + ".example"))
         // Set icon of creative tab
@@ -85,7 +76,9 @@ public class CharMiscModsMain {
         //Add all items to tab through here
         .displayItems((enabledFlags, populator, hasPermissions) -> {
             populator.accept(testitem1.get());
-
+            populator.accept(testitem1.get());
+            populator.accept(AVID_SDPT.get());
+            populator.accept(TRANSMAT_BEAM_EMITTER.get());
         })
         );
     }
