@@ -6,6 +6,7 @@ import es.nullbyte.charmiscmods.init.*;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,6 +24,7 @@ import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(CharMiscModsMain.MOD_ID)
+@Mod.EventBusSubscriber(modid = CharMiscModsMain.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CharMiscModsMain {
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "chrmscmds";
@@ -38,6 +40,9 @@ public class CharMiscModsMain {
         BlockInit.BLOCKS.register(modEventBus);
         TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
 
+        // Register the item to a creative tab
+        modEventBus.addListener(this::addCreative);
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -48,23 +53,23 @@ public class CharMiscModsMain {
         LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
 
+
     @SubscribeEvent
-    public void buildContents(CreativeModeTabEvent.Register event) {
-        event.registerCreativeModeTab(new ResourceLocation(MOD_ID, "example"), builder ->
-        // Set name of tab to display
-        builder.title(Component.translatable("item_group." + MOD_ID + ".example"))
-        // Set icon of creative tab
-        .icon(() -> new ItemStack(testitem1.get()))
-        // Add default items to tab
-        .displayItems((enabledFlags, populator, hasPermissions) -> {
-        populator.accept(testitem1.get());
-        populator.accept(AVID_SDPT.get());
-        populator.accept(TRANSMAT_BEAM_EMITTER.get());
-        populator.accept(TESTBLOCK1.get());
-        populator.accept(ADVANCEDTESTBLOCK.get());
-        populator.accept(STRAIGHTRAIL.get());
-        }));
+    public void addCreative(CreativeModeTabEvent.BuildContents event) {
+        // Add to ingredients tab
+        if (event.getTab() == CreativeModeTabs.SPAWN_EGGS) {
+            event.accept(testitem1.get());
+            event.accept(AVID_SDPT.get());
+            event.accept(TRANSMAT_BEAM_EMITTER.get());
+            event.accept(TESTBLOCK1.get());
+            event.accept(ADVANCEDTESTBLOCK.get());
+            event.accept(STRAIGHTRAIL.get());
+        }
     }
+    //register buildcontents event to the event bus
+
+
+
 }
     /*
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
