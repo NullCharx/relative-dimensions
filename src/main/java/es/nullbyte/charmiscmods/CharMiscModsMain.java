@@ -40,8 +40,12 @@ public class CharMiscModsMain {
         BlockInit.BLOCKS.register(modEventBus);
         TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
 
+        //Register custom creative tab
+        modEventBus.addListener(this::buildContents);
+
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -56,16 +60,34 @@ public class CharMiscModsMain {
 
     @SubscribeEvent
     public void addCreative(CreativeModeTabEvent.BuildContents event) {
+        //Use this event to add items to a default creative tab
         // Add to ingredients tab
-        if (event.getTab() == CreativeModeTabs.SPAWN_EGGS) {
-            event.accept(testitem1.get());
-            event.accept(AVID_SDPT.get());
-            event.accept(TRANSMAT_BEAM_EMITTER.get());
-            event.accept(TESTBLOCK1.get());
-            event.accept(ADVANCEDTESTBLOCK.get());
-            event.accept(STRAIGHTRAIL.get());
-        }
+        //if (event.getTab() == CreativeModeTabs) {
+
+        //}
     }
+
+    @SubscribeEvent
+    public void buildContents(CreativeModeTabEvent.Register event) {
+        event.registerCreativeModeTab(new ResourceLocation(MOD_ID, "example"), builder ->
+        // Set name of tab to display
+        builder.title(Component.translatable("item_group." + MOD_ID + ".example"))
+        // Set icon of creative tab
+        .icon(() -> new ItemStack(testitem1.get()))
+        // Add default items to tab
+        //Add all items to tab through here
+        .displayItems((enabledFlags, populator, hasPermissions) -> {
+            populator.accept(testitem1.get());
+            populator.accept(testitem1.get());
+            populator.accept(AVID_SDPT.get());
+            populator.accept(TRANSMAT_BEAM_EMITTER.get());
+            populator.accept(TESTBLOCK1.get());
+            populator.accept(ADVANCEDTESTBLOCK.get());
+            populator.accept(STRAIGHTRAIL.get());
+        })
+        );
+    }
+
     //register buildcontents event to the event bus
 
 
