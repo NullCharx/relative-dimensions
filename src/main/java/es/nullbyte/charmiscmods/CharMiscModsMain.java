@@ -1,31 +1,25 @@
 package es.nullbyte.charmiscmods;
 
 import com.mojang.logging.LogUtils;
-import es.nullbyte.charmiscmods.init.BlockInit;
-import es.nullbyte.charmiscmods.init.ItemInit;
-import es.nullbyte.charmiscmods.init.TileEntityInit;
-import net.minecraft.client.Minecraft;
+import es.nullbyte.charmiscmods.init.*;
+import es.nullbyte.charmiscmods.init.*;
+
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
+
+import static es.nullbyte.charmiscmods.init.BlockInit.*;
+import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(CharMiscModsMain.MOD_ID)
@@ -54,7 +48,23 @@ public class CharMiscModsMain {
         LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
 
-
+    @SubscribeEvent
+    public void buildContents(CreativeModeTabEvent.Register event) {
+        event.registerCreativeModeTab(new ResourceLocation(MOD_ID, "example"), builder ->
+        // Set name of tab to display
+        builder.title(Component.translatable("item_group." + MOD_ID + ".example"))
+        // Set icon of creative tab
+        .icon(() -> new ItemStack(testitem1.get()))
+        // Add default items to tab
+        .displayItems((enabledFlags, populator, hasPermissions) -> {
+        populator.accept(testitem1.get());
+        populator.accept(AVID_SDPT.get());
+        populator.accept(TRANSMAT_BEAM_EMITTER.get());
+        populator.accept(TESTBLOCK1.get());
+        populator.accept(ADVANCEDTESTBLOCK.get());
+        populator.accept(STRAIGHTRAIL.get());
+        }));
+    }
 }
     /*
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);

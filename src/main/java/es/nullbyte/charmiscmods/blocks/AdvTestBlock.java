@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -35,10 +36,12 @@ public class AdvTestBlock extends Block {
         ItemStack held = player.getItemInHand(hand);
 
         //if (!world.isClientSide() && held.getItem() == Items.GUNPOWDER){
-            //Explode block 1.19.3 (no current mapping)
-            world.m_46511_(player, pos.getX(), pos.getY(), pos.getZ(), 4.0F, true, Explosion.BlockInteraction.DESTROY);
-            held.shrink(1);
-            return InteractionResult.CONSUME;
+        //Explode block 1.19.3
+        //Get an entity to explode from
+        Entity entity = player;
+
+        world.explode(entity, pos.getX(), pos.getY(), pos.getZ(), 5.0F, true, Level.ExplosionInteraction.BLOCK);
+        return InteractionResult.CONSUME;
         //}
 
         //return super.use(state, world, pos, player, hand, hit);
@@ -46,7 +49,7 @@ public class AdvTestBlock extends Block {
 
     @Override
     public void wasExploded(Level world, BlockPos pos, Explosion explosion) {
-        world.m_46511_(null, pos.getX(), pos.getY(), pos.getZ(), 4.0F, true, Explosion.BlockInteraction.DESTROY);
+        world.explode(null, pos.getX(), pos.getY(), pos.getZ(), 5.0F, true, Level.ExplosionInteraction.BLOCK);
         super.wasExploded(world, pos, explosion);
     }
 

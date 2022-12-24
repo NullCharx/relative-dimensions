@@ -39,7 +39,7 @@ public class BlockInit {
         if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)){
             BLOCKS.getEntries().forEach( (blockRegistryObject) -> {
                 Block block = blockRegistryObject.get();
-                Item.Properties properties = new Item.Properties().tab(ItemInit.ModCreativeTab.instance);
+                Item.Properties properties = new Item.Properties();
                 Supplier<Item> blockItemFactory = () -> new BlockItem(block, properties);
                 event.register(ForgeRegistries.Keys.ITEMS, blockRegistryObject.getId(), blockItemFactory);
             });
