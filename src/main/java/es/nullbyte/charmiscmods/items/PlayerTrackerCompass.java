@@ -57,6 +57,8 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
         if (nearestPlayer == null) {
             if (world.isClientSide()) {
                 player.sendSystemMessage(Component.literal(String.format("No players found in range...")));
+                dataStatus = 0;
+
             }
             return super.use(world, player, hand);
         }
@@ -64,6 +66,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
         if ( distanceToItemUser > RANGEOFDETECTION) {
             if (world.isClientSide()) {
                 player.sendSystemMessage(Component.literal(String.format("No players found in range...")));
+                dataStatus = 0;
                 itemStack.getOrCreateTag().putInt("CustomModelData", 0);
 
             }
@@ -71,10 +74,14 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
             Vec3 playerPos = player.position(); //User position
             Vec3 nearestPlayerPos = nearestPlayer.position(); //Nearest player position
 
-            //ABSOLUTE Physical angle with the item user as  center
+            double playerPitch = player.getRotationVector().x;
+            double playerYaw = player.getRotationVector().y;
             double xDiff = nearestPlayerPos.x - playerPos.x;
             double zDiff = nearestPlayerPos.z - playerPos.z;
-            double angle = Math.toDegrees(Math.atan2(zDiff, xDiff));
+            double yDiff = nearestPlayerPos.y - playerPos.y + nearestPlayer.getEyeHeight() - player.getEyeHeight();
+            double distance = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
+            double angle = Math.toDegrees(Math.atan2(zDiff, xDiff)) - playerYaw;
+            double pitch = -Math.toDegrees(Math.atan2(yDiff, distance));
             angle = (angle + 360) % 360;
 
             if (world.isClientSide()) {
