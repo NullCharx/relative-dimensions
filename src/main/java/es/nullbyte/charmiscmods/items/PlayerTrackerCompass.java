@@ -68,12 +68,15 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
 
             }
         } else {
-            Vec3 playerPos = player.position();
-            Vec3 nearestPlayerPos = nearestPlayer.position();
+            Vec3 playerPos = player.position(); //User position
+            Vec3 nearestPlayerPos = nearestPlayer.position(); //Nearest player position
+
+            //ABSOLUTE Physical angle with the item user as  center
             double xDiff = nearestPlayerPos.x - playerPos.x;
             double zDiff = nearestPlayerPos.z - playerPos.z;
             double angle = Math.toDegrees(Math.atan2(zDiff, xDiff));
             angle = (angle + 360) % 360;
+
             if (world.isClientSide()) {
                 player.sendSystemMessage(Component.literal(String.format("BINGO BONGO..." + nearestPlayer.getName().getString() + ", " + distanceToItemUser + " blocks away. Angle separation of " + angle + ". Datastatus;" + dataStatus)));
             }
