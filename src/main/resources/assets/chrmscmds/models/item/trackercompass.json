@@ -24,7 +24,181 @@
     },
     {
       "predicate": {
+        "custom_model_data": 3
+      },
+      "model": "chrmscmds:item/compass_02"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 4
+      },
+      "model": "chrmscmds:item/compass_03"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 5
+      },
+      "model": "chrmscmds:item/compass_04"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 6
+      },
+      "model": "chrmscmds:item/compass_05"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 7
+      },
+      "model": "chrmscmds:item/compass_06"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 8
+      },
+      "model": "chrmscmds:item/compass_07"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 9
+      },
+      "model": "chrmscmds:item/compass_08"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 10
+      },
+      "model": "chrmscmds:item/compass_09"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 11
+      },
+      "model": "chrmscmds:item/compass_10"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 12
+      },
+      "model": "chrmscmds:item/compass_11"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 13
+      },
+      "model": "chrmscmds:item/compass_12"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 14
+      },
+      "model": "chrmscmds:item/compass_13"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 15
+      },
+      "model": "chrmscmds:item/compass_14"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 16
+      },
+      "model": "chrmscmds:item/compass_15"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 17
+      },
+      "model": "chrmscmds:item/compass_16"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 18
+      },
+      "model": "chrmscmds:item/compass_17"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 19
+      },
+      "model": "chrmscmds:item/compass_18"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 20
+      },
+      "model": "chrmscmds:item/compass_19"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 21
+      },
+      "model": "chrmscmds:item/compass_20"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 22
+      },
+      "model": "chrmscmds:item/compass_21"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 23
+      },
+      "model": "chrmscmds:item/compass_22"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 24
+      },
+      "model": "chrmscmds:item/compass_23"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 25
+      },
+      "model": "chrmscmds:item/compass_24"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 26
+      },
+      "model": "chrmscmds:item/compass_25"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 27
+      },
+      "model": "chrmscmds:item/compass_26"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 28
+      },
+      "model": "chrmscmds:item/compass_27"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 29
+      },
+      "model": "chrmscmds:item/compass_28"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 30
+      },
+      "model": "chrmscmds:item/compass_29"
+    },
+    {
+      "predicate": {
         "custom_model_data": 31
+      },
+      "model": "chrmscmds:item/compass_30"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 32
       },
       "model": "chrmscmds:item/compass_31"
     }

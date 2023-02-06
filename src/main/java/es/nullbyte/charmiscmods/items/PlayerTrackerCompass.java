@@ -32,8 +32,8 @@ import static java.lang.Math.floor;
 
 public class PlayerTrackerCompass extends Item implements Vanishable {
 
-    private static final double RANGEOFDETECTION = 100.00;
-    private static int currentindex = 1;
+    private static final double RANGEOFDETECTION = 100.00; //Player range of detection (in block units)
+    private static int dataStatus = 0;
     public PlayerTrackerCompass(Properties properties) {
         super(properties);
         MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
@@ -44,7 +44,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        itemStack.getOrCreateTag().putInt("CustomModelData", 0);
+        itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
 
         if (world.isClientSide()) {
             player.sendSystemMessage(Component.literal(String.format("Scanning...")));
@@ -64,8 +64,10 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
         if ( distanceToItemUser > RANGEOFDETECTION) {
             if (world.isClientSide()) {
                 player.sendSystemMessage(Component.literal(String.format("No players found in range...")));
+                itemStack.getOrCreateTag().putInt("CustomModelData", 0);
+
             }
-        }else {
+        } else {
             Vec3 playerPos = player.position();
             Vec3 nearestPlayerPos = nearestPlayer.position();
             double xDiff = nearestPlayerPos.x - playerPos.x;
@@ -73,37 +75,87 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
             double angle = Math.toDegrees(Math.atan2(zDiff, xDiff));
             angle = (angle + 360) % 360;
             if (world.isClientSide()) {
-                player.sendSystemMessage(Component.literal(String.format("BINGO BONGO..." + nearestPlayer.getName().getString() + ", " + distanceToItemUser + " blocks away")));
+                player.sendSystemMessage(Component.literal(String.format("BINGO BONGO..." + nearestPlayer.getName().getString() + ", " + distanceToItemUser + " blocks away. Angle separation of " + angle + ". Datastatus;" + dataStatus)));
             }
 
-            if (angle >= 337.5 || angle < 22.5) {
-                // North
-
-                player.sendSystemMessage(Component.literal(String.format("Nearest player is to the north")));
-            } else if (angle >= 22.5 && angle < 67.5) {
-                // Northeast
-                player.sendSystemMessage(Component.literal(String.format("Nearest player is to the northeast")));
-            } else if (angle >= 67.5 && angle < 112.5) {
-                // East
-                player.sendSystemMessage(Component.literal(String.format("Nearest player is to the east")));
-            } else if (angle >= 112.5 && angle < 157.5) {
-                // Southeast
-                player.sendSystemMessage(Component.literal(String.format("Nearest player is to the southeast")));
-            } else if (angle >= 157.5 && angle < 202.5) {
-                // South
-                itemStack.getOrCreateTag().putInt("CustomModelData", 1);
-                player.sendSystemMessage(Component.literal(String.format("Nearest player is to the south")));
-            } else if (angle >= 202.5 && angle < 247.5) {
-                // Southwest
-                player.sendSystemMessage(Component.literal(String.format("Nearest player is to the southwest")));
-            } else if (angle >= 247.5 && angle < 292.5) {
-                // West
-                player.sendSystemMessage(Component.literal(String.format("Nearest player is to the west")));
-            } else if (angle >= 292.5 && angle < 337.5) {
-                // Northwest
-                player.sendSystemMessage(Component.literal(String.format("Nearest player is to the northwest")));
+            if (angle >= 0 && angle < 5.625) {
+                //North (Eastern half)
+                dataStatus = 17;
+            } else if (angle >= 5.625 && angle < 16.875) {
+                dataStatus = 18;
+            } else if (angle >= 16.875 && angle < 28.125) {
+                dataStatus = 19;
+            } else if (angle >= 28.125 && angle < 39.375) {
+                dataStatus = 20;
+            }else if (angle >= 39.375 && angle < 50.625) {
+                //Nort-east
+                dataStatus = 21;
+            }else if (angle >= 50.625 && angle < 61.875) {
+                dataStatus = 22;
+            }else if (angle >= 61.875 && angle < 73.125) {
+                dataStatus = 23;
+            }else if (angle >= 73.125 && angle < 84.375) {
+                dataStatus = 24;
+            }else if (angle >= 84.375 && angle < 95.625) {
+                //East
+                dataStatus = 25;
+            }else if (angle >= 95.625 && angle < 106.875) {
+                dataStatus = 26;
+            }else if (angle >= 106.875 && angle < 118.125) {
+                dataStatus = 27;
+            }else if (angle >= 118.125 && angle < 129.375) {
+                dataStatus = 28;
+            }else if (angle >= 129.375 && angle < 140.625) {
+                //South-East
+                dataStatus = 29;
+            }else if (angle >= 140.625 && angle < 151.875) {
+                dataStatus = 30;
+            } else if (angle >= 151.875 && angle < 163.125) {
+                dataStatus = 31;
+            } else if (angle >= 163.125 && angle < 174.375) {
+                dataStatus = 32;
+            } else if (angle >= 174.375 && angle < 185.625) {
+                //South
+                dataStatus = 1;
+            } else if (angle >= 185.625 && angle < 196.875) {
+                dataStatus = 2;
+            } else if (angle >= 196.875 && angle < 208.125) {
+                dataStatus = 3;
+            } else if (angle >= 208.125 && angle < 219.375) {
+                dataStatus = 4;
+            } else if (angle >= 219.375 && angle < 230.625) {
+                //South-west
+                dataStatus = 5;
+            } else if (angle >= 230.625 && angle < 241.875) {
+                dataStatus = 6;
+            } else if (angle >= 241.875 && angle < 253.125) {
+                dataStatus = 7;
+            } else if (angle >= 253.125 && angle < 264.375) {
+                dataStatus = 8;
+            } else if (angle >= 264.375 && angle < 275.625) {
+                //West
+                dataStatus = 9;
+            } else if (angle >= 275.625 && angle < 286.875) {
+                dataStatus = 10;
+            } else if (angle >= 286.875 && angle < 298.125) {
+                dataStatus = 11;
+            } else if (angle >= 298.125 && angle < 309.375) {
+                dataStatus = 12;
+            } else if (angle >= 309.375 && angle < 320.625) {
+                //North-west
+                dataStatus = 13;
+            } else if (angle >= 320.625 && angle < 331.875) {
+                dataStatus = 14;
+            } else if (angle >= 331.875 && angle < 343.125) {
+                dataStatus = 15;
+            } else if (angle >= 343.125 && angle < 354.375) {
+                dataStatus = 16;
+            } else if (angle >= 354.375 && angle <= 360) {
+                //North (western half)
+                dataStatus = 17;
             }
         }
+        itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
 
 
         return super.use(world, player, hand);
