@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CompassItem;
@@ -32,8 +33,17 @@ import static java.lang.Math.floor;
 
 public class PlayerTrackerCompass extends Item implements Vanishable {
 
+    //ARGUMENTOS DE ORDEN INTERNO: (No cambian)
     private static final double RANGEOFDETECTION = 500.00; //Player range of detection (in block units)
-    private static int dataStatus = 0;
+    private static final TargetingConditions conditions = TargetingConditions.DEFAULT; //Default targeting conditions
+    //--------------------
+
+    private static boolean isArmed = false; //Status of the compass: false while not tracking, true upon the moment a player is detected
+    private static Player userPlayer; //Player that uses the compass
+    private static ItemStack itemStack; //Stack of the player that uses the compass
+    private static Level currentWorld; //Stack of the player that uses the compass
+
+    private static int dataStatus = 0; //Current status for needle direction pointing (texture)
     public PlayerTrackerCompass(Properties properties) {
         super(properties);
         MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
@@ -43,35 +53,50 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        ItemStack itemStack = player.getItemInHand(hand);
+        itemStack = player.getItemInHand(hand);
         itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
-
-        if (world.isClientSide()) {
-            player.sendSystemMessage(Component.literal(String.format("Scanning...")));
-        }
-
-        TargetingConditions conditions = TargetingConditions.DEFAULT;
         Player nearestPlayer = world.getNearestPlayer(conditions, player.position().x, player.position().y, player.position().z);
-
 
         if (nearestPlayer == null) {
             if (world.isClientSide()) {
                 player.sendSystemMessage(Component.literal(String.format("No players found in range...")));
-                dataStatus = 0;
-
             }
-            return super.use(world, player, hand);
-        }
-        double distanceToItemUser = player.distanceTo(nearestPlayer);
-        if ( distanceToItemUser > RANGEOFDETECTION) {
-            if (world.isClientSide()) {
-                player.sendSystemMessage(Component.literal(String.format("No players found in range...")));
-                dataStatus = 0;
-                itemStack.getOrCreateTag().putInt("CustomModelData", 0);
-
-            }
+            dataStatus = 0;
+            itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
         } else {
-            Vec3 playerPos = player.position(); //User position
+            if (world.isClientSide()) {
+                player.sendSystemMessage(Component.literal(String.format("Player found! Armed:")));
+            }
+            double distanceToItemUser = player.distanceTo(nearestPlayer);
+            if ( distanceToItemUser > RANGEOFDETECTION) {
+                if (world.isClientSide()) {
+                    player.sendSystemMessage(Component.literal(String.format("No players found in range...")));
+                    dataStatus = 0;
+                    itemStack.getOrCreateTag().putInt("CustomModelData", 0);
+
+                }
+            } else {
+                userPlayer = player; //Set player
+                currentWorld = world;
+                isArmed = true;
+            }
+        }
+        return super.use(world, player, hand);
+    }
+
+    @SubscribeEvent
+    public void inventoryTick(TickEvent.PlayerTickEvent event) {
+        if (isArmed){
+            updateCompass();
+        }
+    }
+
+    private void updateCompass() {
+        // your code to update the compass direction
+
+            Player nearestPlayer = currentWorld.getNearestPlayer(conditions, userPlayer.position().x, userPlayer.position().y, userPlayer.position().z);
+
+            Vec3 playerPos = userPlayer.position(); //User position
             Vec3 nearestPlayerPos = nearestPlayer.position(); //Nearest player position
 
             //Compute distance taking into account both the relative position between players (plane X-Z) and the direction
@@ -80,7 +105,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
             //double pitch = -Math.toDegrees(Math.atan2(yDiff, distance));
             //double yDiff = nearestPlayerPos.y - playerPos.y + nearestPlayer.getEyeHeight() - player.getEyeHeight();
             //double distance = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
-            double playerYaw = player.getRotationVector().y;
+            double playerYaw = userPlayer.getRotationVector().y;
             double xDiff = nearestPlayerPos.x - playerPos.x;
             double zDiff = nearestPlayerPos.z - playerPos.z;
 
@@ -92,12 +117,6 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
             if (angle < 0) {
                 angle = 360 + angle;
             }
-
-            /**DEBUG MESSAGE
-            if (world.isClientSide()) {
-                player.sendSystemMessage(Component.literal(String.format("BINGO BONGO..." + nearestPlayer.getName().getString() + ", " + distanceToItemUser + " blocks away. Angle separation of " + angle + ". Datastatus;" + dataStatus)));
-            }
-            */
 
             //Change dataStatus depending on relative angle between user and objective.
             if (angle >= 0 && angle < 5.625) {
@@ -176,21 +195,8 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
                 //North (western half)
                 dataStatus = 17;
             }
-        }
+
         itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
-
-
-        return super.use(world, player, hand);
-    }
-
-
-
-
-    @SubscribeEvent
-    public void PlayerTick(TickEvent.PlayerTickEvent event) {
-
-
-
     }
 
 
