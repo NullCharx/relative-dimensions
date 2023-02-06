@@ -32,7 +32,7 @@ import static java.lang.Math.floor;
 
 public class PlayerTrackerCompass extends Item implements Vanishable {
 
-    private static final double RANGEOFDETECTION = 100.00; //Player range of detection (in block units)
+    private static final double RANGEOFDETECTION = 500.00; //Player range of detection (in block units)
     private static int dataStatus = 0;
     public PlayerTrackerCompass(Properties properties) {
         super(properties);
@@ -74,24 +74,32 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
             Vec3 playerPos = player.position(); //User position
             Vec3 nearestPlayerPos = nearestPlayer.position(); //Nearest player position
 
-            double playerPitch = player.getRotationVector().x;
+            //Compute distance taking into account both the relative position between players (plane X-Z) and the direction
+            //The user of the item is looking at. (Commented lines compute Y axis, not needed)
+            //double  playerPitch = player.getRotationVector().x;
+            //double pitch = -Math.toDegrees(Math.atan2(yDiff, distance));
+            //double yDiff = nearestPlayerPos.y - playerPos.y + nearestPlayer.getEyeHeight() - player.getEyeHeight();
+            //double distance = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
             double playerYaw = player.getRotationVector().y;
             double xDiff = nearestPlayerPos.x - playerPos.x;
             double zDiff = nearestPlayerPos.z - playerPos.z;
-            double yDiff = nearestPlayerPos.y - playerPos.y + nearestPlayer.getEyeHeight() - player.getEyeHeight();
-            double distance = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
+
             double angle = Math.toDegrees(Math.atan2(zDiff, xDiff)) - playerYaw;
-            double pitch = -Math.toDegrees(Math.atan2(yDiff, distance));
+
+            //Computation has a 90 degrees offset. Fix below:
             angle = (angle + 360) % 360;
             angle = angle - 90;
             if (angle < 0) {
                 angle = 360 + angle;
             }
 
+            /**DEBUG MESSAGE
             if (world.isClientSide()) {
                 player.sendSystemMessage(Component.literal(String.format("BINGO BONGO..." + nearestPlayer.getName().getString() + ", " + distanceToItemUser + " blocks away. Angle separation of " + angle + ". Datastatus;" + dataStatus)));
             }
+            */
 
+            //Change dataStatus depending on relative angle between user and objective.
             if (angle >= 0 && angle < 5.625) {
                 //North (Eastern half)
                 dataStatus = 17;

@@ -68,9 +68,9 @@ public class CharMiscModsMain {
             event.accept(AVID_SDPT.get());
             event.accept(TRANSMAT_BEAM_EMITTER.get());
             event.accept(PLAYER_TRACKER_COMPASS.get());
-            event.accept(TESTBLOCK1.get());
-            event.accept(ADVANCEDTESTBLOCK.get());
-            event.accept(STRAIGHTRAIL.get());
+            //event.accept(TESTBLOCK1.get());
+            //event.accept(ADVANCEDTESTBLOCK.get());
+            //event.accept(STRAIGHTRAIL.get());
         }
     }
 

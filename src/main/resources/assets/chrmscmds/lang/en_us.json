@@ -9,5 +9,8 @@
 
   "block.chrmscmds.test-block": "Test block! (no functionality)",
 
-  "block.chrmscmds.tsrail": "Rail piece part of the AVID center transit system"
+  "block.chrmscmds.tsrail": "Rail piece part of the AVID center transit system",
+
+  "block.chrmscmds.trackercompass": "Special compass that detects players in a range, expiring automatically. It will point to the first detected player until expiring"
+
 }
