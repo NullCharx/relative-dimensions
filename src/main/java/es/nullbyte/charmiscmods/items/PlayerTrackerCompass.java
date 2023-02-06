@@ -83,6 +83,10 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
             double angle = Math.toDegrees(Math.atan2(zDiff, xDiff)) - playerYaw;
             double pitch = -Math.toDegrees(Math.atan2(yDiff, distance));
             angle = (angle + 360) % 360;
+            angle = angle - 90;
+            if (angle < 0) {
+                angle = 360 + angle;
+            }
 
             if (world.isClientSide()) {
                 player.sendSystemMessage(Component.literal(String.format("BINGO BONGO..." + nearestPlayer.getName().getString() + ", " + distanceToItemUser + " blocks away. Angle separation of " + angle + ". Datastatus;" + dataStatus)));
