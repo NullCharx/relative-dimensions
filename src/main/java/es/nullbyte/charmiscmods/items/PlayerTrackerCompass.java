@@ -43,6 +43,9 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        itemStack.getOrCreateTag().putInt("CustomModelData", 0);
+
         if (world.isClientSide()) {
             player.sendSystemMessage(Component.literal(String.format("Scanning...")));
         }
@@ -72,8 +75,10 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
             if (world.isClientSide()) {
                 player.sendSystemMessage(Component.literal(String.format("BINGO BONGO..." + nearestPlayer.getName().getString() + ", " + distanceToItemUser + " blocks away")));
             }
+
             if (angle >= 337.5 || angle < 22.5) {
                 // North
+
                 player.sendSystemMessage(Component.literal(String.format("Nearest player is to the north")));
             } else if (angle >= 22.5 && angle < 67.5) {
                 // Northeast
@@ -86,6 +91,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
                 player.sendSystemMessage(Component.literal(String.format("Nearest player is to the southeast")));
             } else if (angle >= 157.5 && angle < 202.5) {
                 // South
+                itemStack.getOrCreateTag().putInt("CustomModelData", 1);
                 player.sendSystemMessage(Component.literal(String.format("Nearest player is to the south")));
             } else if (angle >= 202.5 && angle < 247.5) {
                 // Southwest
