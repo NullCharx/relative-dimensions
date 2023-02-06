@@ -1,5 +1,11 @@
 {
   "variants": {
+    "direction=none,waterlogged=false": {
+      "model": "chrmscmds:block/tsrail"
+    },
+    "direction=none,waterlogged=true": {
+      "model": "chrmscmds:block/water/tsrail_water"
+    },
     "direction=north_south,waterlogged=false": {
       "model": "chrmscmds:block/tsrail"
     },

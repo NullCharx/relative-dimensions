@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "chrmscmds:blocks/testblock"
+    "all": "chrmscmds:block/testblock"
   }
 }

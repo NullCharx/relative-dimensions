@@ -6,6 +6,7 @@ import es.nullbyte.charmiscmods.init.*;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -30,6 +31,7 @@ public class CharMiscModsMain {
     public static final String MOD_ID = "chrmscmds";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
+    public CreativeModeTab CUSTOM_TAB;
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public CharMiscModsMain() {
@@ -62,14 +64,19 @@ public class CharMiscModsMain {
     public void addCreative(CreativeModeTabEvent.BuildContents event) {
         //Use this event to add items to a default creative tab
         // Add to ingredients tab
-        //if (event.getTab() == CreativeModeTabs) {
-
-        //}
+        if (event.getTab() == CUSTOM_TAB) {
+            event.accept(AVID_SDPT.get());
+            event.accept(TRANSMAT_BEAM_EMITTER.get());
+            event.accept(PLAYER_TRACKER_COMPASS.get());
+            event.accept(TESTBLOCK1.get());
+            event.accept(ADVANCEDTESTBLOCK.get());
+            event.accept(STRAIGHTRAIL.get());
+        }
     }
 
     @SubscribeEvent
     public void buildContents(CreativeModeTabEvent.Register event) {
-        event.registerCreativeModeTab(new ResourceLocation(MOD_ID, "example"), builder ->
+        CUSTOM_TAB = event.registerCreativeModeTab(new ResourceLocation(MOD_ID, "example"), builder ->
         // Set name of tab to display
         builder.title(Component.translatable("item_group." + MOD_ID + ".example"))
         // Set icon of creative tab
@@ -78,12 +85,7 @@ public class CharMiscModsMain {
         //Add all items to tab through here
         .displayItems((enabledFlags, populator, hasPermissions) -> {
             populator.accept(testitem1.get());
-            populator.accept(testitem1.get());
-            populator.accept(AVID_SDPT.get());
-            populator.accept(TRANSMAT_BEAM_EMITTER.get());
-            populator.accept(TESTBLOCK1.get());
-            populator.accept(ADVANCEDTESTBLOCK.get());
-            populator.accept(STRAIGHTRAIL.get());
+
         })
         );
     }

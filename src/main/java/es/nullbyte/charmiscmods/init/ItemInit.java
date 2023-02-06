@@ -32,6 +32,9 @@ public class ItemInit {
     public static final RegistryObject<Item> TRANSMAT_BEAM_EMITTER = ITEMS.register("transmatbeamemt",
             () -> new TransmatBeamEmitter(new Item.Properties().durability(1000)));
 
+    //Detector compass
+    public static final RegistryObject<Item> PLAYER_TRACKER_COMPASS = ITEMS.register("trackercompass",
+            () -> new PlayerTrackerCompass(new Item.Properties().durability(1000)));
 
     //BLOCK ITEMS
     //public static final RegistryObject<Item> TESTBLOCK1ITEM = ITEMS.register("testblock",
