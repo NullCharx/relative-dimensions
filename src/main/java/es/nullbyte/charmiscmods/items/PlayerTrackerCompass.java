@@ -42,6 +42,8 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
     private static Player userPlayer; //Player that uses the compass
     private static ItemStack itemStack; //Stack of the player that uses the compass
     private static Level currentWorld; //Stack of the player that uses the compass
+    private static Player nearestPlayer; //Player that uses the compass
+
 
     private static int dataStatus = 0; //Current status for needle direction pointing (texture)
     public PlayerTrackerCompass(Properties properties) {
@@ -53,39 +55,39 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        itemStack = player.getItemInHand(hand);
-        itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
-        Player nearestPlayer = world.getNearestPlayer(conditions, player.position().x, player.position().y, player.position().z);
+        if (!isArmed){
 
-        if (nearestPlayer == null) {
-            if (world.isClientSide()) {
-                player.sendSystemMessage(Component.literal(String.format("No players found in range...")));
-            }
-            dataStatus = 0;
+            itemStack = player.getItemInHand(hand);
             itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
-        } else {
-            if (world.isClientSide()) {
-                player.sendSystemMessage(Component.literal(String.format("Player found! Armed:")));
-            }
-            double distanceToItemUser = player.distanceTo(nearestPlayer);
-            if ( distanceToItemUser > RANGEOFDETECTION) {
+            Player localNearestPlayer = world.getNearestPlayer(conditions, player.position().x, player.position().y, player.position().z);
+
+            if (localNearestPlayer == null) {
                 if (world.isClientSide()) {
                     player.sendSystemMessage(Component.literal(String.format("No players found in range...")));
-                    dataStatus = 0;
-                    itemStack.getOrCreateTag().putInt("CustomModelData", 0);
-
                 }
+                dataStatus = 0;
+                itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
+                isArmed = false;
+
             } else {
+                if (world.isClientSide()) {
+                    player.sendSystemMessage(Component.literal(String.format("Player found! Armed:")));
+                }
                 userPlayer = player; //Set player
                 currentWorld = world;
+                nearestPlayer = localNearestPlayer;
                 isArmed = true;
+            }
+        } else {
+            if (world.isClientSide()) {
+                player.sendSystemMessage(Component.literal(String.format("Already armed")));
             }
         }
         return super.use(world, player, hand);
     }
 
     @SubscribeEvent
-    public void inventoryTick(TickEvent.PlayerTickEvent event) {
+    public void ItemTick(TickEvent.PlayerTickEvent event) {
         if (isArmed){
             updateCompass();
         }
@@ -94,8 +96,15 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
     private void updateCompass() {
         // your code to update the compass direction
 
-            Player nearestPlayer = currentWorld.getNearestPlayer(conditions, userPlayer.position().x, userPlayer.position().y, userPlayer.position().z);
-
+        double distanceToItemUser = userPlayer.distanceTo(nearestPlayer);
+        if ( distanceToItemUser > RANGEOFDETECTION) {
+            if (currentWorld.isClientSide()) {
+                userPlayer.sendSystemMessage(Component.literal(String.format("No players found in range...")));
+            }
+            dataStatus = 0;
+            itemStack.getOrCreateTag().putInt("CustomModelData", 0);
+            isArmed = false;
+        } else {
             Vec3 playerPos = userPlayer.position(); //User position
             Vec3 nearestPlayerPos = nearestPlayer.position(); //Nearest player position
 
@@ -195,6 +204,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
                 //North (western half)
                 dataStatus = 17;
             }
+        }
 
         itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
     }

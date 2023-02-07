@@ -11,7 +11,7 @@
 
   "block.chrmscmds.tsrail": "Pieza de rail parte del sistema de transporte del centro AVID",
 
-  "block.chrmscmds.trackercompass": "Brújula especial que detecta jugadores dentro de un rango y expira automáticamente. Una vez detecte a un jugador, lo señalará hasta expirar "
+  "item.chrmscmds.trackercompass": "Rastreador de jugadores de AVID "
 
 
 }
