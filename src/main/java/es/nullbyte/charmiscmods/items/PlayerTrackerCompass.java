@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CompassItem;
 import net.minecraft.world.item.Item;
@@ -34,8 +35,8 @@ import static java.lang.Math.floor;
 public class PlayerTrackerCompass extends Item implements Vanishable {
 
     //ARGUMENTOS DE ORDEN INTERNO: (No cambian)
-    private static final double RANGEOFDETECTION = 500.00; //Player range of detection (in block units)
-    private static final TargetingConditions conditions = TargetingConditions.DEFAULT; //Default targeting conditions
+    private static final double RANGEOFDETECTION = 1000.00; //Player range of detection (in block units). This translates to a radius of RANGEOFDETECTION/2 blocks in every direction
+    private static final TargetingConditions conditions = TargetingConditions.DEFAULT; //Default targeting conditions to get nearest player
     //--------------------
 
     private static boolean isArmed = false; //Status of the compass: false while not tracking, true upon the moment a player is detected
@@ -48,6 +49,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
     private static int dataStatus = 0; //Current status for needle direction pointing (texture)
     public PlayerTrackerCompass(Properties properties) {
         super(properties);
+        isArmed = false;
         MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
     }
 //Player capabilities: https://www.youtube.com/watch?v=My70x9LzeUM
@@ -104,7 +106,11 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
             dataStatus = 0;
             itemStack.getOrCreateTag().putInt("CustomModelData", 0);
             isArmed = false;
-        } else {
+        } else if (distanceToItemUser < 5) {
+            //Delete the item from the inventory once "one use is done" (you approach to 8 blocks or less from the tracked player)
+            Inventory inv = userPlayer.getInventory();
+            inv.removeItem(itemStack);
+        }else{
             Vec3 playerPos = userPlayer.position(); //User position
             Vec3 nearestPlayerPos = nearestPlayer.position(); //Nearest player position
 
