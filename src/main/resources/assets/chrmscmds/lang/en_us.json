@@ -11,6 +11,8 @@
 
   "block.chrmscmds.tsrail": "Rail piece part of the AVID center transit system",
 
-  "item.chrmscmds.trackercompass": "AVID player tracking compass"
+  "item.chrmscmds.trackercompass": "AVID player tracking compass",
+
+  "item.chrmscmds.teamtrackercompass": "AVID team player tracking compass"
 
 }

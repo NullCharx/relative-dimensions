@@ -36,6 +36,9 @@ public class ItemInit {
     public static final RegistryObject<Item> PLAYER_TRACKER_COMPASS = ITEMS.register("trackercompass",
             () -> new PlayerTrackerCompass(new Item.Properties().durability(1000)));
 
+    public static final RegistryObject<Item> TEAM_TRACKER_COMPASS = ITEMS.register("teamtrackercompass",
+            () -> new TeamTrackerCompass(new Item.Properties().durability(1000)));
+
     //BLOCK ITEMS
     //public static final RegistryObject<Item> TESTBLOCK1ITEM = ITEMS.register("testblock",
      //       () -> new BlockItem(BlockInit.TESTBLOCK1.get(), new Item.Properties().tab(ModCreativeTab.instance)));

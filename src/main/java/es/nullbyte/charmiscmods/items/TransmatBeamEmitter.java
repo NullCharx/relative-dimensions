@@ -1,7 +1,6 @@
 package es.nullbyte.charmiscmods.items;
 
 import es.nullbyte.charmiscmods.init.ItemInit;
-import es.nullbyte.charmiscmods.transmatstate.PlayerTransmatstateProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -20,9 +19,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
-import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 import static java.lang.Math.floor;
 
 public class TransmatBeamEmitter extends Item {

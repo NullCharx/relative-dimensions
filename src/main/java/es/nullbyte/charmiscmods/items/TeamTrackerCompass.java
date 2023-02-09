@@ -1,7 +1,6 @@
 package es.nullbyte.charmiscmods.items;
 
 import net.minecraft.network.chat.Component;
-
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
@@ -12,11 +11,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Vanishable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class PlayerTrackerCompass extends Item implements Vanishable {
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class TeamTrackerCompass extends Item implements Vanishable {
 
     //ARGUMENTOS DE ORDEN INTERNO: (No cambian)
     private static final double RANGEOFDETECTION = 1000.00; //Player range of detection (in block units). This translates to a radius of RANGEOFDETECTION/2 blocks in every direction
@@ -29,7 +32,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
     private Level currentWorld; //Current dimension of the player that uses the compass
     private Player nearestPlayer; //Player that uses the compass
     private static int dataStatus; //Current status for needle direction pointing (texture)
-    public PlayerTrackerCompass(Properties properties) {
+    public TeamTrackerCompass(Properties properties) {
         super(properties);
         isArmed = false;
         dataStatus = 0;
@@ -44,6 +47,11 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
 
             itemStack = player.getItemInHand(hand);
             itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
+            Team userTeam = userPlayer.getTeam();
+            Collection<String> teamPlayers = userTeam.getPlayers();
+            for (String p:teamPlayers) {
+                System.out.println("---" + p);
+            }
             Player localNearestPlayer = world.getNearestPlayer(conditions, player.position().x, player.position().y, player.position().z);
 
             if (localNearestPlayer == null) {
