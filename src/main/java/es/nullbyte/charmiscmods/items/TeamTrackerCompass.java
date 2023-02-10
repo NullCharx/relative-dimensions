@@ -18,6 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class TeamTrackerCompass extends Item implements Vanishable {
 
@@ -30,8 +31,10 @@ public class TeamTrackerCompass extends Item implements Vanishable {
     private Player userPlayer; //Player that uses the compass
     private ItemStack itemStack; //Stack of the player that uses the compass
     private Level currentWorld; //Current dimension of the player that uses the compass
-    private Player nearestPlayer; //Player that uses the compass
+    private List<Player> userTeamPlayers;
     private static int dataStatus; //Current status for needle direction pointing (texture)
+
+
     public TeamTrackerCompass(Properties properties) {
         super(properties);
         isArmed = false;
@@ -47,14 +50,10 @@ public class TeamTrackerCompass extends Item implements Vanishable {
 
             itemStack = player.getItemInHand(hand);
             itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
-            Team userTeam = userPlayer.getTeam();
-            Collection<String> teamPlayers = userTeam.getPlayers();
-            for (String p:teamPlayers) {
-                System.out.println("---" + p);
-            }
-            Player localNearestPlayer = world.getNearestPlayer(conditions, player.position().x, player.position().y, player.position().z);
+            Team userTeam = player.getTeam(); //This will return all the teammembes no matter if they are online or not!!
 
-            if (localNearestPlayer == null) {
+            if (userTeam == null || userTeam.getPlayers().size() == 1) {
+                //User has no team or no other player on team than us.
                 if (world.isClientSide()) {
                     player.sendSystemMessage(Component.literal(String.format("No se encontraron jugadores en el área.")));
                 }
@@ -63,13 +62,51 @@ public class TeamTrackerCompass extends Item implements Vanishable {
                 isArmed = false;
 
             } else {
-                if (world.isClientSide()) {
-                    player.sendSystemMessage(Component.literal(String.format("Jugador encontrado. Brújula armada...")));
+                //Get the screenames of the players of the team. Remove the name of the user. If not it will point to ourselves.
+                Collection<String> stringTeamPlayers = userTeam.getPlayers();
+                stringTeamPlayers.remove(player.getName());
+
+                for (String s: stringTeamPlayers) {
+                    System.out.println(s);
                 }
-                userPlayer = player; //Set player
-                currentWorld = world;
-                nearestPlayer = localNearestPlayer;
-                isArmed = true;
+
+                int teamSize = stringTeamPlayers.size();
+                int currentPlayer = 0;
+
+                //Iterate over the online players once, and add ONLINE the team players to a list.
+                List<Player> localTeamPlayers = new ArrayList<>();
+                //iterate over the connected playes
+                if (!world.isClientSide()) { //Get server should return null on client (nullPointer when accessing), therefore only do this server-side
+                    for (Player p : world.getServer().getPlayerList().getPlayers()) { //iterate over the online players
+                        if (stringTeamPlayers.contains(p.getName())) { //If current selected player is in the team
+                            localTeamPlayers.add(p); //Add player object to local list.
+                            if (currentPlayer == teamSize) { //If you already checked all the players in the team do not iterate anymore, else add one.
+                                break;
+                            } else {
+                                currentPlayer++;
+                            }
+                        }
+                    }
+                }
+
+                //Check if there is actually any online team member. Just check the currentPlayer variable.
+                if(currentPlayer == 0) {// If it didn't increase it scanned all the online players without finding a team member.
+                    if (world.isClientSide()) {
+                        player.sendSystemMessage(Component.literal(String.format("No se encontraron jugadores del equipo.")));
+                    }
+                    dataStatus = 0;
+                    itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
+                    isArmed = false;
+                } else {//If it did, there is at least one team member online (w/o counting onself)
+                    if (world.isClientSide()) {
+                        player.sendSystemMessage(Component.literal(String.format("Jugador encontrado. Brújula armada...")));
+                    }
+
+                    userTeamPlayers = localTeamPlayers; //Set team player list
+                    userPlayer = player; //Set player
+                    currentWorld = world;
+                    isArmed = true;
+                }
             }
         } else {
             if (world.isClientSide()) {
@@ -88,20 +125,22 @@ public class TeamTrackerCompass extends Item implements Vanishable {
 
     private void updateCompass() {
         // your code to update the compass direction
+        double distanceToItemUser = 0;
+        double minDistance = Double.MAX_VALUE;
+        Player nearestPlayer = null;
 
-        double distanceToItemUser = userPlayer.distanceTo(nearestPlayer);
-        if ( distanceToItemUser > RANGEOFDETECTION) {
-
-            if (currentWorld.isClientSide()) {
-                userPlayer.sendSystemMessage(Component.literal(String.format("No se encontraron jugadores en el área.")));
+        for (Player p:userTeamPlayers) { //iterate over the player objecvts of the team participants
+            distanceToItemUser = userPlayer.distanceTo(nearestPlayer);
+            if (distanceToItemUser <= minDistance) { //Found closer team player
+                minDistance = distanceToItemUser;
+                nearestPlayer = p;
             }
-            dataStatus = 0;
-            isArmed = false;
-            itemStack.getOrCreateTag().putInt("CustomModelData", 0);
-        } else if (distanceToItemUser < 5) {
+        }
+
+        if (distanceToItemUser < 5) {
             //Delete the item from the inventory once "one use is done" (you approach to 8 blocks or less from the tracked player)
             if (currentWorld.isClientSide()) {
-                userPlayer.sendSystemMessage(Component.literal(String.format("Debido a la cercanía con el objetivo, la brújula se ha sobrecargado y ya no funciona.La energía sobrante te ha permitido ver como la brújula se ha volatilizado antes tus ojos")));
+                userPlayer.sendSystemMessage(Component.literal(String.format("Debido a la cercanía con el objetivo, la brújula se ha sobrecargado.La energía sobrante te ha permitido ver como la brújula se ha volatilizado antes tus ojos")));
             }
             dataStatus = 0;
             isArmed = false;
