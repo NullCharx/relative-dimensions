@@ -1,7 +1,11 @@
 package es.nullbyte.charmiscmods.commands.teams;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import net.minecraft.world.entity.player.Player;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +13,9 @@ import java.util.List;
 public class TeamMgr {
 
     private static List<Team> teams;
+
+    private static final String filename = "teams.json";
+
     private static int RETURN_OK = 0;
     private static int TEAM_NON_EXISTENT = 1;
 
@@ -50,6 +57,9 @@ public class TeamMgr {
     public static int removeTeam (String teamName) {
         for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
             if (t.getName().equals(teamName)) {
+                for (Player m: t.getMembers()) {
+                    m.getPersistentData().putString("playerchTeam", null);
+                }
                 teams.remove(t);
                 return RETURN_OK; //If it is already created, return on error (TEAM ALREADY CREATED)
             }
@@ -78,6 +88,15 @@ public class TeamMgr {
         for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
             if (t.getName().equals(teamName)) {
                 return t.getMembersString();
+            }
+        }
+        return null;
+    }
+
+    public static List<Player> getMembersList(String teamName) {
+        for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
+            if (t.getName().equals(teamName)) {
+                return t.getMembers();
             }
         }
         return null;

@@ -115,6 +115,10 @@ public class CharMiscModsMain {
         LOGGER.info(" ");
 
         LOGGER.info("Thank you for using this mod!");
+        LOGGER.info("--------------------------------");
+
+        LOGGER.info("Attempting to load persistent chTeam data");
+        LOGGER.info("Register chTeam command dispatcher");
 
         //Register commands with server dispatcher on server startup. Call common method to resgister all commands
         CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
