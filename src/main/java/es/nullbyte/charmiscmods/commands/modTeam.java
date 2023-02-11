@@ -62,16 +62,18 @@ public class modTeam {
             String teamName = StringArgumentType.getString(joinP, "TeamName");
             String playerName = StringArgumentType.getString(joinP, "PlayerName");
             return joinTeam(joinP.getSource(), teamName, playerName);
-        })))).then(Commands.literal("leave").then(Commands.argument("PlayerName", StringArgumentType.string()).executes((leave) -> {//modTeam leave <TeamName>
-            String playerName = StringArgumentType.getString(leave, "PlayerName");
-            return leaveTeam(leave.getSource(),playerName);
-        }))));
+        })))).then(Commands.literal("leave").executes((leave) -> {//modTeam leave <TeamName>
+            return leaveTeam(leave.getSource(),null);
+        }).then(Commands.argument("PlayerName", StringArgumentType.string()).executes((leavep) -> {//modTeam leave <TeamName>
+            String playerName = StringArgumentType.getString(leavep, "PlayerName");
+            return leaveTeam(leavep.getSource(), playerName);
+        })))
+        );
     }
 
     private static int teamCreate(CommandSourceStack source, String teamName) throws CommandSyntaxException {
         int returnCode = TeamMgr.addTeam(teamName);
         if (returnCode == TEAM_ALREADY_EXISTENT) {
-            source.sendSystemMessage(Component.literal(String.format("Equipo de nombre: " + teamName + " ya existe")));
             throw ERROR_TEAM_ALREADY_EXISTS.create();
         }
         source.sendSystemMessage(Component.literal(String.format("Equipo: " + teamName + " creado")));
@@ -130,11 +132,12 @@ public class modTeam {
         joiner.getPersistentData().putString("playerchTeam",teamName);
         //Save to persistent json file?
 
-        source.sendSystemMessage(Component.literal(String.format("Jugador: " + joiner.getName() + "se unió a equipo: " + teamName)));
+        source.sendSystemMessage(Component.literal(String.format("Jugador: " + joiner.getName().getString() + " se unió a equipo: " + teamName)));
         return 0;
     }
 
     private static int leaveTeam(CommandSourceStack source, String playerName) throws CommandSyntaxException {
+        System.out.println(playerName);
         Player joiner;
         if (playerName == null) { //If no playerargument provided, use command caster
             joiner = source.getPlayer();
@@ -142,7 +145,6 @@ public class modTeam {
             joiner = source.getServer().getPlayerList().getPlayerByName(playerName);
         }
         if (joiner == null) { //If no player was found after checks, end command
-            source.sendSystemMessage(Component.literal(String.format("Jugador no encontrado")));
             throw ERROR_UNAVAILABLE_PLAYER.create();
         }
         String currentTeam = joiner.getPersistentData().getString("playerchTeam");
@@ -151,14 +153,14 @@ public class modTeam {
             return 0;
         }
         int returnCode = TeamMgr.removePlayerFromTeam(joiner, currentTeam);
+
         if (returnCode == TEAM_NON_EXISTENT) {
-            source.sendSystemMessage(Component.literal(String.format("Equipo de nombre: " + currentTeam + " no existe")));
             throw ERROR_TEAM_NON_EXISTENT.create();
         } else if (returnCode == MEMBER_NON_EXISTENT_ONTEAM) {
-            source.sendSystemMessage(Component.literal(String.format("Error borrando jugador (no forma parte de equipo)")));
             throw ERROR_ALREADY_ADDED.create();
         }
-        joiner.getPersistentData().putString("playerchTeam",null);
+        joiner.getPersistentData().putString("playerchTeam","");
+        source.sendSystemMessage(Component.literal(String.format("Jugador borrado de equipo")));
 
         return 0;
 

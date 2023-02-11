@@ -14,7 +14,6 @@ public class TeamMgr {
 
     private static List<Team> teams;
 
-    private static final String filename = "teams.json";
 
     private static int RETURN_OK = 0;
     private static int TEAM_NON_EXISTENT = 1;
@@ -24,7 +23,6 @@ public class TeamMgr {
     private static int MEMBER_NON_EXISTENT_ONTEAM = 4;
     static {
         teams = new ArrayList<>();
-        teams.add(new Team("default"));
     }
 
     public static int addPlayerToTeam(Player player, String teamName) {

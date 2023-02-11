@@ -44,7 +44,7 @@ public class Team {
 
     public int removeMember(Player player) {
         for (Player p : members) { //Iterate over members and chek if the soon to add player is already added.
-            if (p.getName().equals(player.getName())) { //If it is, remove and return OK
+            if (p.getName().getString().equals(player.getName().getString())) { //If it is, remove and return OK
                 members.remove(player);
                 return RETURN_OK;
             }
