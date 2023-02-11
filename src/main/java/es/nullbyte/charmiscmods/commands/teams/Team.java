@@ -59,7 +59,7 @@ public class Team {
             membersList = "No members";
         } else {
             for (Player p : members) {
-                membersList = membersList + p.getName() + "\n";
+                membersList = membersList + p.getName().getString() + "\n";
             }
             membersList = membersList + "----------------------";
         }
