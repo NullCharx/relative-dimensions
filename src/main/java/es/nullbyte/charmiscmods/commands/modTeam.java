@@ -41,7 +41,7 @@ public class modTeam {
     private static final int permissionLevel = 2;
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        //all subcommands below
+        //all subcommands belows
 
         dispatcher.register(Commands.literal("chTeam").requires((permission) -> { //Check OP or server agent permission
             return permission.hasPermission(permissionLevel);
