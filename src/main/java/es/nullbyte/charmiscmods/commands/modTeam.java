@@ -23,11 +23,12 @@ import java.util.Map;
 /**
  * JAVA DOC:
  * Comando de equipos personalziado BASE.
+ *
+ * Remember to check onServerStart on main (the command is registered there)
  */
 public class modTeam {
     private static int RETURN_OK = 0;
     private static int TEAM_NON_EXISTENT = 1;
-
     private static int TEAM_ALREADY_EXISTENT = 2;
     private static int MEMBER_ALREADY_ADDED = 3;
     private static int MEMBER_NON_EXISTENT_ONTEAM = 4;
