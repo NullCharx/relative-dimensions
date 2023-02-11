@@ -1,17 +1,20 @@
 package es.nullbyte.charmiscmods;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
-import es.nullbyte.charmiscmods.init.*;
+import es.nullbyte.charmiscmods.commands.modTeam;
+import es.nullbyte.charmiscmods.commands.teams.TeamMgr;
 import es.nullbyte.charmiscmods.init.*;
 
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,7 +23,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
-import static es.nullbyte.charmiscmods.init.BlockInit.*;
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -31,6 +33,7 @@ public class CharMiscModsMain {
     public static final String MOD_ID = "chrmscmds";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
+
     public CreativeModeTab CUSTOM_TAB;
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
@@ -51,6 +54,7 @@ public class CharMiscModsMain {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -92,31 +96,38 @@ public class CharMiscModsMain {
         );
     }
 
-    //register buildcontents event to the event bus
-
-
-
-}
-    /*
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-
-    // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
-    public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of(Material.STONE)));
-    // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
-    public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
-
-----------------------------------------
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
         // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
+        LOGGER.info("--->CHAR'S MISCELANEOUS MODIFICATIONS.");
+        LOGGER.info("Here's a list of what this version of the mod contains");
+        LOGGER.info("->Short distance teleporter item");
+        LOGGER.info("->Delayed long distance teleporter item");
+        LOGGER.info("->Functioning player tracking compass");
+        LOGGER.info(" ");
+        LOGGER.info("Here's a list of what is in development");
+        LOGGER.info("Custom teams");
+        LOGGER.info("Team player tracking compass");
+        LOGGER.info(" ");
+        LOGGER.info(" ");
 
+        LOGGER.info("Thank you for using this mod!");
+
+        //Register commands with server dispatcher on server startup. Call common method to resgister all commands
+        CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
+        registerCommands(dispatcher);
+
+    }
+    public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
+        modTeam.register(dispatcher);
+    }
+}
+
+
+/*
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents
