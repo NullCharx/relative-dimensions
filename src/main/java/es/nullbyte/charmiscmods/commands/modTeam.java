@@ -24,7 +24,7 @@ import java.util.Map;
  * JAVA DOC:
  * Comando de equipos personalziado BASE.
  *
- * Remember to check onServerStart on main (the command is registered there)
+ * Remember to check onServerStart on main (the command is registered there) aaa
  */
 public class modTeam {
     private static int RETURN_OK = 0;
