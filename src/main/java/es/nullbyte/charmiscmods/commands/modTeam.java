@@ -1,38 +1,27 @@
 package es.nullbyte.charmiscmods.commands;
 
-import com.google.gson.Gson;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import es.nullbyte.charmiscmods.commands.teams.TeamMgr;
-import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.scores.PlayerTeam;
-import net.minecraft.world.scores.Team;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * JAVA DOC:
  * Comando de equipos personalziado BASE.
- *
- * Remember to check onServerStart on main (the command is registered there) aaa
+ * Remember to check onServerStart on main (the command is registered there)
+ * This implementation is pluraly exclusive: meaning that a given player can only be in one team
  */
 public class modTeam {
-    private static int RETURN_OK = 0;
-    private static int TEAM_NON_EXISTENT = 1;
-    private static int TEAM_ALREADY_EXISTENT = 2;
-    private static int MEMBER_ALREADY_ADDED = 3;
-    private static int MEMBER_NON_EXISTENT_ONTEAM = 4;
+    private static final int TEAM_NON_EXISTENT = 1;
+    private static final int TEAM_ALREADY_EXISTENT = 2;
+    private static final int MEMBER_ALREADY_ADDED = 3;
+    private static final int MEMBER_NON_EXISTENT_ONTEAM = 4;
 
     private static final SimpleCommandExceptionType ERROR_TEAM_ALREADY_EXISTS = new SimpleCommandExceptionType(Component.translatable("El equipo introducido ya existe"));
     private static final SimpleCommandExceptionType ERROR_TEAM_NON_EXISTENT = new SimpleCommandExceptionType(Component.translatable("El equipo introducido no existe"));
@@ -60,13 +49,13 @@ public class modTeam {
             return teamRemove(removeteam.getSource(), teamName);
         }))).then(Commands.literal("cjoin").then(Commands.argument("TeamName", StringArgumentType.string()).executes((join) -> {
             String teamName = StringArgumentType.getString(join, "TeamName");
-            return joinTeam(join.getSource(), teamName, null);
+            return joinTeam(join.getSource(), teamName, "");
         }).then(Commands.argument("PlayerName", StringArgumentType.string()).executes((joinP) -> {
             String teamName = StringArgumentType.getString(joinP, "TeamName");
             String playerName = StringArgumentType.getString(joinP, "PlayerName");
             return joinTeam(joinP.getSource(), teamName, playerName);
         })))).then(Commands.literal("cleave").executes((leave) -> {//modTeam leave <TeamName>
-            return leaveTeam(leave.getSource(),null);
+            return leaveTeam(leave.getSource(),"");
         }).then(Commands.argument("PlayerName", StringArgumentType.string()).executes((leavep) -> {//modTeam leave <TeamName>
             String playerName = StringArgumentType.getString(leavep, "PlayerName");
             return leaveTeam(leavep.getSource(), playerName);
@@ -130,27 +119,27 @@ public class modTeam {
     private static int joinTeam(CommandSourceStack source, String teamName, String playerName) throws CommandSyntaxException {
         //Custom player add
         Player joiner; //Player to join
-        if (playerName == null) { //If no playerargument provided, use command caster
+        if (playerName.isEmpty()) { //If no playerargument provided, use command caster
             joiner = source.getPlayer();
         } else { //If playerargument provided, check the online players:
             joiner = source.getServer().getPlayerList().getPlayerByName(playerName);
         }
         if (joiner == null) { //If no player was found after checks, end command
-            source.sendSystemMessage(Component.literal(String.format("Jugador no encontrado")));
             throw ERROR_UNAVAILABLE_PLAYER.create();
         }
 
         int returnCode = TeamMgr.addPlayerToTeam(joiner, teamName);
         if (returnCode == TEAM_NON_EXISTENT) {
-            source.sendSystemMessage(Component.literal(String.format("Equipo de nombre: " + teamName + " no existe")));
-            throw ERROR_TEAM_ALREADY_EXISTS.create();
+            throw ERROR_TEAM_NON_EXISTENT.create();
         } else if (returnCode == MEMBER_ALREADY_ADDED) {
-            source.sendSystemMessage(Component.literal(String.format("Jugador ya forma parte de " + teamName)));
             throw ERROR_ALREADY_ADDED.create();
         }
 
         //Check first if the player alredy has a saved team
-        joiner.getPersistentData().putString("playerchTeam",teamName);
+        String lastTeam = joiner.getPersistentData().getString("playerchTeam");
+        if (!lastTeam.isEmpty()) {//If they do, remove them from team
+            TeamMgr.removePlayerFromTeam(joiner, lastTeam);
+        }
 
         //Vanilla playeradd
         PlayerTeam vanillaPlayerTeam = source.getScoreboard().getPlayerTeam(teamName);
@@ -161,14 +150,15 @@ public class modTeam {
         if (!added) {
             throw ERROR_ON_VANILLA_INTERFACE.create();
         }
+        joiner.getPersistentData().putString("playerchTeam",teamName);
         source.sendSystemMessage(Component.literal(String.format("Jugador: " + joiner.getName().getString() + " se unió a equipo: " + teamName)));
         return 0;
     }
 
     private static int leaveTeam(CommandSourceStack source, String playerName) throws CommandSyntaxException {
-        System.out.println(playerName);
+        //Custom player remove
         Player joiner;
-        if (playerName == null) { //If no playerargument provided, use command caster
+        if (playerName.isEmpty()) { //If no playerargument provided, use command caster
             joiner = source.getPlayer();
         } else { //If playerargument provided, check the online players:
             joiner = source.getServer().getPlayerList().getPlayerByName(playerName);
@@ -176,8 +166,9 @@ public class modTeam {
         if (joiner == null) { //If no player was found after checks, end command
             throw ERROR_UNAVAILABLE_PLAYER.create();
         }
+
         String currentTeam = joiner.getPersistentData().getString("playerchTeam");
-        if (currentTeam == null || currentTeam.equals("")){
+        if (currentTeam == null || currentTeam.isEmpty()){
             source.sendSystemMessage(Component.literal(String.format("Jugador borrado de equipo")));
             return 0;
         }
@@ -189,6 +180,13 @@ public class modTeam {
             throw ERROR_ALREADY_ADDED.create();
         }
         joiner.getPersistentData().putString("playerchTeam","");
+
+        //Vanilla palyeremove CHECK HERE
+        PlayerTeam vanillaPlayerTeam = source.getScoreboard().getPlayerTeam(currentTeam);
+        if (vanillaPlayerTeam == null) {
+            throw ERROR_ON_VANILLA_INTERFACE.create();
+        }
+        source.getScoreboard().removePlayerFromTeam(playerName, vanillaPlayerTeam);
         source.sendSystemMessage(Component.literal(String.format("Jugador borrado de equipo")));
 
         return 0;

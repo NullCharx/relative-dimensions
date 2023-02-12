@@ -61,7 +61,6 @@ public class Team {
             for (Player p : members) {
                 membersList = membersList + p.getName().getString() + "\n";
             }
-            membersList = membersList + "----------------------";
         }
         return membersList;
     }
