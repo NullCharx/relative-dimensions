@@ -1,8 +1,14 @@
 package es.nullbyte.charmiscmods.items;
 
+import es.nullbyte.charmiscmods.items.properties.CustomCompassItemPropertyFunction;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +22,8 @@ import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.checkerframework.checker.units.qual.C;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +44,7 @@ public class TeamTrackerCompass extends Item implements Vanishable {
     private static int dataStatus; //Current status for needle direction pointing (texture)
     private static Team userTeam;
 
+    private static CompoundTag ct;
     public TeamTrackerCompass(Properties properties) {
         super(properties);
         isArmed = false;
@@ -99,9 +108,10 @@ public class TeamTrackerCompass extends Item implements Vanishable {
         Player nearestPlayer = null;
         double distanceToItemUser;
 
+
         int teamSize = stringTeamPlayers.size();
         if (!currentWorld.isClientSide()) {
-
+            //Server side does the compute
             if (teamSize == 1) {
                 nearestPlayer = currentWorld.getServer().getPlayerList().getPlayerByName(listTeamPlayers.get(0));
             } else {
@@ -109,10 +119,13 @@ public class TeamTrackerCompass extends Item implements Vanishable {
                 nearestPlayer = currentWorld.getServer().getPlayerList().getPlayerByName(listTeamPlayers.get(rand.nextInt(teamSize)));
             }
             distanceToItemUser = userPlayer.distanceTo(nearestPlayer);
-
+            CompoundTag tag= itemStack.getOrCreateTag();
+            tag.putUUID("nearestUUID",nearestPlayer.getUUID());
+            tag.putDouble("distance",distanceToItemUser);
+            itemStack.setTag(tag);
         } else {
-            //Recuieve packet from server here
-            distanceToItemUser = 1;
+            //Client sied has out of date values!!
+            distanceToItemUser =1;
         }
 
         if (distanceToItemUser < 5) {
