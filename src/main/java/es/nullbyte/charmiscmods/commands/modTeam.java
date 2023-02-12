@@ -101,7 +101,7 @@ public class modTeam {
     }
 
     private static int teamList(CommandSourceStack source) {
-        String teamString = TeamMgr.getTeamString();
+        String teamString = TeamMgr.getTeamsString();
         source.sendSystemMessage(Component.literal(String.format("TEAMS:\n\n" + teamString)));
         return 0;
     }

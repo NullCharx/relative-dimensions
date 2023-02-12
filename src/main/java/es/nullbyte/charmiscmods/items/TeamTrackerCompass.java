@@ -1,5 +1,7 @@
 package es.nullbyte.charmiscmods.items;
 
+import es.nullbyte.charmiscmods.commands.teams.Team;
+import es.nullbyte.charmiscmods.commands.teams.TeamMgr;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -11,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Vanishable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -50,9 +51,9 @@ public class TeamTrackerCompass extends Item implements Vanishable {
 
             itemStack = player.getItemInHand(hand);
             itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
-            Team userTeam = player.getTeam(); //This will return all the teammembes no matter if they are online or not!!
+            Team userTeam = TeamMgr.getTeamofPlayer(player.getName().getString());
 
-            if (userTeam == null || userTeam.getPlayers().size() == 1) {
+            if (userTeam == null || userTeam.getMembers().size() == 1) {
                 //User has no team or no other player on team than us.
                 if (world.isClientSide()) {
                     player.sendSystemMessage(Component.literal(String.format("No se encontraron jugadores en el área.")));
@@ -63,50 +64,18 @@ public class TeamTrackerCompass extends Item implements Vanishable {
 
             } else {
                 //Get the screenames of the players of the team. Remove the name of the user. If not it will point to ourselves.
-                Collection<String> stringTeamPlayers = userTeam.getPlayers();
-                stringTeamPlayers.remove(player.getName());
+                List<Player> membersOfTeam = TeamMgr.getMembersList(userTeam.getName());
+                membersOfTeam.remove(player);
 
-                for (String s: stringTeamPlayers) {
-                    System.out.println(s);
+                if (world.isClientSide()) {
+                    player.sendSystemMessage(Component.literal(String.format("Jugador encontrado. Brújula armada...")));
                 }
 
-                int teamSize = stringTeamPlayers.size();
-                int currentPlayer = 0;
+                userTeamPlayers = membersOfTeam; //Set team player list
+                userPlayer = player; //Set player
+                currentWorld = world;
+                isArmed = true;
 
-                //Iterate over the online players once, and add ONLINE the team players to a list.
-                List<Player> localTeamPlayers = new ArrayList<>();
-                //iterate over the connected playes
-                if (!world.isClientSide()) { //Get server should return null on client (nullPointer when accessing), therefore only do this server-side
-                    for (Player p : world.getServer().getPlayerList().getPlayers()) { //iterate over the online players
-                        if (stringTeamPlayers.contains(p.getName())) { //If current selected player is in the team
-                            localTeamPlayers.add(p); //Add player object to local list.
-                            if (currentPlayer == teamSize) { //If you already checked all the players in the team do not iterate anymore, else add one.
-                                break;
-                            } else {
-                                currentPlayer++;
-                            }
-                        }
-                    }
-                }
-
-                //Check if there is actually any online team member. Just check the currentPlayer variable.
-                if(currentPlayer == 0) {// If it didn't increase it scanned all the online players without finding a team member.
-                    if (world.isClientSide()) {
-                        player.sendSystemMessage(Component.literal(String.format("No se encontraron jugadores del equipo.")));
-                    }
-                    dataStatus = 0;
-                    itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
-                    isArmed = false;
-                } else {//If it did, there is at least one team member online (w/o counting onself)
-                    if (world.isClientSide()) {
-                        player.sendSystemMessage(Component.literal(String.format("Jugador encontrado. Brújula armada...")));
-                    }
-
-                    userTeamPlayers = localTeamPlayers; //Set team player list
-                    userPlayer = player; //Set player
-                    currentWorld = world;
-                    isArmed = true;
-                }
             }
         } else {
             if (world.isClientSide()) {

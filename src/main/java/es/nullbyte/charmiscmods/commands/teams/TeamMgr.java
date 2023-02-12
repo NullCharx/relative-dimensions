@@ -1,11 +1,7 @@
 package es.nullbyte.charmiscmods.commands.teams;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import net.minecraft.world.entity.player.Player;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +47,6 @@ public class TeamMgr {
         teams.add(newTeam); //If It's not,add it and return OK
         return RETURN_OK;
     }
-
     public static int removeTeam (String teamName) {
         for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
             if (t.getName().equals(teamName)) {
@@ -64,12 +59,10 @@ public class TeamMgr {
         }
         return TEAM_NON_EXISTENT; //Return on error 1 (Team non existent) if it does not exist on team manager
     }
-
     public static List<Team> getTeams() { //Returns list of team Objects
         return teams;
     }
-
-    public static String getTeamString() { //Returns string of team names, each one in a line
+    public static String getTeamsString() { //Returns string of team names, each one in a line
         String teamsList = "";
         if (teams.size() == 0) {
             teamsList = "There are no teams";
@@ -81,7 +74,6 @@ public class TeamMgr {
         }
         return teamsList;
     }
-
     public static String getTeamMembersList(String teamName) {
         for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
             if (t.getName().equals(teamName)) {
@@ -90,11 +82,21 @@ public class TeamMgr {
         }
         return null;
     }
-
     public static List<Player> getMembersList(String teamName) {
         for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
             if (t.getName().equals(teamName)) {
                 return t.getMembers();
+            }
+        }
+        return null;
+    }
+
+    public static Team getTeamofPlayer (String player) {
+        for(Team t : teams) {
+            for (Player p: t.getMembers()){
+                if(p.getName().getString().equals(player)){
+                    return t;
+                }
             }
         }
         return null;
