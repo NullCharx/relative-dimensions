@@ -15,7 +15,7 @@ import net.minecraft.world.scores.PlayerTeam;
  * JAVA DOC:
  * Comando de equipos personalziado BASE.
  * Remember to check onServerStart on main (the command is registered there)
- * This implementation is pluraly exclusive: meaning that a given player can only be in one team
+ * This implementation is pluraly exclusive: meaning that a given player can only be in one team both vanilla and custom
  */
 public class modTeam {
     private static final int TEAM_NON_EXISTENT = 1;
