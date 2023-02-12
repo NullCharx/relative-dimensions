@@ -137,7 +137,7 @@ public class TeamTrackerCompass extends Item implements Vanishable {
             }
         }
 
-        if (distanceToItemUser < 5) {
+        if (distanceToItemUser < 5&& distanceToItemUser > 0) {
             //Delete the item from the inventory once "one use is done" (you approach to 8 blocks or less from the tracked player)
             if (currentWorld.isClientSide()) {
                 userPlayer.sendSystemMessage(Component.literal(String.format("Debido a la cercanía con el objetivo, la brújula se ha sobrecargado.La energía sobrante te ha permitido ver como la brújula se ha volatilizado antes tus ojos")));
@@ -146,7 +146,7 @@ public class TeamTrackerCompass extends Item implements Vanishable {
             isArmed = false;
             Inventory inv = userPlayer.getInventory();
             inv.removeItem(itemStack);
-        }else{
+        }else if (distanceToItemUser > 5){
             Vec3 playerPos = userPlayer.position(); //User position
             Vec3 nearestPlayerPos = nearestPlayer.position(); //Nearest player position
 
@@ -246,6 +246,10 @@ public class TeamTrackerCompass extends Item implements Vanishable {
                 //North (western half)
                 dataStatus = 17;
             }
+        } else {
+            isArmed = false;
+            isArmed = true;
+
         }
 
         itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
