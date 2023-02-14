@@ -4,9 +4,8 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class Team {
+public class cTeam {
     private String name;
     private List<Player> members;
 
@@ -17,7 +16,7 @@ public class Team {
     private static int MEMBER_ALREADY_ADDED = 3;
     private static int MEMBER_NON_EXISTENT_ONTEAM = 4;
 
-    public Team(String name) {
+    public cTeam(String name) {
         this.name = name;
         this.members = new ArrayList<>();
     }

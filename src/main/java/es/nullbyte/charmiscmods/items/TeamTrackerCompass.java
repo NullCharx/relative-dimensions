@@ -8,6 +8,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CompassItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Vanishable;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class TeamTrackerCompass extends Item implements Vanishable {
+public class TeamTrackerCompass extends CompassItem implements Vanishable {
 
     //ARGUMENTOS DE ORDEN INTERNO: (No cambian)
     private static final double RANGEOFDETECTION = 1000.00; //Player range of detection (in block units). This translates to a radius of RANGEOFDETECTION/2 blocks in every direction

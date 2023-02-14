@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TeamMgr {
 
-    private static List<Team> teams;
+    private static List<cTeam> teams;
 
 
     private static int RETURN_OK = 0;
@@ -22,7 +22,7 @@ public class TeamMgr {
     }
 
     public static int addPlayerToTeam(Player player, String teamName) {
-        for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
+        for(cTeam t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
             if (t.getName().equals(teamName)) { //IF it is call team addmember
                 return t.addMember(player);
             }
@@ -30,7 +30,7 @@ public class TeamMgr {
         return TEAM_NON_EXISTENT; //Return on error 1 (Team non-existent) if it does not exist on team manager
     }
     public static int removePlayerFromTeam(Player player, String teamName) {
-        for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already created
+        for(cTeam t : teams) { //Iterate over the teamlist to check if the passed team is a team already created
             if (t.getName().equals(teamName)) { //if it is, call tam removemember
                 return t.removeMember(player);
             }
@@ -38,17 +38,18 @@ public class TeamMgr {
         return TEAM_NON_EXISTENT; //Return on error 1 (Team non-existent) if it does not exist on team manager
     }
     public static int addTeam (String teamName) {
-        for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
+        for(cTeam t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
             if (t.getName().equals(teamName)) {
                 return TEAM_ALREADY_EXISTENT; //If it is already created, return on error (TEAM ALREADY CREATED)
             }
         }
-        Team newTeam = new Team(teamName);
+        cTeam newTeam = new cTeam(teamName);
         teams.add(newTeam); //If It's not,add it and return OK
         return RETURN_OK;
     }
+
     public static int removeTeam (String teamName) {
-        for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
+        for(cTeam t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
             if (t.getName().equals(teamName)) {
                 for (Player m: t.getMembers()) {
                     m.getPersistentData().putString("playerchTeam", null);
@@ -59,44 +60,37 @@ public class TeamMgr {
         }
         return TEAM_NON_EXISTENT; //Return on error 1 (Team non existent) if it does not exist on team manager
     }
-    public static List<Team> getTeams() { //Returns list of team Objects
+
+    public static List<cTeam> getTeams() { //Returns list of team Objects
         return teams;
     }
-    public static String getTeamsString() { //Returns string of team names, each one in a line
+
+    public static String getTeamString() { //Returns string of team names, each one in a line
         String teamsList = "";
         if (teams.size() == 0) {
             teamsList = "There are no teams";
         } else {
-            for (Team t : teams) {
+            for (cTeam t : teams) {
                 teamsList = teamsList + t.getName() + "\n";
             }
             teamsList = teamsList + "----------------------";
         }
         return teamsList;
     }
+
     public static String getTeamMembersList(String teamName) {
-        for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
+        for(cTeam t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
             if (t.getName().equals(teamName)) {
                 return t.getMembersString();
             }
         }
         return null;
     }
+
     public static List<Player> getMembersList(String teamName) {
-        for(Team t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
+        for(cTeam t : teams) { //Iterate over the teamlist to check if the passed team is a team already added
             if (t.getName().equals(teamName)) {
                 return t.getMembers();
-            }
-        }
-        return null;
-    }
-
-    public static Team getTeamofPlayer (String player) {
-        for(Team t : teams) {
-            for (Player p: t.getMembers()){
-                if(p.getName().getString().equals(player)){
-                    return t;
-                }
             }
         }
         return null;
