@@ -65,7 +65,7 @@ public class TeamMgr {
         return teams;
     }
 
-    public static String getTeamString() { //Returns string of team names, each one in a line
+    public static String getTeamsString() { //Returns string of team names, each one in a line
         String teamsList = "";
         if (teams.size() == 0) {
             teamsList = "There are no teams";
