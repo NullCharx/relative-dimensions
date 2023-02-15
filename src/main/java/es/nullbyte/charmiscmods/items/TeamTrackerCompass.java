@@ -1,14 +1,8 @@
 package es.nullbyte.charmiscmods.items;
 
-import es.nullbyte.charmiscmods.items.properties.CustomCompassItemPropertyFunction;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -16,19 +10,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Vanishable;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.checkerframework.checker.units.qual.C;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class TeamTrackerCompass extends Item implements Vanishable {
 
@@ -41,10 +30,9 @@ public class TeamTrackerCompass extends Item implements Vanishable {
     private Player userPlayer; //Player that uses the compass
     private ItemStack itemStack; //Stack of the player that uses the compass
     private Level currentWorld; //Current dimension of the player that uses the compass
-    private static int dataStatus; //Current status for needle direction pointing (texture)
-    private static Team userTeam;
+    private int dataStatus; //Current status for needle direction pointing (texture)
+    private Player nearestPlayer;
 
-    private static CompoundTag ct;
     public TeamTrackerCompass(Properties properties) {
         super(properties);
         isArmed = false;
@@ -75,13 +63,32 @@ public class TeamTrackerCompass extends Item implements Vanishable {
 
             } else {
                 //Check if there is actually any online team member. Just check the currentPlayer variable.
-                if (world.isClientSide()) {
-                    player.sendSystemMessage(Component.literal(String.format("Jugador encontrado. Brújula armada...")));
+
+                // Get all players on the same team
+                List<Player> teamPlayers = world.getEntitiesOfClass(Player.class, new AABB(player.blockPosition()).inflate(6000.0D),
+                        e -> e != player && e.getScoreboard().getPlayersTeam(e.getName().getString()).equals(player.getScoreboard().getPlayersTeam(player.getName().getString())));
+
+                // Find the nearest player
+                Player localnearestPlayer = teamPlayers.stream()
+                        .min(Comparator.comparingDouble(player::distanceToSqr))
+                        .orElse(null);
+
+                if (localnearestPlayer != null) {
+                    if (world.isClientSide()) {
+                        player.sendSystemMessage(Component.literal(String.format("Jugador encontrado. Brújula armada...")));
+                    }
+                    nearestPlayer = localnearestPlayer;
+                    userPlayer = player; //Set player
+                    currentWorld = world;
+                    isArmed = true;
+                }else {
+                    if (world.isClientSide()) {
+                        player.sendSystemMessage(Component.literal(String.format("No se encontraron jugadores en el área.")));
+                    }
+                    dataStatus = 0;
+                    itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
+                    isArmed = false;
                 }
-                userTeam = localUserTeam;
-                userPlayer = player; //Set player
-                currentWorld = world;
-                isArmed = true;
             }
         } else {
             if (world.isClientSide()) {
@@ -100,46 +107,19 @@ public class TeamTrackerCompass extends Item implements Vanishable {
 
     private void updateCompass() {
         // your code to update the compass direction
-        //Get the screenames of the players of the team. Remove the name of the user. If not it will point to ourselves.
-        Collection<String> stringTeamPlayers = userTeam.getPlayers();
-        stringTeamPlayers.remove(userPlayer.getName().getString());
-        List<String> listTeamPlayers = new ArrayList<>(stringTeamPlayers);
 
-        Player nearestPlayer = null;
-        double distanceToItemUser;
-
-
-        int teamSize = stringTeamPlayers.size();
-        if (!currentWorld.isClientSide()) {
-            //Server side does the compute
-            if (teamSize == 1) {
-                nearestPlayer = currentWorld.getServer().getPlayerList().getPlayerByName(listTeamPlayers.get(0));
-            } else {
-                Random rand = new Random();
-                nearestPlayer = currentWorld.getServer().getPlayerList().getPlayerByName(listTeamPlayers.get(rand.nextInt(teamSize)));
-            }
-            distanceToItemUser = userPlayer.distanceTo(nearestPlayer);
-            CompoundTag tag= itemStack.getOrCreateTag();
-            tag.putUUID("nearestUUID",nearestPlayer.getUUID());
-            tag.putDouble("distance",distanceToItemUser);
-            itemStack.setTag(tag);
-        } else {
-            //Client sied has out of date values!!
-            distanceToItemUser =1;
-        }
+        double distanceToItemUser = userPlayer.distanceTo(nearestPlayer);
 
         if (distanceToItemUser < 5) {
-            if (!currentWorld.isClientSide()) {
-
-                //Delete the item from the inventory once "one use is done" (you approach to 8 blocks or less from the tracked player)
-                if (currentWorld.isClientSide()) {
-                    userPlayer.sendSystemMessage(Component.literal(String.format("Debido a la cercanía con el objetivo, la brújula se ha sobrecargado.La energía sobrante te ha permitido ver como la brújula se ha volatilizado antes tus ojos")));
-                }
-                dataStatus = 0;
-                isArmed = false;
-                Inventory inv = userPlayer.getInventory();
-                inv.removeItem(itemStack);
+            //Delete the item from the inventory once "one use is done" (you approach to 8 blocks or less from the tracked player)
+            if (currentWorld.isClientSide()) {
+                userPlayer.sendSystemMessage(Component.literal(String.format("Debido a la cercanía con el objetivo, la brújula se ha sobrecargado.La energía sobrante te ha permitido ver como la brújula se ha volatilizado antes tus ojos")));
             }
+            dataStatus = 0;
+            isArmed = false;
+            Inventory inv = userPlayer.getInventory();
+            inv.removeItem(itemStack);
+
         }else{
             Vec3 playerPos = userPlayer.position(); //User position
             Vec3 nearestPlayerPos = nearestPlayer.position(); //Nearest player position
