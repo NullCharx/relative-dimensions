@@ -28,7 +28,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
     private ItemStack itemStack; //Stack of the player that uses the compass
     private Level currentWorld; //Current dimension of the player that uses the compass
     private Player nearestPlayer; //Player that uses the compass
-    private static int dataStatus; //Current status for needle direction pointing (texture)
+    private int dataStatus; //Current status for needle direction pointing (texture)
     public PlayerTrackerCompass(Properties properties) {
         super(properties);
         isArmed = false;
