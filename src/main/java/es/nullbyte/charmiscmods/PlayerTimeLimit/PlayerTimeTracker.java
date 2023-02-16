@@ -2,10 +2,32 @@ package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
 import java.util.UUID;
 
+/**
+ * Track the time played by a player
+ *
+ */
 public class PlayerTimeTracker {
 
-    private final UUID playerUUID;
-    private int secsPlayed;
+    private final UUID playerUUID; //UUID of the player being tracked
+    private int secsPlayed; //Time played in seconds for the current day (Holds between sessions)
+    private boolean isCurrentlyTimeOut = false; //Is the player currently timed out? (i.e they reached the daily time limit)
+    //date and time of the last login
+    private long lastLoginEpoch;  //The epoch time of the last login
+
+    public long getLastLoginEpoch() {
+        return lastLoginEpoch;
+    }
+
+    public void setLastLoginEpoch() {
+        this.lastLoginEpoch = System.currentTimeMillis();
+    }
+    public boolean isCurrentlyTimeOut() {
+        return isCurrentlyTimeOut;
+    }
+
+    public void setTimeoutState (boolean isCurrentlyTimeOut) {
+        this.isCurrentlyTimeOut = isCurrentlyTimeOut;
+    }
 
     public PlayerTimeTracker(UUID playerUUID, int secsPlayed) {
         this.playerUUID = playerUUID;
