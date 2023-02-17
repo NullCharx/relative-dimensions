@@ -3,16 +3,23 @@ package es.nullbyte.charmiscmods.PlayerTimeLimit;
 import java.util.UUID;
 
 /**
- * Track the time played by a player
+ * Track the time played by a player. THe identifying UUID is in the PlayerTimeManer hashmap of players
  *
  */
 public class PlayerTimeTracker {
 
-    private final UUID playerUUID; //UUID of the player being tracked
     private int secsPlayed; //Time played in seconds for the current day (Holds between sessions)
-    private boolean isCurrentlyTimeOut = false; //Is the player currently timed out? (i.e they reached the daily time limit)
+    private boolean isCurrentlyTimeOut; //Is the player currently timed out? (i.e they reached the daily time limit)
     //date and time of the last login
     private long lastLoginEpoch;  //The epoch time of the last login
+    private boolean isCurrentlyPlaying;
+    public PlayerTimeTracker() {
+        this.secsPlayed = 0;
+        this.isCurrentlyPlaying = false;
+        this.isCurrentlyTimeOut = false;
+        this.lastLoginEpoch = 0;
+    }
+
 
     public long getLastLoginEpoch() {
         return lastLoginEpoch;
@@ -29,15 +36,6 @@ public class PlayerTimeTracker {
         this.isCurrentlyTimeOut = isCurrentlyTimeOut;
     }
 
-    public PlayerTimeTracker(UUID playerUUID, int secsPlayed) {
-        this.playerUUID = playerUUID;
-        this.secsPlayed = secsPlayed;
-    }
-
-    public UUID getPlayerUUID() {
-        return playerUUID;
-    }
-
     public long getSecsPlayed() {
         return secsPlayed;
     }
@@ -52,10 +50,6 @@ public class PlayerTimeTracker {
 
     public void addTimePlayed(int timePlayed) {
         this.secsPlayed += timePlayed;
-    }
-
-    public void removeTimePlayed() {
-        this.secsPlayed--;
     }
 
     public void removeTimePlayed(int timePlayed) {
