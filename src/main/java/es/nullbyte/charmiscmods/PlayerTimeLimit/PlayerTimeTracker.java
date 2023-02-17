@@ -8,7 +8,7 @@ import java.util.UUID;
  */
 public class PlayerTimeTracker {
 
-    private int secsPlayed; //Time played in seconds for the current day (Holds between sessions)
+    private long secsPlayed; //Time played in seconds for the current day (Holds between sessions)
     private boolean isCurrentlyTimeOut; //Is the player currently timed out? (i.e they reached the daily time limit)
     //date and time of the last login
     private long lastLoginEpoch;  //The epoch time of the last login
@@ -36,7 +36,7 @@ public class PlayerTimeTracker {
         this.isCurrentlyTimeOut = isCurrentlyTimeOut;
     }
 
-    public int getSecsPlayed() {
+    public long getSecsPlayed() {
         return secsPlayed;
     }
 
@@ -44,11 +44,11 @@ public class PlayerTimeTracker {
         this.secsPlayed = 0;
     }
 
-    public void addTimePlayed(int timePlayed) {
+    public void addTimePlayed(long timePlayed) {
         this.secsPlayed += timePlayed;
     }
 
-    public void removeTimePlayed(int timePlayed) {
+    public void removeTimePlayed(long timePlayed) {
         this.secsPlayed -= timePlayed;
     }
 
@@ -56,7 +56,7 @@ public class PlayerTimeTracker {
         return this.secsPlayed > 0;
     }
 
-    public boolean hasTimePlayed(int timePlayed) {
+    public boolean hasTimePlayed(long timePlayed) {
         return this.secsPlayed >= timePlayed;
     }
 
@@ -65,11 +65,15 @@ public class PlayerTimeTracker {
     }
 
     public void playerDisconnected () {
-        isCurrentlyPlaying = true;
+        isCurrentlyPlaying = false;
     }
 
     public boolean getPlayerOnlineState() {
         return isCurrentlyPlaying;
+    }
+
+    public void setPlayerOnlineState() {
+         isCurrentlyPlaying = !isCurrentlyPlaying;
     }
 
 }
