@@ -1,17 +1,23 @@
 package es.nullbyte.charmiscmods;
 
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.init.*;
 import es.nullbyte.charmiscmods.init.*;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.UserBanListEntry;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,6 +25,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import static es.nullbyte.charmiscmods.init.BlockInit.*;
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
@@ -32,6 +42,12 @@ public class CharMiscModsMain {
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
     public CreativeModeTab CUSTOM_TAB;
+
+    public static final int TIMELIMIT = 3600*4; //4 hours
+    public static final int RESETTIME = 6; //6am
+    public static final PlayerTimeManager timeManager = new PlayerTimeManager(TIMELIMIT,RESETTIME);
+
+    public static final List<Component> deadPlayers = new ArrayList<>();
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public CharMiscModsMain() {
@@ -59,7 +75,61 @@ public class CharMiscModsMain {
         LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
 
+    @SubscribeEvent
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        Player player = event.getEntity();
+        UUID playerUUID = player.getUUID();
+        if (!timeManager.hasPlayer(playerUUID)){
+            timeManager.addPlayer(playerUUID);
+            timeManager.playerLogOn(playerUUID);
+            LOGGER.info(player.getName() + "Logged in for the first time and is being added to the list");
 
+        } else {
+            timeManager.playerLogOn(playerUUID);
+            LOGGER.info(player.getName() + "logged in but has already been added to the list. Changing to online");
+        }
+    }
+
+    private static int tickCount = 0;
+    @SubscribeEvent
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            if(tickCount % 20 == 0) {
+                //Do player time managing
+                for(Player p : event.getServer().getPlayerList().getPlayers()){
+                    timeManager.updatePlayerTime(p.getUUID());
+                    if(timeManager.checkForTimeout(p.getUUID())) {
+                        LOGGER.info(p.getName() + "Has been timed out");
+                        p.getServer().getPlayerList().getBans().add(new UserBanListEntry(p.getGameProfile()));
+                    }
+                }
+                tickCount = 0;
+            } else {
+                if(timeManager.isResetTime()){ //Se ha alcanzado la hora de reseteo y se procede a resetear
+                    LOGGER.info("Is ban reset time");
+                    timeManager.resetAllTime();
+                    for (UserBanListEntry p : event.getServer().getPlayerList().getBans().getEntries()) { //Iterar por
+                        // todos los jugadores baneados y desbanear aquellas que no estén en la lista de muertos
+                        if(deadPlayers.contains(p.getDisplayName())){
+                            continue;
+                        }
+                        event.getServer().getPlayerList().getBans().remove(p);
+                    }
+                }
+                tickCount++;
+            }
+        }
+    }
+    @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        if (event.getEntity() instanceof Player) {
+            // Get the player who just respawned
+            Player player = event.getEntity();
+            //Ban and add to dead players list
+            player.getServer().getPlayerList().getBans().add(new UserBanListEntry(player.getGameProfile()));
+            deadPlayers.add(player.getDisplayName());
+        }
+    }
     @SubscribeEvent
     public void addCreative(CreativeModeTabEvent.BuildContents event) {
         //Use this event to add items to a default creative tab

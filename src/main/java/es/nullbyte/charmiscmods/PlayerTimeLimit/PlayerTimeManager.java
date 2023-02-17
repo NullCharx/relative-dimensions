@@ -1,5 +1,7 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -9,7 +11,7 @@ import java.util.*;
 public class PlayerTimeManager {
     private final Map<UUID, PlayerTimeTracker> playerMap = new HashMap<>();//Hashmap of individual player trackers
     private final long dailyTimeLimit; // The daily time limit in seconds
-    private final LocalTime resetTime; // The time of day in which the timers reset
+    private LocalDateTime resetTime; // The time of day in which the timers reset
 
 
     //Time for reset.
@@ -20,7 +22,9 @@ public class PlayerTimeManager {
      */
     public PlayerTimeManager(int dailyTimeLimit, int resetHour) {
         this.dailyTimeLimit = dailyTimeLimit;
-        this.resetTime = LocalTime.of(resetHour, 0);  //Resets at resethour:00
+        //Resets at resethour:00
+        LocalTime  time = LocalTime.of(resetHour, 0);
+        resetTime = LocalDateTime.of(LocalDate.now(), time);
     }
 
     /*
@@ -125,7 +129,12 @@ public class PlayerTimeManager {
      Sets the login time of a player to now
      */
     public void playerLogOn(UUID playerUUID) {
-        getTracker(playerUUID).setLastLoginEpoch();
+        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
+        if (playerTimeTracker != null) {
+            playerTimeTracker.setLastLoginEpoch();
+            playerTimeTracker.playerConnected();
+        }
+        throw new IllegalArgumentException("No player found under specified UUID");
     }
 
     /*
@@ -197,8 +206,13 @@ public class PlayerTimeManager {
      Check if it is the reset time (between XX:00 and XX:03)
      */
     public boolean isResetTime() {
-        LocalTime currentTime = LocalTime.now();
-        return currentTime.equals(resetTime) || (currentTime.getHour() == 0 && (currentTime.getMinute() >= 0 && currentTime.getMinute() <= 3));
+        LocalDateTime currentTime = LocalDateTime.now();
+        if (currentTime.isAfter(resetTime)) {
+            //Add 1 day to reset time
+            resetTime = resetTime.plusDays(1);
+            return true;
+        }
+        return false;
     }
 
     /*
