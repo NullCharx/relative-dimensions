@@ -44,7 +44,7 @@ public class CharMiscModsMain {
     public CreativeModeTab CUSTOM_TAB;
 
     public static final int TIMELIMIT = 3600*4; //4 hours
-    public static final int RESETTIME = 6; //6am
+    public static final int RESETTIME = 7; //6am
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(TIMELIMIT,RESETTIME);
 
     public static final List<Component> deadPlayers = new ArrayList<>();
