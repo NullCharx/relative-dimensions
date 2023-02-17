@@ -26,7 +26,6 @@ import static es.nullbyte.charmiscmods.init.ItemInit.*;
 @Mod.EventBusSubscriber(modid = CharMiscModsMain.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CharMiscModsMain {
     // Define mod id in a common place for everything to reference
-    private boolean test;
     public static final String MOD_ID = "chrmscmds";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
