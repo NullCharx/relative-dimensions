@@ -36,12 +36,8 @@ public class PlayerTimeTracker {
         this.isCurrentlyTimeOut = isCurrentlyTimeOut;
     }
 
-    public long getSecsPlayed() {
+    public int getSecsPlayed() {
         return secsPlayed;
-    }
-
-    public void setSecsPlayed(int secsPlayed) {
-        this.secsPlayed = secsPlayed;
     }
 
     public void resetTimePlayed() {
@@ -62,6 +58,18 @@ public class PlayerTimeTracker {
 
     public boolean hasTimePlayed(int timePlayed) {
         return this.secsPlayed >= timePlayed;
+    }
+
+    public void playerConnected(){
+        isCurrentlyPlaying = true;
+    }
+
+    public void playerDisconnected () {
+        isCurrentlyPlaying = true;
+    }
+
+    public boolean getPlayerOnlineState() {
+        return isCurrentlyPlaying;
     }
 
 }
