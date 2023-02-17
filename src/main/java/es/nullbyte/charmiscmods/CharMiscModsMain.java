@@ -78,6 +78,9 @@ public class CharMiscModsMain {
             populator.accept(testitem1.get());
             populator.accept(AVID_SDPT.get());
             populator.accept(TRANSMAT_BEAM_EMITTER.get());
+            populator.accept(PLAYER_TRACKER_COMPASS.get());
+            populator.accept(TEAM_TRACKER_COMPASS.get());
+
         })
         );
     }
