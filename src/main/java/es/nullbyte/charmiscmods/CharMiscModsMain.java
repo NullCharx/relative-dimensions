@@ -43,11 +43,11 @@ public class CharMiscModsMain {
     private static final Logger LOGGER = LogUtils.getLogger();
     public CreativeModeTab CUSTOM_TAB;
 
-    public static final int TIMELIMIT = 3600*4; //4 hours
-    public static final int RESETTIME = 7; //6am
+    public static final int TIMELIMIT = 4*60*60; //4 hours
+    public static final int RESETTIME = 6; //6am 35 minutes
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(TIMELIMIT,RESETTIME);
 
-    public static final List<Component> deadPlayers = new ArrayList<>();
+
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public CharMiscModsMain() {
@@ -75,61 +75,7 @@ public class CharMiscModsMain {
         LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
 
-    @SubscribeEvent
-    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
-        UUID playerUUID = player.getUUID();
-        if (!timeManager.hasPlayer(playerUUID)){
-            timeManager.addPlayer(playerUUID);
-            timeManager.playerLogOn(playerUUID);
-            LOGGER.info(player.getName() + "Logged in for the first time and is being added to the list");
 
-        } else {
-            timeManager.playerLogOn(playerUUID);
-            LOGGER.info(player.getName() + "logged in but has already been added to the list. Changing to online");
-        }
-    }
-
-    private static int tickCount = 0;
-    @SubscribeEvent
-    public static void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            if(tickCount % 20 == 0) {
-                //Do player time managing
-                for(Player p : event.getServer().getPlayerList().getPlayers()){
-                    timeManager.updatePlayerTime(p.getUUID());
-                    if(timeManager.checkForTimeout(p.getUUID())) {
-                        LOGGER.info(p.getName() + "Has been timed out");
-                        p.getServer().getPlayerList().getBans().add(new UserBanListEntry(p.getGameProfile()));
-                    }
-                }
-                tickCount = 0;
-            } else {
-                if(timeManager.isResetTime()){ //Se ha alcanzado la hora de reseteo y se procede a resetear
-                    LOGGER.info("Is ban reset time");
-                    timeManager.resetAllTime();
-                    for (UserBanListEntry p : event.getServer().getPlayerList().getBans().getEntries()) { //Iterar por
-                        // todos los jugadores baneados y desbanear aquellas que no estén en la lista de muertos
-                        if(deadPlayers.contains(p.getDisplayName())){
-                            continue;
-                        }
-                        event.getServer().getPlayerList().getBans().remove(p);
-                    }
-                }
-                tickCount++;
-            }
-        }
-    }
-    @SubscribeEvent
-    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        if (event.getEntity() instanceof Player) {
-            // Get the player who just respawned
-            Player player = event.getEntity();
-            //Ban and add to dead players list
-            player.getServer().getPlayerList().getBans().add(new UserBanListEntry(player.getGameProfile()));
-            deadPlayers.add(player.getDisplayName());
-        }
-    }
     @SubscribeEvent
     public void addCreative(CreativeModeTabEvent.BuildContents event) {
         //Use this event to add items to a default creative tab
