@@ -1,6 +1,8 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.UserBanListEntry;
@@ -37,10 +39,11 @@ public class PlayerTimeManager {
     Constructor for the time manager.
     It takes both the daily time limit in seconds and the time of the day in which the timers reset.
      */
+
     public PlayerTimeManager(int dailyTimeLimit, int resetHour)  {
         PlayerTimeManager.dailyTimeLimit = dailyTimeLimit;
         //Resets at resethour:00
-        LocalTime  time = LocalTime.of(resetHour, 35);
+        LocalTime  time = LocalTime.of(resetHour, 04);
         resetTime = LocalDateTime.of(LocalDate.now(), time);
 
         MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
@@ -52,6 +55,9 @@ public class PlayerTimeManager {
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerRespawn);
 
 
+    }
+    public static long getDailyTimeLimit() {
+        return dailyTimeLimit;
     }
 
     /*
@@ -84,14 +90,16 @@ public class PlayerTimeManager {
     /*
     Adds one second to a player tracker (unnecessary if the individual player tracker is already available)
     */
-    public static void updatePlayerTime(UUID playerUUID) {
+    public static long updatePlayerTime(UUID playerUUID) {
         PlayerTimeTracker player = getTracker(playerUUID);
         if (player != null && !player.isCurrentlyTimeOut()) {
             player.addTimePlayed(1);
             if (player.getSecsPlayed() >= dailyTimeLimit) {
                 player.setTimeoutState(true);
             }
+            return player.getSecsPlayed();
         }
+        throw new IllegalArgumentException("No player found under specified UUID");
     }
 
     /*
@@ -280,7 +288,8 @@ public class PlayerTimeManager {
             if(tickCount % 20 == 0 && tickCount != 0) {
                 //Do player time managing
                 for(Player p : event.getServer().getPlayerList().getPlayers()){
-                    updatePlayerTime(p.getUUID());
+                    Long updatedTime = updatePlayerTime(p.getUUID());
+                    RemainingTimeHandler.sendToPlayer(new S2CRemainingTime(updatedTime), (ServerPlayer) p);
                     if(checkForTimeout(p.getUUID())) {
                         LOGGER.info(p.getName() + "Has been timed out");
                         p.getServer().getPlayerList().getBans().add(new UserBanListEntry(p.getGameProfile()));
