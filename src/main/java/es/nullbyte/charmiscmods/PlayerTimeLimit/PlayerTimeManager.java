@@ -21,6 +21,7 @@ import java.util.*;
 
 /**
  * Manages the playtime of multiple players
+ * Support for network and GUI integration started
  */
 public class PlayerTimeManager {
     private static final Map<UUID, PlayerTimeTracker> playerMap = new HashMap<>();//Hashmap of individual player trackers
