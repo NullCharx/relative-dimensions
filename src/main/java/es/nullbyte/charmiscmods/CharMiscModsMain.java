@@ -26,11 +26,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
-import static es.nullbyte.charmiscmods.init.BlockInit.*;
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -55,7 +51,6 @@ public class CharMiscModsMain {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::setup);
         ItemInit.ITEMS.register(modEventBus);
-        BlockInit.BLOCKS.register(modEventBus);
         TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
 
         //Register custom creative tab
