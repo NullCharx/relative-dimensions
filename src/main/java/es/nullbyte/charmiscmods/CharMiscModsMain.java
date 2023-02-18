@@ -3,6 +3,7 @@ package es.nullbyte.charmiscmods;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.ModMessages;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.init.*;
 
@@ -34,8 +35,8 @@ public class CharMiscModsMain {
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public static final int TIMELIMIT = 20; //4 hours
-    public static final int RESETTIME = 15; //6am 35 minutes
+    public static final int TIMELIMIT = 4*60*60; //4 hours
+    public static final int RESETTIME = 06; //6am 35 minutes
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(TIMELIMIT,RESETTIME);
 
 
@@ -58,13 +59,14 @@ public class CharMiscModsMain {
         MinecraftForge.EVENT_BUS.register(this);
     }
     private void setup(final FMLCommonSetupEvent event) {
+        //Registrar eventos encolados, includos los paquetes de red
         event.enqueueWork(() -> {
             RemainingTimeHandler.register();
-            ModMessages.register();
+            //PVPStateHandler.register();
+            //ModMessages.register();
         });
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
 
 

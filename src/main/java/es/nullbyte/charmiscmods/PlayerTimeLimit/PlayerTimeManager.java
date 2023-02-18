@@ -43,7 +43,7 @@ public class PlayerTimeManager {
     public PlayerTimeManager(int dailyTimeLimit, int resetHour)  {
         PlayerTimeManager.dailyTimeLimit = dailyTimeLimit;
         //Resets at resethour:00
-        LocalTime  time = LocalTime.of(resetHour, 04);
+        LocalTime  time = LocalTime.of(resetHour, 33);
         resetTime = LocalDateTime.of(LocalDate.now(), time);
 
         MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
@@ -51,6 +51,7 @@ public class PlayerTimeManager {
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerLoggedIn);
+        //MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerLoggedOut);
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onServerTick);
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerRespawn);
 
@@ -279,6 +280,11 @@ public class PlayerTimeManager {
             playerLogOn(playerUUID);
             LOGGER.info(player.getName() + "logged in but has already been added to the list. Changing to online");
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        //Find a way to persistently store player data regarding time played. Probably on a JSON file
     }
 
     private static int tickCount = 0;
