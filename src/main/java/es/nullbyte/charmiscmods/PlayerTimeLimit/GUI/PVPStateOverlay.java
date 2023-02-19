@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
+import java.awt.font.FontRenderContext;
+
 import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 
 public class PVPStateOverlay{
@@ -19,14 +21,19 @@ public class PVPStateOverlay{
     public static final IGuiOverlay HUD_MAINOVERLAY = ((gui, poseStack, partialTick, width, height) -> {
         int x = width / 2;
         int y = height;
-        int logoxoffset = 155;
+        int logoxoffset = 145;
         int logoyoffset = -200;
-        int rectanglexoffset = -25;
+        int rectanglexoffset = -35;
         int rectangleyoffset = 0;
-        int componentWidth = 50;
-        int componentHeight = 150;
+        int componentWidth = 60;
+        int componentHeight = 80;
         int textxoffset = 12;
         int textyoffset = 20;
+
+        final double scaled = 1.f / gui.getMinecraft().getWindow().getGuiScale();
+        final float scale = (float) scaled;
+        poseStack.scale(scale, scale, scale);
+
         // Draw semi-transparent grey rectangle
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, 0.5F);
@@ -37,9 +44,9 @@ public class PVPStateOverlay{
         Font font = minecraft.font;
         String timeRemaining = "Tiempo restante:";
         int textWidth = font.width(timeRemaining);
-        int textX = x + logoxoffset + textxoffset - textWidth / 2;
-        int textY = y + logoyoffset + textyoffset;
-        font.draw(poseStack, timeRemaining, textX, textY, 0xFFFFFFFF);
+        int textX = (x + logoxoffset + textxoffset - textWidth / 2);
+        int textY =(y + logoyoffset + textyoffset);
+        GuiComponent.drawString(poseStack, font, timeRemaining, textX, textY, 0xFFFFFFFF);
 
         // Draw "HH:MM:SS" text
         String remainingTime = "HH:MM:SS"; // replace with your logic to get the remaining time
@@ -55,7 +62,7 @@ public class PVPStateOverlay{
         textY += font.lineHeight + 8; // add some space between the two lines of text
         font.draw(poseStack, pvpstate, textX, textY, 0xFFFFFFFF);
 
-        // Draw "HH:MM:SS" text
+        // Draw "OFF/ON/HARDCORE" text
         String statePVP = "HARDCORE"; // replace with your logic to get the remaining time
         textWidth = font.width(statePVP);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
