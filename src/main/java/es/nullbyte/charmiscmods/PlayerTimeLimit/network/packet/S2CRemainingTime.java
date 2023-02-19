@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet;
 
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -15,13 +16,9 @@ import java.util.function.Supplier;
 
 public class S2CRemainingTime {
 
-    long remainingTime;
+    private final long remainingTime;
 
-    public S2CRemainingTime() {
-
-    }
-
-    public S2CRemainingTime(long remainingTime) {
+     public S2CRemainingTime(long remainingTime) {
         this.remainingTime = remainingTime;
     }
 
@@ -40,10 +37,10 @@ public class S2CRemainingTime {
             assert client.player != null;
             Long timeLimit = PlayerTimeManager.getDailyTimeLimit();
             long remainingTimeSeconds = timeLimit - remainingTime;
-            LocalTime remainingTime = LocalTime.ofSecondOfDay(remainingTimeSeconds);
-            String formattedRemainingTime = remainingTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            //Get the playerTimeTracker
+            PlayerTimeTracker trck = PlayerTimeManager.getTracker(client.player.getUUID());
+            trck.setTimePlayed(remainingTime);
 
-            //client.player.sendSystemMessage(Component.literal(String.format("Remaining time: " + formattedRemainingTime)));
 
         });
         ctx.get().setPacketHandled(true);

@@ -20,7 +20,6 @@ public class PlayerTimeTracker {
         this.lastLoginEpoch = 0;
     }
 
-
     public long getLastLoginEpoch() {
         return lastLoginEpoch;
     }
@@ -44,6 +43,9 @@ public class PlayerTimeTracker {
         this.secsPlayed = 0;
     }
 
+    public void setTimePlayed(long timePlayed) {
+        this.secsPlayed = timePlayed;
+    }
     public void addTimePlayed(long timePlayed) {
         this.secsPlayed += timePlayed;
     }
