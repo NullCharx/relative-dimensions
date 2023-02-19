@@ -22,22 +22,28 @@ public class PVPStateOverlay{
         int x = width / 2;
         int y = height;
         int logoxoffset = 145;
-        int logoyoffset = -200;
-        int rectanglexoffset = -35;
-        int rectangleyoffset = 0;
-        int componentWidth = 60;
-        int componentHeight = 80;
+        int logoyoffset = -225;
+        int rextanglexstart= -35;
+        int rextangleystart = 13;
+        int rextanglexend= 60;
+        int rextangleyend = 70;
         int textxoffset = 12;
         int textyoffset = 20;
 
-        final double scaled = 1.f / gui.getMinecraft().getWindow().getGuiScale();
+        //Push the matrix to the stack, so that the scale and translation don't affect other elements
+        //At the end, pop the matrix from the stack so that subsequent renders aren't affected!
+        poseStack.pushPose();
+        final double scaled = (1.f / gui.getMinecraft().getWindow().getGuiScale()) * 3;
         final float scale = (float) scaled;
         poseStack.scale(scale, scale, scale);
+        poseStack.translate(175F, 75F, 0F);
 
+        //- goes up and left y is down up
         // Draw semi-transparent grey rectangle
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, 0.5F);
-        GuiComponent.fill(poseStack, x + logoxoffset + rectanglexoffset, y + logoyoffset + rectangleyoffset, x + logoxoffset + componentWidth, y + logoyoffset + componentHeight, 0xFFFFFFFF);
+        //GuiComponent.fill(poseStack, x + componentWidth , y + componentHeight ,x + logoxoffset + rectanglexoffset , y + logoyoffset + rectangleyoffset , 0xFFFFFFFF);//Pos and then scale
+        GuiComponent.fill(poseStack,x + logoxoffset + rextanglexstart, y + logoyoffset + rextangleystart, x + logoxoffset + rextanglexend, y + logoyoffset + rextangleyend,0xFFFFFFFF);//Pos and then scale
 
         // Draw "Time remaining" text
         Minecraft minecraft = Minecraft.getInstance();
@@ -60,10 +66,10 @@ public class PVPStateOverlay{
         textWidth = font.width(pvpstate);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
         textY += font.lineHeight + 8; // add some space between the two lines of text
-        font.draw(poseStack, pvpstate, textX, textY, 0xFFFFFFFF);
+        GuiComponent.drawString(poseStack, font, pvpstate, textX, textY, 0xFFFFFFFF);
 
         // Draw "OFF/ON/HARDCORE" text
-        String statePVP = "HARDCORE"; // replace with your logic to get the remaining time
+        String statePVP = "ULTRA"; // replace with your logic to get the remaining time
         textWidth = font.width(statePVP);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
         textY += font.lineHeight + 2; // add some space between the two lines of text
@@ -73,8 +79,9 @@ public class PVPStateOverlay{
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        GuiComponent.blit(poseStack, x + logoxoffset, y + logoyoffset, 0, 0, 25, 25,
-                25, 25);
+        GuiComponent.blit(poseStack, x + logoxoffset, y + logoyoffset, 0, 0, 25, 25, 25, 25);
+
+        poseStack.popPose();
 
     });
 }

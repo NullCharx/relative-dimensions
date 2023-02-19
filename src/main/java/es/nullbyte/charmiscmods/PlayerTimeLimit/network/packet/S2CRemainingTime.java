@@ -43,7 +43,7 @@ public class S2CRemainingTime {
             LocalTime remainingTime = LocalTime.ofSecondOfDay(remainingTimeSeconds);
             String formattedRemainingTime = remainingTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-            client.player.sendSystemMessage(Component.literal(String.format("Remaining time: " + formattedRemainingTime)));
+            //client.player.sendSystemMessage(Component.literal(String.format("Remaining time: " + formattedRemainingTime)));
 
         });
         ctx.get().setPacketHandled(true);
