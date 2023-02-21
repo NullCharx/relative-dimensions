@@ -34,7 +34,8 @@ import static es.nullbyte.charmiscmods.init.ItemInit.*;
 @Mod(CharMiscModsMain.MOD_ID)
 @Mod.EventBusSubscriber(modid = CharMiscModsMain.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CharMiscModsMain {
-    // Define mod id in a common place for everything to reference
+    // Define mod id in a common place for everything to reference.
+    //TEst forGUI mac.
     public static final String MOD_ID = "chrmscmds";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
