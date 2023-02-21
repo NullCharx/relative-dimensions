@@ -21,30 +21,24 @@ public class PVPStateOverlay{
     //if you need custom textures they should be placed unde resources/assets/yourmodid/textures/gui (gui interchangable with other folders)
     //https://www.youtube.com/watch?v=J3a7JT0rxTM
     //Refer to ClientEvents.java for the gui registration
+    private static final int logoxoffset = 145;
+    private static final int logoyoffset = -225;
+    private static final int rextanglexstart= -35;
+    private static final int rextangleystart = 13;
+    private static final int rextanglexend= 60;
+    private static final int rextangleyend = 70;
+    private static final int textxoffset = 12;
+    private static final int textyoffset = 20;
+
     private static final ResourceLocation TEXTURE = new ResourceLocation(MOD_ID, "textures/mainvisor/fhcmclogo.png");
     public static final IGuiOverlay HUD_MAINOVERLAY = ((gui, poseStack, partialTick, width, height) -> {
         int x = width / 2;
         int y = height;
-        int logoxoffset = 145;
-        int logoyoffset = -225;
-        int rextanglexstart= -35;
-        int rextangleystart = 13;
-        int rextanglexend= 60;
-        int rextangleyend = 70;
-        int textxoffset = 12;
-        int textyoffset = 20;
-
-        final double scaled = (1.f / gui.getMinecraft().getWindow().getGuiScale()) * 3;
-        final float scale = (float) scaled;
 
         PlayerTimeTracker trckr = PlayerTimeManager.getTracker(gui.getMinecraft().player.getUUID());
         LocalTime remainingTimeLT = LocalTime.ofSecondOfDay(PlayerTimeManager.getDailyTimeLimit() - trckr.getSecsPlayed());
         //Push the matrix to the stack, so that the scale and translation don't affect other elements
         //At the end, pop the matrix from the stack so that subsequent renders aren't affected!
-        poseStack.pushPose();
-        poseStack.scale(scale, scale, scale);
-        poseStack.translate(175F, 75F, 0F);
-        poseStack.popPose();
 
         // Draw semi-transparent grey rectangle
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
