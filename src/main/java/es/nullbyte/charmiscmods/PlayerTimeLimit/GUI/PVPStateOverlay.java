@@ -45,7 +45,6 @@ public class PVPStateOverlay{
         poseStack.scale(scale, scale, scale);
         poseStack.translate(175F, 75F, 0F);
         poseStack.popPose();
-        poseStack.pushPose();
 
         // Draw semi-transparent grey rectangle
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
@@ -74,12 +73,13 @@ public class PVPStateOverlay{
         String pvpstate = "PVP:"; // replace with your logic to get the remaining time
         textWidth = font.width(pvpstate);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
-        textY += font.lineHeight + 2; // add some space between the two lines of text
+        textY += font.lineHeight + 8; // add some space between the two lines of text
         GuiComponent.drawString(poseStack, font, pvpstate, textX, textY, 0xFFFFFFFF);
 
         // Draw "OFF/ON/HARDCORE" text
         String statePVP = "ULTRA"; // replace with your logic to get the remaining time
         textWidth = font.width(statePVP);
+        textX = x + logoxoffset + textxoffset - textWidth / 2;
         textY += font.lineHeight + 2; // add some space between the two lines of text
         GuiComponent.drawString(poseStack, font, statePVP, textX, textY, 0xFFFFFFFF);
 
@@ -89,7 +89,6 @@ public class PVPStateOverlay{
         RenderSystem.setShaderTexture(0, TEXTURE);
         GuiComponent.blit(poseStack, x + logoxoffset, y + logoyoffset, 0, 0, 25, 25, 25, 25);
 
-        poseStack.popPose();
 
     });
 }
