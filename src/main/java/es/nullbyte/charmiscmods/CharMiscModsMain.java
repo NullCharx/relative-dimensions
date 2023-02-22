@@ -1,5 +1,6 @@
 package es.nullbyte.charmiscmods;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.PVPStateOverlay;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
@@ -9,6 +10,7 @@ import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.init.*;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -110,7 +112,9 @@ public class CharMiscModsMain {
 
     //register buildcontents event to the event bus
 
-
+    public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
+        //REGISTER THE COMMANDS HERE!
+    }
 
 }
     /*
