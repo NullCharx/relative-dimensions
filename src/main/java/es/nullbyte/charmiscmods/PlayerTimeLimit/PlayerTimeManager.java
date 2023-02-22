@@ -7,6 +7,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -24,6 +26,7 @@ import java.util.*;
 /**
  * Manages the playtime of multiple players
  */
+//@OnlyIn(Dist.DEDICATED_SERVER)TODO?
 public class PlayerTimeManager {
     private static final Map<UUID, PlayerTimeTracker> playerMap = new HashMap<>();//Hashmap of individual player trackers
     private static long dailyTimeLimit; // The daily time limit in seconds

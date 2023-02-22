@@ -84,12 +84,23 @@ public class PVPStateOverlay{
         GuiComponent.drawString(poseStack, font, pvpstate, textX, textY, 0xFFFFFFFF);
 
         // Draw "OFF/ON/HARDCORE" text TODO change colors depending on pvp state
-        String statePVP = "ULTRA"; // replace with your logic to get the remaining time
+        int intstate = LocalState.PVPstate;
+        String statePVP = ""; // replace with your logic to get the remaining time
+        int color = 0;
+        if (intstate ==-1) {
+            statePVP = "OFF";
+            color = 0x00AA00FF;
+        } else if (intstate == 0){
+            statePVP = "ON";
+            color = 0xAA0000FF;
+        } else {
+            statePVP = "ULTRA";
+            color = 0xAA00AAFF;
+        }
         textWidth = font.width(statePVP);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
         textY += font.lineHeight + 2; // add some space between the two lines of text
-        font.draw(poseStack, statePVP, textX, textY, 0xFFFFFFFF);
-
+        font.draw(poseStack, statePVP, textX, textY, color);
     });
 
     public static final IGuiOverlay HUD_LOGO = ((gui, poseStack, partialTick, width, height) -> {
