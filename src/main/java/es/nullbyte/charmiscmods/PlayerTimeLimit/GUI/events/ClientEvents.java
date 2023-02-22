@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.events;
+package es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.events;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.PVPStateOverlay;

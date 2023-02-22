@@ -12,7 +12,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
-import static es.nullbyte.charmiscmods.PlayerTimeLimit.LocalState.localtimers;
+import static es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.LocalState.localtimers;
 
 public class PVPStateOverlay{
     //if you need custom textures they should be placed unde resources/assets/yourmodid/textures/gui (gui interchangable with other folders)

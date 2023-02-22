@@ -1,6 +1,6 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet;
 
-import es.nullbyte.charmiscmods.PlayerTimeLimit.LocalState;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.LocalState;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeTracker;
 import net.minecraft.client.Minecraft;

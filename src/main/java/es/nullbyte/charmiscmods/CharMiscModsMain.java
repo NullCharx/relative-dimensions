@@ -69,7 +69,7 @@ public class CharMiscModsMain {
         //Registrar eventos encolados, includos los paquetes de red
         event.enqueueWork(() -> {
             RemainingTimeHandler.register();
-            //PVPStateHandler.register();
+            PVPStateHandler.register();
             //ModMessages.register();
         });
         // Some common setup code
