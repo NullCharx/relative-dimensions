@@ -4,17 +4,16 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 
+import java.util.UUID;
+
 public class modTimercmd {
 
-    private static final SimpleCommandExceptionType ERROR_LEVEL_NOT_VALID = new SimpleCommandExceptionType(Component.translatable("Nivel PVP no valido. EL rango es de -1 (no pvp) a 1 (ULTRA)"));
-    private static final SimpleCommandExceptionType ERROR_HIGHEST_LEVEL = new SimpleCommandExceptionType(Component.translatable("El nivel PVP no puede aumentar más"));
-    private static final SimpleCommandExceptionType ERROR_LOWEST_LEVEL = new SimpleCommandExceptionType(Component.translatable("El nivel PVP no puede disminuir más"));
-
+    private static final SimpleCommandExceptionType ERROR_USER_NOT_FOUND = new SimpleCommandExceptionType(Component.translatable("Jugador no encontrado"));
     private static final int permissionLevel = 2;
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -26,47 +25,63 @@ public class modTimercmd {
                     .then(Commands.literal("player").executes((timeadd) -> {//chpvp increase
                         String secstoadd = StringArgumentType.getString(timeadd, "time");
                         String playername = StringArgumentType.getString(timeadd, "player");
-                        return addtime(timeadd.getSource(),secstoadd,playername);
-                    }
-                )))).then(Commands.literal("decrease").executes((pvpminus) -> { //chpvp decrease
-                })).then(Commands.literal("refresh").executes((refreshcoll) -> { //chpvp refresh
-                    return collisionSatateRefresh(refreshcoll.getSource());
-                })));
+                        return addTime(timeadd.getSource(),secstoadd,playername);
+                    })
+                ))).then(Commands.literal("remove").then(Commands.argument("time", StringArgumentType.string())
+                    .then(Commands.literal("player").executes((timeremove) -> {//chpvp increase
+                        String secstoadd = StringArgumentType.getString(timeremove, "time");
+                        String playername = StringArgumentType.getString(timeremove, "player");
+                        return substractTime(timeremove.getSource(),secstoadd,playername);
+                })))).then(Commands.literal("set").then(Commands.argument("time", StringArgumentType.string())
+                    .then(Commands.literal("player").executes((timeset) -> {//chpvp increase
+                        String secstoadd = StringArgumentType.getString(timeset, "time");
+                        String playername = StringArgumentType.getString(timeset, "player");
+                        return setTime(timeset.getSource(),secstoadd,playername);
+                })))).then(Commands.literal("show").then(Commands.argument("player", StringArgumentType.string())
+                    .executes((timeshow) -> {//chpvp increase
+                        String playername = StringArgumentType.getString(timeshow, "player");
+                        return showTime(timeshow.getSource(),playername);
+                }))));
     };
-    private static int addtime(CommandSourceStack source, String seconds,String playername) throws CommandSyntaxException {
-        int level = Integer.parseInt(seconds);
-
-        if (level< -1 || level>1) {
-            throw ERROR_LEVEL_NOT_VALID.create();
-        }  else {
-            PvpManager.setPVPstate(level, source.getLevel() );
+    private static int addTime(CommandSourceStack source, String seconds, String playername) throws CommandSyntaxException {
+        int secondstoadd = Integer.parseInt(seconds);
+        UUID uuid = PlayerTimeManager.playerUUIDbyName(playername, source.getLevel());
+        if (uuid == null) {
+            throw ERROR_USER_NOT_FOUND.create();
         }
+        PlayerTimeManager.getTracker(uuid).addTimePlayed(secondstoadd);
         return 0;
     }
 
-    private static int addPVP(CommandSourceStack source) throws CommandSyntaxException {
-        if(PvpManager.isPVPultra()){
-            throw ERROR_HIGHEST_LEVEL.create();
+    private static int substractTime(CommandSourceStack source, String seconds,String playername) throws CommandSyntaxException {
+        int secondstoadd = Integer.parseInt(seconds);
+        UUID uuid = PlayerTimeManager.playerUUIDbyName(playername, source.getLevel());
+        if (uuid == null) {
+            throw ERROR_USER_NOT_FOUND.create();
         }
-        PvpManager.increasePVPstate(source.getLevel());
+        PlayerTimeManager.getTracker(uuid).removeTimePlayed(secondstoadd);
         return 0;
     }
 
-    private static int minusPVP(CommandSourceStack source) throws CommandSyntaxException {
-        if(PvpManager.isPVPoff()){
-            throw ERROR_LOWEST_LEVEL.create();
+    private static int setTime(CommandSourceStack source, String seconds,String playername) throws CommandSyntaxException {
+        int secondstoadd = Integer.parseInt(seconds);
+        UUID uuid = PlayerTimeManager.playerUUIDbyName(playername, source.getLevel());
+        if (uuid == null) {
+            throw ERROR_USER_NOT_FOUND.create();
         }
-        PvpManager.decreasePVPstate(source.getLevel());
+        PlayerTimeManager.getTracker(uuid).setTimePlayed(secondstoadd);
         return 0;
     }
 
-    private static int collisionSatateRefresh(CommandSourceStack source) throws CommandSyntaxException {
-        if (PvpManager.isPVPoff()) {
-            PvpManager.disableGlobalDamage(source.getLevel());
-        } else {
-            PvpManager.enableGlobalDamage(source.getLevel());
+    private static int showTime(CommandSourceStack source, String playername) throws CommandSyntaxException {
+        UUID uuid = PlayerTimeManager.playerUUIDbyName(playername, source.getLevel());
+        if (uuid == null) {
+            throw ERROR_USER_NOT_FOUND.create();
         }
+        PlayerTimeManager.getTracker(uuid).getSecsPlayed();
         return 0;
     }
+
+    //Toggle and show state of countdown
 
 }

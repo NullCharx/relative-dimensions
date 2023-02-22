@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -180,6 +181,17 @@ public class PlayerTimeManager {
             return true;
         }
         return false;
+    }
+
+    public static UUID playerUUIDbyName (String name,  Level level){
+        for (UUID uuid : playerMap.keySet()){
+            for (Player p : level.players()) {
+                if (p.getName().getString().equals(name)) {
+                    return uuid;
+                }
+            }
+        }
+        return null;
     }
 
     @SubscribeEvent
