@@ -63,11 +63,24 @@ public class PVPStateOverlay{
         Font font = Minecraft.getInstance().font;
 
         // Draw "HH:MM:SS" text TODO change colors depending on time remaining
-        String remainingTime = LocalTime.ofSecondOfDay(localtimers.get(Minecraft.getInstance().player.getUUID())).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        long timer = localtimers.get(Minecraft.getInstance().player.getUUID());
+        String remainingTime = LocalTime.ofSecondOfDay(timer).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        int color = 0;
+        if (timer >= 3600){
+            color = 0xFFFFFFFF; //Blanco
+        } else if (timer >= 1800){
+            color = 0xFFFAFF83; //Amarillo muy claro
+        }else if (timer >= 900){
+            color = 0xFFF9D71C; //Amarillo
+        }else if (timer >= 300){
+            color = 0xFFFFFF00; //Naranha
+        } else if (timer >= 60){
+            color = 0xFFFF0000; //Red
+        }
         int textWidth = font.width(remainingTime);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
         textY += font.lineHeight + 2; // add some space between the two lines of text
-        font.draw(poseStack, remainingTime, textX, textY, 0xFFFFFFFF);
+        font.draw(poseStack, remainingTime, textX, textY, color);
 
 
     });

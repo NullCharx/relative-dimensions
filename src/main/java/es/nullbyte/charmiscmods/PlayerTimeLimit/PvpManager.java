@@ -49,7 +49,7 @@ public class PvpManager {
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onServerTick);
     }
     public static void setPVPstate(int state, Level level) {
-        if(state >= -1 && state <= 1 && PVPstate!=state) { //If the state is valid and it's not the same as the current state:
+        if(state >= -1 && state <= 1) { //If the state is valid and it's not the same as the current state:
             if (isPVPultra()){ //If PVP is ultra, it means it can only decrease so:
                 enableNaturalRegen(level); //enable natural regen (normal and non-PVP)
                 if(state == -1){ //Check if the target state is PVP off and if it is:
@@ -74,23 +74,23 @@ public class PvpManager {
 
     public static void increasePVPstate(Level level){
         if (PVPstate != 1){ //If the PVP state is not ULTRA PVP, it can increase
-            if(isPVPoff()) { //if its currently off, it means it goes to PVP on:
+            PVPstate++; //Increase the PVP state
+            if(isPVPon()) { //if its currently off, it means it goes to PVP on:
                 enableGlobalDamage(level); //enable global damage
-            } else if (isPVPon()){ //if its currently on, it means it goes to ULTRA PVP:
+            } else if (isPVPultra()){ //if its currently on, it means it goes to ULTRA PVP:
                 disableNaturalRegen(level); //Disable natural regen (ULTA PVP)
             }
-            PVPstate++; //Increase the PVP state
         }
     }
 
     public static void decreasePVPstate(Level level) {
         if (PVPstate != -1){
-            if(isPVPultra()) { //if its currently ultra, it means it goes to PVP on:
-                enableNaturalRegen(level); //enable natural regen
-            } else if (isPVPon()){ //if its currently on, it means it goes to  PVP off:
-                disableNaturalRegen(level); //Disable global damage
-            }
             PVPstate--; //Decrease the PVP state
+            if(isPVPon()) { //if its currently ultra, it means it goes to PVP on:
+                enableNaturalRegen(level); //enable natural regen
+            } else if (isPVPoff()){ //if its currently on, it means it goes to  PVP off:
+                disableGlobalDamage(level); //Disable global damage
+            }
         }
     }
 
@@ -127,7 +127,7 @@ public class PvpManager {
         PlayerTeam team = scoreboard.getPlayerTeam(PVPOFFTEAMNAME); //Check if the team already exists
         if (team == null) { //If it doesnt, add it with the CollisionRule set to NEVER
             team = scoreboard.addPlayerTeam(PVPOFFTEAMNAME);
-            team.setCollisionRule(Team.CollisionRule.NEVER);
+            team.setAllowFriendlyFire(false);
         }
         return team; //Return the no collision team
     }
