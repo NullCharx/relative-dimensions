@@ -1,12 +1,12 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
-public class pvpmanager {
+public class PvpManager {
     private static int PVPstate; //-1 PVP off, 0 PVP on, 1 ULTRA
 
-    public pvpmanager() {
+    public PvpManager() {
         PVPstate = -1;
     }
-    public pvpmanager(int initialState) {
+    public PvpManager(int initialState) {
         if (initialState >= -1 && initialState <= 1){
             PVPstate = initialState;
         } else {

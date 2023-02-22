@@ -1,7 +1,6 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit.network;
 
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPTime;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -27,10 +26,10 @@ public class PVPStateHandler {
                 .simpleChannel();
         INSTANCE = net;
 
-        net.messageBuilder(S2CPVPTime.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(S2CPVPTime::toBytes)
-                .decoder(S2CPVPTime::new)
-                .consumerMainThread(S2CPVPTime::handle)
+        net.messageBuilder(S2CPVPState.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(S2CPVPState::toBytes)
+                .decoder(S2CPVPState::new)
+                .consumerMainThread(S2CPVPState::handle)
                 .add();
     }
 

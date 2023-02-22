@@ -6,19 +6,19 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class S2CPVPTime {
+public class S2CPVPState {
 
     int PVPstate;
 
-    public S2CPVPTime() {
+    public S2CPVPState() {
 
     }
 
-    public S2CPVPTime(int remainingTime) {
+    public S2CPVPState(int remainingTime) {
         this.PVPstate = remainingTime;
     }
 
-    public S2CPVPTime(FriendlyByteBuf buf) {
+    public S2CPVPState(FriendlyByteBuf buf) {
         PVPstate = buf.readInt();
     }
 
