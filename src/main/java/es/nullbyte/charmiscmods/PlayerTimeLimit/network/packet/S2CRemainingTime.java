@@ -1,17 +1,12 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet;
 
+import es.nullbyte.charmiscmods.PlayerTimeLimit.LocalState;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.function.Supplier;
 
 public class S2CRemainingTime {
@@ -34,12 +29,11 @@ public class S2CRemainingTime {
         ctx.get().enqueueWork(() -> {
             //Get the reciever of the packet (player)
             Minecraft client = Minecraft.getInstance();
-            assert client.player != null;
-            Long timeLimit = PlayerTimeManager.getDailyTimeLimit();
+            long timeLimit = PlayerTimeManager.getDailyTimeLimit();
             long remainingTimeSeconds = timeLimit - remainingTime;
             //Get the playerTimeTracker
             PlayerTimeTracker trck = PlayerTimeManager.getTracker(client.player.getUUID());
-            trck.setTimePlayed(remainingTime);
+            LocalState.localtimers.put(client.player.getUUID(), remainingTimeSeconds);
 
 
         });

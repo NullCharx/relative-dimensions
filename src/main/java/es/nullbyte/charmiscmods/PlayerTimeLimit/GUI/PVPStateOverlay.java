@@ -1,21 +1,18 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit.GUI;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
-import java.awt.font.FontRenderContext;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
+import static es.nullbyte.charmiscmods.PlayerTimeLimit.LocalState.localtimers;
 
 public class PVPStateOverlay{
     //if you need custom textures they should be placed unde resources/assets/yourmodid/textures/gui (gui interchangable with other folders)
@@ -29,7 +26,6 @@ public class PVPStateOverlay{
     private static final int rextangleyend = 70;
     private static final int textxoffset = 12;
     private static final int textyoffset = 20;
-    private static final Font font = Minecraft.getInstance().font;
 
     private static int textX = 12;
     private static  int textY = 20;
@@ -51,7 +47,7 @@ public class PVPStateOverlay{
     public static final IGuiOverlay HUD_TEXTTIME = ((gui, poseStack, partialTick, width, height) -> {
         int x = width / 2;
         int y = height;
-
+        Font font = Minecraft.getInstance().font;
         String timeRemaining = "Tiempo restante:";
         int textWidth = font.width(timeRemaining);
         textX = (x + logoxoffset + textxoffset - textWidth / 2);
@@ -64,10 +60,10 @@ public class PVPStateOverlay{
 
     public static final IGuiOverlay HUD_TEXTTIMECOUNT = ((gui, poseStack, partialTick, width, height) -> {
         int x = width / 2;
-
+        Font font = Minecraft.getInstance().font;
 
         // Draw "HH:MM:SS" text
-        String remainingTime = LocalTime.ofSecondOfDay(PlayerTimeManager.getDailyTimeLimit() - PlayerTimeManager.getTracker(gui.getMinecraft().player.getUUID()).getSecsPlayed()).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String remainingTime = LocalTime.ofSecondOfDay(localtimers.get(Minecraft.getInstance().player.getUUID())).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         int textWidth = font.width(remainingTime);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
         textY += font.lineHeight + 2; // add some space between the two lines of text
@@ -78,7 +74,7 @@ public class PVPStateOverlay{
 
     public static final IGuiOverlay HUD_TEXTSTATE = ((gui, poseStack, partialTick, width, height) -> {
         int x = width / 2;
-
+        Font font = Minecraft.getInstance().font;
 
         // Draw PVP State text
         String pvpstate = "PVP:"; // replace with your logic to get the remaining time

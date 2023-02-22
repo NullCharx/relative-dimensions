@@ -298,7 +298,6 @@ public class PlayerTimeManager {
                     RemainingTimeHandler.sendToPlayer(new S2CRemainingTime(updatedTime), (ServerPlayer) p);
                     if(checkForTimeout(p.getUUID())) {
                         LOGGER.info(p.getName() + "Has been timed out");
-                        p.getServer().getPlayerList().getBans().add(new UserBanListEntry(p.getGameProfile()));
                         p.getServer().getPlayerList().getBans().add(new UserBanListEntry(p.getGameProfile(), null, "TIMEOUT_LOOP_CHECK", null, "Tiempo diario agotado! Vuelve mañana"));
                         ServerPlayer serverplayer = (ServerPlayer) p;
                         serverplayer.connection.disconnect(Component.translatable("Tu tiempo de juego diario ha sido excedido. Vuelve mañana!"));

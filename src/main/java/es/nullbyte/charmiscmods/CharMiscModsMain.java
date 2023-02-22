@@ -1,12 +1,14 @@
 package es.nullbyte.charmiscmods;
 
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.PVPStateOverlay;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.ModMessages;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.init.*;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -39,6 +41,8 @@ public class CharMiscModsMain {
     public static final int RESETTIME = 06; //6am 35 minutes
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(TIMELIMIT,RESETTIME);
 
+    private final PVPStateOverlay pvpStateOverlay = new PVPStateOverlay();
+
 
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
@@ -54,6 +58,9 @@ public class CharMiscModsMain {
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+
+        MinecraftForge.EVENT_BUS.register(this.pvpStateOverlay);
+
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
