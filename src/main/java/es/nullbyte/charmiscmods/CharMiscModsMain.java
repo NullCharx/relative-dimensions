@@ -43,7 +43,7 @@ public class CharMiscModsMain {
     public static final int TIMELIMIT = 4*60*60; //4 hours
     public static final int RESETTIME = 06; //6am 35 minutes
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(TIMELIMIT,RESETTIME);
-
+    //TODO reister global pvp state
     private final PVPStateOverlay pvpStateOverlay = new PVPStateOverlay();
 
 
