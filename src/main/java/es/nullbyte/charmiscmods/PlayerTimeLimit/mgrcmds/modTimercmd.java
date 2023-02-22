@@ -9,6 +9,8 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class modTimercmd {
@@ -22,26 +24,31 @@ public class modTimercmd {
         dispatcher.register(Commands.literal("chtime").requires((permission) -> { //Check OP or server agent permission
                     return permission.hasPermission(permissionLevel);
                 }).then(Commands.literal("add").then(Commands.argument("time", StringArgumentType.string())
-                    .then(Commands.literal("player").executes((timeadd) -> {//chpvp increase
+                    .then(Commands.literal("player")).executes((timeadd) -> {//chpvp increase
                         String secstoadd = StringArgumentType.getString(timeadd, "time");
                         String playername = StringArgumentType.getString(timeadd, "player");
                         return addTime(timeadd.getSource(),secstoadd,playername);
                     })
-                ))).then(Commands.literal("remove").then(Commands.argument("time", StringArgumentType.string())
-                    .then(Commands.literal("player").executes((timeremove) -> {//chpvp increase
+                )).then(Commands.literal("remove").then(Commands.argument("time", StringArgumentType.string())
+                    .then(Commands.literal("player")).executes((timeremove) -> {//chpvp increase
                         String secstoadd = StringArgumentType.getString(timeremove, "time");
                         String playername = StringArgumentType.getString(timeremove, "player");
                         return substractTime(timeremove.getSource(),secstoadd,playername);
-                })))).then(Commands.literal("set").then(Commands.argument("time", StringArgumentType.string())
-                    .then(Commands.literal("player").executes((timeset) -> {//chpvp increase
+                }))).then(Commands.literal("set").then(Commands.argument("time", StringArgumentType.string())
+                    .then(Commands.literal("player")).executes((timeset) -> {//chpvp increase
                         String secstoadd = StringArgumentType.getString(timeset, "time");
                         String playername = StringArgumentType.getString(timeset, "player");
                         return setTime(timeset.getSource(),secstoadd,playername);
-                })))).then(Commands.literal("show").then(Commands.argument("player", StringArgumentType.string())
+                }))).then(Commands.literal("show").then(Commands.argument("player", StringArgumentType.string())
                     .executes((timeshow) -> {//chpvp increase
                         String playername = StringArgumentType.getString(timeshow, "player");
                         return showTime(timeshow.getSource(),playername);
-                }))));
+                }))).then(Commands.literal("isenabled") .executes((showstate) -> {
+                    return timerState(showstate.getSource());
+                })).then(Commands.literal("toggleTimer") .executes((togglestate) -> {
+                    return toggleTimer(togglestate.getSource());
+                }))
+        );
     };
     private static int addTime(CommandSourceStack source, String seconds, String playername) throws CommandSyntaxException {
         int secondstoadd = Integer.parseInt(seconds);
@@ -78,9 +85,30 @@ public class modTimercmd {
         if (uuid == null) {
             throw ERROR_USER_NOT_FOUND.create();
         }
-        PlayerTimeManager.getTracker(uuid).getSecsPlayed();
+        source.sendSystemMessage(Component.literal(String.format("Tiempo jugado hoy de + " + playername + ": "
+                + LocalTime.ofSecondOfDay(PlayerTimeManager.getTracker(uuid).getSecsPlayed()).format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
         return 0;
     }
+    private static int timerState(CommandSourceStack source) throws CommandSyntaxException {
+        if(PlayerTimeManager.isTimerEnabled()){
+            source.sendSystemMessage(Component.literal(String.format("The timer is active")));
+        } else {
+            source.sendSystemMessage(Component.literal(String.format("The timer is inactive")));
+        }
+        return 0;
+    }
+
+    private static int toggleTimer(CommandSourceStack source) throws CommandSyntaxException {
+        PlayerTimeManager.toggleTimer();
+        if(PlayerTimeManager.isTimerEnabled()){
+            source.sendSystemMessage(Component.literal(String.format("The timer is now active")));
+        } else {
+            source.sendSystemMessage(Component.literal(String.format("The timer is now inactive")));
+        }
+        return 0;
+    }
+
+
 
     //Toggle and show state of countdown
 

@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
 
+import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.LocalState;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPState;

@@ -66,7 +66,7 @@ public class PVPStateOverlay{
         long timer = localtimers.get(Minecraft.getInstance().player.getUUID());
         String remainingTime = LocalTime.ofSecondOfDay(timer).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         int color = 0;
-        if (timer >= 3600){
+        if (timer >= 3600 && timer != 86399){
             color = 0xFFFFFFFF; //Blanco
         } else if (timer >= 1800){
             color = 0xFFFAFF83; //Amarillo muy claro
@@ -76,6 +76,8 @@ public class PVPStateOverlay{
             color = 0xFFFFFF00; //Naranha
         } else if (timer >= 60){
             color = 0xFFFF0000; //Red
+        } else {
+            color = 0xFF0B0054;
         }
         int textWidth = font.width(remainingTime);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
@@ -96,7 +98,7 @@ public class PVPStateOverlay{
         textY += font.lineHeight + 8; // add some space between the two lines of text
         GuiComponent.drawString(poseStack, font, pvpstate, textX, textY, 0xFFFFFFFF);
 
-        // Draw "OFF/ON/HARDCORE" text TODO change colors depending on pvp state
+
         int intstate = LocalState.PVPstate;
         String statePVP = ""; // replace with your logic to get the remaining time
         int color = 0;

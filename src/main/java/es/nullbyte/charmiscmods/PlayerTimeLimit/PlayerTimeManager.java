@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.LocalState;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
 import net.minecraft.network.chat.Component;
@@ -32,6 +33,7 @@ public class PlayerTimeManager {
     private static long dailyTimeLimit; // The daily time limit in seconds
     private static LocalDateTime resetTime; // The time of day in which the timers reset
 
+    private static boolean isEnabled;
     private static final Logger LOGGER = LogUtils.getLogger();
 
 
@@ -47,7 +49,7 @@ public class PlayerTimeManager {
         //Resets at resethour:00
         LocalTime  time = LocalTime.of(resetHour, 33);
         resetTime = LocalDateTime.of(LocalDate.now(), time);
-
+        isEnabled = false;
         MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
 
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
@@ -194,20 +196,14 @@ public class PlayerTimeManager {
         return null;
     }
 
-    @SubscribeEvent
-    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
-        UUID playerUUID = player.getUUID();
-        if (!hasPlayer(playerUUID)){
-            addPlayer(playerUUID);
-            playerLogOn(playerUUID);
-            LOGGER.info(player.getName() + "Logged in for the first time and is being added to the list");
-
-        } else {
-            playerLogOn(playerUUID);
-            LOGGER.info(player.getName() + "logged in but has already been added to the list. Changing to online");
-        }
+    public static boolean isTimerEnabled() {
+        return isEnabled;
     }
+
+    public static void toggleTimer() {
+        isEnabled = !isEnabled;
+    }
+
 
     public void serializePlayers() {
         // Write player data to file or database
@@ -216,6 +212,25 @@ public class PlayerTimeManager {
     public void deserializePlayers() {
         // Read player data from file or database
     }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        Player player = event.getEntity();
+        UUID playerUUID = player.getUUID();
+        if (!hasPlayer(playerUUID)){
+            addPlayer(playerUUID);
+            playerLogOn(playerUUID);
+            RemainingTimeHandler.sendToPlayer(new S2CRemainingTime((long) 45296), (ServerPlayer) player);
+
+            LOGGER.info(player.getName() + "Logged in for the first time and is being added to the list");
+
+        } else {
+            playerLogOn(playerUUID);
+            LOGGER.info(player.getName() + "logged in but has already been added to the list. Changing to online");
+        }
+
+    }
+
     @SubscribeEvent
     public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
         //TODO Find a way to persistently store player data regarding time played. Probably on a JSON file
@@ -225,34 +240,35 @@ public class PlayerTimeManager {
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
-            if(tickCount % 20 == 0 && tickCount != 0) {
-                //Do player time managing
-                for(Player p : event.getServer().getPlayerList().getPlayers()){
-                    Long updatedTime = updatePlayerTime(p.getUUID());
-                    RemainingTimeHandler.sendToPlayer(new S2CRemainingTime(updatedTime), (ServerPlayer) p);
-                    if(checkForTimeout(p.getUUID())) {
-                        LOGGER.info(p.getName() + "Has been timed out");
-                        p.getServer().getPlayerList().getBans().add(new UserBanListEntry(p.getGameProfile(), null, "TIMEOUT_LOOP_CHECK", null, "Tiempo diario agotado! Vuelve mañana"));
-                        ServerPlayer serverplayer = (ServerPlayer) p;
-                        serverplayer.connection.disconnect(Component.translatable("Tu tiempo de juego diario ha sido excedido. Vuelve mañana!"));
-                    }
-                }
-                if(isResetTime()){ //Se ha alcanzado la hora de reseteo y se procede a resetear
-                    LOGGER.info("Is ban reset time");
-                    resetAllTime();
-                    for (UserBanListEntry p : event.getServer().getPlayerList().getBans().getEntries()) { //Iterar por
-                        LOGGER.info(p.getDisplayName() + " ");
-
-                        // todos los jugadores baneados y desbanear aquellas que no estén baneados por muerte
-                        if(p.getSource().equals("TIMEOUT_LOOP_CHECK")){
-                            event.getServer().getPlayerList().getBans().remove(p);
+            if (isEnabled) { //Count if the timer is enabled
+                if (tickCount % 20 == 0 && tickCount != 0) {
+                    //Do player time managing
+                    for (Player p : event.getServer().getPlayerList().getPlayers()) {
+                        Long updatedTime = updatePlayerTime(p.getUUID());
+                        RemainingTimeHandler.sendToPlayer(new S2CRemainingTime(updatedTime), (ServerPlayer) p);
+                        if (checkForTimeout(p.getUUID())) {
+                            LOGGER.info(p.getName() + "Has been timed out");
+                            p.getServer().getPlayerList().getBans().add(new UserBanListEntry(p.getGameProfile(), null, "TIMEOUT_LOOP_CHECK", null, "Tiempo diario agotado! Vuelve mañana"));
+                            ServerPlayer serverplayer = (ServerPlayer) p;
+                            serverplayer.connection.disconnect(Component.translatable("Tu tiempo de juego diario ha sido excedido. Vuelve mañana!"));
                         }
                     }
-                }
-                tickCount = 0;
-            } else {
+                    if (isResetTime()) { //Se ha alcanzado la hora de reseteo y se procede a resetear
+                        LOGGER.info("Is ban reset time");
+                        resetAllTime();
+                        for (UserBanListEntry p : event.getServer().getPlayerList().getBans().getEntries()) { //Iterar por
+                            LOGGER.info(p.getDisplayName() + " ");
 
-                tickCount++;
+                            // todos los jugadores baneados y desbanear aquellas que no estén baneados por muerte
+                            if (p.getSource().equals("TIMEOUT_LOOP_CHECK")) {
+                                event.getServer().getPlayerList().getBans().remove(p);
+                            }
+                        }
+                    }
+                    tickCount = 0;
+                } else {
+                    tickCount++;
+                }
             }
         }
     }

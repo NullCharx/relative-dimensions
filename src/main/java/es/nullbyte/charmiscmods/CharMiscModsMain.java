@@ -6,6 +6,7 @@ import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.PVPStateOverlay;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modPVPcmd;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modTimercmd;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.ModMessages;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
@@ -139,6 +140,7 @@ public class CharMiscModsMain {
     public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
         //REGISTER THE COMMANDS HERE!
         modPVPcmd.register(dispatcher);
+        modTimercmd.register(dispatcher);
     }
 
 }
