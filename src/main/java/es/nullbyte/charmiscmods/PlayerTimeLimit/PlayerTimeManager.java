@@ -23,7 +23,6 @@ import java.util.*;
 
 /**
  * Manages the playtime of multiple players
- * Support for network and GUI integration started
  */
 public class PlayerTimeManager {
     private static final Map<UUID, PlayerTimeTracker> playerMap = new HashMap<>();//Hashmap of individual player trackers
@@ -284,7 +283,7 @@ public class PlayerTimeManager {
 
     @SubscribeEvent
     public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        //Find a way to persistently store player data regarding time played. Probably on a JSON file
+        //TODO Find a way to persistently store player data regarding time played. Probably on a JSON file
     }
 
     private static int tickCount = 0;

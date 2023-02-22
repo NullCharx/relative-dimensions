@@ -4,7 +4,6 @@ import java.util.UUID;
 
 /**
  * Track the time played by a player. THe identifying UUID is in the PlayerTimeManer hashmap of players
- *
  */
 public class PlayerTimeTracker {
 
