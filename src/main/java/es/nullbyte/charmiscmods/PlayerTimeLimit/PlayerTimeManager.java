@@ -70,6 +70,32 @@ public class PlayerTimeManager {
     }
 
     /*
+    * Sets an specified amount of time for a player
+     */
+    public int setPlayerTime (UUID playerUUID, long secs) {
+        if(playerMap.get(playerUUID) != null){
+            playerMap.get(playerUUID).setTimePlayed(secs);
+            return 0;
+        }
+        return 1;
+    }
+
+    public int addPlayerTime (UUID playerUUID, long secs) {
+        if(playerMap.get(playerUUID) != null){
+            playerMap.get(playerUUID).addTimePlayed(secs);
+            return 0;
+        }
+        return 1;
+    }
+
+    public int substractPlayerTime (UUID playerUUID, long secs) {
+        if(playerMap.get(playerUUID) != null){
+            playerMap.get(playerUUID).removeTimePlayed(secs);
+            return 0;
+        }
+        return 1;
+    }
+    /*
     Removes a player from  the tracking system given their Minecraft UUID
    */
     public void removePlayer(UUID playerUUID) {
@@ -104,52 +130,6 @@ public class PlayerTimeManager {
         throw new IllegalArgumentException("No player found under specified UUID");
     }
 
-    /*
-    Adds or susbtracts the specified seconds to a player tracker (unnecessary if the individual player tracker is already available)
-    */
-    public void updatePlayerTime(UUID playerUUID, int seconds) {
-        PlayerTimeTracker player = getTracker(playerUUID);
-        if (player != null && !player.isCurrentlyTimeOut()) {
-            if (seconds > 0) {
-                player.addTimePlayed(seconds);
-                if (player.getSecsPlayed() >= dailyTimeLimit) {
-                    player.setTimeoutState(true);
-                }
-            } else {
-                player.removeTimePlayed(Math.abs(seconds));
-                if (player.getSecsPlayed() >= dailyTimeLimit) {
-                    player.setTimeoutState(true);
-                }
-
-            }
-
-        }
-    }
-
-    /*
-    Check if the specified player has spent all their daily time already
-    */
-    public boolean isOnTimeout (UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null ) {
-            return playerTimeTracker.isCurrentlyTimeOut();
-        }
-
-        throw new IllegalArgumentException("No player found under specified UUID");
-    }
-
-    /*
-    Resets time of a player (un-timeouts them and reset the playtime to 0)
-    Banned players must be unbanned outside this class
-    */
-    public void resetPlayerTime (UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null ) {
-            playerTimeTracker.resetTimePlayed();
-            playerTimeTracker.setTimeoutState(false);
-        }
-
-    }
 
     /*
      Resets time of all tracked players (un-timeouts them and reset the playtime to 0)
@@ -175,37 +155,7 @@ public class PlayerTimeManager {
         }
     }
 
-    /*
-     Gets the last login time of a player. Works in conjuction with isPlayerOnline.
-     */
-    public long getPlayerLogon(UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-            return playerTimeTracker.getLastLoginEpoch();
-        }
-        throw new IllegalArgumentException("No player found under specified UUID");
-    }
 
-    /*
-     Internally timesout a player. The player must be banned from the minecraft server outside this class
-     */
-    public void timeOutPlayer (UUID playerUUID){
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-            playerTimeTracker.setTimeoutState(true);
-        }
-    }
-
-    /*
-     gets the current playtime in seconds of a plauyer
-     */
-    public long getPlayerTime (UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-            return playerTimeTracker.getSecsPlayed();
-        }
-        throw new IllegalArgumentException("No player found under specified UUID");
-    }
 
     /*
      Checks if the specified player should be timeouted.
@@ -218,27 +168,6 @@ public class PlayerTimeManager {
         throw new IllegalArgumentException("No player found under specified UUID");
     }
 
-    /*
-     Check if the specified player is online
-     */
-    public boolean isPlayerOnline(UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-            return playerTimeTracker.getPlayerOnlineState();
-        }
-        throw new IllegalArgumentException("No player found under specified UUID");
-    }
-
-    /*
-     Internally swaps the player online state
-     */
-    public void setPlayerOnlineState(UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-            playerTimeTracker.setPlayerOnlineState();
-        }
-        throw new IllegalArgumentException("No player found under specified UUID");
-    }
 
     /*
      Check if it is the reset time (between XX:00 and XX:03)
@@ -251,21 +180,6 @@ public class PlayerTimeManager {
             return true;
         }
         return false;
-    }
-
-    /*
-     Returns a list of the UUIDS of all tracked players.
-     */
-    public List<UUID> getAllPlayers() {
-        return new ArrayList<>(playerMap.keySet());
-    }
-
-    public void serializePlayers() {
-        // Write player data to file or database
-    }
-
-    public void deserializePlayers() {
-        // Read player data from file or database
     }
 
     @SubscribeEvent
@@ -283,6 +197,13 @@ public class PlayerTimeManager {
         }
     }
 
+    public void serializePlayers() {
+        // Write player data to file or database
+    }
+
+    public void deserializePlayers() {
+        // Read player data from file or database
+    }
     @SubscribeEvent
     public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
         //TODO Find a way to persistently store player data regarding time played. Probably on a JSON file

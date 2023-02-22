@@ -22,20 +22,20 @@ public class modTimercmd {
 
         dispatcher.register(Commands.literal("chtime").requires((permission) -> { //Check OP or server agent permission
                     return permission.hasPermission(permissionLevel);
-                }).then(Commands.literal("add").then(Commands.argument("level", StringArgumentType.string()).executes((pvpset) -> {//chpvp set <pvplevel>
-                    String teamName = StringArgumentType.getString(pvpset, "level");
-                    return setPVP(pvpset.getSource(),teamName);
-                }))).then(Commands.literal("increase").executes((pvpadd) -> {//chpvp increase
-                    return addPVP(pvpadd.getSource());
-                })).then(Commands.literal("decrease").executes((pvpminus) -> { //chpvp decrease
-                    return minusPVP(pvpminus.getSource());
+                }).then(Commands.literal("add").then(Commands.argument("time", StringArgumentType.string())
+                    .then(Commands.literal("player").executes((timeadd) -> {//chpvp increase
+                        String secstoadd = StringArgumentType.getString(timeadd, "time");
+                        String playername = StringArgumentType.getString(timeadd, "player");
+                        return addtime(timeadd.getSource(),secstoadd,playername);
+                    }
+                )))).then(Commands.literal("decrease").executes((pvpminus) -> { //chpvp decrease
                 })).then(Commands.literal("refresh").executes((refreshcoll) -> { //chpvp refresh
                     return collisionSatateRefresh(refreshcoll.getSource());
                 })));
     };
-    private static int setPVP(CommandSourceStack source, String levelStr) throws CommandSyntaxException {
+    private static int addtime(CommandSourceStack source, String seconds,String playername) throws CommandSyntaxException {
+        int level = Integer.parseInt(seconds);
 
-        int level = Integer.parseInt(levelStr);
         if (level< -1 || level>1) {
             throw ERROR_LEVEL_NOT_VALID.create();
         }  else {
