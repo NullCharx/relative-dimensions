@@ -7,10 +7,8 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.scores.PlayerTeam;
 
-public class pvpmgr {
+public class modPVPcmd {
     private static final int TEAM_NON_EXISTENT = 1;
     private static final int TEAM_ALREADY_EXISTENT = 2;
     private static final int MEMBER_ALREADY_ADDED = 3;
