@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPState;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -23,7 +24,7 @@ public class modPVPcmd {
     private static final SimpleCommandExceptionType ERROR_HIGHEST_LEVEL = new SimpleCommandExceptionType(Component.translatable("El nivel PVP no puede aumentar más"));
     private static final SimpleCommandExceptionType ERROR_LOWEST_LEVEL = new SimpleCommandExceptionType(Component.translatable("El nivel PVP no puede disminuir más"));
 
-    private static final int permissionLevel = 2;
+    private static final int permissionLevel = 1;
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         //all subcommands belows
@@ -39,16 +40,15 @@ public class modPVPcmd {
                     return minusPVP(pvpminus.getSource());
                 })).then(Commands.literal("refresh").executes((refreshcoll) -> { //chpvp refresh
                     return collisionSatateRefresh(refreshcoll.getSource());
-                }))
-        );
+                })));
     };
     private static int setPVP(CommandSourceStack source, String levelStr) throws CommandSyntaxException {
+
         int level = Integer.parseInt(levelStr);
-        if (level<-1 || level>1) {
+        if (level< -1 || level>1) {
             throw ERROR_LEVEL_NOT_VALID.create();
         }  else {
             PvpManager.setPVPstate(level, source.getLevel() );
-            PVPStateHandler.sendToPlayer(new S2CRemainingTime(level), (ServerPlayer) source.getPlayer());
         }
         return 0;
     }
@@ -58,17 +58,14 @@ public class modPVPcmd {
             throw ERROR_HIGHEST_LEVEL.create();
         }
         PvpManager.increasePVPstate(source.getLevel());
-        PVPStateHandler.sendToPlayer(new S2CRemainingTime(PvpManager.getPVPstate()), (ServerPlayer) source.getPlayer());
-
         return 0;
     }
 
     private static int minusPVP(CommandSourceStack source) throws CommandSyntaxException {
-        if(PvpManager.isPVPultra()){
+        if(PvpManager.isPVPoff()){
             throw ERROR_LOWEST_LEVEL.create();
         }
         PvpManager.decreasePVPstate(source.getLevel());
-        PVPStateHandler.sendToPlayer(new S2CRemainingTime(PvpManager.getPVPstate()), (ServerPlayer) source.getPlayer());
         return 0;
     }
 

@@ -89,13 +89,13 @@ public class PVPStateOverlay{
         int color = 0;
         if (intstate ==-1) {
             statePVP = "OFF";
-            color = 0x00AA00FF;
+            color = 0xFF00AA00;
         } else if (intstate == 0){
             statePVP = "ON";
-            color = 0xAA0000FF;
+            color = 0xFFAA0000;
         } else {
             statePVP = "ULTRA";
-            color = 0xAA00AAFF;
+            color = 0xFFAA00AA;
         }
         textWidth = font.width(statePVP);
         textX = x + logoxoffset + textxoffset - textWidth / 2;

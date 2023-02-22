@@ -1,7 +1,13 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
 
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPState;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -10,6 +16,7 @@ import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -25,7 +32,8 @@ public class PvpManager {
 
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here
-        MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerLoggedIn);
+        MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
+        MinecraftForge.EVENT_BUS.addListener(PvpManager::onServerTick);
     }
     public PvpManager(int initialState) {
         if (initialState >= -1 && initialState <= 1){
@@ -37,10 +45,11 @@ public class PvpManager {
 
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here
-        MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerLoggedIn);
+        MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
+        MinecraftForge.EVENT_BUS.addListener(PvpManager::onServerTick);
     }
     public static void setPVPstate(int state, Level level) {
-        if(state >= -1 && state <= 1 && PVPstate==state) { //If the state is valid and it's not the same as the current state:
+        if(state >= -1 && state <= 1 && PVPstate!=state) { //If the state is valid and it's not the same as the current state:
             if (isPVPultra()){ //If PVP is ultra, it means it can only decrease so:
                 enableNaturalRegen(level); //enable natural regen (normal and non-PVP)
                 if(state == -1){ //Check if the target state is PVP off and if it is:
@@ -58,6 +67,7 @@ public class PvpManager {
                     disableNaturalRegen(level); //disable natural regen too
                 }
             }
+            PVPstate = state;
         }
 
     }
@@ -74,7 +84,7 @@ public class PvpManager {
     }
 
     public static void decreasePVPstate(Level level) {
-        if (PVPstate == -1){
+        if (PVPstate != -1){
             if(isPVPultra()) { //if its currently ultra, it means it goes to PVP on:
                 enableNaturalRegen(level); //enable natural regen
             } else if (isPVPon()){ //if its currently on, it means it goes to  PVP off:
@@ -137,6 +147,22 @@ public class PvpManager {
         if(isPVPoff()){ //if the pvp is disabled and if it is, add the player to the noncolliding global group
             PlayerTeam team = getOrCreateTeam(event.getEntity().getScoreboard());
             event.getEntity().getScoreboard().addPlayerToTeam(event.getEntity().getName().getString(),team);
+        }
+    }
+
+    static int tickCountPvP = 0;
+    @SubscribeEvent
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            if(tickCountPvP % 20 == 0 && tickCountPvP != 0) {
+                //Do player time managing
+                for(ServerPlayer p : event.getServer().getPlayerList().getPlayers()){
+                    PVPStateHandler.sendToPlayer(new S2CPVPState(getPVPstate()), p);
+                }
+                tickCountPvP = 0;
+            } else {
+                tickCountPvP++;
+            }
         }
     }
 }
