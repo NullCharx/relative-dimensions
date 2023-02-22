@@ -62,7 +62,7 @@ public class PVPStateOverlay{
         int x = width / 2;
         Font font = Minecraft.getInstance().font;
 
-        // Draw "HH:MM:SS" text
+        // Draw "HH:MM:SS" text TODO change colors depending on time remaining
         String remainingTime = LocalTime.ofSecondOfDay(localtimers.get(Minecraft.getInstance().player.getUUID())).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         int textWidth = font.width(remainingTime);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
@@ -83,7 +83,7 @@ public class PVPStateOverlay{
         textY += font.lineHeight + 8; // add some space between the two lines of text
         GuiComponent.drawString(poseStack, font, pvpstate, textX, textY, 0xFFFFFFFF);
 
-        // Draw "OFF/ON/HARDCORE" text
+        // Draw "OFF/ON/HARDCORE" text TODO change colors depending on pvp state
         String statePVP = "ULTRA"; // replace with your logic to get the remaining time
         textWidth = font.width(statePVP);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
