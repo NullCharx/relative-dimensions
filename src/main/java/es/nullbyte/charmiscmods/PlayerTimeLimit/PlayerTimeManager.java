@@ -26,7 +26,6 @@ import java.util.*;
 /**
  * Manages the playtime of multiple players
  */
-//@OnlyIn(Dist.DEDICATED_SERVER)TODO?
 public class PlayerTimeManager {
     private static final Map<UUID, PlayerTimeTracker> playerMap = new HashMap<>();//Hashmap of individual player trackers
     private static long dailyTimeLimit; // The daily time limit in seconds

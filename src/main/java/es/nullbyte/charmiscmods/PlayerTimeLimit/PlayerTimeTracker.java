@@ -1,11 +1,13 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import java.util.UUID;
 
 /**
  * Track the time played by a player. THe identifying UUID is in the PlayerTimeManer hashmap of players
  */
-//@OnlyIn(Dist.DEDICATED_SERVER)TODO?
 public class PlayerTimeTracker {
 
     private long secsPlayed; //Time played in seconds for the current day (Holds between sessions)
