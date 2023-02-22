@@ -29,7 +29,7 @@ public class S2CPVPState {
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             //Get the reciever of the packet (player)
-            LocalState.PVPstate = PVPstate;
+            LocalState.PVPstate = this.PVPstate;
         });
         ctx.get().setPacketHandled(true);
     }

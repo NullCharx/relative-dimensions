@@ -20,7 +20,7 @@ public class RemainingTimeHandler {
     }
 
     public static void register() {
-        SimpleChannel net = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID, "main"))
+        SimpleChannel net = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID, "remainingtimehandler"))
                 .clientAcceptedVersions(s -> true)
                 .serverAcceptedVersions(s -> true)
                 .networkProtocolVersion(() -> "1.0")

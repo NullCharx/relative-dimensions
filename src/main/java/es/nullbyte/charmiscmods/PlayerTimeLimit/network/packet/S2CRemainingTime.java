@@ -41,6 +41,6 @@ public class S2CRemainingTime {
     }
 
     //Send packet------------------------------------------------
-    //Check if only client side:
+    //Check if only server side:
     //RemainingTimeHandler.sendToClient(new SC2RemainingTime());
 }

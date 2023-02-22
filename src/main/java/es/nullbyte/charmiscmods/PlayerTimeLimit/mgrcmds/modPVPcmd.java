@@ -23,7 +23,7 @@ public class modPVPcmd {
     private static final SimpleCommandExceptionType ERROR_HIGHEST_LEVEL = new SimpleCommandExceptionType(Component.translatable("El nivel PVP no puede aumentar más"));
     private static final SimpleCommandExceptionType ERROR_LOWEST_LEVEL = new SimpleCommandExceptionType(Component.translatable("El nivel PVP no puede disminuir más"));
 
-    private static final int permissionLevel = 0;
+    private static final int permissionLevel = 2;
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         //all subcommands belows
