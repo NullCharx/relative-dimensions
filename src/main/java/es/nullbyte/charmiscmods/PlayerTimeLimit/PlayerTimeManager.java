@@ -69,10 +69,10 @@ public class PlayerTimeManager {
     protected static void setResetTime(int hour, int min){
         LocalTime  time = LocalTime.of(hour, min);
         LocalDateTime timeDate = LocalDateTime.of(LocalDate.now(), time);
-        if(timeDate.isBefore(LocalDateTime.now())){
+        if (time.isBefore(timeDate.toLocalTime()) && timeDate.isBefore(LocalDateTime.now().plusDays(1))) {
             timeDate = timeDate.plusDays(1);
         }
-        resetTime = timeDate; //TODO this should fix the problem with the reset time
+        resetTime = timeDate;
     }
 
     protected static void setDailyTimeLimit(int seconds) {
