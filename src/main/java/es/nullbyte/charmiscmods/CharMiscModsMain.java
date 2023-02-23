@@ -2,7 +2,6 @@ package es.nullbyte.charmiscmods;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.PVPStateOverlay;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modPVPcmd;
@@ -47,7 +46,6 @@ public class CharMiscModsMain {
     public static final int RESETTIME = 06; //6am 35 minutes
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(TIMELIMIT,RESETTIME);
     public static final PvpManager pvpManger = new PvpManager(-1);
-    private final PVPStateOverlay pvpStateOverlay = new PVPStateOverlay();
 
 
 
@@ -65,7 +63,6 @@ public class CharMiscModsMain {
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
-        MinecraftForge.EVENT_BUS.register(this.pvpStateOverlay);
 
 
         // Register ourselves for server and other game events we are interested in

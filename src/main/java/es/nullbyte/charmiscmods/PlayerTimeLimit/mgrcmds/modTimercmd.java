@@ -17,7 +17,7 @@ import java.util.UUID;
 public class modTimercmd {
 
     private static final SimpleCommandExceptionType ERROR_USER_NOT_FOUND = new SimpleCommandExceptionType(Component.translatable("Jugador no encontrado"));
-    private static final int permissionLevel = 2;
+    private static final int permissionLevel = 3;
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         //all subcommands belows
@@ -25,22 +25,22 @@ public class modTimercmd {
         dispatcher.register(Commands.literal("chtime").requires((permission) -> { //Check OP or server agent permission
                     return permission.hasPermission(permissionLevel);
                 }).then(Commands.literal("add").then(Commands.argument("time", IntegerArgumentType.integer())
-                    .then(Commands.literal("player")).executes((timeadd) -> {//chpvp increase
+                    .then(Commands.argument("player", StringArgumentType.string()).executes((timeadd) -> {//chpvp increase
                         int secstoadd = IntegerArgumentType.getInteger(timeadd, "time");
                         String playername = StringArgumentType.getString(timeadd, "player");
                         return addTime(timeadd.getSource(),secstoadd,playername);
                     })
-                )).then(Commands.literal("remove").then(Commands.argument("time", IntegerArgumentType.integer())
-                    .then(Commands.literal("player")).executes((timeremove) -> {//chpvp increase
+                ))).then(Commands.literal("remove").then(Commands.argument("time", IntegerArgumentType.integer())
+                .then(Commands.argument("player", StringArgumentType.string()).executes((timeremove) -> {//chpvp increase
                     int secstoadd = IntegerArgumentType.getInteger(timeremove, "time");
                         String playername = StringArgumentType.getString(timeremove, "player");
                         return substractTime(timeremove.getSource(),secstoadd,playername);
-                }))).then(Commands.literal("set").then(Commands.argument("time", IntegerArgumentType.integer())
-                    .then(Commands.literal("player")).executes((timeset) -> {//chpvp increase
+                })))).then(Commands.literal("set").then(Commands.argument("time", IntegerArgumentType.integer())
+                    .then(Commands.argument("player", StringArgumentType.string()).executes((timeset) -> {//chpvp increase
                     int secstoadd = IntegerArgumentType.getInteger(timeset, "time");
                         String playername = StringArgumentType.getString(timeset, "player");
                         return setTime(timeset.getSource(),secstoadd,playername);
-                }))).then(Commands.literal("show").then(Commands.argument("player", StringArgumentType.string())
+                })))).then(Commands.literal("show").then(Commands.argument("player", StringArgumentType.string())
                     .executes((timeshow) -> {//chpvp increase
                         String playername = StringArgumentType.getString(timeshow, "player");
                         return showTime(timeshow.getSource(),playername);
@@ -48,15 +48,15 @@ public class modTimercmd {
                     return timerState(showstate.getSource());
                 })).then(Commands.literal("toggleTimer") .executes((togglestate) -> {
                     return toggleTimer(togglestate.getSource());
-                }))
-        );
+                })));
+
     };
     private static int addTime(CommandSourceStack source, int seconds, String playername) throws CommandSyntaxException {
         UUID uuid = PlayerTimeManager.playerUUIDbyName(playername, source.getLevel());
         if (uuid == null) {
             throw ERROR_USER_NOT_FOUND.create();
         }
-        PlayerTimeManager.getTracker(uuid).addTimePlayed(seconds);
+        PlayerTimeManager.getTracker(uuid).removeTimePlayed(seconds);
         return 0;
     }
 
@@ -65,7 +65,7 @@ public class modTimercmd {
         if (uuid == null) {
             throw ERROR_USER_NOT_FOUND.create();
         }
-        PlayerTimeManager.getTracker(uuid).removeTimePlayed(seconds);
+        PlayerTimeManager.getTracker(uuid).addTimePlayed(seconds);
         return 0;
     }
 

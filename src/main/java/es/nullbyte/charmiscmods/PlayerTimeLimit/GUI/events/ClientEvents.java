@@ -4,6 +4,7 @@ import es.nullbyte.charmiscmods.CharMiscModsMain;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.PVPStateOverlay;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -17,6 +18,8 @@ public class ClientEvents {
 
     @Mod.EventBusSubscriber(modid = CharMiscModsMain.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModBusEvents {
+        private final PVPStateOverlay pvpStateOverlay = new PVPStateOverlay();
+
 
         //Both the id of the hud and the path to gui resource must contain no uppercase letters or speciañ characters other than underscore
         @SubscribeEvent
