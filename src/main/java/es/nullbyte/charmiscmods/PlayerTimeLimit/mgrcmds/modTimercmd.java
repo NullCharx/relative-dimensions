@@ -26,18 +26,18 @@ public class modTimercmd {
                     return permission.hasPermission(permissionLevel);
                 }).then(Commands.literal("add").then(Commands.argument("time", IntegerArgumentType.integer())
                     .then(Commands.literal("player")).executes((timeadd) -> {//chpvp increase
-                        String secstoadd = StringArgumentType.getString(timeadd, "time");
+                        int secstoadd = IntegerArgumentType.getInteger(timeadd, "time");
                         String playername = StringArgumentType.getString(timeadd, "player");
                         return addTime(timeadd.getSource(),secstoadd,playername);
                     })
                 )).then(Commands.literal("remove").then(Commands.argument("time", IntegerArgumentType.integer())
                     .then(Commands.literal("player")).executes((timeremove) -> {//chpvp increase
-                        String secstoadd = StringArgumentType.getString(timeremove, "time");
+                    int secstoadd = IntegerArgumentType.getInteger(timeremove, "time");
                         String playername = StringArgumentType.getString(timeremove, "player");
                         return substractTime(timeremove.getSource(),secstoadd,playername);
                 }))).then(Commands.literal("set").then(Commands.argument("time", IntegerArgumentType.integer())
                     .then(Commands.literal("player")).executes((timeset) -> {//chpvp increase
-                        String secstoadd = StringArgumentType.getString(timeset, "time");
+                    int secstoadd = IntegerArgumentType.getInteger(timeset, "time");
                         String playername = StringArgumentType.getString(timeset, "player");
                         return setTime(timeset.getSource(),secstoadd,playername);
                 }))).then(Commands.literal("show").then(Commands.argument("player", StringArgumentType.string())
@@ -51,33 +51,30 @@ public class modTimercmd {
                 }))
         );
     };
-    private static int addTime(CommandSourceStack source, String seconds, String playername) throws CommandSyntaxException {
-        int secondstoadd = Integer.parseInt(seconds);
+    private static int addTime(CommandSourceStack source, int seconds, String playername) throws CommandSyntaxException {
         UUID uuid = PlayerTimeManager.playerUUIDbyName(playername, source.getLevel());
         if (uuid == null) {
             throw ERROR_USER_NOT_FOUND.create();
         }
-        PlayerTimeManager.getTracker(uuid).addTimePlayed(secondstoadd);
+        PlayerTimeManager.getTracker(uuid).addTimePlayed(seconds);
         return 0;
     }
 
-    private static int substractTime(CommandSourceStack source, String seconds,String playername) throws CommandSyntaxException {
-        int secondstoadd = Integer.parseInt(seconds);
+    private static int substractTime(CommandSourceStack source, int seconds,String playername) throws CommandSyntaxException {
         UUID uuid = PlayerTimeManager.playerUUIDbyName(playername, source.getLevel());
         if (uuid == null) {
             throw ERROR_USER_NOT_FOUND.create();
         }
-        PlayerTimeManager.getTracker(uuid).removeTimePlayed(secondstoadd);
+        PlayerTimeManager.getTracker(uuid).removeTimePlayed(seconds);
         return 0;
     }
 
-    private static int setTime(CommandSourceStack source, String seconds,String playername) throws CommandSyntaxException {
-        int secondstoadd = Integer.parseInt(seconds);
+    private static int setTime(CommandSourceStack source, int seconds,String playername) throws CommandSyntaxException {
         UUID uuid = PlayerTimeManager.playerUUIDbyName(playername, source.getLevel());
         if (uuid == null) {
             throw ERROR_USER_NOT_FOUND.create();
         }
-        PlayerTimeManager.getTracker(uuid).setTimePlayed(secondstoadd);
+        PlayerTimeManager.getTracker(uuid).setTimePlayed(seconds);
         return 0;
     }
 
