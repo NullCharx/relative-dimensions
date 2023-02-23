@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
@@ -23,18 +24,18 @@ public class modTimercmd {
 
         dispatcher.register(Commands.literal("chtime").requires((permission) -> { //Check OP or server agent permission
                     return permission.hasPermission(permissionLevel);
-                }).then(Commands.literal("add").then(Commands.argument("time", StringArgumentType.string())
+                }).then(Commands.literal("add").then(Commands.argument("time", IntegerArgumentType.integer())
                     .then(Commands.literal("player")).executes((timeadd) -> {//chpvp increase
                         String secstoadd = StringArgumentType.getString(timeadd, "time");
                         String playername = StringArgumentType.getString(timeadd, "player");
                         return addTime(timeadd.getSource(),secstoadd,playername);
                     })
-                )).then(Commands.literal("remove").then(Commands.argument("time", StringArgumentType.string())
+                )).then(Commands.literal("remove").then(Commands.argument("time", IntegerArgumentType.integer())
                     .then(Commands.literal("player")).executes((timeremove) -> {//chpvp increase
                         String secstoadd = StringArgumentType.getString(timeremove, "time");
                         String playername = StringArgumentType.getString(timeremove, "player");
                         return substractTime(timeremove.getSource(),secstoadd,playername);
-                }))).then(Commands.literal("set").then(Commands.argument("time", StringArgumentType.string())
+                }))).then(Commands.literal("set").then(Commands.argument("time", IntegerArgumentType.integer())
                     .then(Commands.literal("player")).executes((timeset) -> {//chpvp increase
                         String secstoadd = StringArgumentType.getString(timeset, "time");
                         String playername = StringArgumentType.getString(timeset, "player");
