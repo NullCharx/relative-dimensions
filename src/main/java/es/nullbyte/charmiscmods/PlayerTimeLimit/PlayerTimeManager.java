@@ -14,6 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -55,9 +56,10 @@ public class PlayerTimeManager {
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerLoggedIn);
-        //MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerLoggedOut);
+        MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerLoggedOut);
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onServerTick);
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerRespawn);
+        MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onServerStopping);
 
 
     }
@@ -233,9 +235,15 @@ public class PlayerTimeManager {
 
     @SubscribeEvent
     public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        //TODO Find a way to persistently store player data regarding time played. Probably on a JSON file
+        //TODO Find a way to persistently store player data regarding time played when a player leaves. Probably on a JSON file
+        //Also check if vanilla teams are persistent across reboots!
     }
 
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppedEvent event) {
+        //TODO Find a way to persistently store player data regarding time played when the server shuts down or crashes
+
+    }
     private static int tickCount = 0;
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
