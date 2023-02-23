@@ -25,15 +25,15 @@ public class S2CRemainingTime {
         buf.writeLong(remainingTime);
     }
 
+    //TODO: MAke a new packet to syncornize the timelimit to the clients
+    //Synchonize it too when the player logs in
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             //Get the reciever of the packet (player)
             Minecraft client = Minecraft.getInstance();
             long timeLimit = PlayerTimeManager.getDailyTimeLimit();
             long remainingTimeSeconds = timeLimit - remainingTime;
-            if (remainingTime == 45296) {
-                remainingTimeSeconds = 45296;
-            }
+
             //Get the playerTimeTracker
             PlayerTimeTracker trck = PlayerTimeManager.getTracker(client.player.getUUID());
             LocalState.localtimers.put(client.player.getUUID(), remainingTimeSeconds);
