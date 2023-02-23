@@ -62,14 +62,20 @@ public class PlayerTimeManager {
 
 
     }
+    protected static LocalDateTime getResetTime(){
+        return resetTime;
+    }
 
     protected static void setResetTime(int hour, int min){
         LocalTime  time = LocalTime.of(hour, min);
-        resetTime = LocalDateTime.of(LocalDate.now(), time);
+        LocalDateTime timeDate = LocalDateTime.of(LocalDate.now(), time);
+        if(timeDate.isBefore(LocalDateTime.now())){
+            resetTime = resetTime.plusDays(1);
+        }
     }
 
     protected static void setDailyTimeLimit(int seconds) {
-        PlayerTimeManager.dailyTimeLimit = dailyTimeLimit;
+        PlayerTimeManager.dailyTimeLimit = seconds;
     }
     public static long getDailyTimeLimit() {
         return dailyTimeLimit;
@@ -165,7 +171,7 @@ public class PlayerTimeManager {
     public static UUID playerUUIDbyName (String name,  Level level){
         for (UUID uuid : playerMap.keySet()){
             for (Player p : level.players()) {
-                if (p.getName().getString().equals(name)) {
+                if (p.getName().getString().equals(name) && p.getUUID().equals(uuid)) {
                     return uuid;
                 }
             }
@@ -180,6 +186,8 @@ public class PlayerTimeManager {
     public static void toggleTimer() {
         isEnabled = !isEnabled;
     }
+
+
 
 
     public void serializePlayers() {
