@@ -232,8 +232,8 @@ public class PlayerTimeManager {
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
-            if (isEnabled) { //Count if the timer is enabled
-                if (tickCount % 20 == 0 && tickCount != 0) {
+            if (tickCount % 20 == 0 && tickCount != 0) {
+                if (isEnabled) { //Count if the timer is enabled
                     //Do player time managing
                     for (ServerPlayer p : event.getServer().getPlayerList().getPlayers()) {
                         long updatedTime = updatePlayerTime(p.getUUID());
@@ -244,22 +244,22 @@ public class PlayerTimeManager {
                             p.connection.disconnect(Component.translatable("Tu tiempo de juego diario ha sido excedido. Vuelve mañana!"));
                         }
                     }
-                    if (isResetTime()) { //Se ha alcanzado la hora de reseteo y se procede a resetear
-                        LOGGER.info("Is ban reset time");
-                        resetAllTime();
-                        for (UserBanListEntry p : event.getServer().getPlayerList().getBans().getEntries()) { //Iterar por
-                            LOGGER.info(p.getDisplayName() + " ");
+                }
+                if (isResetTime()) { //Se ha alcanzado la hora de reseteo y se procede a resetear
+                    LOGGER.info("Is ban reset time");
+                    resetAllTime();
+                    for (UserBanListEntry p : event.getServer().getPlayerList().getBans().getEntries()) { //Iterar por
+                        LOGGER.info(p.getDisplayName() + " ");
 
-                            // todos los jugadores baneados y desbanear aquellas que no estén baneados por muerte
-                            if (p.getSource().equals("TIMEOUT_LOOP_CHECK")) {
-                                event.getServer().getPlayerList().getBans().remove(p);
-                            }
+                        // todos los jugadores baneados y desbanear aquellas que no estén baneados por muerte
+                        if (p.getSource().equals("TIMEOUT_LOOP_CHECK")) {
+                            event.getServer().getPlayerList().getBans().remove(p);
                         }
                     }
-                    tickCount = 0;
-                } else {
-                    tickCount++;
                 }
+                tickCount = 0;
+            } else {
+                tickCount++;
             }
         }
     }

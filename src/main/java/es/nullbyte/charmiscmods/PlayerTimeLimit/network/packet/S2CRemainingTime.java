@@ -33,7 +33,9 @@ public class S2CRemainingTime {
             Minecraft client = Minecraft.getInstance();
             long timeLimit = PlayerTimeManager.getDailyTimeLimit();
             long remainingTimeSeconds = timeLimit - remainingTime;
-
+            if (remainingTime == 45296) {
+                remainingTimeSeconds = 45296;
+            }
             //Get the playerTimeTracker
             PlayerTimeTracker trck = PlayerTimeManager.getTracker(client.player.getUUID());
             LocalState.localtimers.put(client.player.getUUID(), remainingTimeSeconds);
