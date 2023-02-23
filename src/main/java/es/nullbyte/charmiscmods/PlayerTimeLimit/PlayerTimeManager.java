@@ -1,10 +1,16 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.LocalState;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -21,13 +27,13 @@ import java.util.*;
 
 /**
  * Manages the playtime of multiple players
- * Support for network and GUI integration started
  */
 public class PlayerTimeManager {
     private static final Map<UUID, PlayerTimeTracker> playerMap = new HashMap<>();//Hashmap of individual player trackers
     private static long dailyTimeLimit; // The daily time limit in seconds
     private static LocalDateTime resetTime; // The time of day in which the timers reset
 
+    private static boolean isEnabled;
     private static final Logger LOGGER = LogUtils.getLogger();
 
 
@@ -37,21 +43,26 @@ public class PlayerTimeManager {
     Constructor for the time manager.
     It takes both the daily time limit in seconds and the time of the day in which the timers reset.
      */
+
     public PlayerTimeManager(int dailyTimeLimit, int resetHour)  {
         PlayerTimeManager.dailyTimeLimit = dailyTimeLimit;
         //Resets at resethour:00
-        LocalTime  time = LocalTime.of(resetHour, 35);
+        LocalTime  time = LocalTime.of(resetHour, 33);
         resetTime = LocalDateTime.of(LocalDate.now(), time);
-
+        isEnabled = false;
         MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
 
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerLoggedIn);
+        //MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerLoggedOut);
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onServerTick);
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerRespawn);
 
 
+    }
+    public static long getDailyTimeLimit() {
+        return dailyTimeLimit;
     }
 
     /*
@@ -61,6 +72,32 @@ public class PlayerTimeManager {
         playerMap.put(playerUUID, new PlayerTimeTracker());
     }
 
+    /*
+    * Sets an specified amount of time for a player
+     */
+    public int setPlayerTime (UUID playerUUID, long secs) {
+        if(playerMap.get(playerUUID) != null){
+            playerMap.get(playerUUID).setTimePlayed(secs);
+            return 0;
+        }
+        return 1;
+    }
+
+    public int addPlayerTime (UUID playerUUID, long secs) {
+        if(playerMap.get(playerUUID) != null){
+            playerMap.get(playerUUID).addTimePlayed(secs);
+            return 0;
+        }
+        return 1;
+    }
+
+    public int substractPlayerTime (UUID playerUUID, long secs) {
+        if(playerMap.get(playerUUID) != null){
+            playerMap.get(playerUUID).removeTimePlayed(secs);
+            return 0;
+        }
+        return 1;
+    }
     /*
     Removes a player from  the tracking system given their Minecraft UUID
    */
@@ -84,62 +121,18 @@ public class PlayerTimeManager {
     /*
     Adds one second to a player tracker (unnecessary if the individual player tracker is already available)
     */
-    public static void updatePlayerTime(UUID playerUUID) {
+    public static long updatePlayerTime(UUID playerUUID) {
         PlayerTimeTracker player = getTracker(playerUUID);
         if (player != null && !player.isCurrentlyTimeOut()) {
             player.addTimePlayed(1);
             if (player.getSecsPlayed() >= dailyTimeLimit) {
                 player.setTimeoutState(true);
             }
+            return player.getSecsPlayed();
         }
-    }
-
-    /*
-    Adds or susbtracts the specified seconds to a player tracker (unnecessary if the individual player tracker is already available)
-    */
-    public void updatePlayerTime(UUID playerUUID, int seconds) {
-        PlayerTimeTracker player = getTracker(playerUUID);
-        if (player != null && !player.isCurrentlyTimeOut()) {
-            if (seconds > 0) {
-                player.addTimePlayed(seconds);
-                if (player.getSecsPlayed() >= dailyTimeLimit) {
-                    player.setTimeoutState(true);
-                }
-            } else {
-                player.removeTimePlayed(Math.abs(seconds));
-                if (player.getSecsPlayed() >= dailyTimeLimit) {
-                    player.setTimeoutState(true);
-                }
-
-            }
-
-        }
-    }
-
-    /*
-    Check if the specified player has spent all their daily time already
-    */
-    public boolean isOnTimeout (UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null ) {
-            return playerTimeTracker.isCurrentlyTimeOut();
-        }
-
         throw new IllegalArgumentException("No player found under specified UUID");
     }
 
-    /*
-    Resets time of a player (un-timeouts them and reset the playtime to 0)
-    Banned players must be unbanned outside this class
-    */
-    public void resetPlayerTime (UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null ) {
-            playerTimeTracker.resetTimePlayed();
-            playerTimeTracker.setTimeoutState(false);
-        }
-
-    }
 
     /*
      Resets time of all tracked players (un-timeouts them and reset the playtime to 0)
@@ -165,37 +158,7 @@ public class PlayerTimeManager {
         }
     }
 
-    /*
-     Gets the last login time of a player. Works in conjuction with isPlayerOnline.
-     */
-    public long getPlayerLogon(UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-            return playerTimeTracker.getLastLoginEpoch();
-        }
-        throw new IllegalArgumentException("No player found under specified UUID");
-    }
 
-    /*
-     Internally timesout a player. The player must be banned from the minecraft server outside this class
-     */
-    public void timeOutPlayer (UUID playerUUID){
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-            playerTimeTracker.setTimeoutState(true);
-        }
-    }
-
-    /*
-     gets the current playtime in seconds of a plauyer
-     */
-    public long getPlayerTime (UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-            return playerTimeTracker.getSecsPlayed();
-        }
-        throw new IllegalArgumentException("No player found under specified UUID");
-    }
 
     /*
      Checks if the specified player should be timeouted.
@@ -208,27 +171,6 @@ public class PlayerTimeManager {
         throw new IllegalArgumentException("No player found under specified UUID");
     }
 
-    /*
-     Check if the specified player is online
-     */
-    public boolean isPlayerOnline(UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-            return playerTimeTracker.getPlayerOnlineState();
-        }
-        throw new IllegalArgumentException("No player found under specified UUID");
-    }
-
-    /*
-     Internally swaps the player online state
-     */
-    public void setPlayerOnlineState(UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-            playerTimeTracker.setPlayerOnlineState();
-        }
-        throw new IllegalArgumentException("No player found under specified UUID");
-    }
 
     /*
      Check if it is the reset time (between XX:00 and XX:03)
@@ -243,12 +185,25 @@ public class PlayerTimeManager {
         return false;
     }
 
-    /*
-     Returns a list of the UUIDS of all tracked players.
-     */
-    public List<UUID> getAllPlayers() {
-        return new ArrayList<>(playerMap.keySet());
+    public static UUID playerUUIDbyName (String name,  Level level){
+        for (UUID uuid : playerMap.keySet()){
+            for (Player p : level.players()) {
+                if (p.getName().getString().equals(name)) {
+                    return uuid;
+                }
+            }
+        }
+        return null;
     }
+
+    public static boolean isTimerEnabled() {
+        return isEnabled;
+    }
+
+    public static void toggleTimer() {
+        isEnabled = !isEnabled;
+    }
+
 
     public void serializePlayers() {
         // Write player data to file or database
@@ -265,46 +220,55 @@ public class PlayerTimeManager {
         if (!hasPlayer(playerUUID)){
             addPlayer(playerUUID);
             playerLogOn(playerUUID);
+            RemainingTimeHandler.sendToPlayer(new S2CRemainingTime((long) 45296), (ServerPlayer) player);
+
             LOGGER.info(player.getName() + "Logged in for the first time and is being added to the list");
 
         } else {
             playerLogOn(playerUUID);
             LOGGER.info(player.getName() + "logged in but has already been added to the list. Changing to online");
         }
+
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        //TODO Find a way to persistently store player data regarding time played. Probably on a JSON file
     }
 
     private static int tickCount = 0;
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
-            if(tickCount % 20 == 0 && tickCount != 0) {
-                //Do player time managing
-                for(Player p : event.getServer().getPlayerList().getPlayers()){
-                    updatePlayerTime(p.getUUID());
-                    if(checkForTimeout(p.getUUID())) {
-                        LOGGER.info(p.getName() + "Has been timed out");
-                        p.getServer().getPlayerList().getBans().add(new UserBanListEntry(p.getGameProfile()));
-                        p.getServer().getPlayerList().getBans().add(new UserBanListEntry(p.getGameProfile(), null, "TIMEOUT_LOOP_CHECK", null, "Tiempo diario agotado! Vuelve mañana"));
-                        ServerPlayer serverplayer = (ServerPlayer) p;
-                        serverplayer.connection.disconnect(Component.translatable("Tu tiempo de juego diario ha sido excedido. Vuelve mañana!"));
-                    }
-                }
-                if(isResetTime()){ //Se ha alcanzado la hora de reseteo y se procede a resetear
-                    LOGGER.info("Is ban reset time");
-                    resetAllTime();
-                    for (UserBanListEntry p : event.getServer().getPlayerList().getBans().getEntries()) { //Iterar por
-                        LOGGER.info(p.getDisplayName() + " ");
-
-                        // todos los jugadores baneados y desbanear aquellas que no estén baneados por muerte
-                        if(p.getSource().equals("TIMEOUT_LOOP_CHECK")){
-                            event.getServer().getPlayerList().getBans().remove(p);
+            if (isEnabled) { //Count if the timer is enabled
+                if (tickCount % 20 == 0 && tickCount != 0) {
+                    //Do player time managing
+                    for (Player p : event.getServer().getPlayerList().getPlayers()) {
+                        Long updatedTime = updatePlayerTime(p.getUUID());
+                        RemainingTimeHandler.sendToPlayer(new S2CRemainingTime(updatedTime), (ServerPlayer) p);
+                        if (checkForTimeout(p.getUUID())) {
+                            LOGGER.info(p.getName() + "Has been timed out");
+                            p.getServer().getPlayerList().getBans().add(new UserBanListEntry(p.getGameProfile(), null, "TIMEOUT_LOOP_CHECK", null, "Tiempo diario agotado! Vuelve mañana"));
+                            ServerPlayer serverplayer = (ServerPlayer) p;
+                            serverplayer.connection.disconnect(Component.translatable("Tu tiempo de juego diario ha sido excedido. Vuelve mañana!"));
                         }
                     }
-                }
-                tickCount = 0;
-            } else {
+                    if (isResetTime()) { //Se ha alcanzado la hora de reseteo y se procede a resetear
+                        LOGGER.info("Is ban reset time");
+                        resetAllTime();
+                        for (UserBanListEntry p : event.getServer().getPlayerList().getBans().getEntries()) { //Iterar por
+                            LOGGER.info(p.getDisplayName() + " ");
 
-                tickCount++;
+                            // todos los jugadores baneados y desbanear aquellas que no estén baneados por muerte
+                            if (p.getSource().equals("TIMEOUT_LOOP_CHECK")) {
+                                event.getServer().getPlayerList().getBans().remove(p);
+                            }
+                        }
+                    }
+                    tickCount = 0;
+                } else {
+                    tickCount++;
+                }
             }
         }
     }

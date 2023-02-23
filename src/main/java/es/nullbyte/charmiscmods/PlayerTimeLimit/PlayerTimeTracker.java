@@ -1,10 +1,12 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import java.util.UUID;
 
 /**
  * Track the time played by a player. THe identifying UUID is in the PlayerTimeManer hashmap of players
- *
  */
 public class PlayerTimeTracker {
 
@@ -19,7 +21,6 @@ public class PlayerTimeTracker {
         this.isCurrentlyTimeOut = false;
         this.lastLoginEpoch = 0;
     }
-
 
     public long getLastLoginEpoch() {
         return lastLoginEpoch;
@@ -44,6 +45,9 @@ public class PlayerTimeTracker {
         this.secsPlayed = 0;
     }
 
+    public void setTimePlayed(long timePlayed) {
+        this.secsPlayed = timePlayed;
+    }
     public void addTimePlayed(long timePlayed) {
         this.secsPlayed += timePlayed;
     }

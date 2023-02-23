@@ -1,24 +1,27 @@
 package es.nullbyte.charmiscmods;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
-import es.nullbyte.charmiscmods.init.*;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modPVPcmd;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modTimercmd;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.ModMessages;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.init.*;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.players.UserBanListEntry;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
+
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -41,8 +44,9 @@ public class CharMiscModsMain {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static final int TIMELIMIT = 4*60*60; //4 hours
-    public static final int RESETTIME = 6; //6am 35 minutes
+    public static final int RESETTIME = 06; //6am 35 minutes
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(TIMELIMIT,RESETTIME);
+    public static final PvpManager pvpManger = new PvpManager(-1);
 
 
 
@@ -60,15 +64,22 @@ public class CharMiscModsMain {
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
+
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
-
     private void setup(final FMLCommonSetupEvent event) {
+        //Registrar eventos encolados, includos los paquetes de red
+        event.enqueueWork(() -> {
+            RemainingTimeHandler.register();
+            PVPStateHandler.register();
+            //ModMessages.register();
+        });
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
+
 
 
     @SubscribeEvent
@@ -101,9 +112,34 @@ public class CharMiscModsMain {
         );
     }
 
+    @SubscribeEvent
+    public void onServerStarting(ServerStartingEvent event)
+    {
+        // Do something when the server starts
+        LOGGER.info("--->CHAR'S MISCELANEOUS MODIFICATIONS.");
+        LOGGER.info("Here's a list of what this version of the mod contains");
+        LOGGER.info("->Short distance teleporter item");
+        LOGGER.info("->Delayed long distance teleporter item");
+        LOGGER.info("->Functioning player tracking compass");
+        LOGGER.info("->Functioning team player tracking compass");
+        LOGGER.info("->Custom PVP GUI");
+
+        LOGGER.info("Thank you for using this mod!");
+        LOGGER.info("--------------------------------");
+
+
+        //Register commands with server dispatcher on server startup. Call common method to resgister all commands
+        CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
+        registerCommands(dispatcher);
+
+    }
     //register buildcontents event to the event bus
 
-
+    public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
+        //REGISTER THE COMMANDS HERE!
+        modPVPcmd.register(dispatcher);
+        modTimercmd.register(dispatcher);
+    }
 
 }
     /*
