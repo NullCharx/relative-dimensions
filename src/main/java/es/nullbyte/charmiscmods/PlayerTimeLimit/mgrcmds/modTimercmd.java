@@ -14,9 +14,13 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-public class modTimercmd {
+public class modTimercmd extends PlayerTimeManager {
 
     private static final SimpleCommandExceptionType ERROR_USER_NOT_FOUND = new SimpleCommandExceptionType(Component.translatable("Jugador no encontrado"));
+    private static final SimpleCommandExceptionType RESET_TIME_OUT_OF_RANGE =  new SimpleCommandExceptionType(Component.translatable("Error de argumento (formato 24 horas entre 00:00 y 23:59)"));
+    private static final SimpleCommandExceptionType DAILY_AMOUNT_TO_LOW =  new SimpleCommandExceptionType(Component.translatable("Error de argumento. Al menos una hora de juego"));
+    private static final SimpleCommandExceptionType DAILY_AMOUNT_OUT_OF_RANGE =  new SimpleCommandExceptionType(Component.translatable("Error de argumento. Maximo de 99 horas"));
+
     private static final int permissionLevel = 3;
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -48,7 +52,18 @@ public class modTimercmd {
                     return timerState(showstate.getSource());
                 })).then(Commands.literal("toggleTimer") .executes((togglestate) -> {
                     return toggleTimer(togglestate.getSource());
-                })));
+                })).then(Commands.literal("change").then(Commands.argument("resetTime", StringArgumentType.string())
+                .then(Commands.argument("hour", IntegerArgumentType.integer()).then(Commands.argument("minute", IntegerArgumentType.integer())
+                .executes((resetChange) -> {//chpvp increase
+                    int hour = IntegerArgumentType.getInteger(resetChange, "hour");
+                    int min = IntegerArgumentType.getInteger(resetChange, "minute");
+                    return changeResetTime(resetChange.getSource(),hour,min);
+                })))).then(Commands.argument("dailyAmount", StringArgumentType.string())
+                .then(Commands.argument("seconds", IntegerArgumentType.integer()).executes((resetDailyPT) -> {//chpvp increase
+                            int secs = IntegerArgumentType.getInteger(resetDailyPT, "seconds");
+                            return changeDailyPTAmount(resetDailyPT.getSource(),secs);
+                })))
+        ));
 
     };
     private static int addTime(CommandSourceStack source, int seconds, String playername) throws CommandSyntaxException {
@@ -89,9 +104,9 @@ public class modTimercmd {
     }
     private static int timerState(CommandSourceStack source) throws CommandSyntaxException {
         if(PlayerTimeManager.isTimerEnabled()){
-            source.sendSystemMessage(Component.literal(String.format("The timer is active")));
+            source.sendSystemMessage(Component.literal(String.format("TContador activo")));
         } else {
-            source.sendSystemMessage(Component.literal(String.format("The timer is inactive")));
+            source.sendSystemMessage(Component.literal(String.format("Contador inactivo")));
         }
         return 0;
     }
@@ -99,15 +114,39 @@ public class modTimercmd {
     private static int toggleTimer(CommandSourceStack source) throws CommandSyntaxException {
         PlayerTimeManager.toggleTimer();
         if(PlayerTimeManager.isTimerEnabled()){
-            source.sendSystemMessage(Component.literal(String.format("The timer is now active")));
+            source.sendSystemMessage(Component.literal(String.format("El contador se ha activado")));
         } else {
-            source.sendSystemMessage(Component.literal(String.format("The timer is now inactive")));
+            source.sendSystemMessage(Component.literal(String.format("El contador se ha desactivado")));
+        }
+        return 0;
+    }
+
+    private static int changeResetTime(CommandSourceStack source, int hour, int min) throws CommandSyntaxException {
+        if (hour <0 || min <0 || hour >24 || min >59){
+            throw RESET_TIME_OUT_OF_RANGE.create();
+        } else {
+            PlayerTimeManager.setResetTime(hour,min);
+            source.sendSystemMessage(Component.literal(String.format("Tiempo de reseteo fijado a" + hour + ":" + min)));
         }
         return 0;
     }
 
 
-
     //Toggle and show state of countdown
+    private static int changeDailyPTAmount(CommandSourceStack source, int seconds) throws CommandSyntaxException {
+        if (seconds <3600) {
+            throw DAILY_AMOUNT_TO_LOW.create();
+        } if (seconds > 99*3600){
+            throw DAILY_AMOUNT_OUT_OF_RANGE.create();
 
-}
+        }else {
+            PlayerTimeManager.setDailyTimeLimit(seconds);
+
+            source.sendSystemMessage(Component.literal(String.format("Tiempo de juego fijado a" +
+                    LocalTime.ofSecondOfDay(seconds).format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
+        }
+        return 0;
+    }
+
+
+    }
