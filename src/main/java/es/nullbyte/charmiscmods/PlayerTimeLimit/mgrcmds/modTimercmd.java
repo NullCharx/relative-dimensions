@@ -156,7 +156,7 @@ public class modTimercmd extends PlayerTimeManager {
             source.sendSystemMessage(Component.literal(String.format("Tiempo de juego fijado a " +
                     LocalTime.ofSecondOfDay(seconds).format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
 
-            for (ServerPlayer p: source.getLevel().players()){
+            for (ServerPlayer p: source.getLevel().players()){ //update the timer for all players GUIrender
                 DailyTimeLimitHandler.sendToPlayer(new S2CDailyTimeLimit(seconds), p);
 
             }
