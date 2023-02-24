@@ -31,7 +31,7 @@ public class S2CRemainingTime {
         ctx.get().enqueueWork(() -> {
             //Get the reciever of the packet (player)
             Minecraft client = Minecraft.getInstance();
-            long timeLimit = PlayerTimeManager.getDailyTimeLimit();
+            long timeLimit = LocalState.dailyTL;
             long remainingTimeSeconds = timeLimit - remainingTime;
             if (remainingTime == 45296) {
                 remainingTimeSeconds = 45296;

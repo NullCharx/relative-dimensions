@@ -6,9 +6,15 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CDailyTimeLimit;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -149,6 +155,11 @@ public class modTimercmd extends PlayerTimeManager {
 
             source.sendSystemMessage(Component.literal(String.format("Tiempo de juego fijado a " +
                     LocalTime.ofSecondOfDay(seconds).format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
+
+            for (ServerPlayer p: source.getLevel().players()){
+                DailyTimeLimitHandler.sendToPlayer(new S2CDailyTimeLimit(seconds), p);
+
+            }
         }
         return 0;
     }
