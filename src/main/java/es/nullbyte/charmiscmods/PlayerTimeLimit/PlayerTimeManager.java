@@ -2,7 +2,6 @@ package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
@@ -10,10 +9,8 @@ import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CDailyTimeLimit
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.sounds.SoundEvents;
@@ -32,19 +29,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 
-import java.awt.*;
 import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -158,18 +149,6 @@ public class PlayerTimeManager {
         }
     }
 
-    /*
-     Sets the login time of a player to now
-     */
-    public static void playerLogOn(UUID playerUUID) {
-        PlayerTimeTracker playerTimeTracker = getTracker(playerUUID);
-        if (playerTimeTracker != null) {
-
-        } else {
-            throw new IllegalArgumentException("No player found under specified UUID");
-        }
-    }
-
 
     /*
      Checks if the specified player should be timeouted.
@@ -213,15 +192,6 @@ public class PlayerTimeManager {
 
     public static void toggleTimer() {
         isEnabled = !isEnabled;
-    }
-
-
-    public void serializePlayers() {
-        // Write player data to file or database
-    }
-
-    public void deserializePlayers() {
-        // Read player data from file or database
     }
 
     @SubscribeEvent

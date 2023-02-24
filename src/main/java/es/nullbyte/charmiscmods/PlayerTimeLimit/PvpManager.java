@@ -1,32 +1,22 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit;
 
 
-import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.LocalState;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPState;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
-import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.List;
-import java.util.UUID;
-
 public class PvpManager {
     private static int PVPstate; //-1 PVP off, 0 PVP on, 1 ULTRA
-    private static String PVPOFFTEAMNAME = "EQUIPO_GLOBAL_PVPoff";
+    private static final String PVPOFFTEAMNAME = "EQUIPO_GLOBAL_PVPoff";
     public PvpManager() {
         PVPstate = -1;
         MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called

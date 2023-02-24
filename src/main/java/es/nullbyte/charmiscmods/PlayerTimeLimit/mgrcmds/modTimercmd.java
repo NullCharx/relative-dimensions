@@ -7,14 +7,11 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CDailyTimeLimit;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -76,7 +73,7 @@ public class modTimercmd extends PlayerTimeManager {
         ));
 
     }
-    ;
+
     private static int addTime(CommandSourceStack source, int seconds, String playername) throws CommandSyntaxException {
         UUID uuid = PlayerTimeManager.playerUUIDbyName(playername, source.getLevel());
         if (uuid == null) {
@@ -113,7 +110,7 @@ public class modTimercmd extends PlayerTimeManager {
                 + LocalTime.ofSecondOfDay(PlayerTimeManager.getTracker(uuid).getSecsPlayed()).format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
         return 0;
     }
-    private static int timerState(CommandSourceStack source) throws CommandSyntaxException {
+    private static int timerState(CommandSourceStack source) {
         if(PlayerTimeManager.isTimerEnabled()){
             source.sendSystemMessage(Component.literal(String.format("TContador activo")));
         } else {
@@ -122,7 +119,7 @@ public class modTimercmd extends PlayerTimeManager {
         return 0;
     }
 
-    private static int toggleTimer(CommandSourceStack source) throws CommandSyntaxException {
+    private static int toggleTimer(CommandSourceStack source) {
         PlayerTimeManager.toggleTimer();
         if(PlayerTimeManager.isTimerEnabled()){
             source.sendSystemMessage(Component.literal(String.format("El contador se ha activado")));

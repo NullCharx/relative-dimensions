@@ -1,22 +1,18 @@
 package es.nullbyte.charmiscmods;
 
-import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modPVPcmd;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modTimercmd;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
-import es.nullbyte.charmiscmods.init.*;
-
+import es.nullbyte.charmiscmods.init.ItemInit;
+import es.nullbyte.charmiscmods.init.TileEntityInit;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-
-
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
@@ -29,12 +25,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
@@ -48,12 +40,9 @@ public class CharMiscModsMain {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
-    public static final int DEF_RESETTIME = 06; //6am 35 minutes
-    private final Path TMConfigPath = Paths.get(".", "charmscmods", "playtimelimiter", "manager_config.json");
+    public static final int DEF_RESETTIME = 6; //6am 35 minutes
 
     public static PlayerTimeManager timeManager;
-    public static final PvpManager pvpManger = new PvpManager(-1);
-
 
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
