@@ -1,5 +1,6 @@
 package es.nullbyte.charmiscmods;
 
+import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,6 +29,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
@@ -39,9 +47,11 @@ public class CharMiscModsMain {
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public static final int TIMELIMIT = 4*60*60; //4 hours
-    public static final int RESETTIME = 06; //6am 35 minutes
-    public static final PlayerTimeManager timeManager = new PlayerTimeManager(TIMELIMIT,RESETTIME);
+    public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
+    public static final int DEF_RESETTIME = 06; //6am 35 minutes
+    private final Path TMConfigPath = Paths.get(".", "charmscmods", "playtimelimiter", "manager_config.json");
+
+    public static PlayerTimeManager timeManager;
     public static final PvpManager pvpManger = new PvpManager(-1);
 
 
@@ -121,15 +131,44 @@ public class CharMiscModsMain {
         LOGGER.info("->Functioning team player tracking compass");
         LOGGER.info("->Custom PVP GUI");
 
-        LOGGER.info("Thank you for using this mod!");
+        LOGGER.info("->Thank you for using this mod!");
         LOGGER.info("--------------------------------");
 
+
+        LOGGER.info("[CHARMISCMODS - MAIN] Registering commands");
 
         //Register commands with server dispatcher on server startup. Call common method to resgister all commands
         CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
         registerCommands(dispatcher);
 
+        LOGGER.info("[CHARMISCMODS - MAIN] Trying to load manager configuration");
+        PlayerTimeManager tempTM = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
+        try {
+            File file = new File("./charmscmods/playtimelimiter/manager_config.json");
+            if (file.exists()) {
+                tempTM.loadData(file);
+            }
+            LOGGER.info("[PLAYTIMELIMITER - MAIN] Succesfully loaded saved manager parameters");
+
+        } catch (IOException e) {
+            LOGGER.error("[PLAYTIMELIMITER - MAIN] Failed to load saved manager parameters");
+        }
+        timeManager = tempTM;
+
     }
+
+    @SubscribeEvent
+    public void onServerStopping(ServerStoppingEvent event) {
+        try {
+            File file = new File("./charmscmods/playtimelimiter/manager_config.json");
+            timeManager.saveData(file);
+            LOGGER.info("[PLAYTIMELIMITER - MAIN] Succesfully saved current manager parameters");
+
+        } catch (IOException e) {
+            LOGGER.error("[PLAYTIMELIMITER - MAIN] Failed to save manager parameters");
+        }
+    }
+
     //register buildcontents event to the event bus
 
     public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -137,6 +176,9 @@ public class CharMiscModsMain {
         modPVPcmd.register(dispatcher);
         modTimercmd.register(dispatcher);
     }
+
+
+
 
 }
     /*

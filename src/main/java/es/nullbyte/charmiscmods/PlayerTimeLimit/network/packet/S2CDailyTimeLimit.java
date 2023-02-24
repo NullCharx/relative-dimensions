@@ -23,8 +23,6 @@ public class S2CDailyTimeLimit {
 
     }
 
-    //TODO: MAke a new packet to syncornize the timelimit to the clients (done, mpw syncronize on logon)
-    //Synchonize it too when the player logs in
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
 

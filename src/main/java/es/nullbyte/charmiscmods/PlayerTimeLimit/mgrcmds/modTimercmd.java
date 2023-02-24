@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class modTimercmd extends PlayerTimeManager {
-//TODO BEFORE RELEASE: ADD SOUND AND VISUAL EFFECTS TO: PVP TOGGLE, AND LAYER DEATH, CHECK NEW COMMANDS ON SERVER
+//TODO BEFORE RELEASE: ADD SOUND AND VISUAL EFFECTS TO: PVP TOGGLE, ALSO TO TIMER START
     private static final SimpleCommandExceptionType ERROR_USER_NOT_FOUND = new SimpleCommandExceptionType(Component.translatable("Jugador no encontrado"));
     private static final SimpleCommandExceptionType RESET_TIME_OUT_OF_RANGE =  new SimpleCommandExceptionType(Component.translatable("Error de argumento (formato 24 horas entre 00:00 y 23:59)"));
     private static final SimpleCommandExceptionType DAILY_AMOUNT_TO_LOW =  new SimpleCommandExceptionType(Component.translatable("Error de argumento. Al menos un minuto de juego"));
@@ -156,7 +156,7 @@ public class modTimercmd extends PlayerTimeManager {
             source.sendSystemMessage(Component.literal(String.format("Tiempo de juego fijado a " +
                     LocalTime.ofSecondOfDay(seconds).format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
 
-            for (ServerPlayer p: source.getLevel().players()){ //update the timer for all players GUIrender
+            for (ServerPlayer p: source.getLevel().players()){ //update the timer for all online players GUIrender
                 DailyTimeLimitHandler.sendToPlayer(new S2CDailyTimeLimit(seconds), p);
 
             }
