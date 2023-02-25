@@ -349,22 +349,4 @@ public class PlayerTimeManager {
         }
     }
 
-    public void saveData(File file) throws IOException {
-        try (Writer writer = new FileWriter(file)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(dailyTimeLimit, writer);
-            gson.toJson(resetTime.toString(), writer);
-            gson.toJson(isEnabled, writer);
-        }
-    }
-
-    public void loadData(File file) throws IOException {
-        try (Reader reader = new FileReader(file)) {
-            Gson gson = new GsonBuilder().create();
-            dailyTimeLimit = gson.fromJson(reader, Long.class);
-            resetTime = LocalDateTime.parse(gson.fromJson(reader, String.class));
-            isEnabled = gson.fromJson(reader, Boolean.class);
-        }
-    }
-
 }

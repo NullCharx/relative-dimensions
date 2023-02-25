@@ -130,33 +130,14 @@ public class CharMiscModsMain {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
         registerCommands(dispatcher);
 
-        LOGGER.info("[CHARMISCMODS - MAIN] Trying to load manager configuration");
         PlayerTimeManager tempTM = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
-        try {
-            File file = new File("./charmscmods/playtimelimiter/manager_config.json");
-            if (file.exists()) {
-                tempTM.loadData(file);
-            }
-            LOGGER.info("[PLAYTIMELIMITER - MAIN] Succesfully loaded saved manager parameters");
-
-        } catch (IOException e) {
-            LOGGER.error("[PLAYTIMELIMITER - MAIN] Failed to load saved manager parameters");
-        }
         timeManager = tempTM;
 
     }
 
-    @SubscribeEvent
-    public void onServerStopping(ServerStoppingEvent event) {
-        try {
-            File file = new File("./charmscmods/playtimelimiter/manager_config.json");
-            timeManager.saveData(file);
-            LOGGER.info("[PLAYTIMELIMITER - MAIN] Succesfully saved current manager parameters");
-
-        } catch (IOException e) {
-            LOGGER.error("[PLAYTIMELIMITER - MAIN] Failed to save manager parameters");
-        }
-    }
+    //@SubscribeEvent
+    //public void onServerStopping(ServerStoppingEvent event) {
+    //}
 
     //register buildcontents event to the event bus
 
