@@ -66,6 +66,7 @@ public class modPVPcmd {
         } else {
             PvpManager.enableGlobalDamage(source.getLevel());
         }
+        PvpManager.syncronizeState(source.getLevel());
         return 0;
     }
 

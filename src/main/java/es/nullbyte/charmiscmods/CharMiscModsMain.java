@@ -135,7 +135,7 @@ public class CharMiscModsMain {
 
     @SubscribeEvent
     public void onServerStopping(ServerStoppingEvent event) {
-        LOGGER.info("[CHARMISCMODS - MAIN] Loading manager registry");
+        LOGGER.info("[CHARMISCMODS - MAIN] Saving manager registry");
         timeManager.saveManagerData();
     }
 

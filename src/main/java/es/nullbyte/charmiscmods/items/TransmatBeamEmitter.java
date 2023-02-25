@@ -88,90 +88,91 @@ public class TransmatBeamEmitter extends Item {
     private static int tpTickCount = 0;
     private static int tpseconds = 0;
     //TODO change to server tick and redo
-    //TODO: Chek what happens with saved players after reboot (ONSERVER)
+    //TODO RECHECK PVP TOGGLE
     @SubscribeEvent
-    public void ServerTick(TickEvent.ServerTickEvent event) {
+    public void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            if (transmatStart) {
+                if (tpTickCount % 20 == 0) {
+                    if (tpseconds == 0) {
+                        itemUser.sendSystemMessage(Component.literal("Locking player position..."));
+                        itemUser.level.playSound(itemUser, itemUser.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-        if (transmatStart) {
-            if(tpTickCount % 20 == 0){
-                if(tpseconds == 0) {
-                    itemUser.sendSystemMessage(Component.literal("Locking player position..."));
-                    itemUser.level.playSound(itemUser,itemUser.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                        //Transmat raytrace----------------------------------------
+                        BlockHitResult ray = rayTrace(itemUser.level, itemUser, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
+                        BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
 
-                    //Transmat raytrace----------------------------------------
-                    BlockHitResult ray = rayTrace(itemUser.level,itemUser, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
-                    BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
+                        itemUser.sendSystemMessage(Component.literal(String.format("Target coordinates acquired: %s", lookPos)));
 
-                    itemUser.sendSystemMessage(Component.literal(String.format("Target coordinates acquired: %s", lookPos)));
+                        //save the target position
+                        targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
+                        //---------------------------------------------------
 
-                    //save the target position
-                    targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
-                    //---------------------------------------------------
+                        particleStart = true;
+                    } else {
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 2, targetPos.z, 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 3, targetPos.z, 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 4, targetPos.z, 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 5, targetPos.z, 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 6, targetPos.z, 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 7, targetPos.z, 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 8, targetPos.z, 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 9, targetPos.z, 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 10, targetPos.z, 0.0D, 0.0D, 0.0D);
 
-                    particleStart = true;
-                } else {
-                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 2, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 3, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 4, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 5, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 6, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 7, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 8, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 9, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 10, targetPos.z, 0.0D, 0.0D, 0.0D);
-
-                    if (tpseconds == 1) {//
-                        itemUser.sendSystemMessage(Component.literal("Generating upstream transmat channel..."));
-                    }else if (tpseconds == 2) {
-                        //Play nether treshold sound
-                        if (itemUser.level.isClientSide()) {
-                            itemUser.sendSystemMessage(Component.literal("Energizing..."));
+                        if (tpseconds == 1) {//
+                            itemUser.sendSystemMessage(Component.literal("Generating upstream transmat channel..."));
+                        } else if (tpseconds == 2) {
+                            //Play nether treshold sound
+                            if (itemUser.level.isClientSide()) {
+                                itemUser.sendSystemMessage(Component.literal("Energizing..."));
+                            }
+                        } else if (tpseconds == 3) {
+                            if (itemUser.level.isClientSide()) {
+                                itemUser.sendSystemMessage(Component.literal("Target locked..."));
+                            }
+                        } else if (tpseconds == 4) {
+                            tpTickCount = 0;
+                            particleStart = false;
+                            transmatStart = false;
+                            itemUser.sendSystemMessage(Component.literal("Transmat channel established!"));
+                            // play a teleport sound. the last two args are volume and pitch
+                            itemUser.level.playSound(itemUser, itemUser.getX(), itemUser.getY(), itemUser.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                            itemUser.setPos(targetPos.x, targetPos.y, targetPos.z);
+                            if (itemUser.position() == posInitRounded) {
+                                itemUser.sendSystemMessage(Component.literal("Transmat channel error"));
+                            } else {
+                                itemUser.sendSystemMessage(Component.literal("Transmatting..."));
+                            }
+                            System.out.println(itemUser.position());
+                            tpseconds = 0;
                         }
-                    } else if (tpseconds == 3) {
-                        if (itemUser.level.isClientSide()) {
-                            itemUser.sendSystemMessage(Component.literal("Target locked..."));
-                        }
-                    } else if (tpseconds == 4) {
-                        tpTickCount = 0;
-                        particleStart = false;
-                        transmatStart = false;
-                        itemUser.sendSystemMessage(Component.literal("Transmat channel established!"));
-                        // play a teleport sound. the last two args are volume and pitch
-                        itemUser.level.playSound(itemUser,itemUser.getX(),itemUser.getY(),itemUser.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                        itemUser.setPos(targetPos.x, targetPos.y, targetPos.z);
-                        if(itemUser.position() == posInitRounded) {
-                            itemUser.sendSystemMessage(Component.literal("Transmat channel error"));
-                        } else {
-                            itemUser.sendSystemMessage(Component.literal("Transmatting..."));
-                        }
-                        System.out.println(itemUser.position());
-                        tpseconds =0;
                     }
-                }
-                if(particleStart) {
-                    //Generate particle effect
-                    //Make the player unable to move
-                    //Generate nether portal particles
-                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 1,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 2,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 3,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 4,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 5,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 6,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 7,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 8,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 9,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
-                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 10,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
-                    itemUser.setPos(posInit.x, posInit.y, posInit.z);
+                    if (particleStart) {
+                        //Generate particle effect
+                        //Make the player unable to move
+                        //Generate nether portal particles
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, itemUser.getX(), itemUser.getY() + 1, itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, itemUser.getX(), itemUser.getY() + 2, itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, itemUser.getX(), itemUser.getY() + 3, itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, itemUser.getX(), itemUser.getY() + 4, itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, itemUser.getX(), itemUser.getY() + 5, itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, itemUser.getX(), itemUser.getY() + 6, itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, itemUser.getX(), itemUser.getY() + 7, itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, itemUser.getX(), itemUser.getY() + 8, itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, itemUser.getX(), itemUser.getY() + 9, itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                        itemUser.level.addParticle(ParticleTypes.PORTAL, itemUser.getX(), itemUser.getY() + 10, itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                        itemUser.setPos(posInit.x, posInit.y, posInit.z);
 
+                    }
+                    tpTickCount = 0;
+                    tpseconds++;
+                } else {
+                    tpTickCount++;
                 }
-                tpTickCount = 0;
-                tpseconds++;
-            } else {
-                tpTickCount++;
+
             }
-
         }
 
     }

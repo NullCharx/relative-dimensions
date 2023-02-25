@@ -361,7 +361,7 @@ public class PlayerTimeManager {
 
     public void loadManagerData() {
         try {
-            Path dataPath = Paths.get("./charmscmods/playtimelimiter/playerdata/playerdata.json");
+            Path dataPath = Paths.get("./charmscmods/playtimelimiter/manager_config.json");
             if (Files.exists(dataPath)) {
                 String dataString = new String(Files.readAllBytes(dataPath));
                 Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
@@ -369,18 +369,20 @@ public class PlayerTimeManager {
                 dailyTimeLimit = playerData.getDailyTimeLimit();
                 resetTime = playerData.getResetTime();
                 isEnabled = playerData.isToggled;
+
+                PvpManager.bypassSetPVPstte(playerData.getPvpLevel());
             }
         } catch (IOException e) {
-            LOGGER.error("Error loading player data: " + e.getMessage());
+            LOGGER.error("Error loading manager data: " + e.getMessage());
         }
     }
 
     public void saveManagerData() {
-        PlayerData playerData = new PlayerData(dailyTimeLimit, resetTime, isEnabled);
+        PlayerData playerData = new PlayerData(dailyTimeLimit, resetTime, isEnabled, PvpManager.getPVPstate());
         Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
         String json = gson.toJson(playerData);
         try {
-            Path dataPath = Paths.get("./charmscmods/playtimelimiter/playerdata/playerdata.json");
+            Path dataPath = Paths.get("./charmscmods/playtimelimiter/manager_config.json");
             Files.createDirectories(dataPath.getParent());
             File dataFile = dataPath.toFile();
             if (!dataFile.exists()) {
@@ -398,13 +400,18 @@ public class PlayerTimeManager {
         private long dailyTimeLimit;
         private LocalDateTime resetTime;
         private boolean isToggled;
+        private int pvpLevel;
 
-        public PlayerData(long dailyTimeLimit, LocalDateTime resetTime, boolean isToggled) {
+        public PlayerData(long dailyTimeLimit, LocalDateTime resetTime, boolean isToggled, int pvpLevel) {
             this.dailyTimeLimit = dailyTimeLimit;
             this.resetTime = resetTime;
             this.isToggled = isToggled;
+            this.pvpLevel = pvpLevel;
         }
 
+        public int getPvpLevel() {
+            return pvpLevel;
+        }
         public long getDailyTimeLimit() {
             return dailyTimeLimit;
         }

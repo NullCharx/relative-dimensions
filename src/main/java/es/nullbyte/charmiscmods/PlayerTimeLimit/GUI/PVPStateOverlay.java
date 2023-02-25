@@ -112,7 +112,7 @@ public class PVPStateOverlay{
 
         int intstate = LocalState.PVPstate;
         String statePVP = ""; // replace with your logic to get the remaining time
-        int color = 0;
+        int color;
         if (intstate ==-1) {
             statePVP = "OFF";
             color = 0xFF00AA00;
