@@ -84,18 +84,11 @@ public class TransmatBeamEmitter extends Item {
         return world.clip(new ClipContext(vector3d, vector3d1, ClipContext.Block.OUTLINE, fluidMode, player));
     }
 
+    //TODO change to server tick and redo
     @SubscribeEvent
-    public void PlayerTick(TickEvent.PlayerTickEvent event) {
+    public void ServerTick(TickEvent.PlayerTickEvent event) {
 
         if (transmatStart) {
-            /*if(!particleStart) {
-                event.player.getCapability(PlayerTransmatstateProvider.TRANSMATSTATE_CAPABILITY).ifPresent((state) -> {
-                    state.setCurrentHand(handInit);
-                    state.setCurrentWorld(worldInit);
-                    state.setCurrentPlayer(playerInit);
-                    state.setCurrentPos(posInit);
-                });
-            }*/
 
             if(ticksCounter == 0) {
                 event.player.sendSystemMessage(Component.literal(String.format("Locking player position...")));
