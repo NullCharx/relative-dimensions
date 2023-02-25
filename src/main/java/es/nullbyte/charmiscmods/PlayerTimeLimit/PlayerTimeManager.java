@@ -3,6 +3,7 @@ package es.nullbyte.charmiscmods.PlayerTimeLimit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.ancillar.LocalDateTimeAdapter;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CDailyTimeLimit;
@@ -31,6 +32,9 @@ import org.slf4j.Logger;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -87,7 +91,7 @@ public class PlayerTimeManager {
     protected static void setResetTime(int hour, int min) {
         LocalTime time = LocalTime.of(hour, min);
         LocalDateTime timeDate = LocalDateTime.of(LocalDate.now(), time);
-        if (time.isBefore(timeDate.toLocalTime()) && timeDate.isBefore(LocalDateTime.now().plusDays(1))) {
+        if (time.isBefore(LocalTime.now()) && timeDate.isBefore(LocalDateTime.now().plusDays(1))) {
             timeDate = timeDate.plusDays(1);
         }
         resetTime = timeDate;
@@ -346,6 +350,77 @@ public class PlayerTimeManager {
             ServerPlayer serverplayer = (ServerPlayer) player;
             serverplayer.connection.disconnect(Component.translatable("Has sido eliminado! Gracias por jugar con nosotros"));
 
+        }
+    }
+
+    public void loadManagerData() {
+        try {
+            Path dataPath = Paths.get("./charmscmods/playtimelimiter/playerdata/playerdata.json");
+            if (Files.exists(dataPath)) {
+                String dataString = new String(Files.readAllBytes(dataPath));
+                Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
+                PlayerData playerData = gson.fromJson(dataString, PlayerData.class);
+                dailyTimeLimit = playerData.getDailyTimeLimit();
+                resetTime = playerData.getResetTime();
+                isEnabled = playerData.isToggled;
+            }
+        } catch (IOException e) {
+            LOGGER.error("Error loading player data: " + e.getMessage());
+        }
+    }
+
+    public void saveManagerData() {
+        PlayerData playerData = new PlayerData(dailyTimeLimit, resetTime, isEnabled);
+        Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
+        String json = gson.toJson(playerData);
+        try {
+            Path dataPath = Paths.get("./charmscmods/playtimelimiter/playerdata/playerdata.json");
+            Files.createDirectories(dataPath.getParent());
+            File dataFile = dataPath.toFile();
+            if (!dataFile.exists()) {
+                dataFile.createNewFile();
+            }
+            FileWriter writer = new FileWriter(dataFile);
+            writer.write(json);
+            writer.close();
+        } catch (IOException e) {
+            LOGGER.error("Error saving manager data: " + e.getMessage());
+        }
+    }
+
+    public class PlayerData {
+        private long dailyTimeLimit;
+        private LocalDateTime resetTime;
+        private boolean isToggled;
+
+        public PlayerData(long dailyTimeLimit, LocalDateTime resetTime, boolean isToggled) {
+            this.dailyTimeLimit = dailyTimeLimit;
+            this.resetTime = resetTime;
+            this.isToggled = isToggled;
+        }
+
+        public long getDailyTimeLimit() {
+            return dailyTimeLimit;
+        }
+
+        public void setDailyTimeLimit(long dailyTimeLimit) {
+            this.dailyTimeLimit = dailyTimeLimit;
+        }
+
+        public LocalDateTime getResetTime() {
+            return resetTime;
+        }
+
+        public void setResetTime(LocalDateTime resetTime) {
+            this.resetTime = resetTime;
+        }
+
+        public boolean getToggled() {
+            return isToggled;
+        }
+
+        public void setToggled(boolean toggled) {
+            this.isToggled = toggled;
         }
     }
 

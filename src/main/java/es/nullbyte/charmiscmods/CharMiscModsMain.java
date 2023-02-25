@@ -25,9 +25,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-import java.io.File;
-import java.io.IOException;
-
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -129,14 +126,17 @@ public class CharMiscModsMain {
         //Register commands with server dispatcher on server startup. Call common method to resgister all commands
         CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
         registerCommands(dispatcher);
-
+        LOGGER.info("[CHARMISCMODS - MAIN] Loading manager registry");
+        timeManager.loadManagerData();
 
 
     }
 
-    //@SubscribeEvent
-    //public void onServerStopping(ServerStoppingEvent event) {
-    //}
+    @SubscribeEvent
+    public void onServerStopping(ServerStoppingEvent event) {
+        LOGGER.info("[CHARMISCMODS - MAIN] Loading manager registry");
+        timeManager.saveManagerData();
+    }
 
     //register buildcontents event to the event bus
 
