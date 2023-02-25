@@ -147,9 +147,15 @@ public class PlayerTimeManager {
      Banned players must be unbanned outside this class
      */
     public static void resetAllTime() {
-        for (PlayerTimeTracker player : playerMap.values()) {
-            player.resetTimePlayed();
-            player.setTimeoutState(false);
+        for (UUID playeruuid : playerMap.keySet()) {
+            PlayerTimeTracker tt = getTracker(playeruuid);
+            tt.resetTimePlayed();
+            tt.setTimeoutState(false);
+            try {
+                tt.saveToFile(playeruuid);
+            } catch (IOException e) {
+                LOGGER.error("Error while trying to reset playerdata");
+            }
         }
     }
 
@@ -322,10 +328,10 @@ public class PlayerTimeManager {
             // Send the message to all online players as a game info!
             MutableComponent message;
             if (killer instanceof Player) {
-                message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " ha muerto a manos de " + killer.getName().getString());
+                message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " ha sido asesinado por " + killer.getName().getString());
             } else if (killer instanceof LivingEntity) {
-                String deathReason = String.valueOf(((LivingEntity) killer).getKillCredit());
-                message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " por " + deathReason);
+                String deathReason = String.valueOf(((LivingEntity) killer).getName().getString());
+                message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " ha muerto a manos de " + deathReason);
             } else {
                 message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " ha muerto bajo extrañas circunstancias");
             }

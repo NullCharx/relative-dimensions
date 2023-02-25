@@ -19,6 +19,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 
 import static java.lang.Math.floor;
 
@@ -29,7 +30,7 @@ public class TransmatBeamEmitter extends Item {
     private Vec3 posInitRounded = null;
 
     private Vec3 targetPos = null;
-    private int ticksCounter = 0;
+    private Player itemUser;
     //https://moddingtutorials.org/advanced-items
     public TransmatBeamEmitter(Properties properties) {
         super(properties);
@@ -44,13 +45,13 @@ public class TransmatBeamEmitter extends Item {
         int secs = 10;
         //If not checking, the event will fire twice (both in client and server)
         if (world.isClientSide()) {
-            player.sendSystemMessage(Component.literal(String.format("Stabilishing transmat channel...")));
+            player.sendSystemMessage(Component.literal("Stabilishing transmat channel..."));
 
         }
         posInit = player.position();
         posInitRounded = new Vec3(floor(player.getX()), floor(player.getY()), floor(player.getZ()));
+        itemUser = player;
         transmatStart = true;
-        System.out.println(posInit);
         // allow the teleport to cancel fall damage
         player.fallDistance = 0F;
 
@@ -84,84 +85,93 @@ public class TransmatBeamEmitter extends Item {
         return world.clip(new ClipContext(vector3d, vector3d1, ClipContext.Block.OUTLINE, fluidMode, player));
     }
 
+    private static int tpTickCount = 0;
+    private static int tpseconds = 0;
     //TODO change to server tick and redo
+    //TODO: Chek what happens with saved players after reboot (ONSERVER)
     @SubscribeEvent
-    public void ServerTick(TickEvent.PlayerTickEvent event) {
+    public void ServerTick(TickEvent.ServerTickEvent event) {
 
         if (transmatStart) {
+            if(tpTickCount % 20 == 0){
+                if(tpseconds == 0) {
+                    itemUser.sendSystemMessage(Component.literal("Locking player position..."));
+                    itemUser.level.playSound(itemUser,itemUser.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-            if(ticksCounter == 0) {
-                event.player.sendSystemMessage(Component.literal(String.format("Locking player position...")));
-                event.player.level.playSound(event.player, event.player.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    //Transmat raytrace----------------------------------------
+                    BlockHitResult ray = rayTrace(itemUser.level,itemUser, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
+                    BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
 
-                //Transmat raytrace----------------------------------------
-                BlockHitResult ray = rayTrace(event.player.level, event.player, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
-                BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
+                    itemUser.sendSystemMessage(Component.literal(String.format("Target coordinates acquired: %s", lookPos)));
 
-                event.player.sendSystemMessage(Component.literal(String.format("Target coordinates acquired: %s", lookPos.toString())));
+                    //save the target position
+                    targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
+                    //---------------------------------------------------
 
-                //save the target position
-                targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
-                //---------------------------------------------------
+                    particleStart = true;
+                } else {
+                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 2, targetPos.z, 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 3, targetPos.z, 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 4, targetPos.z, 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 5, targetPos.z, 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 6, targetPos.z, 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 7, targetPos.z, 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 8, targetPos.z, 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 9, targetPos.z, 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 10, targetPos.z, 0.0D, 0.0D, 0.0D);
 
-                particleStart = true;
-            } else {
-                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 2, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 3, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 4, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 5, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 6, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 7, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 8, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 9, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 10, targetPos.z, 0.0D, 0.0D, 0.0D);
-
-                if (ticksCounter == 100) {//
-                    event.player.sendSystemMessage(Component.literal(String.format("Generating upstream transmat channel...")));
-                }else if (ticksCounter == 200) {
-                    //Play nether treshold sound
-                    if (event.player.level.isClientSide()) {
-                        event.player.sendSystemMessage(Component.literal(String.format("Energizing...")));
+                    if (tpseconds == 1) {//
+                        itemUser.sendSystemMessage(Component.literal("Generating upstream transmat channel..."));
+                    }else if (tpseconds == 2) {
+                        //Play nether treshold sound
+                        if (itemUser.level.isClientSide()) {
+                            itemUser.sendSystemMessage(Component.literal("Energizing..."));
+                        }
+                    } else if (tpseconds == 3) {
+                        if (itemUser.level.isClientSide()) {
+                            itemUser.sendSystemMessage(Component.literal("Target locked..."));
+                        }
+                    } else if (tpseconds == 4) {
+                        tpTickCount = 0;
+                        particleStart = false;
+                        transmatStart = false;
+                        itemUser.sendSystemMessage(Component.literal("Transmat channel established!"));
+                        // play a teleport sound. the last two args are volume and pitch
+                        itemUser.level.playSound(itemUser,itemUser.getX(),itemUser.getY(),itemUser.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        itemUser.setPos(targetPos.x, targetPos.y, targetPos.z);
+                        if(itemUser.position() == posInitRounded) {
+                            itemUser.sendSystemMessage(Component.literal("Transmat channel error"));
+                        } else {
+                            itemUser.sendSystemMessage(Component.literal("Transmatting..."));
+                        }
+                        System.out.println(itemUser.position());
+                        tpseconds =0;
                     }
-                } else if (ticksCounter == 300) {
-                    if (event.player.level.isClientSide()) {
-                        event.player.sendSystemMessage(Component.literal(String.format("Target locked...")));
-                    }
-                } else if (ticksCounter == 400) {
-                    ticksCounter = 0;
-                    particleStart = false;
-                    transmatStart = false;
-                    event.player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
-                    // play a teleport sound. the last two args are volume and pitch
-                    event.player.level.playSound(event.player, event.player.getX(), event.player.getY(), event.player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                    event.player.setPos(targetPos.x, targetPos.y, targetPos.z);
-                    if(event.player.position() == posInitRounded) {
-                        event.player.sendSystemMessage(Component.literal(String.format("Transmat channel error")));
-                    } else {
-                        event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
-                    }
-                    System.out.println(event.player.position());
                 }
-            }
-            if(particleStart) {
-                //Generate particle effect
-                //Make the player unable to move
-                //Generate nether portal particles
-                ticksCounter++;
-                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 1, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 2, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 3, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 4, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 5, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 6, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 7, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 8, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 9, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 10, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.setPos(posInit.x, posInit.y, posInit.z);
+                if(particleStart) {
+                    //Generate particle effect
+                    //Make the player unable to move
+                    //Generate nether portal particles
+                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 1,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 2,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 3,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 4,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 5,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 6,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 7,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 8,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 9,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                    itemUser.level.addParticle(ParticleTypes.PORTAL,itemUser.getX(),itemUser.getY() + 10,itemUser.getZ(), 0.0D, 0.0D, 0.0D);
+                    itemUser.setPos(posInit.x, posInit.y, posInit.z);
 
+                }
+                tpTickCount = 0;
+                tpseconds++;
+            } else {
+                tpTickCount++;
             }
+
         }
 
     }
@@ -175,12 +185,12 @@ public class TransmatBeamEmitter extends Item {
 
     // makes it repairable
     @Override
-    public boolean isRepairable(ItemStack stack) {
+    public boolean isRepairable(@NotNull ItemStack stack) {
         return true;
     }
 
     @Override
-    public boolean isValidRepairItem(ItemStack tool, ItemStack material) {
+    public boolean isValidRepairItem(@NotNull ItemStack tool, ItemStack material) {
         return material.getItem() == ItemInit.TRANSMAT_BEAM_EMITTER.get();
     }
 }
