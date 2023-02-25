@@ -42,7 +42,7 @@ public class CharMiscModsMain {
     public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
 
-    public static PlayerTimeManager timeManager;
+    public static PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);;
 
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
@@ -130,8 +130,7 @@ public class CharMiscModsMain {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
         registerCommands(dispatcher);
 
-        PlayerTimeManager tempTM = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
-        timeManager = tempTM;
+
 
     }
 
