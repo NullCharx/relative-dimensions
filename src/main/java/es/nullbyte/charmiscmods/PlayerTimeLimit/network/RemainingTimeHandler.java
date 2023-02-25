@@ -1,6 +1,5 @@
 package es.nullbyte.charmiscmods.PlayerTimeLimit.network;
 
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.Client2Server;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

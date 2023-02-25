@@ -5,14 +5,9 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPState;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CRemainingTime;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 
 public class modPVPcmd {
     private static final SimpleCommandExceptionType ERROR_LEVEL_NOT_VALID = new SimpleCommandExceptionType(Component.translatable("Nivel PVP no valido. EL rango es de -1 (no pvp) a 1 (ULTRA)"));
@@ -36,7 +31,8 @@ public class modPVPcmd {
                 })).then(Commands.literal("refresh").executes((refreshcoll) -> { //chpvp refresh
                     return collisionSatateRefresh(refreshcoll.getSource());
                 })));
-    };
+    }
+
     private static int setPVP(CommandSourceStack source, String levelStr) throws CommandSyntaxException {
 
         int level = Integer.parseInt(levelStr);

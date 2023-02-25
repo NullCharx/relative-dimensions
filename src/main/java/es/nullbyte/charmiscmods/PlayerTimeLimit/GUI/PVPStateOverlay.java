@@ -71,7 +71,7 @@ public class PVPStateOverlay{
 
         poseStack.pushPose();
         poseStack.scale(0.8F,0.8F,0.8F);
-        // Draw "HH:MM:SS" text TODO change colors depending on time remaining
+        // Draw "HH:MM:SS" text
         long timer = localtimers.get(Minecraft.getInstance().player.getUUID());
         String remainingTime = LocalTime.ofSecondOfDay(timer).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         int color = 0;

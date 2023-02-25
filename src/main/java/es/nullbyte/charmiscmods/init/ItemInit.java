@@ -1,20 +1,11 @@
 package es.nullbyte.charmiscmods.init;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.CreativeModeTabEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import es.nullbyte.charmiscmods.items.*;
-
-import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 
 public class ItemInit {
     //https://moddingtutorials.org/basic-items

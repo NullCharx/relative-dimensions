@@ -4,11 +4,8 @@ import es.nullbyte.charmiscmods.CharMiscModsMain;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.PVPStateOverlay;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 
 public class ClientEvents {
     //@Mod.EventBusSubscriber(modid = CharMiscModsMain.MOD_ID, value = Dist.CLIENT)
