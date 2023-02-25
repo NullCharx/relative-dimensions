@@ -5,9 +5,15 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 
 public class modPVPcmd {
     private static final SimpleCommandExceptionType ERROR_LEVEL_NOT_VALID = new SimpleCommandExceptionType(Component.translatable("Nivel PVP no valido. EL rango es de -1 (no pvp) a 1 (ULTRA)"));
@@ -41,6 +47,7 @@ public class modPVPcmd {
         }  else {
             PvpManager.setPVPstate(level, source.getLevel() );
         }
+        prettyPrint(source);
         return 0;
     }
 
@@ -48,7 +55,9 @@ public class modPVPcmd {
         if(PvpManager.isPVPultra()){
             throw ERROR_HIGHEST_LEVEL.create();
         }
+
         PvpManager.increasePVPstate(source.getLevel());
+        prettyPrint(source);
         return 0;
     }
 
@@ -57,6 +66,7 @@ public class modPVPcmd {
             throw ERROR_LOWEST_LEVEL.create();
         }
         PvpManager.decreasePVPstate(source.getLevel());
+        prettyPrint(source);
         return 0;
     }
 
@@ -69,5 +79,24 @@ public class modPVPcmd {
         PvpManager.syncronizeState(source.getLevel());
         return 0;
     }
+    private static void prettyPrint(CommandSourceStack source) {
+        BlockPos deathBP =  new BlockPos(0,0,0);
+        source.getLevel().playSound(null, deathBP, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0f, 1.0f); ;
+        MutableComponent message;
+        if(PvpManager.isPVPoff()){
+            message = Component.translatable("[S.P.A.S] - Atención - Agresión: Desactivada. Regeneración natural: Activada");
+            message.withStyle(ChatFormatting.GREEN);
 
+        } else if (PvpManager.isPVPon()) {
+            message = Component.translatable("[S.P.A.S] - Atención - Agresión: Activada. Regeneración natural: Activada");
+            message.withStyle(ChatFormatting.BLUE);
+        } else {
+            message = Component.translatable("[S.P.A.S] - Atención - Agresión: Activada. Regeneración natural: Desactivada");
+            message.withStyle(ChatFormatting.GOLD);
+        }
+        message.withStyle(ChatFormatting.BOLD);
+        for (ServerPlayer p : source.getLevel().getServer().getPlayerList().getPlayers()) {
+            p.sendSystemMessage(message, false);
+        }
+    }
 }

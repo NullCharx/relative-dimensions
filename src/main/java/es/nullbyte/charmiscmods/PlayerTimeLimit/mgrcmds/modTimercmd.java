@@ -8,17 +8,21 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CDailyTimeLimit;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class modTimercmd extends PlayerTimeManager {
-//TODO BEFORE RELEASE: ADD SOUND AND VISUAL EFFECTS TO: PVP TOGGLE, ALSO TO TIMER START
     private static final SimpleCommandExceptionType ERROR_USER_NOT_FOUND = new SimpleCommandExceptionType(Component.translatable("Jugador no encontrado"));
     private static final SimpleCommandExceptionType RESET_TIME_OUT_OF_RANGE =  new SimpleCommandExceptionType(Component.translatable("Error de argumento (formato 24 horas entre 00:00 y 23:59)"));
     private static final SimpleCommandExceptionType DAILY_AMOUNT_TO_LOW =  new SimpleCommandExceptionType(Component.translatable("Error de argumento. Al menos un minuto de juego"));
@@ -121,10 +125,19 @@ public class modTimercmd extends PlayerTimeManager {
 
     private static int toggleTimer(CommandSourceStack source) {
         PlayerTimeManager.toggleTimer();
+        BlockPos deathBP =  new BlockPos(0,100,0);
+        MutableComponent message;
+
+        source.getLevel().playSound(null, deathBP, SoundEvents.AMBIENT_CAVE.get(), SoundSource.PLAYERS, 100.0f, 1.0f);
+
         if(PlayerTimeManager.isTimerEnabled()){
-            source.sendSystemMessage(Component.literal(String.format("El contador se ha activado")));
+            message= Component.translatable("[S.P.A.S] - El tiempo de juego ha comenzado. ¡A explorar! (Y cuidado por donde pisais)");
         } else {
-            source.sendSystemMessage(Component.literal(String.format("El contador se ha desactivado")));
+            message= Component.translatable("[S.P.A.S] - Contador detenido");
+        }
+        message.withStyle(ChatFormatting.BOLD);
+        for (ServerPlayer p : source.getLevel().getServer().getPlayerList().getPlayers()) {
+            p.sendSystemMessage(message, false);
         }
         return 0;
     }
