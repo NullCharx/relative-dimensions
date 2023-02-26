@@ -119,7 +119,6 @@ public class PvpManager {
 
     }
 
-    //TODO initialization and persistance
     //Also check team persistance (if it saves the default one then it is ok to leave it like this)
     @SubscribeEvent
     public static void onLivingAttack(LivingAttackEvent event) {

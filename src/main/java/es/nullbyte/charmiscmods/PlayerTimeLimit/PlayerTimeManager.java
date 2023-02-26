@@ -255,9 +255,6 @@ public class PlayerTimeManager {
 
         }
         LOGGER.info("[PLAYTIME LIMITER] Wrote playertimer to: " + event.getEntity().getUUID() + "_timerdata.json");
-
-        //TODO check if vanilla teams are persistent across reboots. Teams are, members aren't
-
     }
 
     @SubscribeEvent
