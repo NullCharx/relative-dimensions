@@ -45,7 +45,7 @@ public class modPVPcmd {
         if (level< -1 || level>1) {
             throw ERROR_LEVEL_NOT_VALID.create();
         }  else {
-            PvpManager.setPVPstate(level, source.getLevel() );
+            PvpManager.setPVPstate(level);
         }
         prettyPrint(source);
         return 0;
@@ -56,7 +56,7 @@ public class modPVPcmd {
             throw ERROR_HIGHEST_LEVEL.create();
         }
 
-        PvpManager.increasePVPstate(source.getLevel());
+        PvpManager.increasePVPstate();
         prettyPrint(source);
         return 0;
     }
@@ -65,23 +65,23 @@ public class modPVPcmd {
         if(PvpManager.isPVPoff()){
             throw ERROR_LOWEST_LEVEL.create();
         }
-        PvpManager.decreasePVPstate(source.getLevel());
+        PvpManager.decreasePVPstate();
         prettyPrint(source);
         return 0;
     }
 
-    private static int collisionSatateRefresh(CommandSourceStack source) throws CommandSyntaxException {
+    private static int collisionSatateRefresh(CommandSourceStack source) {
         if (PvpManager.isPVPoff()) {
             PvpManager.disableGlobalDamage();
         } else {
             PvpManager.enableGlobalDamage();
         }
-        PvpManager.syncronizeState(source.getLevel());
+        PvpManager.setPVPstate(PvpManager.getPVPstate());
         return 0;
     }
     private static void prettyPrint(CommandSourceStack source) {
         BlockPos deathBP =  new BlockPos(0,0,0);
-        source.getLevel().playSound(null, deathBP, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0f, 1.0f); ;
+        source.getLevel().playSound(null, deathBP, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
         MutableComponent message;
         if(PvpManager.isPVPoff()){
             message = Component.translatable("[S.P.A.S] - Atención - Agresión: Desactivada. Regeneración natural: Activada");

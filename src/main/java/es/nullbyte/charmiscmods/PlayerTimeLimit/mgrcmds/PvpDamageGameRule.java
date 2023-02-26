@@ -15,11 +15,6 @@ public class PvpDamageGameRule {
     }
 
 
-    public static Boolean getDefaultValue() {
-        return true;
-    }
-
-
     public boolean getName() {
         return pvpDamage;
     }

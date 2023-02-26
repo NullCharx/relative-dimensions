@@ -314,10 +314,9 @@ public class PlayerTimeManager {
 
     @SubscribeEvent
     public static void onPlayerDeath(LivingDeathEvent event) {//Add effects when the player dies.
-        if (event.getEntity() instanceof Player) {
+        if (event.getEntity() instanceof Player player) {
             event.setCanceled(true);
 
-            Player player = (Player) event.getEntity();
             Level level = player.level;
             Entity killer = event.getSource().getEntity();
 
@@ -331,7 +330,7 @@ public class PlayerTimeManager {
             if (killer instanceof Player) {
                 message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " ha sido asesinado por " + killer.getName().getString());
             } else if (killer instanceof LivingEntity) {
-                String deathReason = String.valueOf(((LivingEntity) killer).getName().getString());
+                String deathReason = killer.getName().getString();
                 message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " ha muerto a manos de " + deathReason);
             } else {
                 message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " ha muerto bajo extrañas circunstancias");
@@ -349,7 +348,6 @@ public class PlayerTimeManager {
         if (event.getEntity() != null) {
             // Get the player who just respawned
             Player player = event.getEntity();
-            Level level = player.getLevel();
             LOGGER.info("[PLAYTIME LIMITER] " + player.getName().getString() + " has died. Moved to spectator mode and banned from server");
 
             //Ban and add to dead players list (Ban with ELIMINATION_ON_DEATH" identificator)
@@ -366,12 +364,12 @@ public class PlayerTimeManager {
             if (Files.exists(dataPath)) {
                 String dataString = new String(Files.readAllBytes(dataPath));
                 Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-                PlayerData playerData = gson.fromJson(dataString, PlayerData.class);
-                dailyTimeLimit = playerData.getDailyTimeLimit();
-                resetTime = playerData.getResetTime();
-                isEnabled = playerData.isToggled;
-                PvpDamageGameRule.set(playerData.pvpToggle);
-                PvpManager.bypassSetPVPstte(playerData.getPvpLevel());
+                ServerState serverState = gson.fromJson(dataString, ServerState.class);
+                dailyTimeLimit = serverState.dailyTimeLimit;
+                resetTime = serverState.resetTime;
+                isEnabled = serverState.isToggled;
+                PvpDamageGameRule.set(serverState.pvpToggle);
+                PvpManager.setPVPstate(serverState.pvpLevel);
             }
         } catch (IOException e) {
             LOGGER.error("Error loading manager data: " + e.getMessage());
@@ -379,9 +377,9 @@ public class PlayerTimeManager {
     }
 
     public void saveManagerData() {
-        PlayerData playerData = new PlayerData(dailyTimeLimit, resetTime, isEnabled, PvpManager.getPVPstate(), PvpDamageGameRule.get());
+        ServerState serverState = new ServerState(dailyTimeLimit, resetTime, isEnabled, PvpManager.getPVPstate(), PvpDamageGameRule.get());
         Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-        String json = gson.toJson(playerData);
+        String json = gson.toJson(serverState);
         try {
             Path dataPath = Paths.get("./charmscmods/playtimelimiter/manager_config.json");
             Files.createDirectories(dataPath.getParent());
@@ -397,14 +395,14 @@ public class PlayerTimeManager {
         }
     }
 
-    public class PlayerData {
-        private long dailyTimeLimit;
-        private LocalDateTime resetTime;
-        private boolean isToggled;
-        private int pvpLevel;
-        private boolean pvpToggle;
+    public static class ServerState {
+        private final long dailyTimeLimit;
+        private final LocalDateTime resetTime;
+        private final boolean isToggled;
+        private final int pvpLevel;
+        private final boolean pvpToggle;
 
-        public PlayerData(long dailyTimeLimit, LocalDateTime resetTime, boolean isToggled, int pvpLevel,boolean pvpToggle) {
+        public ServerState(long dailyTimeLimit, LocalDateTime resetTime, boolean isToggled, int pvpLevel, boolean pvpToggle) {
             this.dailyTimeLimit = dailyTimeLimit;
             this.resetTime = resetTime;
             this.isToggled = isToggled;
@@ -412,35 +410,6 @@ public class PlayerTimeManager {
             this.pvpToggle = pvpToggle;
         }
 
-        public boolean getPvpToggle() {
-            return pvpToggle;
-        }
-        public int getPvpLevel() {
-            return pvpLevel;
-        }
-        public long getDailyTimeLimit() {
-            return dailyTimeLimit;
-        }
-
-        public void setDailyTimeLimit(long dailyTimeLimit) {
-            this.dailyTimeLimit = dailyTimeLimit;
-        }
-
-        public LocalDateTime getResetTime() {
-            return resetTime;
-        }
-
-        public void setResetTime(LocalDateTime resetTime) {
-            this.resetTime = resetTime;
-        }
-
-        public boolean getToggled() {
-            return isToggled;
-        }
-
-        public void setToggled(boolean toggled) {
-            this.isToggled = toggled;
-        }
     }
 
 }

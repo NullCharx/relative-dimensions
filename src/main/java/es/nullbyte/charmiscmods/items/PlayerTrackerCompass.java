@@ -48,7 +48,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
 
             if (localNearestPlayer == null) {
                 if (world.isClientSide()) {
-                    player.sendSystemMessage(Component.literal(String.format("No se encontraron jugadores en el área.")));
+                    player.sendSystemMessage(Component.literal("No se encontraron jugadores en el área."));
                 }
                 dataStatus = 0;
                 itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
@@ -56,7 +56,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
 
             } else {
                 if (world.isClientSide()) {
-                    player.sendSystemMessage(Component.literal(String.format("Jugador encontrado. Brújula armada...")));
+                    player.sendSystemMessage(Component.literal("Jugador encontrado. Brújula armada..."));
                 }
                 userPlayer = player; //Set player
                 currentWorld = world;
@@ -65,7 +65,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
             }
         } else {
             if (world.isClientSide()) {
-                player.sendSystemMessage(Component.literal(String.format("Un jugador ya está siendo rastreado.")));
+                player.sendSystemMessage(Component.literal("Un jugador ya está siendo rastreado."));
             }
         }
         return super.use(world, player, hand);
@@ -85,7 +85,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
         if ( distanceToItemUser > RANGEOFDETECTION) {
 
             if (currentWorld.isClientSide()) {
-                userPlayer.sendSystemMessage(Component.literal(String.format("No se encontraron jugadores en el área.")));
+                userPlayer.sendSystemMessage(Component.literal("No se encontraron jugadores en el área."));
             }
             dataStatus = 0;
             isArmed = false;
@@ -93,7 +93,7 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
         } else if (distanceToItemUser < 5) {
             //Delete the item from the inventory once "one use is done" (you approach to 8 blocks or less from the tracked player)
             if (currentWorld.isClientSide()) {
-                userPlayer.sendSystemMessage(Component.literal(String.format("Debido a la cercanía con el objetivo, la brújula se ha sobrecargado y ya no funciona.La energía sobrante te ha permitido ver como la brújula se ha volatilizado antes tus ojos")));
+                userPlayer.sendSystemMessage(Component.literal("Debido a la cercanía con el objetivo, la brújula se ha sobrecargado y ya no funciona.La energía sobrante te ha permitido ver como la brújula se ha volatilizado antes tus ojos"));
             }
             dataStatus = 0;
             isArmed = false;
@@ -105,10 +105,6 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
 
             //Compute distance taking into account both the relative position between players (plane X-Z) and the direction
             //The user of the item is looking at. (Commented lines compute Y axis, not needed)
-            //double  playerPitch = player.getRotationVector().x;
-            //double pitch = -Math.toDegrees(Math.atan2(yDiff, distance));
-            //double yDiff = nearestPlayerPos.y - playerPos.y + nearestPlayer.getEyeHeight() - player.getEyeHeight();
-            //double distance = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
             double playerYaw = userPlayer.getRotationVector().y;
             double xDiff = nearestPlayerPos.x - playerPos.x;
             double zDiff = nearestPlayerPos.z - playerPos.z;

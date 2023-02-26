@@ -15,7 +15,6 @@ public class ClientEvents {
 
     @Mod.EventBusSubscriber(modid = CharMiscModsMain.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModBusEvents {
-        private final PVPStateOverlay pvpStateOverlay = new PVPStateOverlay();
 
 
         //Both the id of the hud and the path to gui resource must contain no uppercase letters or speciañ characters other than underscore

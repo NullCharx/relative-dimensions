@@ -31,11 +31,6 @@ public class ItemInit {
             () -> new TeamTrackerCompass(new Item.Properties().durability(1000)));
 
     //BLOCK ITEMS
-    //public static final RegistryObject<Item> TESTBLOCK1ITEM = ITEMS.register("testblock",
-     //       () -> new BlockItem(BlockInit.TESTBLOCK1.get(), new Item.Properties().tab(ModCreativeTab.instance)));
-
-   // public static final RegistryObject<Item> ADVANCEDTESTBLOCKITEM = ITEMS.register("adbvtestblock",
-    //        () -> new BlockItem(BlockInit.ADVANCEDTESTBLOCK.get(), new Item.Properties().tab(ModCreativeTab.instance)));
 
 
 }

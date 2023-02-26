@@ -88,7 +88,6 @@ public class TransmatBeamEmitter extends Item {
     private static int tpTickCount = 0;
     private static int tpseconds = 0;
     //TODO change to server tick and redo
-    //TODO PERSISTENCE TEAM MEMBERS!!
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
