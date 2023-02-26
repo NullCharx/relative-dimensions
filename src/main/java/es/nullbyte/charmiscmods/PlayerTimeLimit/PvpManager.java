@@ -21,17 +21,6 @@ public class PvpManager {
     private static final String PVPOFFTEAMNAME = "EQUIPO_GLOBAL_PVPoff";
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public PvpManager(int initialState) {
-        if (initialState >= -1 && initialState <= 1) {
-            PVPstate = initialState;
-        } else {
-            PVPstate = -1;
-        }
-        LOGGER.info(" PVP MANGER EVENTS TRIGGERED--------------------------");
-
-    }
-
-
     public static void bypassSetPVPstte(int state) {
         PVPstate = state;
     }
@@ -167,21 +156,8 @@ public class PvpManager {
 
     }
 
-
-    @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntity() instanceof Player && event.getSource().getEntity() instanceof Player) {
-            if (!PvpDamageGameRule.get()) {
-                LOGGER.info("HURT TRIGGERED");
-                event.getEntity().hurtDuration = 0;
-                event.getEntity().hurtTime = 0;
-                ((Player) event.getSource().getEntity()).hurtDuration = 0;
-                ((Player) event.getSource().getEntity()).hurtTime = 0;
-                event.setCanceled(true);
-                event.setAmount(0);
-            }
-        }
-    }
+    //TODO initialization and persistance
+    //Also check team persistance (if it saves the default one then it is ok to leave it like this)
     @SubscribeEvent
     public static void onLivingAttack(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player && event.getSource().getEntity() instanceof Player) {

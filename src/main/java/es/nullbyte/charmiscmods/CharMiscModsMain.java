@@ -64,8 +64,9 @@ public class CharMiscModsMain {
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
-        MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingHurt);
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingAttack);
+        //TODO init
+
     }
     private void setup(final FMLCommonSetupEvent event) {
         //Registrar eventos encolados, includos los paquetes de red
