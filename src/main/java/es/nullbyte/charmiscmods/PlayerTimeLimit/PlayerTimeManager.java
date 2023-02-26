@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.ancillar.LocalDateTimeAdapter;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.PvpDamageGameRule;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CDailyTimeLimit;
@@ -369,7 +370,7 @@ public class PlayerTimeManager {
                 dailyTimeLimit = playerData.getDailyTimeLimit();
                 resetTime = playerData.getResetTime();
                 isEnabled = playerData.isToggled;
-
+                PvpDamageGameRule.set(playerData.pvpToggle);
                 PvpManager.bypassSetPVPstte(playerData.getPvpLevel());
             }
         } catch (IOException e) {
@@ -378,7 +379,7 @@ public class PlayerTimeManager {
     }
 
     public void saveManagerData() {
-        PlayerData playerData = new PlayerData(dailyTimeLimit, resetTime, isEnabled, PvpManager.getPVPstate());
+        PlayerData playerData = new PlayerData(dailyTimeLimit, resetTime, isEnabled, PvpManager.getPVPstate(), PvpDamageGameRule.get());
         Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
         String json = gson.toJson(playerData);
         try {
@@ -401,14 +402,19 @@ public class PlayerTimeManager {
         private LocalDateTime resetTime;
         private boolean isToggled;
         private int pvpLevel;
+        private boolean pvpToggle;
 
-        public PlayerData(long dailyTimeLimit, LocalDateTime resetTime, boolean isToggled, int pvpLevel) {
+        public PlayerData(long dailyTimeLimit, LocalDateTime resetTime, boolean isToggled, int pvpLevel,boolean pvpToggle) {
             this.dailyTimeLimit = dailyTimeLimit;
             this.resetTime = resetTime;
             this.isToggled = isToggled;
             this.pvpLevel = pvpLevel;
+            this.pvpToggle = pvpToggle;
         }
 
+        public boolean getPvpToggle() {
+            return pvpToggle;
+        }
         public int getPvpLevel() {
             return pvpLevel;
         }

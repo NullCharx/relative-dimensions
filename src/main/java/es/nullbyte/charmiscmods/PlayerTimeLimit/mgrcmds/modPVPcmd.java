@@ -72,9 +72,9 @@ public class modPVPcmd {
 
     private static int collisionSatateRefresh(CommandSourceStack source) throws CommandSyntaxException {
         if (PvpManager.isPVPoff()) {
-            PvpManager.disableGlobalDamage(source.getLevel());
+            PvpManager.disableGlobalDamage();
         } else {
-            PvpManager.enableGlobalDamage(source.getLevel());
+            PvpManager.enableGlobalDamage();
         }
         PvpManager.syncronizeState(source.getLevel());
         return 0;

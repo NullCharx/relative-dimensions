@@ -3,6 +3,7 @@ package es.nullbyte.charmiscmods;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modPVPcmd;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modTimercmd;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
@@ -49,18 +50,17 @@ public class CharMiscModsMain {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::setup);
         ItemInit.ITEMS.register(modEventBus);
+
         TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
 
         //Register custom creative tab
         modEventBus.addListener(this::buildContents);
-
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
-
-
-
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        PvpManager.registerEvents();
     }
     private void setup(final FMLCommonSetupEvent event) {
         //Registrar eventos encolados, includos los paquetes de red
