@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,30 +21,16 @@ public class PvpManager {
     private static final String PVPOFFTEAMNAME = "EQUIPO_GLOBAL_PVPoff";
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public PvpManager() {
-        PVPstate = -1;
-        registerEvents();
-    }
-
     public PvpManager(int initialState) {
         if (initialState >= -1 && initialState <= 1) {
             PVPstate = initialState;
         } else {
             PVPstate = -1;
         }
-        registerEvents();
-    }
-
-    public static void registerEvents() {
-        MinecraftForge.EVENT_BUS.register(PvpManager.class); //Register the class on the event bus so any events it has will be called
-
-        //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
-        //The main class, we need to add the listeners here
-        MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
-        MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingHurt);
-
+        LOGGER.info(" PVP MANGER EVENTS TRIGGERED--------------------------");
 
     }
+
 
     public static void bypassSetPVPstte(int state) {
         PVPstate = state;
@@ -186,11 +173,21 @@ public class PvpManager {
         if (event.getEntity() instanceof Player && event.getSource().getEntity() instanceof Player) {
             if (!PvpDamageGameRule.get()) {
                 LOGGER.info("HURT TRIGGERED");
+                event.getEntity().hurtDuration = 0;
+                event.getEntity().hurtTime = 0;
+                ((Player) event.getSource().getEntity()).hurtDuration = 0;
+                ((Player) event.getSource().getEntity()).hurtTime = 0;
                 event.setCanceled(true);
                 event.setAmount(0);
-                event.getEntity().hurtDuration = 0;
-                event.getEntity().hurtTime  = 0;
-
+            }
+        }
+    }
+    @SubscribeEvent
+    public static void onLivingAttack(LivingAttackEvent event) {
+        if (event.getEntity() instanceof Player && event.getSource().getEntity() instanceof Player) {
+            if (!PvpDamageGameRule.get()) {
+                LOGGER.info("ATTACK TRIGGERED");
+                event.setCanceled(true);
             }
         }
     }

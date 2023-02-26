@@ -43,7 +43,6 @@ public class CharMiscModsMain {
 
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);;
 
-
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public CharMiscModsMain() {
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -60,7 +59,13 @@ public class CharMiscModsMain {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-        PvpManager.registerEvents();
+        MinecraftForge.EVENT_BUS.register(PvpManager.class); //Register the class on the event bus so any events it has will be called
+
+        //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
+        //The main class, we need to add the listeners here
+        MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
+        MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingHurt);
+        MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingAttack);
     }
     private void setup(final FMLCommonSetupEvent event) {
         //Registrar eventos encolados, includos los paquetes de red
