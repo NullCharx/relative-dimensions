@@ -9,16 +9,22 @@ import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modTimercmd;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
+import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPState;
 import es.nullbyte.charmiscmods.init.ItemInit;
 import es.nullbyte.charmiscmods.init.TileEntityInit;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -60,11 +66,11 @@ public class CharMiscModsMain {
         MinecraftForge.EVENT_BUS.register(this);
 
         MinecraftForge.EVENT_BUS.register(PvpManager.class); //Register the class on the event bus so any events it has will be called
-
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingAttack);
+        MinecraftForge.EVENT_BUS.addListener(this::onChatReceived);
 
     }
     private void setup(final FMLCommonSetupEvent event) {
@@ -152,7 +158,19 @@ public class CharMiscModsMain {
         modTimercmd.register(dispatcher);
     }
 
+    //Disable join messages
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onChatReceived(ClientChatReceivedEvent event) {
+        // Get the chat message text
+        String message = event.getMessage().getString().trim();
+        System.out.println("-------------------------------" + message);
 
+        // Check if the message is the "player has joined" message
+        if (message.equals(I18n.get("multiplayer.player.joined", event.getSender()))||message.equals(I18n.get("multiplayer.player.left", event.getSender()))) {
+            // If the message is the "player has joined" message, cancel the event to prevent it from being displayed
+            event.setCanceled(true);
+        }
+    }
 
 
 }

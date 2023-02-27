@@ -1,0 +1,130 @@
+package es.nullbyte.charmiscmods.SpawnRandomLootChest;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.core.Vec3i;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+
+public class SpawnChestCommand {
+
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(Commands.literal("setchest").requires((permission) -> { //Check OP or server agent permission
+            return permission.hasPermission(3);
+        }).then(Commands.argument("x", DoubleArgumentType.doubleArg())
+            .then(Commands.argument("z", DoubleArgumentType.doubleArg())
+                .then(Commands.argument("minplayerblockdistance", IntegerArgumentType.integer())
+                    .then(Commands.argument("items", StringArgumentType.greedyString())
+                        .suggests(SpawnChestCommand::getItemSuggestions)
+                            .executes(context -> {// Command logic here
+                                return execute(context.getSource(), DoubleArgumentType.getDouble(context, "x"),
+                                        DoubleArgumentType.getDouble(context, "z"), IntegerArgumentType.getInteger(context, "minplayerblockdistance"),
+                                        StringArgumentType.getString(context, "items"));
+                            }
+        ))))));
+    }
+
+    private static int execute(CommandSourceStack source, double x, double z, int minPlayerBlockDistance, String itemsString) {
+        ServerLevel world = source.getLevel();
+
+        // Get the topmost block at the given coordinates
+        BlockPos pos = new BlockPos(x, 350, z);
+        while (pos.getY() > -64 && world.isEmptyBlock(pos)) {
+            pos = pos.below();
+        }
+        pos = pos.above();
+
+        // Check if there are any players within the minimum block distance
+        boolean playerInRange = world.getEntitiesOfClass(Player.class, new AABB(pos).inflate(minPlayerBlockDistance)).size() > 0;
+        if (playerInRange) {
+            // Calculate a new position that is at least the minimum block distance away from the nearest player
+            double playerDistance = Double.MAX_VALUE;
+            BlockPos playerPos = null;
+            BlockPos finalPos = pos;
+            for (ServerPlayer player : world.getPlayers((player) -> player.distanceToSqr(x, finalPos.getY(), z) < minPlayerBlockDistance * minPlayerBlockDistance)) {
+                double distance = player.distanceToSqr(x, pos.getY(), z);
+                if (distance < playerDistance) {
+                    playerDistance = distance;
+                    playerPos = player.blockPosition();
+                }
+            }
+
+            if (playerPos != null) {
+                Vec3 offset = new Vec3(x - playerPos.getX(), 0, z - playerPos.getZ()).normalize().scale(minPlayerBlockDistance);
+                Vec3i offseti = new Vec3i(offset.x, offset.y,offset.z);
+                pos = playerPos.offset(offseti);
+            }
+
+            // Send a message to the command sender indicating that the chest could not be placed due to players being nearby
+            source.sendFailure(Component.literal("Esta posicion está a menos de" + minPlayerBlockDistance + "de un jugador"));
+            source.sendSuccess(Component.literal("Una localizacion ceracana valida es:" +  pos.getX() + "," + pos.getY() + "," + pos.getZ()), true);
+            return 0;
+        }
+
+        // Create the chest block
+        BlockState chestState = Blocks.CHEST.defaultBlockState();
+        world.setBlock(pos, chestState, 3);
+
+        // Parse the list of items to place in the chest
+        List<ItemStack> items = new ArrayList<>();
+        String[] itemStrings = itemsString.split(",");
+        for (String itemString : itemStrings) {
+            int count = 1;
+            String itemName = itemString.trim();
+            if (itemName.contains("*")) {
+                String[] parts = itemName.split("\\*", 2);
+                itemName = parts[0].trim();
+                count = Integer.parseInt(parts[1].trim());
+            }
+            Item item = Registry.ITEM.get(new ResourceLocation(itemName));
+            if (item != null) {
+                items.add(new ItemStack(item, count));
+            }
+        }
+
+        // Randomly distribute the items in the chest
+        Collections.shuffle(items);
+        Container chest = ((ChestBlockEntity)world.getBlockEntity(pos)).getContainer();
+        for (int i = 0; i < items.size(); i++) {
+            chest.setItem(i, items.get(i));
+        }
+
+        // Send a success message to the command sender
+        source.sendSuccess(new TranslatableComponent("commands.setchest.success", pos.getX(), pos.getY(), pos.getZ()), true);
+        return 1;
+    }
+    private static CompletableFuture<Suggestions> getItemSuggestions(CommandContext<CommandSourceStack> commandSourceStackCommandContext, SuggestionsBuilder suggestionsBuilder) {
+    }
+
+
+    
+}
