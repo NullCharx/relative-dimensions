@@ -27,9 +27,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class SpawnChestCommand {
@@ -92,6 +90,7 @@ public class SpawnChestCommand {
         world.setBlock(pos, chestState, 3);
 
         // Parse the list of items to place in the chest
+        // Parse the list of items to place in the chest
         List<ItemStack> items = new ArrayList<>();
         String[] itemStrings = itemsString.split(",");
         for (String itemString : itemStrings) {
@@ -111,13 +110,19 @@ public class SpawnChestCommand {
         // Randomly distribute the items in the chest
         Collections.shuffle(items);
         BlockEntity blockEntity = world.getBlockEntity(pos);
+        Random random = new Random();
+        List<Integer> availableSlots = Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26);
+        int randint;
         if (blockEntity instanceof ChestBlockEntity) {
             Container chest = ((ChestBlockEntity) blockEntity);
-
-            // Randomly distribute the items in the chest
-            Collections.shuffle(items);
-            for (int i = 0; i < items.size(); i++) {
-                chest.setItem(i, items.get(i));
+            // Add each item to the chest
+            for (ItemStack item : items) {
+                randint = availableSlots.get(random.nextInt(availableSlots.size()));
+                chest.setItem(randint, item);
+                availableSlots.remove(randint);
+                if(availableSlots.size() == 0){
+                    break;
+                }
             }
 
             // Send a success message to the command sender
@@ -128,9 +133,9 @@ public class SpawnChestCommand {
             source.sendFailure(Component.literal("No hay un cofre en la posición dada"));
             return 0;
         }
-
-
     }
+
+
     private static CompletableFuture<Suggestions> getItemSuggestions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
         // Get the typed argument string
         String input = builder.getRemaining().toLowerCase();
