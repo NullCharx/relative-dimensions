@@ -9,16 +9,21 @@ import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modTimercmd;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
+import es.nullbyte.charmiscmods.SpawnRandomLootChest.DespawnChestCommand;
+import es.nullbyte.charmiscmods.SpawnRandomLootChest.SpawnChestCommand;
 import es.nullbyte.charmiscmods.init.ItemInit;
 import es.nullbyte.charmiscmods.init.TileEntityInit;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,6 +32,15 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
+
+//TODO: comando para printear las localizaciones de todos los jugadores online
+//TODO: Prettyprint: PVP toggle (sound included)
+//TODO: Prettyprint: Death messages. Allow vanilla message
+//TODO: Pretty print world border shrink
+//TODO: prepare an event or command to launch some rockets and do fancy stuff when winner
+//TODO: Set discord up. (Including rules and FAQ. Prepare list of mods)
+//TODO: Add glint effect to activated compass.
+//TODO: Make lobby / colloseum for possible showdown
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(CharMiscModsMain.MOD_ID)
@@ -60,11 +74,11 @@ public class CharMiscModsMain {
         MinecraftForge.EVENT_BUS.register(this);
 
         MinecraftForge.EVENT_BUS.register(PvpManager.class); //Register the class on the event bus so any events it has will be called
-
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingAttack);
+        MinecraftForge.EVENT_BUS.addListener(this::onChatReceived);
 
     }
     private void setup(final FMLCommonSetupEvent event) {
@@ -144,15 +158,31 @@ public class CharMiscModsMain {
         timeManager.saveManagerData();
     }
 
+
     //register buildcontents event to the event bus
 
     public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
         //REGISTER THE COMMANDS HERE!
         modPVPcmd.register(dispatcher);
         modTimercmd.register(dispatcher);
+        SpawnChestCommand.register(dispatcher);
+        DespawnChestCommand.register(dispatcher);
+
     }
 
+    //Disable join messages
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onChatReceived(ClientChatReceivedEvent event) {
+        // Get the chat message text
+        String message = event.getMessage().getString().trim();
+        System.out.println("-------------------------------" + message);
 
+        // Check if the message is the "player has joined" message
+        if (message.equals(I18n.get("multiplayer.player.joined", event.getSender()))||message.equals(I18n.get("multiplayer.player.left", event.getSender()))) {
+            // If the message is the "player has joined" message, cancel the event to prevent it from being displayed
+            event.setCanceled(true);
+        }
+    }
 
 
 }
