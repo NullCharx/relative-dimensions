@@ -29,6 +29,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SpawnChestCommand {
 
@@ -75,13 +77,13 @@ public class SpawnChestCommand {
 
             if (playerPos != null) {
                 Vec3 offset = new Vec3(x - playerPos.getX(), 0, z - playerPos.getZ()).normalize().scale(minPlayerBlockDistance);
-                Vec3i offseti = new Vec3i(offset.x, offset.y,offset.z);
+                Vec3i offseti = new Vec3i(offset.x, offset.y, offset.z);
                 pos = playerPos.offset(offseti);
             }
 
             // Send a message to the command sender indicating that the chest could not be placed due to players being nearby
-            source.sendFailure(Component.literal("Esta posicion está a menos de" + minPlayerBlockDistance + "de un jugador"));
-            source.sendSuccess(Component.literal("Una localizacion ceracana valida es:" +  pos.getX() + "," + pos.getY() + "," + pos.getZ()), true);
+            source.sendFailure(Component.literal("Esta posicion está a menos de " + minPlayerBlockDistance + " bloques de un jugador"));
+            source.sendSuccess(Component.literal("Una localizacion cercana valida es: " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()), true);
             return 0;
         }
 
@@ -89,7 +91,6 @@ public class SpawnChestCommand {
         BlockState chestState = Blocks.CHEST.defaultBlockState();
         world.setBlock(pos, chestState, 3);
 
-        // Parse the list of items to place in the chest
         // Parse the list of items to place in the chest
         List<ItemStack> items = new ArrayList<>();
         String[] itemStrings = itemsString.split("\\s+");
@@ -111,21 +112,20 @@ public class SpawnChestCommand {
         Collections.shuffle(items);
         BlockEntity blockEntity = world.getBlockEntity(pos);
         Random random = new Random();
-        List<Integer> availableSlots = Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26);
+        List<Integer> availableSlots = IntStream.range(0, 27).boxed().collect(Collectors.toList());
         int randint;
         if (blockEntity instanceof ChestBlockEntity) {
             Container chest = ((ChestBlockEntity) blockEntity);
             // Add each item to the chest
             for (ItemStack item : items) {
-                randint = availableSlots.get(random.nextInt(availableSlots.size()));
-                chest.setItem(randint, item);
-                availableSlots.remove(randint);
-                if(availableSlots.size() == 0){
+                if (availableSlots.isEmpty()) {
                     break;
                 }
+                randint = availableSlots.remove(random.nextInt(availableSlots.size()));
+                chest.setItem(randint, item);
             }
 
-            // Send a success message to the command sender
+            // Send a success message
             source.sendSuccess(Component.literal("Cofre colocado"), true);
             return 1;
         } else {
