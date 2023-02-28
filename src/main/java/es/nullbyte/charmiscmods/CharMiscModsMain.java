@@ -34,6 +34,13 @@ import org.slf4j.Logger;
 
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
+//TODO: Finish setchest
+//TODO: Prettyprint: PVP toggle (sound included)
+//TODO: Prettyprint: Death messages. Allow vanilla message
+//TODO: Pretty print world border shrink
+//TODO: prepare an event or command to launch some rockets and do fancy stuff when winner
+//TODO: Set discord up.
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(CharMiscModsMain.MOD_ID)
 @Mod.EventBusSubscriber(modid = CharMiscModsMain.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
