@@ -92,7 +92,7 @@ public class SpawnChestCommand {
         // Parse the list of items to place in the chest
         // Parse the list of items to place in the chest
         List<ItemStack> items = new ArrayList<>();
-        String[] itemStrings = itemsString.split(",");
+        String[] itemStrings = itemsString.split("\\s+");
         for (String itemString : itemStrings) {
             int count = 1;
             String itemName = itemString.trim();
@@ -137,7 +137,7 @@ public class SpawnChestCommand {
 
 
     private static CompletableFuture<Suggestions> getItemSuggestions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
-        // Get the typed argument string
+        // Get the typed argument string CHEK CHATGPT TO CHANGE THIS!!
         String input = builder.getRemaining().toLowerCase();
 
         // Get a list of all items in the game registry that start with the typed string
