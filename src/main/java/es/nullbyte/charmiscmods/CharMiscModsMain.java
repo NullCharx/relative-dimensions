@@ -39,7 +39,7 @@ import static es.nullbyte.charmiscmods.init.ItemInit.*;
 //TODO: Prettyprint: Death messages. Allow vanilla message
 //TODO: Pretty print world border shrink
 //TODO: prepare an event or command to launch some rockets and do fancy stuff when winner
-//TODO: Set discord up.
+//TODO: Set discord up. (Including rules and FAQ. Prepare list of mods)
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(CharMiscModsMain.MOD_ID)
