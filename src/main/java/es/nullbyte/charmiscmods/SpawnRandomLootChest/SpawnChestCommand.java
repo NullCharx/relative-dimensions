@@ -4,15 +4,12 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -22,17 +19,17 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 public class SpawnChestCommand {
@@ -105,7 +102,7 @@ public class SpawnChestCommand {
                 itemName = parts[0].trim();
                 count = Integer.parseInt(parts[1].trim());
             }
-            Item item = Registry.ITEM.get(new ResourceLocation(itemName));
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName));
             if (item != null) {
                 items.add(new ItemStack(item, count));
             }
@@ -113,16 +110,40 @@ public class SpawnChestCommand {
 
         // Randomly distribute the items in the chest
         Collections.shuffle(items);
-        Container chest = ((ChestBlockEntity)world.getBlockEntity(pos)).getContainer();
-        for (int i = 0; i < items.size(); i++) {
-            chest.setItem(i, items.get(i));
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof ChestBlockEntity) {
+            Container chest = ((ChestBlockEntity) blockEntity);
+
+            // Randomly distribute the items in the chest
+            Collections.shuffle(items);
+            for (int i = 0; i < items.size(); i++) {
+                chest.setItem(i, items.get(i));
+            }
+
+            // Send a success message to the command sender
+            source.sendSuccess(Component.literal("Cofre colocado"), true);
+            return 1;
+        } else {
+            // Send a message to the command sender indicating that the block at the given position is not a chest
+            source.sendFailure(Component.literal("No hay un cofre en la posición dada"));
+            return 0;
         }
 
-        // Send a success message to the command sender
-        source.sendSuccess(new TranslatableComponent("commands.setchest.success", pos.getX(), pos.getY(), pos.getZ()), true);
-        return 1;
+
     }
-    private static CompletableFuture<Suggestions> getItemSuggestions(CommandContext<CommandSourceStack> commandSourceStackCommandContext, SuggestionsBuilder suggestionsBuilder) {
+    private static CompletableFuture<Suggestions> getItemSuggestions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
+        // Get the typed argument string
+        String input = builder.getRemaining().toLowerCase();
+
+        // Get a list of all items in the game registry that start with the typed string
+        List<String> itemNames = ForgeRegistries.ITEMS.getKeys().stream()
+                .map(ResourceLocation::toString)
+                .filter(name -> name.toLowerCase().startsWith(input))
+                .sorted()
+                .toList();
+
+        // Add the item names to the suggestions builder
+        return builder.suggest(itemNames.toString()).buildFuture();
     }
 
 

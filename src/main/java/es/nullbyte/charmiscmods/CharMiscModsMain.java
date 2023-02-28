@@ -159,6 +159,7 @@ public class CharMiscModsMain {
         timeManager.saveManagerData();
     }
 
+
     //register buildcontents event to the event bus
 
     public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
