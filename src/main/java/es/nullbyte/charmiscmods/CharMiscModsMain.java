@@ -9,7 +9,7 @@ import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modTimercmd;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPState;
+import es.nullbyte.charmiscmods.SpawnRandomLootChest.DespawnChestCommand;
 import es.nullbyte.charmiscmods.SpawnRandomLootChest.SpawnChestCommand;
 import es.nullbyte.charmiscmods.init.ItemInit;
 import es.nullbyte.charmiscmods.init.TileEntityInit;
@@ -17,12 +17,10 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -35,7 +33,7 @@ import org.slf4j.Logger;
 
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
-//TODO: Finish setchest
+//TODO: comando para printear las localizaciones de todos los jugadores online
 //TODO: Prettyprint: PVP toggle (sound included)
 //TODO: Prettyprint: Death messages. Allow vanilla message
 //TODO: Pretty print world border shrink
@@ -168,6 +166,8 @@ public class CharMiscModsMain {
         modPVPcmd.register(dispatcher);
         modTimercmd.register(dispatcher);
         SpawnChestCommand.register(dispatcher);
+        DespawnChestCommand.register(dispatcher);
+
     }
 
     //Disable join messages

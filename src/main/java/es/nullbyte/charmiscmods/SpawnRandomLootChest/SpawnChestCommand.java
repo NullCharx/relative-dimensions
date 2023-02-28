@@ -35,22 +35,22 @@ import java.util.stream.IntStream;
 public class SpawnChestCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("setchest").requires((permission) -> { //Check OP or server agent permission
+        dispatcher.register(Commands.literal("spawnchest").requires((permission) -> { //Check OP or server agent permission
             return permission.hasPermission(3);
         }).then(Commands.argument("x", DoubleArgumentType.doubleArg())
             .then(Commands.argument("z", DoubleArgumentType.doubleArg())
                 .then(Commands.argument("minplayerblockdistance", IntegerArgumentType.integer())
                     .then(Commands.argument("items", StringArgumentType.greedyString())
-                        .suggests(SpawnChestCommand::getItemSuggestions)
+                        .suggests(SpawnChestCommand::getItemSuggestions) //This suggest applies to items argument only
                             .executes(context -> {// Command logic here
-                                return execute(context.getSource(), DoubleArgumentType.getDouble(context, "x"),
+                                return SpawnChest(context.getSource(), DoubleArgumentType.getDouble(context, "x"),
                                         DoubleArgumentType.getDouble(context, "z"), IntegerArgumentType.getInteger(context, "minplayerblockdistance"),
                                         StringArgumentType.getString(context, "items"));
                             }
         ))))));
     }
 
-    private static int execute(CommandSourceStack source, double x, double z, int minPlayerBlockDistance, String itemsString) {
+    private static int SpawnChest(CommandSourceStack source, double x, double z, int minPlayerBlockDistance, String itemsString) {
         ServerLevel world = source.getLevel();
 
         // Get the topmost block at the given coordinates
@@ -103,7 +103,7 @@ public class SpawnChestCommand {
                 count = Integer.parseInt(parts[1].trim());
             }
             Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName));
-            if (item != null) {
+            if (item != null && !item.equals(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft:air")))) {
                 items.add(new ItemStack(item, count));
             }
         }
@@ -126,7 +126,7 @@ public class SpawnChestCommand {
             }
 
             // Send a success message
-            source.sendSuccess(Component.literal("Cofre colocado"), true);
+            source.sendSuccess(Component.literal("Cofre colocado en " + pos.getX() + "," + pos.getY() + "," + pos.getZ() + "with items: " + items.toString()), true);
             return 1;
         } else {
             // Send a message to the command sender indicating that the block at the given position is not a chest
@@ -137,7 +137,7 @@ public class SpawnChestCommand {
 
 
     private static CompletableFuture<Suggestions> getItemSuggestions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
-        // Get the typed argument string CHEK CHATGPT TO CHANGE THIS!!
+        //This method only suggest the first item
         String input = builder.getRemaining().toLowerCase();
 
         // Get a list of all items in the game registry that start with the typed string
