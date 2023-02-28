@@ -68,7 +68,7 @@ public class CharMiscModsMain {
 
     }
     private void setup(final FMLCommonSetupEvent event) {
-        //Registrar eventos encolados, includos los paquetes de red
+        //Registrar eventos encolados, includos los paquetes de red!
         event.enqueueWork(() -> {
             RemainingTimeHandler.register();
             PVPStateHandler.register();
