@@ -40,6 +40,8 @@ import static es.nullbyte.charmiscmods.init.ItemInit.*;
 //TODO: Pretty print world border shrink
 //TODO: prepare an event or command to launch some rockets and do fancy stuff when winner
 //TODO: Set discord up. (Including rules and FAQ. Prepare list of mods)
+//TODO: Add glint effect to activated compass.
+//TODO: Make lobby / colloseum for possible showdown
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(CharMiscModsMain.MOD_ID)
