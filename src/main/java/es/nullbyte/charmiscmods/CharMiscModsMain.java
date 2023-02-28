@@ -10,6 +10,7 @@ import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPState;
+import es.nullbyte.charmiscmods.SpawnRandomLootChest.SpawnChestCommand;
 import es.nullbyte.charmiscmods.init.ItemInit;
 import es.nullbyte.charmiscmods.init.TileEntityInit;
 import net.minecraft.client.resources.language.I18n;
@@ -166,6 +167,7 @@ public class CharMiscModsMain {
         //REGISTER THE COMMANDS HERE!
         modPVPcmd.register(dispatcher);
         modTimercmd.register(dispatcher);
+        SpawnChestCommand.register(dispatcher);
     }
 
     //Disable join messages

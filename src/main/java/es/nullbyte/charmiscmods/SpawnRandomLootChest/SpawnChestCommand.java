@@ -142,8 +142,10 @@ public class SpawnChestCommand {
                 .sorted()
                 .toList();
 
+        itemNames.forEach(itemName -> builder.suggest(itemName));
+
         // Add the item names to the suggestions builder
-        return builder.suggest(itemNames.toString()).buildFuture();
+        return builder.buildFuture();
     }
 
 
