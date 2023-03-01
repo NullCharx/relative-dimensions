@@ -312,8 +312,6 @@ public class PlayerTimeManager {
     @SubscribeEvent
     public static void onPlayerDeath(LivingDeathEvent event) {//Add effects when the player dies.
         if (event.getEntity() instanceof Player player) {
-            event.setCanceled(true);
-
             Level level = player.level;
             Entity killer = event.getSource().getEntity();
 
@@ -322,20 +320,34 @@ public class PlayerTimeManager {
             BlockPos deathBP = new BlockPos(deathPos.x, deathPos.y, deathPos.z);
             level.playSound(null, deathBP, SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.PLAYERS, 1.0f, 1.0f);
 
-            // Send the message to all online players as a game info!
+            MutableComponent marqueeup;
+            MutableComponent space1;
             MutableComponent message;
-            if (killer instanceof Player) {
-                message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " ha sido asesinado por " + killer.getName().getString());
-            } else if (killer instanceof LivingEntity) {
-                String deathReason = killer.getName().getString();
-                message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " ha muerto a manos de " + deathReason);
-            } else {
-                message = Component.translatable("[S.P.A.S] - " + player.getName().getString() + " ha muerto bajo extrañas circunstancias");
-            }
+            MutableComponent space2;
+            MutableComponent marqueedown;
 
-            message.withStyle(ChatFormatting.RED);
+
+            marqueeup = Component.translatable("☠ HA HABIDO UNA MUERTE\n");
+            space1 = Component.translatable("          \n");
+            message = Component.translatable("La aventura de " + player.getName().getString() + " ha llegado a su fin\n");
+            space2 = Component.translatable("          \n");
+            marqueedown = Component.translatable("§m-------------------------------\n");
+
+
+            MutableComponent finalMessage = Component.translatable("");
+            finalMessage.append(marqueeup);
+            finalMessage.append(space1);
+            finalMessage.append(message);
+            finalMessage.append(space2);
+            finalMessage.append(marqueedown);
+
+
+            marqueeup.withStyle(ChatFormatting.BLUE);
+            message.withStyle(ChatFormatting.DARK_GRAY);
+            marqueedown.withStyle(ChatFormatting.BLUE);
+
             for (ServerPlayer p : player.getServer().getPlayerList().getPlayers()) {
-                p.sendSystemMessage(message, false);
+                p.sendSystemMessage(finalMessage, false);
             }
         }
     }

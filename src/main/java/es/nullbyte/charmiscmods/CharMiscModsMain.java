@@ -2,6 +2,7 @@ package es.nullbyte.charmiscmods;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.AllPlayerPosCmd.ListPlayersCommand;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.modPVPcmd;
@@ -33,11 +34,10 @@ import org.slf4j.Logger;
 
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
-//TODO: comando para printear las localizaciones de todos los jugadores online
 //TODO: Prettyprint: PVP toggle (sound included)
-//TODO: Prettyprint: Death messages. Allow vanilla message
-//TODO: Pretty print world border shrink
-//TODO: prepare an event or command to launch some rockets and do fancy stuff when winner
+//TODO: Pretty print: Timeout y muerte
+//TODO: Pretty print: world border shrink
+//TODO: prepare a command to launch some rockets and do fancy stuff when winner
 //TODO: Make lobby / colloseum for possible showdown
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -165,6 +165,7 @@ public class CharMiscModsMain {
         modTimercmd.register(dispatcher);
         SpawnChestCommand.register(dispatcher);
         DespawnChestCommand.register(dispatcher);
+        ListPlayersCommand.register(dispatcher);
 
     }
 

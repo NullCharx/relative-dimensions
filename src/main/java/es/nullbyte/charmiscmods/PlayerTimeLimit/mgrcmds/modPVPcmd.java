@@ -15,6 +15,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 
+import java.awt.*;
+
 public class modPVPcmd {
     private static final SimpleCommandExceptionType ERROR_LEVEL_NOT_VALID = new SimpleCommandExceptionType(Component.translatable("Nivel PVP no valido. EL rango es de -1 (no pvp) a 1 (ULTRA)"));
     private static final SimpleCommandExceptionType ERROR_HIGHEST_LEVEL = new SimpleCommandExceptionType(Component.translatable("El nivel PVP no puede aumentar más"));
@@ -82,19 +84,23 @@ public class modPVPcmd {
     private static void prettyPrint(CommandSourceStack source) {
         BlockPos deathBP =  new BlockPos(0,0,0);
         source.getLevel().playSound(null, deathBP, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
+        MutableComponent marqueeup;
+        MutableComponent space1;
         MutableComponent message;
+        MutableComponent space2;
+        MutableComponent marqueedown;
         if(PvpManager.isPVPoff()){
-            message = Component.translatable("[S.P.A.S] - Atención - Agresión: Desactivada. Regeneración natural: Activada");
-            message.withStyle(ChatFormatting.GREEN);
-
+            message = Component.translatable("⚠⚠⚠————————PVP: DESACTIVADO————————⚠⚠⚠\n");
+            message.withStyle(ChatFormatting.YELLOW);
         } else if (PvpManager.isPVPon()) {
-            message = Component.translatable("[S.P.A.S] - Atención - Agresión: Activada. Regeneración natural: Activada");
-            message.withStyle(ChatFormatting.BLUE);
+            message = Component.translatable("⚠⚠⚠————————PVP: ACTIVADO————————⚠⚠⚠\n");
+            message.withStyle(ChatFormatting.DARK_RED);
         } else {
-            message = Component.translatable("[S.P.A.S] - Atención - Agresión: Activada. Regeneración natural: Desactivada");
-            message.withStyle(ChatFormatting.GOLD);
+            message = Component.translatable("⚠⚠⚠————————PVP: ULTRA————————⚠⚠⚠\n");
+            message.withStyle(ChatFormatting.DARK_PURPLE);
         }
-        message.withStyle(ChatFormatting.BOLD);
+
+
         for (ServerPlayer p : source.getLevel().getServer().getPlayerList().getPlayers()) {
             p.sendSystemMessage(message, false);
         }
