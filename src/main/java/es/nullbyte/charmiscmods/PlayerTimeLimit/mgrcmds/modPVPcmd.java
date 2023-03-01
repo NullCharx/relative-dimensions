@@ -90,13 +90,13 @@ public class modPVPcmd {
         MutableComponent space2;
         MutableComponent marqueedown;
         if(PvpManager.isPVPoff()){
-            message = Component.translatable("⚠⚠⚠————————PVP: DESACTIVADO————————⚠⚠⚠\n");
+            message = Component.translatable("⚠⚠⚠————————PVP: DESACTIVADO———————————\n");
             message.withStyle(ChatFormatting.YELLOW);
         } else if (PvpManager.isPVPon()) {
-            message = Component.translatable("⚠⚠⚠————————PVP: ACTIVADO————————⚠⚠⚠\n");
+            message = Component.translatable("⚠⚠⚠————————PVP: ACTIVADO———————————\n");
             message.withStyle(ChatFormatting.DARK_RED);
         } else {
-            message = Component.translatable("⚠⚠⚠————————PVP: ULTRA————————⚠⚠⚠\n");
+            message = Component.translatable("⚠⚠⚠————————PVP: ULTRA———————————\n");
             message.withStyle(ChatFormatting.DARK_PURPLE);
         }
 
