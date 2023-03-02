@@ -1,13 +1,13 @@
-package es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds;
+package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.PlayerTimeManager;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.DailyTimeLimitHandler;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CDailyTimeLimit;
+import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PlayerTimeManager;
+import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.DailyTimeLimitHandler;
+import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.packet.S2CDailyTimeLimit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;

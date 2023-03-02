@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.PlayerTimeLimit.GUI;
+package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.GUI;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -14,7 +14,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
-import static es.nullbyte.charmiscmods.PlayerTimeLimit.GUI.LocalState.localtimers;
 
 @OnlyIn(Dist.CLIENT)
 public class PVPStateOverlay{
@@ -72,7 +71,7 @@ public class PVPStateOverlay{
         poseStack.pushPose();
         poseStack.scale(0.8F,0.8F,0.8F);
         // Draw "HH:MM:SS" text
-        long timer = localtimers.get(Minecraft.getInstance().player.getUUID());
+        long timer = LocalState.localtimers.get(Minecraft.getInstance().player.getUUID());
         String remainingTime = LocalTime.ofSecondOfDay(timer).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         int color = 0;
         if (timer >= 3600 && timer != 86399){

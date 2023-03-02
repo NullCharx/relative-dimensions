@@ -1,10 +1,10 @@
-package es.nullbyte.charmiscmods.PlayerTimeLimit;
+package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit;
 
 
 import com.mojang.logging.LogUtils;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds.PvpDamageGameRule;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.PVPStateHandler;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet.S2CPVPState;
+import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds.PvpDamageGameRule;
+import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.PVPStateHandler;
+import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.packet.S2CPVPState;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;

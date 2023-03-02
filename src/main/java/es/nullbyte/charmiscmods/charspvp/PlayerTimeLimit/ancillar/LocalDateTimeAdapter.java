@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.PlayerTimeLimit.ancillar;
+package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.ancillar;
 
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;

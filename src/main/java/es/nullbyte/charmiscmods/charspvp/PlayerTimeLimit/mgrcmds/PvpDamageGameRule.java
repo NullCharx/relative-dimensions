@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds;
+package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds;
 
 public class PvpDamageGameRule {
     private static Boolean pvpDamage = true;

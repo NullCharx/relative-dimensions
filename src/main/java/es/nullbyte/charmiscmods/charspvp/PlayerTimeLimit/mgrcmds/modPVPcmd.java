@@ -1,10 +1,10 @@
-package es.nullbyte.charmiscmods.PlayerTimeLimit.mgrcmds;
+package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import es.nullbyte.charmiscmods.PlayerTimeLimit.PvpManager;
+import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PvpManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -14,8 +14,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-
-import java.awt.*;
 
 public class modPVPcmd {
     private static final SimpleCommandExceptionType ERROR_LEVEL_NOT_VALID = new SimpleCommandExceptionType(Component.translatable("Nivel PVP no valido. EL rango es de -1 (no pvp) a 1 (ULTRA)"));

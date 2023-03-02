@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.PlayerTimeLimit.network.packet;
+package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.packet;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;

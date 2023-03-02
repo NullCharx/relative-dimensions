@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.PlayerTimeLimit;
+package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.PlayerTimeLimit.GUI;
+package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.GUI;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
