@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.GUI;
+package es.nullbyte.charmiscmods.charspvp.GUI;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;

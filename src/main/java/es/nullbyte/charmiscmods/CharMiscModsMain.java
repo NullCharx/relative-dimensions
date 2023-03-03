@@ -12,6 +12,7 @@ import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.PVPStateHandler
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.SpawnRandomLootChest.DespawnChestCommand;
 import es.nullbyte.charmiscmods.SpawnRandomLootChest.SpawnChestCommand;
+import es.nullbyte.charmiscmods.charspvp.borderchecker.OutOfBorderChecker;
 import es.nullbyte.charmiscmods.init.ItemInit;
 import es.nullbyte.charmiscmods.init.TileEntityInit;
 import net.minecraft.client.resources.language.I18n;
@@ -55,6 +56,7 @@ public class CharMiscModsMain {
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
 
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
+    public static final OutOfBorderChecker borderchecker = new OutOfBorderChecker();
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public CharMiscModsMain() {
