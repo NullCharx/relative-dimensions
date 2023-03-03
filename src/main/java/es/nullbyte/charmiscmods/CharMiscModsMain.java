@@ -39,7 +39,7 @@ import static es.nullbyte.charmiscmods.init.ItemInit.*;
 //TODO: Pretty print: Timeout y muerte
 //TODO: Pretty print: world border shrink
 //TODO: prepare a command to launch some rockets and do fancy stuff when winner
-//TODO: Make lobby / colloseum for possible showdown
+//TODO: Make lobby / colloseum for possible showdown  (New dimension?)
 
 
 // The value here should match an entry in the META-INF/mods.toml file
