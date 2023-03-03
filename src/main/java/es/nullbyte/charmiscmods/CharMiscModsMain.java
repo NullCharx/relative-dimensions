@@ -39,7 +39,6 @@ import static es.nullbyte.charmiscmods.init.ItemInit.*;
 //TODO: Pretty print: world border shrink
 //TODO: prepare a command to launch some rockets and do fancy stuff when winner
 //TODO: Make lobby / colloseum for possible showdown
-//TODO check for players outside the barrier ant teleport them to the nearest location inside it. after a countdown
 
 
 // The value here should match an entry in the META-INF/mods.toml file
