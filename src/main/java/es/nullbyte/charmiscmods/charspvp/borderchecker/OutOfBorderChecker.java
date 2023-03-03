@@ -1,58 +1,92 @@
 package es.nullbyte.charmiscmods.charspvp.borderchecker;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.border.WorldBorder;
-import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class OutOfBorderChecker {
-    private final int warningTimeInSeconds = 5;
+    private final int warningTimeInSeconds = 3;
 
-    private int  playertick = 0;
-    private int playerseconds = 0;
+    private static int playerbrdrtick = 0;
+    private static int playerbrdrseconds = 0;
+
+
+    public OutOfBorderChecker() {
+        MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
+    }
     @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        Player player = event.player;
-        WorldBorder worldBorder = player.getServer().overworld().getWorldBorder();
-        if (event.phase == TickEvent.Phase.END && !event.player.isSpectator()) {
-            // Get the player's current position
-            BlockPos pos = event.player.getOnPos();
+    public void onServerTick(TickEvent.ServerTickEvent event) {
+        for(Player player: event.getServer().getPlayerList().getPlayers()){
+            WorldBorder worldBorder = player.level.getWorldBorder();
+            if (event.phase == TickEvent.Phase.END && !player.isSpectator()) {
+                // Get the player's current position and rotation
+                BlockPos playerPos = player.getOnPos();
+                float playerYaw = player.getRotationVector().y;
+                double playerX = playerPos.getX() + 0.5;
+                double playerZ = playerPos.getZ() + 0.5;
 
-            // Check if the player is outside the world border
-            if (!worldBorder.isWithinBounds(pos)) {
-                // Calculate the nearest point within the bounds
-                Vec3 playerPos = player.position(); // User position
-                Vec3 center = worldBorder.getCenter(); // Border center
-                double radius = worldBorder.getSize() / 2; // Border radius
-                double angle = Math.atan2(center.z - playerPos.z, center.x - playerPos.x); // Angle between user position and border center
-                Vec3 nearestBoundsPoint = new Vec3(center.x + radius * Math.cos(angle), playerPos.y, center.z + radius * Math.sin(angle)); // Calculate nearest point
+                // Check if the player is outside the world border
+                if (!worldBorder.isWithinBounds(playerPos)) {
+                    player.setInvulnerable(true);
+                    if (playerbrdrtick == 0) {
+                        playerbrdrtick++;
+                        // Alert the player in chat
+                        player.sendSystemMessage(Component.literal("¡Estas fuera de limites! Teletransportando dentro del área de juego en " + warningTimeInSeconds + " segundos..."));
+                    } else {
+                        playerbrdrtick++;
+                        if (playerbrdrtick % 20 == 0) {
+                            playerbrdrseconds++;
+                            player.sendSystemMessage(Component.literal("¡Estas fuera de limites! Teletransportando dentro del área de juego en " + warningTimeInSeconds + " segundos..."));
+                        } else if (playerbrdrseconds >= warningTimeInSeconds){
+                            player.sendSystemMessage(Component.literal("Iniciando teletransporte..."));
 
-                // Compute angle between player's direction and nearest point
-                double playerYaw = Math.toRadians(player.yRot); // Convert to radians
-                double xDiff = nearestBoundsPoint.x - playerPos.x;
-                double zDiff = nearestBoundsPoint.z - playerPos.z;
+                            // Calculate the point on the world border closest to the player
+                            double distToBorder = worldBorder.getDistanceToBorder(player);
+                            double borderX = playerX + Math.cos(Math.toRadians(playerYaw)) * distToBorder;
+                            double borderZ = playerZ + Math.sin(Math.toRadians(playerYaw)) * distToBorder;
 
-                double angleToBorder = Math.toDegrees(Math.atan2(zDiff, xDiff)) - Math.toDegrees(playerYaw);
+                            // Calculate the direction that the player is facing
+                            double directionX = -Math.sin(Math.toRadians(playerYaw));
+                            double directionZ = Math.cos(Math.toRadians(playerYaw));
 
-                // Computation has a 90 degrees offset. Fix below:
-                angleToBorder = (angleToBorder + 360) % 360;
-                angleToBorder = angleToBorder - 90;
-                if (angleToBorder < 0) {
-                    angleToBorder = 360 + angleToBorder;
+                            // Calculate the offset from the player's current position
+                            double xOffset = directionX * (distToBorder + 10);
+                            double zOffset = directionZ * (distToBorder + 10);
+
+                            // Calculate the new position
+                            double newX = borderX + xOffset;
+                            double newZ = borderZ + zOffset;
+
+                            // Clamp the position to within the world border
+                            newX = Math.max(worldBorder.getMinX() + 50, Math.min(worldBorder.getMaxX() - 50, newX));
+                            newZ = Math.max(worldBorder.getMinZ() + 50, Math.min(worldBorder.getMaxZ() - 50, newZ));
+
+                            BlockPos fullpos = new BlockPos(newX, 350, newZ);
+                            while (fullpos.getY() > -64 && player.level.isEmptyBlock(fullpos)) {
+                                fullpos = fullpos.below();
+                            }
+                            fullpos = fullpos.above();
+
+                            player.setPos(fullpos.getX() + 0.5, fullpos.getY(), fullpos.getZ() + 0.5);
+                            BlockPos currentpos = new BlockPos(player.position().x, player.position().y, player.position().z);
+                            if(!currentpos.equals(fullpos)) {
+                                player.setPos(fullpos.getX() + 0.5, fullpos.getY(), fullpos.getZ() + 0.5);
+                            }
+                            player.sendSystemMessage(Component.literal("Teleported inside the world border!"));
+                            playerbrdrseconds = 0;
+                            playerbrdrtick = 0;
+                            player.setInvulnerable(false);
+                        }
+                    }
+                } else {
+                    player.setInvulnerable(false);
+                    playerbrdrseconds = 0;
+                    playerbrdrtick = 0;
                 }
-
-                // Set player's invulnerability status
-                player.setInvulnerable(true);
-
-            } else {
-                // Set player's invulnerability status
-                player.setInvulnerable(false);
             }
         }
     }
