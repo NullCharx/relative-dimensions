@@ -45,6 +45,8 @@ public class PVPStateOverlay{
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, 0.5F);
         GuiComponent.fill(poseStack,x + logoxoffset + rextanglexstart, y + logoyoffset + rextangleystart, x + logoxoffset + rextanglexend, y + logoyoffset + rextangleyend,0xFFFFFFFF);//Pos and then scale
+
+        //Text tiempo restante
         Font font = Minecraft.getInstance().font;
         String timeRemaining = "Tiempo restante:";
         int textWidth = font.width(timeRemaining);
@@ -113,9 +115,12 @@ public class PVPStateOverlay{
     });
 
     public static final IGuiOverlay PVP_WINNER_HUD = ((gui, poseStack, partialTick, width, height) -> {
-        poseStack.pushPose();
+        if(!LocalState.winner.isEmpty()){
+            poseStack.pushPose();
 
-        poseStack.popPose();
+            poseStack.popPose();
+        }
+
     });
 
 }

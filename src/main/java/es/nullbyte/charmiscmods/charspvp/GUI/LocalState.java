@@ -15,6 +15,8 @@ import java.util.UUID;
 public class LocalState {
     public static int PVPstate = -1; //-1 PVP off, 0 PVP on, 1 ULTRA
     public static long dailyTL = 4*3600;
+    public static String winner = "";
+    public static UUID winnerid = new UUID(0,0);
 
     public static final Map<UUID, Long> localtimers = new HashMap<>();//Hashmap of individual player times that are
     //accessed on-render time.

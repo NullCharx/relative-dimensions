@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.packet;
+package es.nullbyte.charmiscmods.charspvp.network.packet;
 
 import es.nullbyte.charmiscmods.charspvp.GUI.LocalState;
 import net.minecraft.client.Minecraft;

@@ -21,7 +21,7 @@ public class ClientEvents {
         @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
             event.registerAboveAll("pvpstateov", PVPStateOverlay.PVP_STATE_HUD);
-
+            event.registerAboveAll("pvpwinnerov",PVPStateOverlay.PVP_WINNER_HUD);
         }
     }
 }

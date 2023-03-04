@@ -1,6 +1,6 @@
-package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network;
+package es.nullbyte.charmiscmods.charspvp.network;
 
-import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.packet.Client2Server;
+import es.nullbyte.charmiscmods.charspvp.network.packet.S2CPVPState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -10,7 +10,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 
-public class ModMessages {
+public class PVPStateHandler {
     private static SimpleChannel INSTANCE;
     private static int ID = 0;
 
@@ -19,19 +19,18 @@ public class ModMessages {
     }
 
     public static void register() {
-        SimpleChannel net = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID, "main"))
+        SimpleChannel net = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID, "pvpstatehandler"))
                 .clientAcceptedVersions(s -> true)
                 .serverAcceptedVersions(s -> true)
                 .networkProtocolVersion(() -> "1.0")
                 .simpleChannel();
         INSTANCE = net;
 
-        net.messageBuilder(Client2Server.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .encoder(Client2Server::toBytes)
-                .decoder(Client2Server::new)
-                .consumerMainThread(Client2Server::handle)
+        net.messageBuilder(S2CPVPState.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(S2CPVPState::toBytes)
+                .decoder(S2CPVPState::new)
+                .consumerMainThread(S2CPVPState::handle)
                 .add();
-
     }
 
     public static <MSG> void sendToServer(MSG message) {
