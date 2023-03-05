@@ -1,10 +1,12 @@
 package es.nullbyte.charmiscmods.charspvp.GUI;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.resources.SkinManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -35,7 +37,6 @@ public class PVPStateOverlay{
     private static final ResourceLocation TEXTURE = new ResourceLocation(MOD_ID, "textures/mainvisor/fhcmclogo.png");
     public static final IGuiOverlay PVP_STATE_HUD = ((gui, poseStack, partialTick, width, height) -> {
         int x = width / 2;
-        int y = height;
 
         //Push the matrix to the stack, so that the scale and translation don't affect other elements
         //At the end, pop the matrix from the stack so that subsequent renders aren't affected!
@@ -44,21 +45,21 @@ public class PVPStateOverlay{
         // Draw semi-transparent grey rectangle
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, 0.5F);
-        GuiComponent.fill(poseStack,x + logoxoffset + rextanglexstart, y + logoyoffset + rextangleystart, x + logoxoffset + rextanglexend, y + logoyoffset + rextangleyend,0xFFFFFFFF);//Pos and then scale
+        GuiComponent.fill(poseStack,x + logoxoffset + rextanglexstart, height + logoyoffset + rextangleystart, x + logoxoffset + rextanglexend, height + logoyoffset + rextangleyend,0xFFFFFFFF);//Pos and then scale
 
         //Text tiempo restante
         Font font = Minecraft.getInstance().font;
         String timeRemaining = "Tiempo restante:";
         int textWidth = font.width(timeRemaining);
         textX = (x + logoxoffset + textxoffset - textWidth / 2);
-        textY =(y + logoyoffset + textyoffset);
+        textY =(height + logoyoffset + textyoffset);
         GuiComponent.drawString(poseStack, font, timeRemaining, textX, textY, 0xFFFFFFFF);
 
 
         // Draw "HH:MM:SS" text
         long timer = LocalState.localtimers.get(Minecraft.getInstance().player.getUUID());
         String remainingTime = LocalTime.ofSecondOfDay(timer).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        int color = 0;
+        int color;
         if (timer >= 3600 && timer != 86399){
             color = 0xFFFFFFFF; //Blanco
         } else if (timer >= 1800){
@@ -88,8 +89,7 @@ public class PVPStateOverlay{
 
         //Draw the pvp state itself
         int intstate = LocalState.PVPstate;
-        String statePVP = ""; // replace with your logic to get the remaining time
-        color = 0;
+        String statePVP; // replace with your logic to get the remaining time
         if (intstate ==-1) {
             statePVP = "OFF";
             color = 0xFF00AA00;
@@ -110,17 +110,7 @@ public class PVPStateOverlay{
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        GuiComponent.blit(poseStack, x + logoxoffset, y + logoyoffset, 0, 0, 25, 25, 25, 25);
+        GuiComponent.blit(poseStack, x + logoxoffset, height + logoyoffset, 0, 0, 25, 25, 25, 25);
         poseStack.popPose();
     });
-
-    public static final IGuiOverlay PVP_WINNER_HUD = ((gui, poseStack, partialTick, width, height) -> {
-        if(!LocalState.winner.isEmpty()){
-            poseStack.pushPose();
-
-            poseStack.popPose();
-        }
-
-    });
-
 }

@@ -13,8 +13,7 @@ import es.nullbyte.charmiscmods.charspvp.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.SpawnRandomLootChest.DespawnChestCommand;
 import es.nullbyte.charmiscmods.SpawnRandomLootChest.SpawnChestCommand;
 import es.nullbyte.charmiscmods.charspvp.borderchecker.OutOfBorderChecker;
-import es.nullbyte.charmiscmods.init.ItemInit;
-import es.nullbyte.charmiscmods.init.TileEntityInit;
+import es.nullbyte.charmiscmods.charspvp.init.ItemInit;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
@@ -33,14 +32,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-import static es.nullbyte.charmiscmods.init.ItemInit.*;
+import static es.nullbyte.charmiscmods.charspvp.init.ItemInit.*;
 
 //TODO: Prettyprint: PVP toggle (sound included)
 //TODO: Pretty print: Timeout y muerte
 //TODO: Pretty print: world border shrink
-//TODO: prepare a command to launch some rockets and do fancy stuff when winner!!!!!
-    //Change the pvp gui. You will need to create a new packet (or two) that send the state of winning and the winnter
-    //and change the gui itseld accodginhly. You will also need to change the onservertick to laucnhsome rocketries
+//TODO: Coomand but jsut the rocket and the chat message!
 //TODO: Make lobby / colloseum for possible showdown  (New dimension?)
 
 
@@ -66,8 +63,6 @@ public class CharMiscModsMain {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::setup);
         ItemInit.ITEMS.register(modEventBus);
-
-        TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
 
         //Register custom creative tab
         modEventBus.addListener(this::buildContents);
