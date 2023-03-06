@@ -79,7 +79,6 @@ public class OutOfBorderChecker {
                             player.sendSystemMessage(Component.literal("Teleported inside the world border!"));
                             playerbrdrseconds = 0;
                             playerbrdrtick = 0;
-                            player.setInvulnerable(false);
                         }
                     }
                 } else {

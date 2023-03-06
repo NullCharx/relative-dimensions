@@ -7,14 +7,14 @@ import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds.modPVPcmd;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds.modTimercmd;
+import es.nullbyte.charmiscmods.charspvp.enablewinner.WinnerEnabler;
+import es.nullbyte.charmiscmods.charspvp.init.ItemInit;
 import es.nullbyte.charmiscmods.charspvp.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.charspvp.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.charspvp.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.SpawnRandomLootChest.DespawnChestCommand;
 import es.nullbyte.charmiscmods.SpawnRandomLootChest.SpawnChestCommand;
 import es.nullbyte.charmiscmods.charspvp.borderchecker.OutOfBorderChecker;
-import es.nullbyte.charmiscmods.init.ItemInit;
-import es.nullbyte.charmiscmods.init.TileEntityInit;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
@@ -33,7 +33,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-import static es.nullbyte.charmiscmods.init.ItemInit.*;
+import static es.nullbyte.charmiscmods.charspvp.init.ItemInit.*;
 
 //TODO: Prettyprint: PVP toggle (sound included)
 //TODO: Pretty print: Timeout y muerte
@@ -68,7 +68,6 @@ public class CharMiscModsMain {
         modEventBus.addListener(this::setup);
         ItemInit.ITEMS.register(modEventBus);
 
-        TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
 
         //Register custom creative tab
         modEventBus.addListener(this::buildContents);
@@ -172,7 +171,7 @@ public class CharMiscModsMain {
         SpawnChestCommand.register(dispatcher);
         DespawnChestCommand.register(dispatcher);
         ListPlayersCommand.register(dispatcher);
-
+        WinnerEnabler.register(dispatcher);
     }
 
     //Disable join messages
