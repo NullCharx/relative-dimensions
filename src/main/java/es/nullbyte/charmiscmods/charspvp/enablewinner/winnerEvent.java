@@ -37,7 +37,7 @@ public class winnerEvent {
         if (isWinnerSet && player != null && !player.isSpectator()) {
             ServerLevel world = player.getLevel();
             BlockPos pos = player.getOnPos();
-            if (fireworktick % new Random().nextInt(10,61) == 0 && fireworktick != 0) {
+            if (fireworktick % new Random().nextInt(15,61) == 0 && fireworktick != 0) {
                 int colorCount = new Random().nextInt(1, 5); // Random number of colors
                 int fadeCount = new Random().nextInt(colorCount + 1); // Random number of fade colors
                 int randomExplosion = new Random().nextInt(5); //Random explosion type
