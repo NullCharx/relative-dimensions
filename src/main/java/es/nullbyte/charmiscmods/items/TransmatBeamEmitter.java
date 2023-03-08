@@ -1,6 +1,6 @@
 package es.nullbyte.charmiscmods.items;
 
-import es.nullbyte.charmiscmods.charspvp.init.ItemInit;
+import es.nullbyte.charmiscmods.init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;

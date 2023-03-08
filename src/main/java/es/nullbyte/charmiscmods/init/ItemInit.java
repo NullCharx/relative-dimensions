@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.charspvp.init;
+package es.nullbyte.charmiscmods.init;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
 import net.minecraft.world.item.Item;

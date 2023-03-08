@@ -8,7 +8,7 @@ import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds.modPVPcmd;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds.modTimercmd;
 import es.nullbyte.charmiscmods.charspvp.enablewinner.WinnerEnabler;
-import es.nullbyte.charmiscmods.charspvp.init.ItemInit;
+import es.nullbyte.charmiscmods.init.ItemInit;
 import es.nullbyte.charmiscmods.charspvp.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.charspvp.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.charspvp.network.RemainingTimeHandler;
@@ -33,7 +33,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-import static es.nullbyte.charmiscmods.charspvp.init.ItemInit.*;
+import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
 //TODO: Prettyprint: PVP toggle (sound included)
 //TODO: Pretty print: Timeout y muerte
