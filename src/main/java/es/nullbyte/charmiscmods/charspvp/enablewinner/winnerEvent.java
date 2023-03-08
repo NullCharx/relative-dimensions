@@ -41,8 +41,6 @@ public class winnerEvent {
                 int colorCount = new Random().nextInt(1, 5); // Random number of colors
                 int fadeCount = new Random().nextInt(colorCount + 1); // Random number of fade colors
 
-
-
                 ListTag explosionsList = new ListTag();
                 CompoundTag explosionsTag = new CompoundTag();
                 explosionsTag.putByte("Type", (byte) 3);
@@ -50,33 +48,21 @@ public class winnerEvent {
                 explosionsTag.putByte("Trail", (byte) 1);
                 explosionsTag.putIntArray("Colors", new int[] {5635925});
                 explosionsTag.putIntArray("FadeColors", new int[] {11141120});
-
+                //List of explosion parameters (I just copied from a /summon example to test it)
                 explosionsList.add(explosionsTag);
+                //There might be multiple customized explosions, so they go in a list
+
                 CompoundTag fireworksTag = new CompoundTag();
                 fireworksTag.putInt("Flight", 2);
                 fireworksTag.put("Explosions", explosionsList);
                 // Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]
+                //The whole firework data, including how high up will it go, go in a higher nested tag
 
-                CompoundTag tagTag = new CompoundTag();
-                tagTag.put("Fireworks", fireworksTag);
-                // Fireworks:{Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]}
-
-                CompoundTag fireworkItemTag = new CompoundTag();
-                CompoundTag itemTag = new CompoundTag();
-                itemTag.putString("id", "firework_rocket");
-                itemTag.putInt("Count", 1);
-                itemTag.put("tag", tagTag);
-                // id:firework_rocket,Count:1,tag:{Fireworks:{Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]}}
-
-
-                CompoundTag fireworkEntityTag = new CompoundTag();
-                fireworkEntityTag.putInt("LifeTime", 40);
-                fireworkEntityTag.put("FireworksItem", itemTag);
-                // LifeTime:40,FireworksItem:{id:firework_rocket,Count:1,tag:{Fireworks:{Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]}}}
-
+                //NOW you create a rocket item stack and add ONLY the fireworks tag to it. The rest of the needed tags will be read for the entity later
                 ItemStack fireworkItem = new ItemStack(Items.FIREWORK_ROCKET);
-                fireworkItem.getOrCreateTag();
-                fireworkItem.setTag(fireworkEntityTag);
+                CompoundTag fireWorkitemTag = fireworkItem.getOrCreateTag();
+                fireWorkitemTag.put("Fireworks", fireworksTag);
+                // (The full item tag will have the item id and the stack Count) Fireworks:{Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]}
 
                 // Create and spawn the firework rocket entity
                 double x = pos.getX() + (new Random().nextDouble() * 20 - 10);
@@ -87,9 +73,14 @@ public class winnerEvent {
                     ypos = ypos.below();
                 }
                 double y = ypos.above().getY();
-                FireworkRocketEntity rocket = new FireworkRocketEntity(world, x, y, z, ItemStack.EMPTY);
-                rocket.load(fireworkEntityTag);
-                world.addFreshEntity(rocket);
+
+                //Here we use the already crated rocket itemstsack to feed the entity: It will read all the tags (Including the needed ID and stackcount from the stack itself) Lastly, we also specify the lifetime of the rocket. This goes directly before the item data.
+                FireworkRocketEntity rocket = new FireworkRocketEntity(world, x, y, z, fireworkItem);
+                CompoundTag fireworkEntityTag = new CompoundTag();
+                fireworkEntityTag.putInt("LifeTime", 40);
+                rocket.addAdditionalSaveData(fireworkEntityTag);
+                // LifeTime:40,FireworksItem:{id:firework_rocket,Count:1,tag:{Fireworks:{Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]}}} This is what the full /summon command looks like and how the order of the tags ends up looking like (I think)
+                world.addFreshEntity(rocket); //Spawn the rocket entity
 
             }
             fireworktick++;
