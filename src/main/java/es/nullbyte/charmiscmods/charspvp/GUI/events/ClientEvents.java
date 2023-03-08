@@ -20,11 +20,7 @@ public class ClientEvents {
         //Both the id of the hud and the path to gui resource must contain no uppercase letters or speciañ characters other than underscore
         @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-            event.registerAboveAll("pvpbackgroundov", PVPStateOverlay.HUD_BACKGROUND);
-            event.registerAboveAll("pvptexttimeov", PVPStateOverlay.HUD_TEXTTIME);
-            event.registerAboveAll("pvptexttimectrov", PVPStateOverlay.HUD_TEXTTIMECOUNT);
-            event.registerAboveAll("pvptextstateov", PVPStateOverlay.HUD_TEXTSTATE);
-            event.registerAboveAll("pvplogoov", PVPStateOverlay.HUD_LOGO);
+            event.registerAboveAll("pvpstateov", PVPStateOverlay.PVP_STATE_HUD);
         }
     }
 }

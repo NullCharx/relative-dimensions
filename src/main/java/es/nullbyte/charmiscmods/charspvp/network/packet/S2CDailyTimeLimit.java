@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.packet;
+package es.nullbyte.charmiscmods.charspvp.network.packet;
 
 import es.nullbyte.charmiscmods.charspvp.GUI.LocalState;
 import net.minecraft.network.FriendlyByteBuf;
@@ -6,30 +6,32 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class S2CPVPState {
+public class S2CDailyTimeLimit {
 
-    int PVPstate;
-    public S2CPVPState(int PVPstate) {
-        this.PVPstate = PVPstate;
+    private final long localTimeLimit;
+
+     public S2CDailyTimeLimit(long localTimeLimit) {
+        this.localTimeLimit = localTimeLimit;
     }
 
-    public S2CPVPState(FriendlyByteBuf buf) {
-        PVPstate = buf.readInt();
+    public S2CDailyTimeLimit(FriendlyByteBuf buf) {
+        localTimeLimit = buf.readLong();
     }
 
-    public void toBytes(FriendlyByteBuf buf) {
-        buf.writeInt(PVPstate);
+    public void toBytes(FriendlyByteBuf buf) {buf.writeLong(localTimeLimit);
+
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            //Get the reciever of the packet (player)
-            LocalState.PVPstate = this.PVPstate;
+
+            LocalState.dailyTL = localTimeLimit;
+
         });
         ctx.get().setPacketHandled(true);
     }
 
     //Send packet------------------------------------------------
-    //Check if only client side:
+    //Check if only server side:
     //RemainingTimeHandler.sendToClient(new SC2RemainingTime());
 }

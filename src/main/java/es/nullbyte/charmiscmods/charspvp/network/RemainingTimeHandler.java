@@ -1,6 +1,6 @@
-package es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network;
+package es.nullbyte.charmiscmods.charspvp.network;
 
-import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.packet.S2CDailyTimeLimit;
+import es.nullbyte.charmiscmods.charspvp.network.packet.S2CRemainingTime;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -10,7 +10,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 
-public class DailyTimeLimitHandler {
+public class RemainingTimeHandler {
     private static SimpleChannel INSTANCE;
     private static int ID = 0;
 
@@ -19,17 +19,17 @@ public class DailyTimeLimitHandler {
     }
 
     public static void register() {
-        SimpleChannel net = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID, "resettimehandler"))
+        SimpleChannel net = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID, "remainingtimehandler"))
                 .clientAcceptedVersions(s -> true)
                 .serverAcceptedVersions(s -> true)
                 .networkProtocolVersion(() -> "1.0")
                 .simpleChannel();
         INSTANCE = net;
 
-        net.messageBuilder(S2CDailyTimeLimit.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(S2CDailyTimeLimit::toBytes)
-                .decoder(S2CDailyTimeLimit::new)
-                .consumerMainThread(S2CDailyTimeLimit::handle)
+        net.messageBuilder(S2CRemainingTime.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(S2CRemainingTime::toBytes)
+                .decoder(S2CRemainingTime::new)
+                .consumerMainThread(S2CRemainingTime::handle)
                 .add();
     }
 

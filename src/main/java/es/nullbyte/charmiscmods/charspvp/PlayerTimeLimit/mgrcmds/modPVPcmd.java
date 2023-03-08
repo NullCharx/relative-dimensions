@@ -35,7 +35,7 @@ public class modPVPcmd {
                 })).then(Commands.literal("decrease").executes((pvpminus) -> { //chpvp decrease
                     return minusPVP(pvpminus.getSource());
                 })).then(Commands.literal("refresh").executes((refreshcoll) -> { //chpvp refresh
-                    return collisionSatateRefresh(refreshcoll.getSource());
+                    return collisionSatateRefresh();
                 })));
     }
 
@@ -70,7 +70,7 @@ public class modPVPcmd {
         return 0;
     }
 
-    private static int collisionSatateRefresh(CommandSourceStack source) {
+    private static int collisionSatateRefresh() {
         if (PvpManager.isPVPoff()) {
             PvpManager.disableGlobalDamage();
         } else {
@@ -82,11 +82,7 @@ public class modPVPcmd {
     private static void prettyPrint(CommandSourceStack source) {
         BlockPos deathBP =  new BlockPos(0,0,0);
         source.getLevel().playSound(null, deathBP, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
-        MutableComponent marqueeup;
-        MutableComponent space1;
         MutableComponent message;
-        MutableComponent space2;
-        MutableComponent marqueedown;
         if(PvpManager.isPVPoff()){
             message = Component.translatable("⚠⚠⚠————————PVP: DESACTIVADO———————————\n");
             message.withStyle(ChatFormatting.YELLOW);

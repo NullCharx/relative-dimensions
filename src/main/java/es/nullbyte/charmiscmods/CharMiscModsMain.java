@@ -7,14 +7,14 @@ import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds.modPVPcmd;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds.modTimercmd;
-import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.DailyTimeLimitHandler;
-import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.PVPStateHandler;
-import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.network.RemainingTimeHandler;
+import es.nullbyte.charmiscmods.charspvp.enablewinner.WinnerEnabler;
+import es.nullbyte.charmiscmods.init.ItemInit;
+import es.nullbyte.charmiscmods.charspvp.network.DailyTimeLimitHandler;
+import es.nullbyte.charmiscmods.charspvp.network.PVPStateHandler;
+import es.nullbyte.charmiscmods.charspvp.network.RemainingTimeHandler;
 import es.nullbyte.charmiscmods.SpawnRandomLootChest.DespawnChestCommand;
 import es.nullbyte.charmiscmods.SpawnRandomLootChest.SpawnChestCommand;
 import es.nullbyte.charmiscmods.charspvp.borderchecker.OutOfBorderChecker;
-import es.nullbyte.charmiscmods.init.ItemInit;
-import es.nullbyte.charmiscmods.init.TileEntityInit;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
@@ -38,6 +38,10 @@ import static es.nullbyte.charmiscmods.init.ItemInit.*;
 //TODO: Prettyprint: PVP toggle (sound included)
 //TODO: Pretty print: Timeout y muerte
 //TODO: Pretty print: world border shrink
+//TODO: prepare a command to launch some rockets and do fancy stuff when winner!!!!!
+    //Change the pvp gui. You will need to create a new packet (or two) that send the state of winning and the winnter
+    //and change the gui itseld accodginhly. You will also need to change the onservertick to laucnhsome rocketries
+    //AAA
 //TODO: Make lobby / colloseum for possible showdown  (New dimension?)
 
 
@@ -64,7 +68,6 @@ public class CharMiscModsMain {
         modEventBus.addListener(this::setup);
         ItemInit.ITEMS.register(modEventBus);
 
-        TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
 
         //Register custom creative tab
         modEventBus.addListener(this::buildContents);
@@ -168,7 +171,7 @@ public class CharMiscModsMain {
         SpawnChestCommand.register(dispatcher);
         DespawnChestCommand.register(dispatcher);
         ListPlayersCommand.register(dispatcher);
-
+        WinnerEnabler.register(dispatcher);
     }
 
     //Disable join messages
