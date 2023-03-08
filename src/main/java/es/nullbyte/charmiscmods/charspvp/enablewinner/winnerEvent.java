@@ -41,24 +41,43 @@ public class winnerEvent {
                 int colorCount = new Random().nextInt(1, 5); // Random number of colors
                 int fadeCount = new Random().nextInt(colorCount + 1); // Random number of fade colors
 
-                ItemStack fireworkItem = new ItemStack(Items.FIREWORK_ROCKET);
 
-                CompoundTag fireworksTag = new CompoundTag();
-                fireworksTag.putInt("Flight", 1);
 
                 ListTag explosionsList = new ListTag();
+                CompoundTag explosionsTag = new CompoundTag();
+                explosionsTag.putByte("Type", (byte) 3);
+                explosionsTag.putByte("Flicker", (byte) 0);
+                explosionsTag.putByte("Trail", (byte) 1);
+                explosionsTag.putIntArray("Colors", new int[] {5635925});
+                explosionsTag.putIntArray("FadeColors", new int[] {11141120});
 
-                CompoundTag explosionTag = new CompoundTag();
-                explosionTag.putIntArray("Colors", generateRandomColors(colorCount));
-                explosionTag.putIntArray("FadeColors", generateRandomColors(fadeCount));
-                explosionTag.putByte("Type", (byte)  new Random().nextInt(5));
-                explosionTag.putBoolean("Flicker",  new Random().nextBoolean());
-                explosionTag.putBoolean("Trail",  new Random().nextBoolean());
-
-                explosionsList.add(explosionTag);
+                explosionsList.add(explosionsTag);
+                CompoundTag fireworksTag = new CompoundTag();
+                fireworksTag.putInt("Flight", 2);
                 fireworksTag.put("Explosions", explosionsList);
+                // Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]
 
-                fireworkItem.setTag(fireworksTag);
+                CompoundTag tagTag = new CompoundTag();
+                tagTag.put("Fireworks", fireworksTag);
+                // Fireworks:{Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]}
+
+                CompoundTag fireworkItemTag = new CompoundTag();
+                CompoundTag itemTag = new CompoundTag();
+                itemTag.putString("id", "firework_rocket");
+                itemTag.putInt("Count", 1);
+                itemTag.put("tag", tagTag);
+                // id:firework_rocket,Count:1,tag:{Fireworks:{Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]}}
+
+
+                CompoundTag fireworkEntityTag = new CompoundTag();
+                fireworkEntityTag.putInt("LifeTime", 40);
+                fireworkEntityTag.put("FireworksItem", itemTag);
+                // LifeTime:40,FireworksItem:{id:firework_rocket,Count:1,tag:{Fireworks:{Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]}}}
+
+                ItemStack fireworkItem = new ItemStack(Items.FIREWORK_ROCKET);
+                fireworkItem.getOrCreateTag();
+                fireworkItem.setTag(fireworkEntityTag);
+
                 // Create and spawn the firework rocket entity
                 double x = pos.getX() + (new Random().nextDouble() * 20 - 10);
 
@@ -69,8 +88,8 @@ public class winnerEvent {
                 }
                 double y = ypos.above().getY();
                 FireworkRocketEntity rocket = new FireworkRocketEntity(world, x, y, z, ItemStack.EMPTY);
-                rocket.load(fireworksTag);
-                //world.addFreshEntity(rocket);
+                rocket.load(fireworkEntityTag);
+                world.addFreshEntity(rocket);
 
             }
             fireworktick++;
