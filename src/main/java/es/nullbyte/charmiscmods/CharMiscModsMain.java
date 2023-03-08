@@ -38,7 +38,6 @@ import static es.nullbyte.charmiscmods.init.ItemInit.*;
 //TODO: Prettyprint: PVP toggle (sound included)
 //TODO: Pretty print: Timeout y muerte
 //TODO: Pretty print: world border shrink
-//TODO: prepare a command to launch some rockets and do fancy stuff when winner
 //TODO: Make lobby / colloseum for possible showdown  (New dimension?)
 
 
