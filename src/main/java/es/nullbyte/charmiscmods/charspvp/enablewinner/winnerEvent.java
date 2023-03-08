@@ -40,20 +40,26 @@ public class winnerEvent {
             if (fireworktick % new Random().nextInt(10,61) == 0 && fireworktick != 0) {
                 int colorCount = new Random().nextInt(1, 5); // Random number of colors
                 int fadeCount = new Random().nextInt(colorCount + 1); // Random number of fade colors
+                int randomExplosion = new Random().nextInt(5); //Random explosion type
+                while(randomExplosion == 3) {
+                    randomExplosion = new Random().nextInt(5); //Random explosion type
+                }
+                int randomFlightDuration = new Random().nextInt(1,4); //Random flight duration
+                int randomLiveTicks = new Random().nextInt(80);
 
                 ListTag explosionsList = new ListTag();
                 CompoundTag explosionsTag = new CompoundTag();
-                explosionsTag.putByte("Type", (byte) 3);
-                explosionsTag.putByte("Flicker", (byte) 0);
-                explosionsTag.putByte("Trail", (byte) 1);
-                explosionsTag.putIntArray("Colors", new int[] {5635925});
-                explosionsTag.putIntArray("FadeColors", new int[] {11141120});
+                explosionsTag.putByte("Type", (byte) randomExplosion);
+                explosionsTag.putByte("Flicker", (byte) new Random().nextInt(2));
+                explosionsTag.putByte("Trail", (byte) new Random().nextInt(2));
+                explosionsTag.putIntArray("Colors", generateRandomColors(colorCount));
+                explosionsTag.putIntArray("FadeColors", generateRandomColors(fadeCount));
                 //List of explosion parameters (I just copied from a /summon example to test it)
                 explosionsList.add(explosionsTag);
                 //There might be multiple customized explosions, so they go in a list
 
                 CompoundTag fireworksTag = new CompoundTag();
-                fireworksTag.putInt("Flight", 2);
+                fireworksTag.putInt("Flight", randomFlightDuration);
                 fireworksTag.put("Explosions", explosionsList);
                 // Flight:2,Explosions:[{Type:3,Flicker:0,Trail:1,Colors:[I;5635925],FadeColors:[I;11141120]}]
                 //The whole firework data, including how high up will it go, go in a higher nested tag
