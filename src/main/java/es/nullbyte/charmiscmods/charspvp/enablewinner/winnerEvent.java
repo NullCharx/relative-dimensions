@@ -1,16 +1,11 @@
 package es.nullbyte.charmiscmods.charspvp.enablewinner;
 
-import net.minecraft.client.particle.FireworkParticles;
-import net.minecraft.client.renderer.entity.FireworkEntityRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
-import net.minecraft.world.item.FireworkRocketItem;
-import net.minecraft.world.item.FireworkStarItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,7 +14,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Random;
-import java.util.logging.Level;
 
 @Mod.EventBusSubscriber
 public class winnerEvent {
@@ -45,7 +39,6 @@ public class winnerEvent {
                     randomExplosion = new Random().nextInt(5); //Random explosion type
                 }
                 int randomFlightDuration = new Random().nextInt(1,4); //Random flight duration
-                int randomLiveTicks = new Random().nextInt(80);
 
                 ListTag explosionsList = new ListTag();
                 CompoundTag explosionsTag = new CompoundTag();

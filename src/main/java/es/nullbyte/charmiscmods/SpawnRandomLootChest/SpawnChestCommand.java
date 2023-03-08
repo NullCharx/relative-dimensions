@@ -126,7 +126,7 @@ public class SpawnChestCommand {
             }
 
             // Send a success message
-            source.sendSuccess(Component.literal("Cofre colocado en " + pos.getX() + "," + pos.getY() + "," + pos.getZ() + "with items: " + items.toString()), true);
+            source.sendSuccess(Component.literal("Cofre colocado en " + pos.getX() + "," + pos.getY() + "," + pos.getZ() + "with items: " + items), true);
             return 1;
         } else {
             // Send a message to the command sender indicating that the block at the given position is not a chest
@@ -147,7 +147,7 @@ public class SpawnChestCommand {
                 .sorted()
                 .toList();
 
-        itemNames.forEach(itemName -> builder.suggest(itemName));
+        itemNames.forEach(builder::suggest);
 
         // Add the item names to the suggestions builder
         return builder.buildFuture();
