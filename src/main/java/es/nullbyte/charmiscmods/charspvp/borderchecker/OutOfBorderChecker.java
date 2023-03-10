@@ -40,8 +40,8 @@ public class OutOfBorderChecker {
                         playerbrdrtick++;
                         if (playerbrdrtick % 20 == 0) {
                             playerbrdrseconds++;
-                            player.sendSystemMessage(Component.literal("¡Estas fuera de limites! Teletransportando dentro del área de juego en " + (warningTimeInSeconds - playerbrdrseconds) + " segundos..."));
-                        } if (playerbrdrseconds >= warningTimeInSeconds){
+                            player.sendSystemMessage(Component.literal("¡Estas fuera de limites! Teletransportando dentro del área de juego en " + (warningTimeInSeconds-playerbrdrseconds) + " segundos..."));
+                        } else if (playerbrdrseconds >= warningTimeInSeconds){
                             player.sendSystemMessage(Component.literal("Iniciando teletransporte..."));
 
                             // Calculate the point on the world border closest to the player
@@ -71,14 +71,13 @@ public class OutOfBorderChecker {
                             }
                             fullpos = fullpos.above();
 
-                            player.setPos(fullpos.getX() + 0.5, fullpos.getY(), fullpos.getZ() + 0.5);
+                            player.setPos(fullpos.getX(), fullpos.getY(), fullpos.getZ());
                             BlockPos currentpos = new BlockPos(player.position().x, player.position().y, player.position().z);
                             if(!currentpos.equals(fullpos)) {
-                                player.setPos(fullpos.getX() + 0.5, fullpos.getY(), fullpos.getZ() + 0.5);
+                                player.setPos(fullpos.getX(), fullpos.getY(), fullpos.getZ();
                             }
                             player.sendSystemMessage(Component.literal("Teleported inside the world border!"));
-                            playerbrdrseconds = 0;
-                            playerbrdrtick = 0;
+                            //TODO check in the actual server
                         }
                     }
                 } else {
