@@ -74,7 +74,7 @@ public class OutOfBorderChecker {
                             player.setPos(fullpos.getX(), fullpos.getY(), fullpos.getZ());
                             BlockPos currentpos = new BlockPos(player.position().x, player.position().y, player.position().z);
                             if(!currentpos.equals(fullpos)) {
-                                player.setPos(fullpos.getX(), fullpos.getY(), fullpos.getZ();
+                                player.setPos(fullpos.getX(), fullpos.getY(), fullpos.getZ());
                             }
                             player.sendSystemMessage(Component.literal("Teleported inside the world border!"));
                             //TODO check in the actual server
