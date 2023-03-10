@@ -44,9 +44,8 @@ public class modPVPcmd {
         int level = Integer.parseInt(levelStr);
         if (level< -1 || level>1) {
             throw ERROR_LEVEL_NOT_VALID.create();
-        }  else {
-            PvpManager.setPVPstate(level);
         }
+        PvpManager.setPVPstate(level);
         prettyPrint(source);
         return 0;
     }
@@ -80,8 +79,8 @@ public class modPVPcmd {
         return 0;
     }
     private static void prettyPrint(CommandSourceStack source) {
-        BlockPos deathBP =  new BlockPos(0,0,0);
-        source.getLevel().playSound(null, deathBP, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
+        BlockPos deathBP =  new BlockPos(0,100,0);
+        source.getLevel().playSound(null, deathBP, SoundEvents.AMBIENT_CAVE.get(), SoundSource.PLAYERS, 100.0f, 1.0f);
         MutableComponent message;
         if(PvpManager.isPVPoff()){
             message = Component.translatable("⚠⚠⚠————————PVP: DESACTIVADO———————————\n");

@@ -127,7 +127,6 @@ public class modTimercmd extends PlayerTimeManager {
         PlayerTimeManager.toggleTimer();
         BlockPos deathBP =  new BlockPos(0,100,0);
         MutableComponent message;
-
         source.getLevel().playSound(null, deathBP, SoundEvents.AMBIENT_CAVE.get(), SoundSource.PLAYERS, 100.0f, 1.0f);
 
         if(PlayerTimeManager.isTimerEnabled()){
