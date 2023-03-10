@@ -9,13 +9,17 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class OutOfBorderChecker {
-    private static final int warningTimeInSeconds = 3;
+    private static int warningTimeInSeconds;
 
     private static int playerbrdrtick = 0;
     private static int playerbrdrseconds = 0;
 
 
-
+    public OutOfBorderChecker(int warningTimeInSeconds) {
+        OutOfBorderChecker.warningTimeInSeconds = warningTimeInSeconds;
+        MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
+        MinecraftForge.EVENT_BUS.addListener(OutOfBorderChecker::onServerTick);
+    }
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         for(Player player: event.getServer().getPlayerList().getPlayers()){
@@ -74,7 +78,6 @@ public class OutOfBorderChecker {
                             if(!currentpos.equals(fullpos)) {
                                 player.setPos(fullpos.getX(), fullpos.getY(), fullpos.getZ());
                             }
-                            player.sendSystemMessage(Component.literal("Teleported inside the world border!"));
                         }
                     }
                 } else {

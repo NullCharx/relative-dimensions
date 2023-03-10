@@ -34,7 +34,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
-//TODO: Pretty print: world border shrink
 //TODO: Make lobby / colloseum for possible showdown  (New dimension?)
 
 
@@ -52,21 +51,20 @@ public class CharMiscModsMain {
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
 
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
+    public static final OutOfBorderChecker borderchecker = new OutOfBorderChecker(10);
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public CharMiscModsMain() {
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        ItemInit.ITEMS.register(modEventBus);
-
         // Register the commonSetup method for modloading
-
         modEventBus.addListener(this::setup);
+        //Register ITEMS
+        ItemInit.ITEMS.register(modEventBus);
         //Register custom creative tab
         modEventBus.addListener(this::buildContents);
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
         // Register ourselves for server and other game events we are interested in
-        modEventBus.addListener(this::onChatReceived);
         MinecraftForge.EVENT_BUS.register(this);
 
         MinecraftForge.EVENT_BUS.register(PvpManager.class); //Register the class on the event bus so any events it has will be called
@@ -74,10 +72,7 @@ public class CharMiscModsMain {
         //The main class, we need to add the listeners here
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingAttack);
-
-        MinecraftForge.EVENT_BUS.register(OutOfBorderChecker.class); //Register the class on the event bus so any events it has will be called
-        MinecraftForge.EVENT_BUS.addListener(OutOfBorderChecker::onServerTick); //Register the class on the event bus so any events it has will be called
-
+        MinecraftForge.EVENT_BUS.addListener(this::onChatReceived);
 
     }
     private void setup(final FMLCommonSetupEvent event) {
