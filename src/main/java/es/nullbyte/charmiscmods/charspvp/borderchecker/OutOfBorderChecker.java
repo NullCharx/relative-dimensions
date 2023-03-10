@@ -40,8 +40,8 @@ public class OutOfBorderChecker {
                         playerbrdrtick++;
                         if (playerbrdrtick % 20 == 0) {
                             playerbrdrseconds++;
-                            player.sendSystemMessage(Component.literal("¡Estas fuera de limites! Teletransportando dentro del área de juego en " + warningTimeInSeconds + " segundos..."));
-                        } else if (playerbrdrseconds >= warningTimeInSeconds){
+                            player.sendSystemMessage(Component.literal("¡Estas fuera de limites! Teletransportando dentro del área de juego en " + (warningTimeInSeconds - playerbrdrseconds) + " segundos..."));
+                        } if (playerbrdrseconds >= warningTimeInSeconds){
                             player.sendSystemMessage(Component.literal("Iniciando teletransporte..."));
 
                             // Calculate the point on the world border closest to the player

@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
 
 //TODO: Prettyprint: PVP toggle (sound included)
-//TODO: Pretty print: Timeout y muerte
 //TODO: Pretty print: world border shrink
 //TODO: Make lobby / colloseum for possible showdown  (New dimension?)
 
