@@ -9,17 +9,15 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class OutOfBorderChecker {
-    private final int warningTimeInSeconds = 3;
+    private static final int warningTimeInSeconds = 3;
 
     private static int playerbrdrtick = 0;
     private static int playerbrdrseconds = 0;
 
 
-    public OutOfBorderChecker() {
-        MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
-    }
+
     @SubscribeEvent
-    public void onServerTick(TickEvent.ServerTickEvent event) {
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
         for(Player player: event.getServer().getPlayerList().getPlayers()){
             WorldBorder worldBorder = player.level.getWorldBorder();
             if (event.phase == TickEvent.Phase.END && !player.isSpectator()) {
