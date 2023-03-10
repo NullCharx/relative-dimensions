@@ -6,12 +6,14 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PvpManager;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 
@@ -83,13 +85,13 @@ public class modPVPcmd {
         source.getLevel().playSound(null, deathBP, SoundEvents.AMBIENT_CAVE.get(), SoundSource.PLAYERS, 100.0f, 1.0f);
         MutableComponent message;
         if(PvpManager.isPVPoff()){
-            message = Component.translatable("⚠⚠⚠————————PVP: DESACTIVADO———————————\n");
+            message = Component.translatable("⚠⚠⚠——————PVP: DESACTIVADO———————\n");
             message.withStyle(ChatFormatting.YELLOW);
         } else if (PvpManager.isPVPon()) {
-            message = Component.translatable("⚠⚠⚠————————PVP: ACTIVADO———————————\n");
+            message = Component.translatable("⚠⚠⚠———————PVP: ACTIVADO—————————\n");
             message.withStyle(ChatFormatting.DARK_RED);
         } else {
-            message = Component.translatable("⚠⚠⚠————————PVP: ULTRA———————————\n");
+            message = Component.translatable("⚠⚠⚠—————————PVP: ULTRA——————————\n");
             message.withStyle(ChatFormatting.DARK_PURPLE);
         }
 

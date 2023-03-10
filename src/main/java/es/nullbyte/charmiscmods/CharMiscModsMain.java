@@ -34,7 +34,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
 import static es.nullbyte.charmiscmods.init.ItemInit.*;
-//TODO CHOOSE ANOTHER SOUND FOR TIMER TOGGLE
 //TODO: Pretty print: world border shrink
 //TODO: Make lobby / colloseum for possible showdown  (New dimension?)
 

@@ -126,8 +126,10 @@ public class modTimercmd extends PlayerTimeManager {
     private static int toggleTimer(CommandSourceStack source) {
         PlayerTimeManager.toggleTimer();
         BlockPos deathBP =  new BlockPos(0,100,0);
+        source.getLevel().playSound(null, deathBP, SoundEvents.BELL_BLOCK , SoundSource.PLAYERS, 100.0f, 1.0f);
+        source.getLevel().playSound(null, deathBP, SoundEvents.BELL_RESONATE , SoundSource.PLAYERS, 100.0f, 1.0f);
+
         MutableComponent message;
-        source.getLevel().playSound(null, deathBP, SoundEvents.AMBIENT_CAVE.get(), SoundSource.PLAYERS, 100.0f, 1.0f);
 
         if(PlayerTimeManager.isTimerEnabled()){
             message= Component.translatable("[S.P.A.S] - El tiempo de juego ha comenzado. ¡A explorar! (Y cuidado por donde pisais)");
