@@ -2,19 +2,7 @@ package es.nullbyte.charmiscmods;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
-import es.nullbyte.charmiscmods.AllPlayerPosCmd.ListPlayersCommand;
-import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PlayerTimeManager;
-import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PvpManager;
-import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds.modPVPcmd;
-import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.mgrcmds.modTimercmd;
-import es.nullbyte.charmiscmods.charspvp.enablewinner.WinnerEnabler;
-import es.nullbyte.charmiscmods.init.ItemInit;
-import es.nullbyte.charmiscmods.charspvp.network.DailyTimeLimitHandler;
-import es.nullbyte.charmiscmods.charspvp.network.PVPStateHandler;
-import es.nullbyte.charmiscmods.charspvp.network.RemainingTimeHandler;
-import es.nullbyte.charmiscmods.SpawnRandomLootChest.DespawnChestCommand;
-import es.nullbyte.charmiscmods.SpawnRandomLootChest.SpawnChestCommand;
-import es.nullbyte.charmiscmods.charspvp.borderchecker.OutOfBorderChecker;
+
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
@@ -22,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -33,7 +20,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-import static es.nullbyte.charmiscmods.init.ItemInit.*;
 //TODO: Make lobby / colloseum for possible showdown  (New dimension?)
 
 
@@ -50,74 +36,17 @@ public class CharMiscModsMain {
     public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
 
-    public static final PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
-    public static final OutOfBorderChecker borderchecker = new OutOfBorderChecker(10);
+
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public CharMiscModsMain() {
-        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::setup);
-        //Register ITEMS
-        ItemInit.ITEMS.register(modEventBus);
-        //Register custom creative tab
-        modEventBus.addListener(this::buildContents);
-        // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
 
-        MinecraftForge.EVENT_BUS.register(PvpManager.class); //Register the class on the event bus so any events it has will be called
-        //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
-        //The main class, we need to add the listeners here
-        MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
-        MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingAttack);
-        MinecraftForge.EVENT_BUS.addListener(this::onChatReceived);
 
     }
     private void setup(final FMLCommonSetupEvent event) {
-        //Registrar eventos encolados, includos los paquetes de red!
-        event.enqueueWork(() -> {
-            RemainingTimeHandler.register();
-            PVPStateHandler.register();
-            DailyTimeLimitHandler.register();
-            //ModMessages.register();
-        });
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
+
     }
 
-
-
-    @SubscribeEvent
-    public void addCreative(CreativeModeTabEvent.BuildContents event) {
-        //Use this event to add items to a default creative tab
-        // Add to ingredients tab
-        //if (event.getTab() == CreativeModeTabs) {
-
-        //}
-    }
-
-    @SubscribeEvent
-    public void buildContents(CreativeModeTabEvent.Register event) {
-        event.registerCreativeModeTab(new ResourceLocation(MOD_ID, "example"), builder ->
-        // Set name of tab to display
-        builder.title(Component.translatable("item_group." + MOD_ID + ".example"))
-        // Set icon of creative tab
-        .icon(() -> new ItemStack(testitem1.get()))
-        // Add default items to tab
-        //Add all items to tab through here
-        .displayItems((enabledFlags, populator, hasPermissions) -> {
-            populator.accept(testitem1.get());
-            populator.accept(testitem1.get());
-            populator.accept(AVID_SDPT.get());
-            populator.accept(TRANSMAT_BEAM_EMITTER.get());
-            populator.accept(PLAYER_TRACKER_COMPASS.get());
-            populator.accept(TEAM_TRACKER_COMPASS.get());
-
-        })
-        );
-    }
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
@@ -141,7 +70,6 @@ public class CharMiscModsMain {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
         registerCommands(dispatcher);
         LOGGER.info("[CHARMISCMODS - MAIN] Loading manager registry");
-        timeManager.loadManagerData();
 
 
     }
@@ -149,7 +77,6 @@ public class CharMiscModsMain {
     @SubscribeEvent
     public void onServerStopping(ServerStoppingEvent event) {
         LOGGER.info("[CHARMISCMODS - MAIN] Saving manager registry");
-        timeManager.saveManagerData();
     }
 
 
@@ -157,12 +84,7 @@ public class CharMiscModsMain {
 
     public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
         //REGISTER THE COMMANDS HERE!
-        modPVPcmd.register(dispatcher);
-        modTimercmd.register(dispatcher);
-        SpawnChestCommand.register(dispatcher);
-        DespawnChestCommand.register(dispatcher);
-        ListPlayersCommand.register(dispatcher);
-        WinnerEnabler.register(dispatcher);
+
     }
 
     //Disable join messages
