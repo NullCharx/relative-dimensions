@@ -1,17 +1,16 @@
 {
-  "itemGroup.chrmscmds": "Propiedad del grupo de Desarrollo Inteligente Avanzado",
-
-  "item.chrmscmds.testitem1": "Test item 1! (sin funcionalidad)",
-
-  "item.chrmscmds.avidsdpt": "Transmisor de particulas de corta distancia de AVID",
-
-  "item.chrmscmds.transmatbeamemt": "Emisor de haz transmat",
+  "itemGroup.chrmscmds": "Propiedad del grupo de Desarrollo e Inteligencia Avanzado",
 
   "block.chrmscmds.test-block": "Test block! (sin funcionalidad)",
+  "item.chrmscmds.testitem1": "Test item 1! (sin funcionalidad)",
 
-  "block.chrmscmds.tsrail": "Pieza de rail parte del sistema de transporte del centro AVID",
+  "creativeTab.avidtp": "Items de teleportacion local del grupo de Desarrollo e Inteligencia Avanzado",
+  "item.chrmscmds.avidsdpt": "Transmisor de particulas de corta distancia de AVID",
+  "item.chrmscmds.transmatbeamemt": "Emisor de haz transmat",
 
+  "creativeTab.avidpvp": "Items de exploración y agrupamiento de personal del grupo de Desarrollo e Inteligencia Avanzado",
   "item.chrmscmds.trackercompass": "Rastreador de jugadores de AVID ",
+  "item.chrmscmds.teamtrackercompass": "Rastreador de jugadores de equipo de AVID ",
 
-  "item.chrmscmds.teamtrackercompass": "Rastreador de jugadores de equipo de AVID "
+  "block.chrmscmds.tsrail": "Pieza de rail parte del sistema de transporte del centro AVID"
 }

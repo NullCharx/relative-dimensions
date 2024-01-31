@@ -1,18 +1,16 @@
 {
-  "itemGroup.chrmscmds": "Propierty of the Advanced Intelligent Development group",
+  "itemGroup.chrmscmds": "Property of the Advanced Intelligence & Development group",
 
   "item.chrmscmds.testitem1": "Test item 1! (no functionality)",
-
-  "item.chrmscmds.avidsdpt": "AVID short distance particle matter transmitter",
-
-  "item.chrmscmds.transmatbeamemt": "Transmat beam emitter",
-
   "block.chrmscmds.test-block": "Test block! (no functionality)",
 
-  "block.chrmscmds.tsrail": "Rail piece part of the AVID center transit system",
+  "creativeTab.avidtp": "Advanced Intelligence & Development group local teleportation items",
+  "item.chrmscmds.avidsdpt": "AVID short distance particle matter transmitter",
+  "item.chrmscmds.transmatbeamemt": "Transmat beam emitter",
 
+  "creativeTab.avidpvp": "Advanced Intelligence & Development exploration & personnel recalling items",
   "item.chrmscmds.trackercompass": "AVID player tracking compass",
+  "item.chrmscmds.teamtrackercompass": "AVID team player tracking compass",
 
-  "item.chrmscmds.teamtrackercompass": "AVID team player tracking compass"
-
+  "block.chrmscmds.tsrail": "Rail piece part of the AVID center transit system"
 }

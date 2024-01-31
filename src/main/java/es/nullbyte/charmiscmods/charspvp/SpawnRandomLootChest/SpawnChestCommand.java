@@ -1,4 +1,4 @@
-package es.nullbyte.charmiscmods.SpawnRandomLootChest;
+package es.nullbyte.charmiscmods.charspvp.SpawnRandomLootChest;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
