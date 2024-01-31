@@ -1,16 +1,32 @@
 {
   "itemGroup.chrmscmds": "Property of the Advanced Intelligence & Development group",
 
+
   "item.chrmscmds.testitem1": "Test item 1! (no functionality)",
   "block.chrmscmds.test-block": "Test block! (no functionality)",
 
-  "creativeTab.avidtp": "Advanced Intelligence & Development group local teleportation items",
+  "creativetab.avidtp": "Advanced Intelligence & Development group local teleportation items",
   "item.chrmscmds.avidsdpt": "AVID short distance particle matter transmitter",
+  "item.charmiscmods.avidsdpt.tooltip": "Click on a nearby block to be teleported to it instantly!",
   "item.chrmscmds.transmatbeamemt": "Transmat beam emitter",
+  "item.charmiscmods.transmatbeamemitter.state.locking": "Locking player position...",
+  "item.charmiscmods.transmatbeamemitter.state.targetlacq": "Target coordinates acquired: %s",
+  "item.charmiscmods.transmatbeamemitter.state.upstrtransmat" : "Generating upstream transmat channel...",
+  "item.charmiscmods.transmatbeamemitter.state.energizing" : "Energizing...",
+  "item.charmiscmods.transmatbeamemitter.state.stabilished" : "Transmat channel stabilished.",
+  "item.charmiscmods.transmatbeamemitter.state.error" : "Error on transmat transmission: Teleportation failed.",
+  "item.charmiscmods.transmatbeamemitter.state.success" : "Transmatting...",
+  "item.charmiscmods.transmatbeamemitter.tooltip" : "Click to teleport to an on-sight block after a short charging time.",
 
-  "creativeTab.avidpvp": "Advanced Intelligence & Development exploration & personnel recalling items",
+  "creativetab.avidpvp": "Advanced Intelligence & Development exploration & personnel recalling items",
   "item.chrmscmds.trackercompass": "AVID player tracking compass",
+  "item.charmiscmods.trackercompass.tooltip": "Use the item to track a player! If there are no players in range, the compass will not work.",
   "item.chrmscmds.teamtrackercompass": "AVID team player tracking compass",
+  "item.charmiscmods.teamtrackercompass.tooltip": "Use the item to track a player of your team! If there are no players in range, the compass will not work.",
+  "item.charmiscmods.trackers.no_players_found": "No players found nearby",
+  "item.charmiscmods.trackers.player_found" : "Player found, compass armed",
+  "item.charmiscmods.trackers.compass_already_armed": "Compass already armed and locked on to a player",
+  "item.charmiscmods.trackers.player_too_close": "Due to target proximity, the compass has overloaded and no longer works. The excess energy vaporized the compass before your eyes",
 
   "block.chrmscmds.tsrail": "Rail piece part of the AVID center transit system"
 }

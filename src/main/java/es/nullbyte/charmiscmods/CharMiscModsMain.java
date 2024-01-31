@@ -21,9 +21,9 @@ import org.slf4j.Logger;
 import es.nullbyte.charmiscmods.AllPlayerPosCmd.ListPlayersCommand;
 import es.nullbyte.charmiscmods.charspvp.SpawnRandomLootChest.DespawnChestCommand;
 import es.nullbyte.charmiscmods.charspvp.SpawnRandomLootChest.SpawnChestCommand;
-import es.nullbyte.charmiscmods.charspvp.timerlimit.PlayerTimeLimit.PlayerTimeManager;
-import es.nullbyte.charmiscmods.charspvp.timerlimit.PlayerTimeLimit.mgrcmds.modPVPcmd;
-import es.nullbyte.charmiscmods.charspvp.timerlimit.PlayerTimeLimit.mgrcmds.modTimercmd;
+//import es.nullbyte.charmiscmods.charspvp.timerlimit.PlayerTimeLimit.PlayerTimeManager;
+//import es.nullbyte.charmiscmods.charspvp.timerlimit.PlayerTimeLimit.mgrcmds.modPVPcmd;
+//import es.nullbyte.charmiscmods.charspvp.timerlimit.PlayerTimeLimit.mgrcmds.modTimercmd;
 import es.nullbyte.charmiscmods.charspvp.borderchecker.OutOfBorderChecker;
 import es.nullbyte.charmiscmods.charspvp.enablewinner.WinnerEnabler;
 import es.nullbyte.charmiscmods.items.init.*;
@@ -44,7 +44,7 @@ public class CharMiscModsMain {
     public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
 
-    public static final PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
+    //public static final PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
     public static final OutOfBorderChecker borderchecker = new OutOfBorderChecker(10);
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
@@ -81,7 +81,7 @@ public class CharMiscModsMain {
 
 
 
-    @SubscribeEvent
+    //@SubscribeEvent
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         //Add the item to an existing vanilla creative tab
@@ -129,8 +129,8 @@ public class CharMiscModsMain {
 
     public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
         //REGISTER THE COMMANDS HERE!
-        modPVPcmd.register(dispatcher);
-        modTimercmd.register(dispatcher);
+        //modPVPcmd.register(dispatcher);
+        //modTimercmd.register(dispatcher);
         SpawnChestCommand.register(dispatcher);
         DespawnChestCommand.register(dispatcher);
         ListPlayersCommand.register(dispatcher);

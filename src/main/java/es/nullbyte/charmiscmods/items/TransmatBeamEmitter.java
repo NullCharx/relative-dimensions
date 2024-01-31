@@ -11,6 +11,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -20,6 +21,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 import static java.lang.Math.floor;
 
@@ -40,7 +44,7 @@ public class TransmatBeamEmitter extends Item {
 
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level world, @NotNull Player player, @NotNull InteractionHand hand) {
 
         int secs = 10;
         //If not checking, the event will fire twice (both in client and server)
@@ -85,10 +89,11 @@ public class TransmatBeamEmitter extends Item {
         return world.clip(new ClipContext(vector3d, vector3d1, ClipContext.Block.OUTLINE, fluidMode, player));
     }
 
-    //TODO change to server tick and redo. SERVERTICK and then use packets to comunicate with client.
+    //TODO change to server tick and redo. SERVERTICK and then use packets to comunicate with client.!!!!
     int ticksCounter = 0;
     @SubscribeEvent
     public void PlayerTick(TickEvent.PlayerTickEvent event) {
+        Level playerLevel = event.player.level();
 
         if (transmatStart) {
             /*if(!particleStart) {
@@ -101,14 +106,15 @@ public class TransmatBeamEmitter extends Item {
             }*/
 
             if(ticksCounter == 0) {
-                event.player.sendSystemMessage(Component.literal(String.format("Locking player position...")));
-                event.player.level().playSound(event.player, event.player.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.locking"));
+                playerLevel.playSound(event.player, event.player.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
 
                 //Transmat raytrace----------------------------------------
-                BlockHitResult ray = rayTrace(event.player.level(), event.player, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
+                BlockHitResult ray = rayTrace(playerLevel, event.player, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
                 BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
 
-                event.player.sendSystemMessage(Component.literal(String.format("Target coordinates acquired: %s", lookPos.toString())));
+                event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.targetlacq", lookPos.toString()));
+                //event.player.sendSystemMessage(Component.literal(String.format("Target coordinates acquired: %s", lookPos)));
 
                 //save the target position
                 targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
@@ -116,40 +122,36 @@ public class TransmatBeamEmitter extends Item {
 
                 particleStart = true;
             } else {
-                event.player.level().addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 2, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 3, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 4, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 5, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 6, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 7, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 8, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 9, targetPos.z, 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 10, targetPos.z, 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 2, targetPos.z, 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 3, targetPos.z, 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 4, targetPos.z, 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 5, targetPos.z, 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 6, targetPos.z, 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 7, targetPos.z, 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 8, targetPos.z, 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 9, targetPos.z, 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 10, targetPos.z, 0.0D, 0.0D, 0.0D);
 
                 if (ticksCounter == 100) {//
-                    event.player.sendSystemMessage(Component.literal(String.format("Generating upstream transmat channel...")));
-                }else if (ticksCounter == 200) {
+                    event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.upstrtransmat"));
+                }else if (ticksCounter == 250) {
                     //Play nether treshold sound
-                    if (event.player.level().isClientSide()) {
-                        event.player.sendSystemMessage(Component.literal(String.format("Energizing...")));
-                    }
-                } else if (ticksCounter == 300) {
-                    if (event.player.level().isClientSide()) {
-                        event.player.sendSystemMessage(Component.literal(String.format("Target locked...")));
+                    if (playerLevel.isClientSide()) {
+                        event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.energizing"));
                     }
                 } else if (ticksCounter == 400) {
                     ticksCounter = 0;
                     particleStart = false;
                     transmatStart = false;
-                    event.player.sendSystemMessage(Component.literal(String.format("Transmat channel established!")));
+                    event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilished"));
                     // play a teleport sound. the last two args are volume and pitch
-                    event.player.level().playSound(event.player, event.player.getX(), event.player.getY(), event.player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    playerLevel.playSound(event.player, event.player.getX(), event.player.getY(), event.player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                     event.player.setPos(targetPos.x, targetPos.y, targetPos.z);
                     if(event.player.position() == posInitRounded) {
-                        event.player.sendSystemMessage(Component.literal(String.format("Transmat channel error")));
+                        event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.error"));
                     } else {
-                        event.player.sendSystemMessage(Component.literal(String.format("Transmatting...")));
+                        event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.success"));
                     }
                     System.out.println(event.player.position());
                 }
@@ -159,16 +161,16 @@ public class TransmatBeamEmitter extends Item {
                 //Make the player unable to move
                 //Generate nether portal particles
                 ticksCounter++;
-                event.player.level().addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 1, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 2, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 3, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 4, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 5, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 6, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 7, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 8, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 9, event.player.getZ(), 0.0D, 0.0D, 0.0D);
-                event.player.level().addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 10, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 1, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 2, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 3, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 4, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 5, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 6, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 7, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 8, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 9, event.player.getZ(), 0.0D, 0.0D, 0.0D);
+                playerLevel.addParticle(ParticleTypes.PORTAL, event.player.getX(), event.player.getY() + 10, event.player.getZ(), 0.0D, 0.0D, 0.0D);
                 event.player.setPos(posInit.x, posInit.y, posInit.z);
 
             }
@@ -192,5 +194,11 @@ public class TransmatBeamEmitter extends Item {
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, ItemStack material) {
         return material.getItem() == ItemInit.TRANSMAT_BEAM_EMITTER.get();
+    }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level plevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(Component.translatable("item.charmiscmods.transmatbeamemitter.tooltip"));
+        super.appendHoverText(pStack, plevel, pTooltipComponents, pIsAdvanced);
     }
 }

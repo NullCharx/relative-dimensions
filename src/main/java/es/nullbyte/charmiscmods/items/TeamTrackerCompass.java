@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.Vanishable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -15,7 +16,9 @@ import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
 
@@ -39,7 +42,7 @@ public class TeamTrackerCompass extends Item implements Vanishable {
 
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, @NotNull Player player, @NotNull InteractionHand hand) {
         if (!isArmed){
 
             itemStack = player.getItemInHand(hand);
@@ -49,7 +52,7 @@ public class TeamTrackerCompass extends Item implements Vanishable {
             if (localUserTeam == null || localUserTeam.getPlayers().size() == 1) {
                 //User has no team or no other player on team than us.
                 if (world.isClientSide()) {
-                    player.sendSystemMessage(Component.literal("No se encontraron jugadores en el área."));
+                    player.sendSystemMessage(Component.translatable("item.charmiscmods.trackers.no_players_found"));
                 }
                 dataStatus = 0;
                 itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
@@ -69,7 +72,7 @@ public class TeamTrackerCompass extends Item implements Vanishable {
 
                 if (localnearestPlayer != null) {
                     if (world.isClientSide()) {
-                        player.sendSystemMessage(Component.literal("Jugador encontrado. Brújula armada..."));
+                        player.sendSystemMessage(Component.translatable("item.charmiscmods.trackers.player_found"));
                     }
                     nearestPlayer = localnearestPlayer;
                     userPlayer = player; //Set player
@@ -77,7 +80,7 @@ public class TeamTrackerCompass extends Item implements Vanishable {
                     isArmed = true;
                 }else {
                     if (world.isClientSide()) {
-                        player.sendSystemMessage(Component.literal("No se encontraron jugadores en el área."));
+                        player.sendSystemMessage(Component.translatable("item.charmiscmods.trackers.no_players_found"));
                     }
                     dataStatus = 0;
                     itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
@@ -86,7 +89,7 @@ public class TeamTrackerCompass extends Item implements Vanishable {
             }
         } else {
             if (world.isClientSide()) {
-                player.sendSystemMessage(Component.literal("Un jugador ya está siendo rastreado."));
+                player.sendSystemMessage(Component.translatable("item.charmiscmods.trackers.compass_already_armed"));
             }
         }
         return super.use(world, player, hand);
@@ -107,7 +110,7 @@ public class TeamTrackerCompass extends Item implements Vanishable {
         if (distanceToItemUser < 5) {
             //Delete the item from the inventory once "one use is done" (you approach to 8 blocks or less from the tracked player)
             if (currentWorld.isClientSide()) {
-                userPlayer.sendSystemMessage(Component.literal("Debido a la cercanía con el objetivo, la brújula se ha sobrecargado.La energía sobrante te ha permitido ver como la brújula se ha volatilizado antes tus ojos"));
+                userPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.trackers.player_too_close"));
             }
             dataStatus = 0;
             isArmed = false;
@@ -224,8 +227,13 @@ public class TeamTrackerCompass extends Item implements Vanishable {
 
     // makes it repairable
     @Override
-    public boolean isRepairable(ItemStack stack) {
+    public boolean isRepairable(@NotNull ItemStack stack) {
         return false;
+    }
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level plevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(Component.translatable("item.charmiscmods.teamtrackercompass.tooltip"));
+        super.appendHoverText(pStack, plevel, pTooltipComponents, pIsAdvanced);
     }
 
 }
