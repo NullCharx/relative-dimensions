@@ -2,6 +2,7 @@ package es.nullbyte.charmiscmods;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit.PvpManager;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -21,9 +22,9 @@ import org.slf4j.Logger;
 import es.nullbyte.charmiscmods.AllPlayerPosCmd.ListPlayersCommand;
 import es.nullbyte.charmiscmods.charspvp.SpawnRandomLootChest.DespawnChestCommand;
 import es.nullbyte.charmiscmods.charspvp.SpawnRandomLootChest.SpawnChestCommand;
-//import es.nullbyte.charmiscmods.charspvp.timerlimit.PlayerTimeLimit.PlayerTimeManager;
-//import es.nullbyte.charmiscmods.charspvp.timerlimit.PlayerTimeLimit.mgrcmds.modPVPcmd;
-//import es.nullbyte.charmiscmods.charspvp.timerlimit.PlayerTimeLimit.mgrcmds.modTimercmd;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit.PlayerTimeManager;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit.mgrcmds.modPVPcmd;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit.mgrcmds.modTimercmd;
 import es.nullbyte.charmiscmods.charspvp.borderchecker.OutOfBorderChecker;
 import es.nullbyte.charmiscmods.charspvp.enablewinner.WinnerEnabler;
 import es.nullbyte.charmiscmods.items.init.*;
@@ -44,7 +45,7 @@ public class CharMiscModsMain {
     public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
 
-    //public static final PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
+    public static final PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
     public static final OutOfBorderChecker borderchecker = new OutOfBorderChecker(10);
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
@@ -66,12 +67,14 @@ public class CharMiscModsMain {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-       // MinecraftForge.EVENT_BUS.register(PvpManager.class); //Register the class on the event bus so any events it has will be called
+        //Register the class on the event bus so any events it has will be called
+        MinecraftForge.EVENT_BUS.register(PvpManager.class);
+
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here
-        //MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
-        //MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingAttack);
-       // MinecraftForge.EVENT_BUS.addListener(this::onChatReceived);
+        MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
+        MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingAttack);
+        MinecraftForge.EVENT_BUS.addListener(this::onChatReceived);
 
     }
     private void setup(final FMLCommonSetupEvent event) {
@@ -113,15 +116,13 @@ public class CharMiscModsMain {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
         registerCommands(dispatcher);
         LOGGER.info("[CHARMISCMODS - MAIN] Loading manager registry");
-        //timeManager.loadManagerData();
-
-
+        timeManager.loadManagerData();
     }
 
     @SubscribeEvent
     public void onServerStopping(ServerStoppingEvent event) {
         LOGGER.info("[CHARMISCMODS - MAIN] Saving manager registry");
-        //timeManager.saveManagerData();
+        timeManager.saveManagerData();
     }
 
 
@@ -129,8 +130,9 @@ public class CharMiscModsMain {
 
     public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
         //REGISTER THE COMMANDS HERE!
-        //modPVPcmd.register(dispatcher);
-        //modTimercmd.register(dispatcher);
+        LOGGER.info("[CHARMISCMODS - MAIN] Initial command registration");
+        modPVPcmd.register(dispatcher);
+        modTimercmd.register(dispatcher);
         SpawnChestCommand.register(dispatcher);
         DespawnChestCommand.register(dispatcher);
         ListPlayersCommand.register(dispatcher);
@@ -146,42 +148,9 @@ public class CharMiscModsMain {
 
         // Check if the message is the "player has joined" message
         if (message.equals(I18n.get("multiplayer.player.joined", event.getSender()))||message.equals(I18n.get("multiplayer.player.left", event.getSender()))) {
-            // If the message is the "player has joined" message, cancel the event to prevent it from being displayed
+            // If the message is the "player has joined" or "player has left" message, cancel the event to prevent it from being displayed
             event.setCanceled(true);
         }
     }
 
-
 }
-    /*
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-
-    // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
-    public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of(Material.STONE)));
-    // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
-    public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
-
-----------------------------------------
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ClientModEvents
-    {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-        }
-    }*/

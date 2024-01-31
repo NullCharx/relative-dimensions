@@ -5,6 +5,7 @@
   "item.chrmscmds.testitem1": "Test item 1! (no functionality)",
   "block.chrmscmds.test-block": "Test block! (no functionality)",
 
+
   "creativetab.avidtp": "Advanced Intelligence & Development group local teleportation items",
   "item.chrmscmds.avidsdpt": "AVID short distance particle matter transmitter",
   "item.charmiscmods.avidsdpt.tooltip": "Click on a nearby block to be teleported to it instantly!",
@@ -18,6 +19,7 @@
   "item.charmiscmods.transmatbeamemitter.state.success" : "Transmatting...",
   "item.charmiscmods.transmatbeamemitter.tooltip" : "Click to teleport to an on-sight block after a short charging time.",
 
+
   "creativetab.avidpvp": "Advanced Intelligence & Development exploration & personnel recalling items",
   "item.chrmscmds.trackercompass": "AVID player tracking compass",
   "item.charmiscmods.trackercompass.tooltip": "Use the item to track a player! If there are no players in range, the compass will not work.",
@@ -28,5 +30,36 @@
   "item.charmiscmods.trackers.compass_already_armed": "Compass already armed and locked on to a player",
   "item.charmiscmods.trackers.player_too_close": "Due to target proximity, the compass has overloaded and no longer works. The excess energy vaporized the compass before your eyes",
 
-  "block.chrmscmds.tsrail": "Rail piece part of the AVID center transit system"
+
+  "block.chrmscmds.tsrail": "Rail piece part of the AVID center transit system",
+
+
+  "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: OFF———————\n",
+  "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ON———————\n",
+  "cmds.modpvp.level.ultra" : "⚠⚠⚠——————PVP: ULTRA———————\n",
+  "cmds.modpvp.error.levelnotvalid" : "Error: Level not valid. Valid levels are: -1 (no pvp), 0 (pvp), 1 (ultra pvp)",
+  "cmds.modpvp.error.highestlevel" : "Error: PVP level already set to highest value",
+  "cmds.modpvp.error.lowestlevel" : "Error: PVP level already set to lowest value",
+  "cmds.timerpvp.showtimelimit" : "Max daily time: %s",
+  "cmds.timerpvp.showresettime" : "Daily reset time: %s",
+  "cmds.timerpvp.timeplayedtoday" : "Player time of %s: %s",
+  "cmds.timerpvp.timerenabled" : "Timer enabled",
+  "cmds.timerpvp.timerdisabled" : "Timer disabled",
+  "cmds.timerpvp.resettimeset" : "Reset time set to %s : %s",
+  "cmds.timerpvp.dailytimelimitset" : "Daily time limit set to %s",
+  "cmds.timerpvp.publictimerenabled" : "[S.P.A.S] - Playtime started. Let's get exploring! (And be careful where you step on)",
+  "cmds.timerpvp.publictimerdisabled" : "[S.P.A.S] - Timer stopped - ",
+  "cmds.timerpvp.error.usernotfound" : "Error: User not found",
+  "cmds.timerpvp.error.timeargumentOOB" : "Argument error (24h format between 00:00 & 23:59)",
+  "cmds.timerpvp.error.timeargumenttoosmall" : "Argument error. At least one minute of pvp time must be set",
+  "cmds.timerpvp.error.timeargumenttoobig" : "Argument error. 99 hours is the maximum amount of pvp time allowed",
+
+  "system.announcer.emptyline" : "☠ SOMEONE HAS DIED\n",
+  "system.announcer.playerdeath.header" : "          \n",
+  "system.announcer.playerdeath.id" : "%s adventure has come to an end\n",
+  "system.announcer.playerdeath.footer" : "§m☠-------------------------------\n",
+  "system.announcer.playerdeath.final" : "",
+  "system.disconnectmsg.exceededplaytime" : "You have exceeded your daily playtime limit. Come back tomorrow!",
+  "system.disconnectmsg.playerdeath" : "You have died! Thanks for playing!"
+
 }
