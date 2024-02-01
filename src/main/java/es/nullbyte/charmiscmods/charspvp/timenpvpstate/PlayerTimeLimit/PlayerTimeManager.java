@@ -278,8 +278,13 @@ public class PlayerTimeManager {
                 if (isEnabled) { //Count if the timer is enabled (toggleTimer)
                     //Do player time managing
                     for (ServerPlayer p : event.getServer().getPlayerList().getPlayers()) { //For each player:
-                        long updatedTime = updatePlayerTime(p.getUUID()); //Add one to the player time
-                        RemainingTimeHandler.sendToPlayer(new S2CRemainingTime(updatedTime), p); //Update player GUI
+                        try {
+                            long updatedTime = updatePlayerTime(p.getUUID()); //Add one to the player time
+                            RemainingTimeHandler.sendToPlayer(new S2CRemainingTime(updatedTime), p); //Update player GUI
+                        }
+                        catch (IllegalArgumentException e) {
+                            LOGGER.error("[PLAYTIME LIMITER] ERROR while trying to update player time: " + e.getMessage());
+                        }
                         if (checkForTimeout(p.getUUID())) { //Check if the player timed out
                             LOGGER.info("[PLAYTIME LIMITER] " + p.getName() + "Has been timed out");
                             //Ban and disconnect the player

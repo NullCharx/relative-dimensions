@@ -44,10 +44,6 @@ public class PVPStateOverlay{
         //At the end, pop the matrix from the stack so that subsequent renders aren't affected!
         poseStack.pushPose();
         poseStack.scale(0.8F,0.8F,0.8F);
-        // Draw semi-transparent grey rectangle
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, 0.5F);
-        guiGraphics.fill(x + logoxoffset + rextanglexstart, height + logoyoffset + rextangleystart, x + logoxoffset + rextanglexend, height + logoyoffset + rextangleyend,0xFFFFFFFF);//Pos and then scale
 
         //Text tiempo restante
         Font font = Minecraft.getInstance().font;
@@ -109,6 +105,10 @@ public class PVPStateOverlay{
         guiGraphics.drawString(font, statePVP, textX, textY, color);
         //font.draw(poseStack, statePVP, textX, textY, color);
 
+        // Draw semi-transparent grey rectangle
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, 0.5F);
+        guiGraphics.fill(x + logoxoffset + rextanglexstart, height + logoyoffset + rextangleystart, x + logoxoffset + rextanglexend, height + logoyoffset + rextangleyend,0xFFFFFFFF);//Pos and then scale
 
         //Render the logo
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
