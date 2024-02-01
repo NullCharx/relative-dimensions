@@ -54,7 +54,7 @@
   "cmds.timerpvp.error.timeargumenttoosmall" : "Error de argumento. Al menos un minuto de juego debe ser especificado",
   "cmds.timerpvp.error.timeargumenttoobig" : "Error de argumento. Máximo de 99 horas permitido",
 
-  "gui.pvpoverlay.time_remaining" : "Tiempo restante: %s",
+  "gui.pvpoverlay.time_remaining" : "Tiempo restante: ",
 
 
   "system.announcer.playerdeath.header" : "☠ HA HABIDO UNA MUERTE\n",

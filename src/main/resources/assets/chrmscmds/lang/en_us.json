@@ -54,7 +54,7 @@
   "cmds.timerpvp.error.timeargumenttoosmall" : "Argument error. At least one minute of pvp time must be set",
   "cmds.timerpvp.error.timeargumenttoobig" : "Argument error. 99 hours is the maximum amount of pvp time allowed",
 
-  "gui.pvpoverlay.time_remaining" : "Time remaining: %s",
+  "gui.pvpoverlay.time_remaining" : "Time remaining: ",
 
   "system.announcer.playerdeath.header" : "☠ SOMEONE HAS DIED\n",
   "system.announcer.playerdeath.emptyline" : "          \n",

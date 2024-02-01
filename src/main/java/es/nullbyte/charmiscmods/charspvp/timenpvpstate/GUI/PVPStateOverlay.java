@@ -55,7 +55,7 @@ public class PVPStateOverlay{
         int textWidth = font.width(timeRemaining);
         textX = (x + logoxoffset + textxoffset - textWidth / 2);
         textY =(height + logoyoffset + textyoffset);
-        guiGraphics.drawString(font, timeRemaining.toString(), textX, textY, 0xFFFFFFFF);
+        guiGraphics.drawString(font, timeRemaining, textX, textY, 0xFFFFFFFF);
 
 
         // Draw "HH:MM:SS" text
