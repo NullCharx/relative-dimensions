@@ -1,14 +1,18 @@
-package es.nullbyte.charmiscmods.charspvp.GUI;
+package es.nullbyte.charmiscmods.charspvp.timenpvpstate.GUI;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import es.nullbyte.charmiscmods.charspvp.GUI.LocalState;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -33,9 +37,9 @@ public class PVPStateOverlay{
     private static  int textY = 20;
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(MOD_ID, "textures/mainvisor/fhcmclogo.png");
-    public static final IGuiOverlay PVP_STATE_HUD = ((gui, poseStack, partialTick, width, height) -> {
+    public static final IGuiOverlay PVP_STATE_HUD = ((forgeGui, guiGraphics, partialTick, width, height) -> {
         int x = width / 2;
-
+        PoseStack poseStack = guiGraphics.pose();
         //Push the matrix to the stack, so that the scale and translation don't affect other elements
         //At the end, pop the matrix from the stack so that subsequent renders aren't affected!
         poseStack.pushPose();
@@ -43,15 +47,15 @@ public class PVPStateOverlay{
         // Draw semi-transparent grey rectangle
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, 0.5F);
-        GuiComponent.fill(poseStack,x + logoxoffset + rextanglexstart, height + logoyoffset + rextangleystart, x + logoxoffset + rextanglexend, height + logoyoffset + rextangleyend,0xFFFFFFFF);//Pos and then scale
+        guiGraphics.fill(x + logoxoffset + rextanglexstart, height + logoyoffset + rextangleystart, x + logoxoffset + rextanglexend, height + logoyoffset + rextangleyend,0xFFFFFFFF);//Pos and then scale
 
         //Text tiempo restante
         Font font = Minecraft.getInstance().font;
-        String timeRemaining = "Tiempo restante:";
+        Component timeRemaining = Component.translatable("gui.pvpoverlay.time_remaining");
         int textWidth = font.width(timeRemaining);
         textX = (x + logoxoffset + textxoffset - textWidth / 2);
         textY =(height + logoyoffset + textyoffset);
-        GuiComponent.drawString(poseStack, font, timeRemaining, textX, textY, 0xFFFFFFFF);
+        guiGraphics.drawString(font, timeRemaining.toString(), textX, textY, 0xFFFFFFFF);
 
 
         // Draw "HH:MM:SS" text
@@ -74,7 +78,8 @@ public class PVPStateOverlay{
         textWidth = font.width(remainingTime);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
         textY += font.lineHeight + 2; // add some space between the two lines of text
-        font.draw(poseStack, remainingTime, textX, textY, color);
+        guiGraphics.drawString(font, remainingTime, textX, textY, color);
+        //font.draw(poseStack, remainingTime, textX, textY, color);
 
 
         // Draw PVP State text
@@ -82,7 +87,7 @@ public class PVPStateOverlay{
         textWidth = font.width(pvpstate);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
         textY += font.lineHeight + 8; // add some space between the two lines of text
-        GuiComponent.drawString(poseStack, font, pvpstate, textX, textY, 0xFFFFFFFF);
+        guiGraphics.drawString(font, pvpstate, textX, textY, 0xFFFFFFFF);
 
 
         //Draw the pvp state itself
@@ -101,14 +106,16 @@ public class PVPStateOverlay{
         textWidth = font.width(statePVP);
         textX = x + logoxoffset + textxoffset - textWidth / 2;
         textY += font.lineHeight + 2; // add some space between the two lines of text
-        font.draw(poseStack, statePVP, textX, textY, color);
+        guiGraphics.drawString(font, statePVP, textX, textY, color);
+        //font.draw(poseStack, statePVP, textX, textY, color);
 
 
         //Render the logo
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        GuiComponent.blit(poseStack, x + logoxoffset, height + logoyoffset, 0, 0, 25, 25, 25, 25);
+        //Make a guiGraphics.blit call to render the texture located in resources/assets/chrmscmds/textures/ainvisor/fhcmclogo.png
+        guiGraphics.blit(TEXTURE, x + logoxoffset, height + logoyoffset, 0, 0, 25, 25, 25, 25);
         poseStack.popPose();
     });
 }

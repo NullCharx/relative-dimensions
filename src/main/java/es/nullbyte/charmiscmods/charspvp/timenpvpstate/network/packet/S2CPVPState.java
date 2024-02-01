@@ -1,8 +1,8 @@
-package es.nullbyte.charmiscmods.charspvp.network.packet;
+package es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.packet;
 
 import es.nullbyte.charmiscmods.charspvp.GUI.LocalState;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 import java.util.function.Supplier;
 
@@ -21,12 +21,10 @@ public class S2CPVPState {
         buf.writeInt(PVPstate);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            //Get the reciever of the packet (player)
-            LocalState.PVPstate = this.PVPstate;
-        });
-        ctx.get().setPacketHandled(true);
+    public void handle(CustomPayloadEvent.Context ctx) {
+        //Get the reciever of the packet (player)
+        LocalState.PVPstate = this.PVPstate;
+        ctx.setPacketHandled(true);
     }
 
     //Send packet------------------------------------------------

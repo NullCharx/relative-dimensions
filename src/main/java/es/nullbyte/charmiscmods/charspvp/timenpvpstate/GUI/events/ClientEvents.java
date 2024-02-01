@@ -1,7 +1,7 @@
-package es.nullbyte.charmiscmods.charspvp.GUI.events;
+package es.nullbyte.charmiscmods.charspvp.timenpvpstate.GUI.events;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
-import es.nullbyte.charmiscmods.charspvp.GUI.PVPStateOverlay;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.GUI.PVPStateOverlay;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

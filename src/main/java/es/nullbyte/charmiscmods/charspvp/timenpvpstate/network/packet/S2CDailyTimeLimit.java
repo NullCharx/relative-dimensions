@@ -1,8 +1,8 @@
-package es.nullbyte.charmiscmods.charspvp.network.packet;
+package es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.packet;
 
 import es.nullbyte.charmiscmods.charspvp.GUI.LocalState;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 import java.util.function.Supplier;
 
@@ -22,13 +22,11 @@ public class S2CDailyTimeLimit {
 
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
+    public void handle(CustomPayloadEvent.Context ctx) {
 
-            LocalState.dailyTL = localTimeLimit;
+        LocalState.dailyTL = localTimeLimit;
 
-        });
-        ctx.get().setPacketHandled(true);
+        ctx.setPacketHandled(true);
     }
 
     //Send packet------------------------------------------------

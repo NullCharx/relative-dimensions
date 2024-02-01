@@ -1,9 +1,9 @@
-package es.nullbyte.charmiscmods.charspvp.network.packet;
+package es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.packet;
 
 import es.nullbyte.charmiscmods.charspvp.GUI.LocalState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 import java.util.function.Supplier;
 
@@ -23,20 +23,19 @@ public class S2CRemainingTime {
         buf.writeLong(remainingTime);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            //Get the reciever of the packet (player)
-            Minecraft client = Minecraft.getInstance();
-            long remainingTimeSeconds = LocalState.dailyTL - remainingTime; //Calculate player remining time with local dauly limit
-            if (remainingTime == 45296) { //Set untoggled time.
-                remainingTimeSeconds = 45296;
-            }
-            //Get the playerTimeTracker
-            LocalState.localtimers.put(client.player.getUUID(), remainingTimeSeconds); //Syncronize
 
+    public void handle(CustomPayloadEvent.Context ctx) {
 
-        });
-        ctx.get().setPacketHandled(true);
+        //Get the reciever of the packet (player)
+        Minecraft client = Minecraft.getInstance();
+        long remainingTimeSeconds = LocalState.dailyTL - remainingTime; //Calculate player remining time with local dauly limit
+        if (remainingTime == 45296) { //Set untoggled time.
+            remainingTimeSeconds = 45296;
+        }
+        //Get the playerTimeTracker
+        LocalState.localtimers.put(client.player.getUUID(), remainingTimeSeconds); //Syncronize
+
+        ctx.setPacketHandled(true);
     }
 
     //Send packet------------------------------------------------

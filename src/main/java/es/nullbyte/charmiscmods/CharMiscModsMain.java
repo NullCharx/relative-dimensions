@@ -3,6 +3,10 @@ package es.nullbyte.charmiscmods;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit.PvpManager;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.DailyTimeLimitHandler;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.ModMessages;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.PVPStateHandler;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.RemainingTimeHandler;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -78,6 +82,13 @@ public class CharMiscModsMain {
 
     }
     private void setup(final FMLCommonSetupEvent event) {
+        //Registrar eventos encolados, includos los paquetes de red!
+        event.enqueueWork(() -> {
+            RemainingTimeHandler.register();
+            PVPStateHandler.register();
+            DailyTimeLimitHandler.register();
+            ModMessages.register();
+        });
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
     }

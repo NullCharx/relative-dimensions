@@ -3,8 +3,8 @@ package es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit;
 
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit.mgrcmds.PvpDamageGameRule;
-import es.nullbyte.charmiscmods.charspvp.network.PVPStateHandler;
-import es.nullbyte.charmiscmods.charspvp.network.packet.S2CPVPState;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.PVPStateHandler;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.packet.S2CPVPState;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;

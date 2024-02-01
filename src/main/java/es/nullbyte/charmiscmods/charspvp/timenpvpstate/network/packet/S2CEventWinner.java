@@ -1,9 +1,9 @@
-package es.nullbyte.charmiscmods.charspvp.network.packet;
+package es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.packet;
 
 import es.nullbyte.charmiscmods.charspvp.GUI.LocalState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -27,14 +27,13 @@ public class S2CEventWinner {
         buf.writeUUID(winneruuid);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            //Get the reciever of the packet (player)
-            LocalState.winner = winnername;
-            LocalState.winnerid = winneruuid;
+    public void handle(CustomPayloadEvent.Context ctx) {
+        //Get the reciever of the packet (player)
+        LocalState.winner = winnername;
+        LocalState.winnerid = winneruuid;
 
-        });
-        ctx.get().setPacketHandled(true);
+
+        ctx.setPacketHandled(true);
     }
 
     //Send packet------------------------------------------------

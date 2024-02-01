@@ -6,10 +6,10 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit.ancillar.LocalDateTimeAdapter;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit.mgrcmds.PvpDamageGameRule;
-import es.nullbyte.charmiscmods.charspvp.network.DailyTimeLimitHandler;
-import es.nullbyte.charmiscmods.charspvp.network.RemainingTimeHandler;
-import es.nullbyte.charmiscmods.charspvp.network.packet.S2CDailyTimeLimit;
-import es.nullbyte.charmiscmods.charspvp.network.packet.S2CRemainingTime;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.DailyTimeLimitHandler;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.RemainingTimeHandler;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.packet.S2CDailyTimeLimit;
+import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.packet.S2CRemainingTime;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -226,6 +226,7 @@ public class PlayerTimeManager {
         DailyTimeLimitHandler.sendToPlayer(new S2CDailyTimeLimit(dailyTimeLimit), (ServerPlayer) player); //Syncronize daily limit
 
         PlayerTimeTracker playerData = getTracker(playerUUID);
+
         // Load existing player data from JSON file if it exists
         try {
             File file = new File("./charmscmods/playtimelimiter/playerdata/" + playerUUID + "_timerData.json");

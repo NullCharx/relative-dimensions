@@ -1,9 +1,9 @@
-package es.nullbyte.charmiscmods.charspvp.network.packet;
+package es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.packet;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 import java.util.function.Supplier;
 
@@ -21,14 +21,13 @@ public class Client2Server {
 
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
+    public void handle(CustomPayloadEvent.Context ctx) {
             //After recieving packet from client, do something
-            Player player = ctx.get().getSender();
-            player.sendSystemMessage(Component.literal(String.format("Packet from client to server received!º")));
+        Player player = ctx.getSender();
+        assert player != null;
+        player.sendSystemMessage(Component.literal(String.format("Packet from client to server received!º")));
 
-        });
-        ctx.get().setPacketHandled(true);
+        ctx.setPacketHandled(true);
     }
 
     //Send packet------------------------------------------------
