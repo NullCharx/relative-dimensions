@@ -57,7 +57,7 @@ public class CharMiscModsMain {
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the commonSetup method for modloading
-        modEventBus.addListener(this::setup);
+        modEventBus.addListener(this::commonSetup);
 
         //Register ITEMS (Register Init)
         ItemInit.register(modEventBus);
@@ -81,7 +81,7 @@ public class CharMiscModsMain {
         MinecraftForge.EVENT_BUS.addListener(this::onChatReceived);
 
     }
-    private void setup(final FMLCommonSetupEvent event) {
+    private void commonSetup(final FMLCommonSetupEvent event) {
         //Registrar eventos encolados, includos los paquetes de red!
         event.enqueueWork(() -> {
             RemainingTimeHandler.register();
