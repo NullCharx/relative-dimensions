@@ -22,18 +22,17 @@ public class PvpManager {
 
     public static void setPVPstate(int state) {
         if (state >= -1 && state <= 1) { //If the state is valid and it's not the same as the current state:
-            if (state == 1) { //If PVP target is ultra:
-                disableNaturalRegen(); //disable natural regen ((ultra))
-                enableGlobalDamage(); //disable global damage too
-            } else if (state == 0) { //If PVP target is on:
+            if (state == 1) { //If PVP target is ultra: PVP damage and no natural regen
+                disableNaturalRegen();
+            } else if (state == 0) { //If PVP target is on: PVP damage and natural regen
                 enableNaturalRegen(); //enable natural regen (normal and non-PVP)
                 enableGlobalDamage(); //disable global damage too
-            } else { //If PVP target is on:
+            } else { //If PVP target is off: no PVP damage and natural regen
                 enableNaturalRegen(); //enable natural regen (normal and non-PVP)
                 disableGlobalDamage(); //disable global damage too
             }
             PVPstate = state;
-            syncrhonizeLocalPVP();
+            syncrhonizeLocalPVP(); //Update state for all online players
         }
     }
 
