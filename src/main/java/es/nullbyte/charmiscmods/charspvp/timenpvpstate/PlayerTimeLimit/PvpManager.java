@@ -24,6 +24,7 @@ public class PvpManager {
         if (state >= -1 && state <= 1) { //If the state is valid and it's not the same as the current state:
             if (state == 1) { //If PVP target is ultra: PVP damage and no natural regen
                 disableNaturalRegen();
+                enableGlobalDamage();
             } else if (state == 0) { //If PVP target is on: PVP damage and natural regen
                 enableNaturalRegen(); //enable natural regen (normal and non-PVP)
                 enableGlobalDamage(); //disable global damage too
