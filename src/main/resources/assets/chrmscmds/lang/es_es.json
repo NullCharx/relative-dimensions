@@ -6,7 +6,7 @@
   "item.chrmscmds.testitem1": "Test item 1! (sin funcionalidad)",
 
 
-  "creativetab.avidtp": "Items de teleportacion local del grupo de Desarrollo e Inteligencia Avanzado",
+  "creativetab.avidtp": "Items de teleportacion local de AVID",
   "item.chrmscmds.avidsdpt": "Transmisor de particulas de corta distancia de AVID",
   "item.charmiscmods.avidsdpt.tooltip": "Haz click en un bloque cercano para teletransportarte instantaneamente a el",
   "item.chrmscmds.transmatbeamemt": "Emisor de haz transmat",
@@ -22,7 +22,7 @@
   "item.charmiscmods.transmatbeamemitter.tooltip" : "Haz click en un bloque en tu rango de visión para teletransportarte a él tras un tiempo corto.",
 
 
-  "creativetab.avidpvp": "Items de exploración y agrupamiento de personal del grupo de Desarrollo e Inteligencia Avanzado",
+  "creativetab.avidpvp": "Items de control de personal de AVID",
   "item.chrmscmds.trackercompass": "Rastreador de jugadores de AVID ",
   "item.charmiscmods.trackercompass.tooltip": "¡Usa el item para rastrear a un jugador! Si no hay jugadores dentro del area de uso, no se activará",
   "item.chrmscmds.teamtrackercompass": "Rastreador de jugadores de equipo de AVID ",

@@ -6,7 +6,7 @@
   "block.chrmscmds.test-block": "Test block! (no functionality)",
 
 
-  "creativetab.avidtp": "Advanced Intelligence & Development group local teleportation items",
+  "creativetab.avidtp": "AVID local teleportation items",
   "item.chrmscmds.avidsdpt": "AVID short distance particle matter transmitter",
   "item.charmiscmods.avidsdpt.tooltip": "Click on a nearby block to be teleported to it instantly!",
   "item.chrmscmds.transmatbeamemt": "Transmat beam emitter",
@@ -22,11 +22,11 @@
   "item.charmiscmods.transmatbeamemitter.tooltip" : "Click to teleport to an on-sight block after a short charging time.",
 
 
-  "creativetab.avidpvp": "Advanced Intelligence & Development exploration & personnel recalling items",
+  "creativetab.avidpvp": "AVID staff control items",
   "item.chrmscmds.trackercompass": "AVID player tracking compass",
-  "item.charmiscmods.trackercompass.tooltip": "Use the item to track a player! If there are no players in range, the compass will not work.",
+  "item.charmiscmods.trackercompass.tooltip": "Use the item to track a player! If there are no players in range, the compass will not activate.",
   "item.chrmscmds.teamtrackercompass": "AVID team player tracking compass",
-  "item.charmiscmods.teamtrackercompass.tooltip": "Use the item to track a player of your team! If there are no players in range, the compass will not work.",
+  "item.charmiscmods.teamtrackercompass.tooltip": "Use the item to track a player of your team! If there are no players in range, the compass will not acivate.",
   "item.charmiscmods.trackers.no_players_found": "No players found nearby",
   "item.charmiscmods.trackers.player_found" : "Player found, compass armed",
   "item.charmiscmods.trackers.compass_already_armed": "Compass already armed and locked on to a player",

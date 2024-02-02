@@ -55,7 +55,6 @@ public class TeamTrackerCompass extends Item implements Vanishable {
                     player.sendSystemMessage(Component.translatable("item.charmiscmods.trackers.no_players_found"));
                 }
                 dataStatus = 0;
-                itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
                 isArmed = false;
 
             } else {
@@ -83,10 +82,10 @@ public class TeamTrackerCompass extends Item implements Vanishable {
                         player.sendSystemMessage(Component.translatable("item.charmiscmods.trackers.no_players_found"));
                     }
                     dataStatus = 0;
-                    itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
                     isArmed = false;
                 }
             }
+            itemStack.getOrCreateTag().putInt("CustomModelData", dataStatus);
         } else {
             if (world.isClientSide()) {
                 player.sendSystemMessage(Component.translatable("item.charmiscmods.trackers.compass_already_armed"));

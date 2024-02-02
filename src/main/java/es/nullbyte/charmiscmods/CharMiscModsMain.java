@@ -7,8 +7,8 @@ import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.DailyTimeLimitHan
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.ModMessages;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.RemainingTimeHandler;
-import es.nullbyte.charmiscmods.items.TransmatBeamEmitter;
 import es.nullbyte.charmiscmods.items.network.TransmatBeamHandler;
+import es.nullbyte.charmiscmods.items.network.TransmatTargetHandler;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -52,8 +52,7 @@ public class CharMiscModsMain {
 
     public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
-    public static final Random RANDOM = new Random(12345); // Fixed seed for consistency
-
+    public static final Random RANDOM = new Random();
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
     public static final OutOfBorderChecker borderchecker = new OutOfBorderChecker(10);
 
@@ -93,6 +92,7 @@ public class CharMiscModsMain {
             PVPStateHandler.register();
             DailyTimeLimitHandler.register();
             ModMessages.register();
+            TransmatTargetHandler.register();
             TransmatBeamHandler.register();
         });
         // Some common setup code

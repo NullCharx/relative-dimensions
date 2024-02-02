@@ -7,7 +7,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import es.nullbyte.charmiscmods.items.*;
-import org.apache.commons.lang3.math.IEEE754rUtils;
 
 public class ItemInit {
     //https://moddingtutorials.org/basic-items

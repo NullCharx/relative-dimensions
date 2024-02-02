@@ -4,18 +4,18 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.network.CustomPayloadEvent;
 
-public class coordPacket {
+public class tpCoordsPacket {
     private final double x;
     private final double y;
     private final double z;
 
-    public coordPacket(double x, double y, double z) {
+    public tpCoordsPacket(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public coordPacket(FriendlyByteBuf buf) {
+    public tpCoordsPacket(FriendlyByteBuf buf) {
         this.x = buf.readDouble();
         this.y = buf.readDouble();
         this.z = buf.readDouble();
