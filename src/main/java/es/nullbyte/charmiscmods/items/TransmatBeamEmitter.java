@@ -1,6 +1,8 @@
 package es.nullbyte.charmiscmods.items;
 
 import es.nullbyte.charmiscmods.items.init.ItemInit;
+import es.nullbyte.charmiscmods.items.network.TransmatBeamHandler;
+import es.nullbyte.charmiscmods.items.network.packet.coordPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -25,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import static es.nullbyte.charmiscmods.CharMiscModsMain.RANDOM;
 import static java.lang.Math.floor;
 
 public class TransmatBeamEmitter extends Item {
@@ -35,6 +38,10 @@ public class TransmatBeamEmitter extends Item {
 
     private Vec3 targetPos = null;
     private Player itemUser;
+
+    private final double failureChance = 20;
+    private final int numUses = 15;
+    private double failure;
     //https://moddingtutorials.org/advanced-items
     public TransmatBeamEmitter(Properties properties) {
         super(properties);
@@ -49,9 +56,10 @@ public class TransmatBeamEmitter extends Item {
         int secs = 10;
         //If not checking, the event will fire twice (both in client and server)
         if (world.isClientSide()) {
-            player.sendSystemMessage(Component.literal("Stabilishing transmat channel..."));
+            player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilishing"));
 
         }
+        failure = (RANDOM.nextInt(101));
         posInit = player.position();
         posInitRounded = new Vec3(floor(player.getX()), floor(player.getY()), floor(player.getZ()));
         itemUser = player;
@@ -60,11 +68,15 @@ public class TransmatBeamEmitter extends Item {
         player.fallDistance = 0F;
 
         // only allow the player to use it every 3 seconds(60 ticks) (remember, 20 ticks = 1 second)
-        player.getCooldowns().addCooldown(this, 20*secs);
-
+        if(failure < failureChance) {
+            player.getCooldowns().addCooldown(this, 20*secs*4);
+        } else {
+            player.getCooldowns().addCooldown(this, 20*secs);
+        }
         // reduce durability
         ItemStack stack = player.getItemInHand(hand);
-        stack.setDamageValue(stack.getDamageValue() + 3);
+                stack.setDamageValue(stack.getDamageValue() + (stack.getMaxDamage()/numUses));
+
 
         // break if durability gets to 0
         if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(0);
@@ -96,15 +108,6 @@ public class TransmatBeamEmitter extends Item {
         Level playerLevel = event.player.level();
 
         if (transmatStart) {
-            /*if(!particleStart) {
-                event.player.getCapability(PlayerTransmatstateProvider.TRANSMATSTATE_CAPABILITY).ifPresent((state) -> {
-                    state.setCurrentHand(handInit);
-                    state.setCurrentWorld(worldInit);
-                    state.setCurrentPlayer(playerInit);
-                    state.setCurrentPos(posInit);
-                });
-            }*/
-
             if(ticksCounter == 0) {
                 event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.locking"));
                 playerLevel.playSound(event.player, event.player.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -145,15 +148,21 @@ public class TransmatBeamEmitter extends Item {
                     particleStart = false;
                     transmatStart = false;
                     event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilished"));
-                    // play a teleport sound. the last two args are volume and pitch
-                    playerLevel.playSound(event.player, event.player.getX(), event.player.getY(), event.player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                    event.player.setPos(targetPos.x, targetPos.y, targetPos.z);
-                    if(event.player.position() == posInitRounded) {
-                        event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.error"));
+                    System.out.println(event.player.position());
+                    //Random low chance of failure
+                    if (failure < failureChance) {
+                        event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.randerror"));
                     } else {
+                        // play a teleport sound. the last two args are volume and pitch before and after teleport
+                        playerLevel.playSound(event.player, event.player.getX(), event.player.getY(), event.player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        TransmatBeamHandler.sendToServer(new coordPacket(targetPos.x, targetPos.y, targetPos.z));
+                        playerLevel.playSound(event.player, event.player.getX(), event.player.getY(), event.player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                         event.player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.success"));
                     }
-                    System.out.println(event.player.position());
+                    // Reset counters and states
+                    ticksCounter = 0;
+                    particleStart = false;
+                    transmatStart = false;
                 }
             }
             if(particleStart) {
