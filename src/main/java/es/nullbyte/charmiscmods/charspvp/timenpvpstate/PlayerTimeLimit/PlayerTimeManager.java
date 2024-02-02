@@ -2,7 +2,6 @@ package es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit.ancillar.LocalDateTimeAdapter;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.PlayerTimeLimit.mgrcmds.PvpDamageGameRule;
@@ -20,6 +19,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
@@ -41,7 +41,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Manages the playtime of multiple players
@@ -58,6 +62,8 @@ public class PlayerTimeManager {
     public PlayerTimeManager() {
 
     }
+    //Thread executor for periodic backup
+    private static final ScheduledExecutorService backupExecutor = Executors.newSingleThreadScheduledExecutor();
 
     //Time for reset.
 
@@ -82,6 +88,9 @@ public class PlayerTimeManager {
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerRespawn);
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onServerStopping);
         MinecraftForge.EVENT_BUS.addListener(PlayerTimeManager::onPlayerDeath);
+
+        // Schedule the periodic backup task
+        backupExecutor.scheduleAtFixedRate(this::backupAllPlayerData, 1, 15, TimeUnit.MINUTES);
     }
 
     protected static LocalDateTime getResetTime() {
@@ -267,8 +276,35 @@ public class PlayerTimeManager {
             }
             LOGGER.info("[PLAYTIME LIMITER] Wrote playertimer to: " + p.getUUID() + "_timerdata.json");
         }
+
+        backupThreadShutdown();
     }
 
+    //Periodic backup of player data
+    private void backupAllPlayerData() {
+        for (Map.Entry<UUID, PlayerTimeTracker> entry : playerMap.entrySet()) {
+            try {
+                UUID playerUUID = entry.getKey();
+                PlayerTimeTracker tracker = entry.getValue();
+                tracker.saveToFile(playerUUID);
+                LOGGER.info("[PLAYTIME LIMITER] Periodic backup data saved for player: " + playerUUID);
+            } catch (IOException e) {
+                LOGGER.error("[PLAYTIME LIMITER] Error while saving periodic backup data for player: " + entry.getKey(), e);
+            }
+        }
+    }
+    //Gracefully shutdown the backup executor thread
+    public static void backupThreadShutdown() {
+        backupExecutor.shutdown();
+        try {
+            if (!backupExecutor.awaitTermination(15, TimeUnit.SECONDS)) {
+                backupExecutor.shutdownNow();
+            }
+        } catch (InterruptedException ie) {
+            backupExecutor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
     private static int tickCount = 0;
 
     @SubscribeEvent
@@ -318,7 +354,7 @@ public class PlayerTimeManager {
     public static void onPlayerDeath(LivingDeathEvent event) {//Add effects when the player dies.
         if (event.getEntity() instanceof Player player) {
             Level level = player.level();
-            Entity killer = event.getSource().getEntity();
+            //Entity killer = event.getSource().getEntity();
 
             //Cast thunder particle and sound over player death location
             Vec3 deathPos = player.getPosition(1);
@@ -332,10 +368,10 @@ public class PlayerTimeManager {
             MutableComponent marqueedown;
 
 
-            marqueeup = Component.translatable("☠ HA HABIDO UNA MUERTE\n");
-            space1 = Component.translatable("system.announcer.playerdeath.header");
+            marqueeup = Component.translatable("system.announcer.playerdeath.header");
+            space1 = Component.translatable("system.announcer.playerdeath.emptyline");
             message = Component.translatable("system.announcer.playerdeath.id" + player.getName().getString());
-            space2 = Component.translatable("system.announcer.playerdeath.header");
+            space2 = Component.translatable("system.announcer.playerdeath.emptyline");
             marqueedown = Component.translatable("system.announcer.playerdeath.footer");
 
 
@@ -351,7 +387,7 @@ public class PlayerTimeManager {
             message.withStyle(ChatFormatting.DARK_GRAY);
             marqueedown.withStyle(ChatFormatting.BLUE);
 
-            for (ServerPlayer p : player.getServer().getPlayerList().getPlayers()) {
+            for (ServerPlayer p : Objects.requireNonNull(player.getServer()).getPlayerList().getPlayers()) {
                 p.sendSystemMessage(finalMessage, false);
             }
         }
@@ -363,11 +399,12 @@ public class PlayerTimeManager {
             // Get the player who just respawned
             Player player = event.getEntity();
             LOGGER.info("[PLAYTIME LIMITER] " + player.getName().getString() + " has died. Moved to spectator mode and banned from server");
-
+            ServerPlayer serverPlayer = (ServerPlayer) player;
+            //Move player to spectator mode
+            serverPlayer.setGameMode(GameType.SPECTATOR);
             //Ban and add to dead players list (Ban with ELIMINATION_ON_DEATH" identificator)
             player.getServer().getPlayerList().getBans().add(new UserBanListEntry(player.getGameProfile(), null, "ELIMINATION_ON_DEATH", null, "Has sido eliminado! Por favor, espera a que un asoociado de pruebas te de más instrucciones"));
-            ServerPlayer serverplayer = (ServerPlayer) player;
-            serverplayer.connection.disconnect(Component.translatable("Has sido eliminado! Gracias por jugar con nosotros"));
+            serverPlayer.connection.disconnect(Component.translatable("system.disconnectmsg.playerdeath"));
 
         }
     }

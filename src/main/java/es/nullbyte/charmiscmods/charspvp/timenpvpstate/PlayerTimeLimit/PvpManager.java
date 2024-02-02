@@ -96,7 +96,6 @@ public class PvpManager {
     private static void disableNaturalRegen() { //Disable natural regeneration by setting the correspondent gamreule to false
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         GameRules gameRules = server.getGameRules();
-
         gameRules.getRule(GameRules.RULE_NATURAL_REGENERATION).set(false, server);
 
     }
