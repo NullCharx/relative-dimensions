@@ -1,5 +1,4 @@
 TODO: Periodically sync player timelimit state and amount to the corresponding file (active server to file)
-TODO: Make the errors random but programmatic instead of being due to code errors
 TODO: Retest the team commands. Retest the tracker compasses.
 TODO: Test the teams, team visibility, team collision, team damage.
 TODO: Retest spawn loot chest command
