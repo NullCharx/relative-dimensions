@@ -10,7 +10,7 @@ import net.minecraftforge.network.SimpleChannel;
 
 import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 
-public class TransmatTargetHandler {
+public class tpTargetHandler {
     private static SimpleChannel INSTANCE = ChannelBuilder.named(new ResourceLocation(MOD_ID, "transmattargethandler"))
             .clientAcceptedVersions((status,version)->true)
             .serverAcceptedVersions((status,version) -> true)

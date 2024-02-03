@@ -1,12 +1,11 @@
 package es.nullbyte.charmiscmods.items;
 
 import es.nullbyte.charmiscmods.items.init.ItemInit;
-import es.nullbyte.charmiscmods.items.network.TransmatTargetHandler;
-import es.nullbyte.charmiscmods.items.network.packet.tpCoordsPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -14,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,8 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -36,16 +34,26 @@ import static es.nullbyte.charmiscmods.CharMiscModsMain.RANDOM;
 public class TransmatBeamEmitter extends Item {
     //https://moddingtutorials.org/advanced-items
 
-    private final int numUses = 15;
+    //Settable variables
+    private final int NUMUSES = 15;
     private double failure;
-    private final double failureChance = 20; //Out of 100
+    private final double FAILURE_CHANCE = 20; //Out of 100
 
+
+
+    //Internal variables
+    Vec3 posInit;
+    Vec3 targetPos;
+    Player itemPlayer;
     int ticksCounter = 0;
-    private Vec3 targetPos;
+    MobEffectInstance effectInstanceLevitate;
+    MobEffectInstance effectInstancemmobile;
+    MobEffectInstance effectInstanceNausea;
+    MobEffectInstance effectInstanceBlind;
+    MobEffectInstance effectInstanceDark;
+    private ItemStack itemStack; //Stack of the player that uses the compass - important to keep track of the item nbttags
 
 
-    private boolean transmatStart = false;
-    private boolean particleStart = false;
 
     public TransmatBeamEmitter(Properties properties) {
         super(properties);
@@ -54,22 +62,54 @@ public class TransmatBeamEmitter extends Item {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, @NotNull Player player, @NotNull InteractionHand hand) {
-
-        if (world.isClientSide()) {
-            player.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilishing"));
-
-        }
+        Vec3 posInit;
+        Vec3 targetPos;
         failure = (RANDOM.nextInt(101));
 
-        //Start transmat on player tick
-        transmatStart = true;
+        if (world.isClientSide()) {
+            player.displayClientMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilishing"),false);
+
+        }
+
+        //Get the initial position of the player
+        posInit = player.position();
+        //Get the target position of the player
+        //Transmat raytrace----------------------------------------
+        BlockHitResult ray = rayTrace(world, player, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
+        BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
+        if (world.isClientSide()) {
+            player.displayClientMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.targetlacq", lookPos.toString()),false);
+        }
+        //save the target position
+        targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
+        //---------------------------------------------------
+        itemStack = player.getItemInHand(hand);
+
+        //Set NBT data
+        //Failure chance
+        if(failure <= FAILURE_CHANCE) {
+            itemStack.getOrCreateTag().putBoolean("isFailure", true);
+        } else {
+            itemStack.getOrCreateTag().putBoolean("isFailure", false);
+        }
+        //Set initial and target positions
+        itemStack.getOrCreateTag().putDouble("initX", posInit.x());
+        itemStack.getOrCreateTag().putDouble("inity", posInit.y());
+        itemStack.getOrCreateTag().putDouble("initz", posInit.z());
+        itemStack.getOrCreateTag().putDouble("targx", targetPos.x());
+        itemStack.getOrCreateTag().putDouble("targy", targetPos.y());
+        itemStack.getOrCreateTag().putDouble("targz", targetPos.z());
+        //Set active state
+        itemStack.getOrCreateTag().putBoolean("isActive", true);
+
+
 
         // allow the teleport to cancel fall damage
         player.fallDistance = 0F;
 
         // reduce durability
         ItemStack stack = player.getItemInHand(hand);
-        stack.setDamageValue(stack.getDamageValue() + (stack.getMaxDamage()/numUses));
+        stack.setDamageValue(stack.getDamageValue() + (stack.getMaxDamage()/ NUMUSES));
 
         // break if durability gets to 0
         if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(stack.getCount() - 1);
@@ -78,120 +118,114 @@ public class TransmatBeamEmitter extends Item {
 
     }
 
-    @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if(event.phase == TickEvent.Phase.START) {
-            if (transmatStart) {
-                Player itemUser = event.player;
-                Vec3 posInit = itemUser.position();
-                Level playerLevel = itemUser.level();
+    @Override
+    public void inventoryTick(ItemStack itemStack, Level itemLevel, Entity itemEntity, int itemSlot, boolean isSelected) {
+        //Increment variable if item was used
+        if (itemStack.getOrCreateTag().getBoolean("isActive") && itemEntity instanceof Player && itemStack.getOrCreateTag().getBoolean("isActive")) {
+            ticksCounter++;
+            switch (ticksCounter) {
+                case 1:
+                    itemPlayer = (Player) itemEntity;//Set entity player
 
-                switch (ticksCounter) {
-                    case 0:
-                        itemUser.getCooldowns().addCooldown(this, 99999);
-                        if (playerLevel.isClientSide()) {
-                            itemUser.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.locking"));
-                        }
-                        playerLevel.playSound(itemUser, itemUser.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    //Retrieve initial and target positions from NBT tags
+                    posInit = new Vec3(itemStack.getOrCreateTag().getDouble("initX"), itemStack.getOrCreateTag().getDouble("inity"), itemStack.getOrCreateTag().getDouble("initz"));
+                    targetPos = new Vec3(itemStack.getOrCreateTag().getDouble("targx"), itemStack.getOrCreateTag().getDouble("targy"), itemStack.getOrCreateTag().getDouble("targz"));
 
-                        //Transmat raytrace----------------------------------------
-                        BlockHitResult ray = rayTrace(playerLevel, itemUser, ClipContext.Fluid.NONE); //Calling the function changes the ray distance, changing the range
-                        BlockPos lookPos = ray.getBlockPos().relative(ray.getDirection());
-                        if (playerLevel.isClientSide()) {
-                            itemUser.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.targetlacq", lookPos.toString()));
-                        }
-                        //save the target position
-                        targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
-                        //---------------------------------------------------
+                    if (itemLevel.isClientSide()) {
+                        itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.locking"));
+                    }
+                    itemLevel.playSound(itemPlayer, itemPlayer.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-                        //Apply levitation effect
-                        MobEffectInstance effectInstanceLevitate = new MobEffectInstance(MobEffects.LEVITATION, 999*20, 1, false, true, false);
-                        MobEffectInstance effectInstancemmobile = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 99 * 20, 255, false, true, false);
-                        MobEffectInstance effectInstanceNausea = new MobEffectInstance(MobEffects.CONFUSION, 999 * 20, 255, false, true, false);
-                        MobEffectInstance effectInstanceBlind = new MobEffectInstance(MobEffects.BLINDNESS, 999 * 20, 255, false, true, false);
-                        MobEffectInstance effectInstanceDark = new MobEffectInstance(MobEffects.DARKNESS, 999 * 20, 255, false, true, false);
-                        // Apply the effect to the player
-                        itemUser.addEffect(effectInstanceLevitate);
-                        itemUser.addEffect(effectInstancemmobile);
-                        itemUser.addEffect(effectInstanceNausea);
-                        itemUser.addEffect(effectInstanceBlind);
-                        itemUser.addEffect(effectInstanceDark);
-
-                        particleStart = true;
-                        break;
-                    case 100:
-                        if (playerLevel.isClientSide()) {
-                            itemUser.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.upstrtransmat"));
-                        }
-                        break;
-                    case 240:
-                        if (playerLevel.isClientSide()) {
-                            itemUser.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.energizing"));
-                        }
-                        break;
-                    case 400:
-                        if (playerLevel.isClientSide()) {
-                            itemUser.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilished"));
-                        }
-                        itemUser.removeEffect(MobEffects.LEVITATION);
-                        effectInstanceLevitate = new MobEffectInstance(MobEffects.LEVITATION, 999*20, 0, false, true, false);
-                        itemUser.addEffect(effectInstanceLevitate);
-
-                        System.out.println(itemUser.position());
-
-                        //Random low chance of failure
-                        if (failure < failureChance) {
-                            if (playerLevel.isClientSide()) {
-                                itemUser.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.randerror"));
-                            }
-                            itemUser.getCooldowns().removeCooldown(this);
-                            itemUser.getCooldowns().addCooldown(this, 35 * 20);
-                            TransmatTargetHandler.sendToServer(new tpCoordsPacket(posInit.x, posInit.y, posInit.z));
-
-                        } else {
-                            // play a teleport sound. the last two args are volume and pitch before and after teleport
-                            playerLevel.playSound(itemUser, posInit.x(), posInit.y(), posInit.z(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                            TransmatTargetHandler.sendToServer(new tpCoordsPacket(targetPos.x, targetPos.y, targetPos.z));
-                            playerLevel.playSound(itemUser, targetPos.x, targetPos.y, targetPos.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                            if (playerLevel.isClientSide()) {
-                                itemUser.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.success"));
-                            }
-                            itemUser.getCooldowns().removeCooldown(this);
-                            itemUser.getCooldowns().addCooldown(this, 15 * 20);
-                        }
-                        itemUser.removeEffect(MobEffects.LEVITATION);
-                        itemUser.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
-                        itemUser.removeEffect(MobEffects.CONFUSION);
-                        itemUser.removeEffect(MobEffects.BLINDNESS);
-                        itemUser.removeEffect(MobEffects.DARKNESS);
-
-                        ticksCounter = -1;
-                        particleStart = false;
-                        transmatStart = false;
-                        break;
-                    default:
-                        break;
-                }
-                ticksCounter++;
-
-                if (particleStart) {
-                    //Generate particle effect
-                    //Generate nether portal particles at player...
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 1, posInit.z(), 0.0D, 10.0D, 0.0D);
-
-                    //and at target
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 10.0D, 0.0D);
-
-                    if(!playerLevel.isClientSide()) {
-                        //Same in server side to render particles at other players nearby
-                        ServerLevel serverLevel = (ServerLevel) itemUser.level();
-                        if (serverLevel!=null){
-                            serverLevel.sendParticles(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 1, posInit.z(), 100, 0.0D, 10.0D, 0.0D, 1.0D);
-                            serverLevel.sendParticles(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 100, 0.0D, 10.0D, 0.0D, 1.0D);
-                        }
+                    //Apply visual effects durinng transmat charge
+                    effectInstanceLevitate = new MobEffectInstance(MobEffects.LEVITATION, 999 * 20, 1, true, false, false);
+                    effectInstancemmobile = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 99 * 20, 255, true, false, false);
+                    effectInstanceNausea = new MobEffectInstance(MobEffects.CONFUSION, 999 * 20, 255, true, false, false);
+                    effectInstanceBlind = new MobEffectInstance(MobEffects.BLINDNESS, 999 * 20, 255, true, false, false);
+                    effectInstanceDark = new MobEffectInstance(MobEffects.DARKNESS, 999 * 20, 255, true, false, false);
+                    itemPlayer.addEffect(effectInstanceLevitate);
+                    itemPlayer.addEffect(effectInstancemmobile);
+                    itemPlayer.addEffect(effectInstanceNausea);
+                    itemPlayer.addEffect(effectInstanceBlind);
+                    itemPlayer.addEffect(effectInstanceDark);
+                    break;
+                case 51:
+                    if (itemLevel.isClientSide()) {
+                        itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.upstrtransmat"));
+                    }
+                    break;
+                case 166:
+                    if (itemLevel.isClientSide()) {
+                        itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.energizing"));
+                    }
+                    //Slow player floating, to simulate the energy charge
+                    itemPlayer.removeEffect(MobEffects.LEVITATION);
+                    effectInstanceLevitate = new MobEffectInstance(MobEffects.LEVITATION, 999*20, 0, false, true, false);
+                    itemPlayer.addEffect(effectInstanceLevitate);
+                    break;
+                case 201:
+                    if (itemLevel.isClientSide()) {
+                        itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilished"));
                     }
 
-                }
+
+                    System.out.println(itemPlayer.position());
+
+                    //Random low chance of failure
+                    if (failure <= itemStack.getOrCreateTag().getDouble("isFailure")) {
+                        if (itemLevel.isClientSide()) {
+                            itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.randerror"));
+                        }
+                        itemPlayer.getCooldowns().removeCooldown(this);
+                        itemPlayer.getCooldowns().addCooldown(this, 35 * 20);
+                        if (!itemLevel.isClientSide() && itemPlayer instanceof ServerPlayer serverPlayer) {
+                            serverPlayer.teleportTo(posInit.x(), posInit.y(), posInit.z());
+                        }
+                        itemPlayer.getCooldowns().removeCooldown(this);
+                        itemPlayer.getCooldowns().addCooldown(this, 15 * 20 * 3);
+                    } else {
+
+                        //Teleport player with sound
+                        itemLevel.playSound(itemPlayer, itemPlayer.getX(), itemPlayer.getY(), itemPlayer.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        if (!itemLevel.isClientSide() && itemPlayer instanceof ServerPlayer serverPlayer) {
+                            serverPlayer.teleportTo(targetPos.x(), targetPos.y(), targetPos.z());
+                        }
+                        itemLevel.playSound(itemPlayer, itemPlayer.getX(), itemPlayer.getY(), itemPlayer.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        if (itemLevel.isClientSide()) {
+                            itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.success"));
+                        }
+                        itemPlayer.getCooldowns().removeCooldown(this);
+                        itemPlayer.getCooldowns().addCooldown(this, 15 * 20);
+                    }
+                    System.out.println(itemPlayer.position());
+                    //State cleanup
+                    itemPlayer.removeEffect(MobEffects.LEVITATION);
+                    itemPlayer.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+                    itemPlayer.removeEffect(MobEffects.CONFUSION);
+                    itemPlayer.removeEffect(MobEffects.BLINDNESS);
+                    itemPlayer.removeEffect(MobEffects.DARKNESS);
+
+                    //Reset ticks counter
+                    ticksCounter = 0;
+                    //Stop transmat
+                    itemStack.getOrCreateTag().putBoolean("isActive", false);
+                    itemStack.getOrCreateTag().putBoolean("isFailure", false);
+                    //Remove the positions from the NBT tags since a value of 0 is a valid position
+                    itemStack.removeTagKey("initX");
+                    itemStack.removeTagKey("inity");
+                    itemStack.removeTagKey("initz");
+                    itemStack.removeTagKey("targx");
+                    itemStack.removeTagKey("targy");
+                    itemStack.removeTagKey("targz");
+                    break;
+                default:
+                    //Cant reset here, it will clean the tags between tick counts
+                    break;
+
+            }
+            //Particle effect
+            if (itemLevel instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 1, posInit.z(), 100, 0.0D, 10.0D, 0.0D, 1.0D);
+                serverLevel.sendParticles(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 100, 0.0D, 10.0D, 0.0D, 1.0D);
             }
         }
 

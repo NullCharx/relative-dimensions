@@ -7,7 +7,7 @@ import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.DailyTimeLimitHan
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.ModMessages;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.RemainingTimeHandler;
-import es.nullbyte.charmiscmods.items.network.TransmatTargetHandler;
+import es.nullbyte.charmiscmods.items.network.tpTargetHandler;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -91,7 +91,7 @@ public class CharMiscModsMain {
             PVPStateHandler.register();
             DailyTimeLimitHandler.register();
             ModMessages.register();
-            TransmatTargetHandler.register();
+            tpTargetHandler.register();
         });
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
