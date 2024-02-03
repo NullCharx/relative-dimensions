@@ -1,14 +1,12 @@
 package es.nullbyte.charmiscmods.items;
 
 import es.nullbyte.charmiscmods.items.init.ItemInit;
-import es.nullbyte.charmiscmods.items.network.TransmatBeamHandler;
 import es.nullbyte.charmiscmods.items.network.TransmatTargetHandler;
 import es.nullbyte.charmiscmods.items.network.packet.tpCoordsPacket;
-import es.nullbyte.charmiscmods.items.network.packet.tparticlePacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -16,25 +14,21 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.network.NetworkDirection;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static es.nullbyte.charmiscmods.CharMiscModsMain.RANDOM;
 
@@ -91,10 +85,10 @@ public class TransmatBeamEmitter extends Item {
                 Player itemUser = event.player;
                 Vec3 posInit = itemUser.position();
                 Level playerLevel = itemUser.level();
-                itemUser.getCooldowns().addCooldown(this, 99999);
 
                 switch (ticksCounter) {
                     case 0:
+                        itemUser.getCooldowns().addCooldown(this, 99999);
                         if (playerLevel.isClientSide()) {
                             itemUser.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.locking"));
                         }
@@ -111,7 +105,7 @@ public class TransmatBeamEmitter extends Item {
                         //---------------------------------------------------
 
                         //Apply levitation effect
-                        MobEffectInstance effectInstanceLevitate = new MobEffectInstance(MobEffects.LEVITATION, 999*20, 2, false, true, false);
+                        MobEffectInstance effectInstanceLevitate = new MobEffectInstance(MobEffects.LEVITATION, 999*20, 1, false, true, false);
                         MobEffectInstance effectInstancemmobile = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 99 * 20, 255, false, true, false);
                         MobEffectInstance effectInstanceNausea = new MobEffectInstance(MobEffects.CONFUSION, 999 * 20, 255, false, true, false);
                         MobEffectInstance effectInstanceBlind = new MobEffectInstance(MobEffects.BLINDNESS, 999 * 20, 255, false, true, false);
@@ -183,44 +177,20 @@ public class TransmatBeamEmitter extends Item {
                 if (particleStart) {
                     //Generate particle effect
                     //Generate nether portal particles at player...
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 1, posInit.z(), 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 2, posInit.z(), 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 3, posInit.z(), 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 4, posInit.z(), 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 5, posInit.z(), 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 6, posInit.z(), 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 7, posInit.z(), 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 8, posInit.z(), 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 9, posInit.z(), 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 10, posInit.z(), 0.0D, 0.0D, 0.0D);
+                    playerLevel.addParticle(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 1, posInit.z(), 0.0D, 10.0D, 0.0D);
 
                     //and at target
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 2, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 3, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 4, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 5, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 6, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 7, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 8, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 9, targetPos.z, 0.0D, 0.0D, 0.0D);
-                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 10, targetPos.z, 0.0D, 0.0D, 0.0D);
+                    playerLevel.addParticle(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 0.0D, 10.0D, 0.0D);
 
-                    if(!playerLevel.isClientSide()){
-                        TargetingConditions conditions = TargetingConditions.DEFAULT; //Default targeting conditions to get nearest player
-                        AABB axisalignedbb = new AABB(posInit.x(), posInit.y(), posInit.z(), posInit.x(), posInit.y(), posInit.z());
-
-                        tparticlePacket packet = new tparticlePacket(posInit.x(),posInit.y(),posInit.z(),targetPos.x, targetPos.y, targetPos.z, 0);
-
-                        // Send the packet to each nearby player
-                        for (Player player : playerLevel.getNearbyPlayers(conditions, itemUser, axisalignedbb)) {
-                            TransmatBeamHandler.sendToServer(packet);
+                    if(!playerLevel.isClientSide()) {
+                        //Same in server side to render particles at other players nearby
+                        ServerLevel serverLevel = (ServerLevel) itemUser.level();
+                        if (serverLevel!=null){
+                            serverLevel.sendParticles(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 1, posInit.z(), 100, 0.0D, 10.0D, 0.0D, 1.0D);
+                            serverLevel.sendParticles(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 100, 0.0D, 10.0D, 0.0D, 1.0D);
                         }
                     }
 
-                    itemUser.setPos(posInit.x, itemUser.getY(), posInit.z);
-
-                    //TODO send packet to server to render particles at other players nearby
                 }
             }
         }

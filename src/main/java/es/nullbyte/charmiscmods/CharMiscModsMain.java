@@ -7,7 +7,6 @@ import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.DailyTimeLimitHan
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.ModMessages;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.charspvp.timenpvpstate.network.RemainingTimeHandler;
-import es.nullbyte.charmiscmods.items.network.TransmatBeamHandler;
 import es.nullbyte.charmiscmods.items.network.TransmatTargetHandler;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
@@ -93,7 +92,6 @@ public class CharMiscModsMain {
             DailyTimeLimitHandler.register();
             ModMessages.register();
             TransmatTargetHandler.register();
-            TransmatBeamHandler.register();
         });
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
