@@ -13,7 +13,7 @@ public class ItemInit {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, CharMiscModsMain.MOD_ID);
     //Test 1
-    public static final RegistryObject<Item> testitem1 = ITEMS.register("testitem1",
+    public static final RegistryObject<Item> TESTITEM1 = ITEMS.register("testitem1",
             () -> new Item(new Item.Properties()));
 
     //AVID short distance matter particle transmitter

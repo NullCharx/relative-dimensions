@@ -1,0 +1,200 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_00",
+      "predicate": {
+        "minecraft:custom_model_data": 0.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_01",
+      "predicate": {
+        "minecraft:custom_model_data": 1.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_02",
+      "predicate": {
+        "minecraft:custom_model_data": 2.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_03",
+      "predicate": {
+        "minecraft:custom_model_data": 3.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_04",
+      "predicate": {
+        "minecraft:custom_model_data": 4.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_05",
+      "predicate": {
+        "minecraft:custom_model_data": 5.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_06",
+      "predicate": {
+        "minecraft:custom_model_data": 6.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_07",
+      "predicate": {
+        "minecraft:custom_model_data": 7.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_08",
+      "predicate": {
+        "minecraft:custom_model_data": 8.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_09",
+      "predicate": {
+        "minecraft:custom_model_data": 9.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_10",
+      "predicate": {
+        "minecraft:custom_model_data": 10.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_11",
+      "predicate": {
+        "minecraft:custom_model_data": 11.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_12",
+      "predicate": {
+        "minecraft:custom_model_data": 12.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_13",
+      "predicate": {
+        "minecraft:custom_model_data": 13.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_14",
+      "predicate": {
+        "minecraft:custom_model_data": 14.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_15",
+      "predicate": {
+        "minecraft:custom_model_data": 15.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_16",
+      "predicate": {
+        "minecraft:custom_model_data": 16.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_17",
+      "predicate": {
+        "minecraft:custom_model_data": 17.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_18",
+      "predicate": {
+        "minecraft:custom_model_data": 18.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_19",
+      "predicate": {
+        "minecraft:custom_model_data": 19.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_20",
+      "predicate": {
+        "minecraft:custom_model_data": 20.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_21",
+      "predicate": {
+        "minecraft:custom_model_data": 21.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_22",
+      "predicate": {
+        "minecraft:custom_model_data": 22.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_23",
+      "predicate": {
+        "minecraft:custom_model_data": 23.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_24",
+      "predicate": {
+        "minecraft:custom_model_data": 24.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_25",
+      "predicate": {
+        "minecraft:custom_model_data": 25.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_26",
+      "predicate": {
+        "minecraft:custom_model_data": 26.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_27",
+      "predicate": {
+        "minecraft:custom_model_data": 27.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_28",
+      "predicate": {
+        "minecraft:custom_model_data": 28.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_29",
+      "predicate": {
+        "minecraft:custom_model_data": 29.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_30",
+      "predicate": {
+        "minecraft:custom_model_data": 30.0
+      }
+    },
+    {
+      "model": "chrmscmds:item/compassstate/trackercompass_31",
+      "predicate": {
+        "minecraft:custom_model_data": 31.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "chrmscmds:item/trackercompass"
+  }
+}

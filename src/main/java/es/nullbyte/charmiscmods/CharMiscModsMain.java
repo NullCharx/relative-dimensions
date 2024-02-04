@@ -103,7 +103,7 @@ public class CharMiscModsMain {
         //Add the item to an existing vanilla creative tab
         //For example, add the testitem to the "ingredients" tab
         if(event.getTabKey() == CreativeModeTabs.INGREDIENTS){
-            event.accept(ItemInit.testitem1);
+            event.accept(ItemInit.TESTITEM1);
         }
     }
 
