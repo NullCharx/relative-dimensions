@@ -35,10 +35,8 @@ public class TransmatBeamEmitter extends Item {
     //https://moddingtutorials.org/advanced-items
 
     //Settable variables
-    private final int NUMUSES = 15;
-    private double failure;
-    private final double FAILURE_CHANCE = 20; //Out of 100
-
+    private final int NUMUSES;
+    private final double FAILURE_CHANCE; //Out of 100
 
 
     //Internal variables
@@ -50,20 +48,21 @@ public class TransmatBeamEmitter extends Item {
     MobEffectInstance effectInstanceNausea;
     MobEffectInstance effectInstanceBlind;
     MobEffectInstance effectInstanceDark;
-    private ItemStack itemStack; //Stack of the player that uses the compass - important to keep track of the item nbttags
-
 
 
     public TransmatBeamEmitter(Properties properties) {
         super(properties);
         MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
+        //Can be changed (or set ot a config file)
+        FAILURE_CHANCE = 20;
+        NUMUSES = 15;
     }
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, @NotNull Player player, @NotNull InteractionHand hand) {
         Vec3 posInit;
         Vec3 targetPos;
-        failure = (RANDOM.nextInt(101));
+        double failure = (RANDOM.nextInt(101));
 
         if (world.isClientSide()) {
             player.displayClientMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilishing"),false);
@@ -82,7 +81,8 @@ public class TransmatBeamEmitter extends Item {
         //save the target position
         targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
         //---------------------------------------------------
-        itemStack = player.getItemInHand(hand);
+        //Stack of the player that uses the compass - important to keep track of the item nbttags
+        ItemStack itemStack = player.getItemInHand(hand);
 
         //Set NBT data
         //Set initial and target positions
@@ -98,11 +98,7 @@ public class TransmatBeamEmitter extends Item {
         //Set active state
         itemStack.getOrCreateTag().putBoolean("isActive", true);
         //Failure chance
-        if(failure <= FAILURE_CHANCE) {
-            itemStack.getOrCreateTag().putBoolean("isFailure", true);
-        } else {
-            itemStack.getOrCreateTag().putBoolean("isFailure", false);
-        }
+        itemStack.getOrCreateTag().putBoolean("isFailure", failure <= FAILURE_CHANCE);
 
         // reduce durability
         ItemStack stack = player.getItemInHand(hand);
@@ -110,13 +106,13 @@ public class TransmatBeamEmitter extends Item {
 
         // break if durability gets to 0
         if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(stack.getCount() - 1);
-
+        player.getCooldowns().addCooldown(this, 999 * 20);
         return super.use(world, player, hand);
 
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, Level itemLevel, Entity itemEntity, int itemSlot, boolean isSelected) {
+    public void inventoryTick(ItemStack itemStack, @NotNull Level itemLevel, @NotNull Entity itemEntity, int itemSlot, boolean isSelected) {
         //Increment variable if item was used
         if (itemStack.getOrCreateTag().getBoolean("isActive") && itemEntity instanceof Player) {
             itemStack.getOrCreateTag().putInt("ticksCounter", itemStack.getOrCreateTag().getInt("ticksCounter") + 1);
