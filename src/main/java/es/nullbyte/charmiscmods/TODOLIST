@@ -1,5 +1,3 @@
 TODO: Retest the team commands. Retest the tracker compasses.
 TODO: Test the teams, team visibility, team collision, team damage.
 TODO: Retest spawn loot chest command
-TODO:Weird transmat beam emitter bug. Make custom packet worj and then try serverLevel.sendParticles
-TODO: Cast transmat beam particle effect on all players on sight of target position.
