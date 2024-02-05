@@ -71,7 +71,17 @@ public class ModItemModelProvider extends ItemModelProvider {
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(MOD_ID,"item/" + item.getId().getPath()));
 
-        for (int i = 0; i < states; i++) {
+        if (folder.equals("compassstate")) {
+            modelBuilder.override()
+                    .predicate(new ResourceLocation("custom_model_data"), 0)
+                    .model(getExistingFile(modLoc("item/compassstate/compass_disarmed")));
+        } else {
+            modelBuilder.override()
+                    .predicate(new ResourceLocation("custom_model_data"), 0)
+                    .model(getExistingFile(modLoc("item/tcompassstate/tcompass_disarmed")));
+        }
+
+        for (int i = 1; i < states; i++) {
             String number = String.format("%02d", i); // Formats the number with leading zeros
             modelBuilder.override()
                     .predicate(new ResourceLocation("custom_model_data"), i)

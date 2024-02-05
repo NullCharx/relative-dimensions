@@ -2,7 +2,7 @@
   "parent": "minecraft:item/generated",
   "overrides": [
     {
-      "model": "chrmscmds:item/compassstate/trackercompass_00",
+      "model": "chrmscmds:item/compassstate/compass_disarmed",
       "predicate": {
         "minecraft:custom_model_data": 0.0
       }
