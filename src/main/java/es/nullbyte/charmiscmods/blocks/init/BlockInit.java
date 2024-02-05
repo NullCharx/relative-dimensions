@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods.blocks.init;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
+import es.nullbyte.charmiscmods.blocks.aberrantOre;
 import es.nullbyte.charmiscmods.items.init.ItemInit;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -23,7 +24,8 @@ public class BlockInit {
     public static final RegistryObject<Block> ABERRANT_BLOCK = registerBlock("aberrant_block",
             () -> new Block(Block.Properties.ofFullCopy(Blocks.GLASS)));
     public static final RegistryObject<Block> ABERRANT_ORE = registerBlock("aberrant_ore",
-            () -> new Block(Block.Properties.ofFullCopy(Blocks.IRON_ORE)));
+            () -> new aberrantOre(Block.Properties.ofFullCopy(Blocks.IRON_ORE).emissiveRendering((state, world, pos) -> true)
+                    .destroyTime(6.0F).lightLevel((light) -> 15).requiresCorrectToolForDrops()));
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

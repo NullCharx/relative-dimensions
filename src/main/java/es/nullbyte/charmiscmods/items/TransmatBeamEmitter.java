@@ -40,9 +40,6 @@ public class TransmatBeamEmitter extends Item {
 
 
     //Internal variables
-    Vec3 posInit;
-    Vec3 targetPos;
-    Player itemPlayer;
     MobEffectInstance effectInstanceLevitate;
     MobEffectInstance effectInstancemmobile;
     MobEffectInstance effectInstanceNausea;
@@ -114,14 +111,10 @@ public class TransmatBeamEmitter extends Item {
     @Override
     public void inventoryTick(ItemStack itemStack, @NotNull Level itemLevel, @NotNull Entity itemEntity, int itemSlot, boolean isSelected) {
         //Increment variable if item was used
-        if (itemStack.getOrCreateTag().getBoolean("isActive") && itemEntity instanceof Player) {
+        if (itemStack.getOrCreateTag().getBoolean("isActive") && itemEntity instanceof Player itemPlayer) {//Set entity player
             itemStack.getOrCreateTag().putInt("ticksCounter", itemStack.getOrCreateTag().getInt("ticksCounter") + 1);
             if(itemStack.getOrCreateTag().getInt("ticksCounter") == 1) {
-                itemPlayer = (Player) itemEntity;//Set entity player
 
-                //Retrieve initial and target positions from NBT tags
-                posInit = new Vec3(itemStack.getOrCreateTag().getDouble("initX"), itemStack.getOrCreateTag().getDouble("inity"), itemStack.getOrCreateTag().getDouble("initz"));
-                targetPos = new Vec3(itemStack.getOrCreateTag().getDouble("targx"), itemStack.getOrCreateTag().getDouble("targy"), itemStack.getOrCreateTag().getDouble("targz"));
 
                 if (itemLevel.isClientSide()) {
                     itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.locking"));
@@ -159,7 +152,7 @@ public class TransmatBeamEmitter extends Item {
                     }
 
                     if (itemPlayer instanceof ServerPlayer serverPlayer) {
-                        serverPlayer.teleportTo(posInit.x(), posInit.y(), posInit.z());
+                        serverPlayer.teleportTo(itemStack.getOrCreateTag().getDouble("initx"), itemStack.getOrCreateTag().getDouble("inity"),itemStack.getOrCreateTag().getDouble("initz"));
                     }
                     itemPlayer.getCooldowns().removeCooldown(this);
                     itemPlayer.getCooldowns().addCooldown(this, 35 * 20);
@@ -168,7 +161,7 @@ public class TransmatBeamEmitter extends Item {
                     //Teleport player with sound
                     itemLevel.playSound(itemPlayer, itemPlayer.getX(), itemPlayer.getY(), itemPlayer.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                     if (itemPlayer instanceof ServerPlayer serverPlayer) {
-                        serverPlayer.teleportTo(targetPos.x(), targetPos.y(), targetPos.z());
+                        serverPlayer.teleportTo(itemStack.getOrCreateTag().getDouble("targx"),itemStack.getOrCreateTag().getDouble("targy"), itemStack.getOrCreateTag().getDouble("targz"));
                     }
                     itemLevel.playSound(itemPlayer, itemPlayer.getX(), itemPlayer.getY(), itemPlayer.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                     if (itemLevel.isClientSide()) {
@@ -196,8 +189,8 @@ public class TransmatBeamEmitter extends Item {
             }
             //Particle effect
             if (itemLevel instanceof ServerLevel serverLevel && itemStack.getOrCreateTag().getBoolean("isActive") && itemStack.getOrCreateTag().getInt("ticksCounter") > 0) {
-                serverLevel.sendParticles(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 1, posInit.z(), 100, 0.0D, 10.0D, 0.0D, 1.0D);
-                serverLevel.sendParticles(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 100, 0.0D, 10.0D, 0.0D, 1.0D);
+                serverLevel.sendParticles(ParticleTypes.PORTAL, itemStack.getOrCreateTag().getDouble("initx"), itemStack.getOrCreateTag().getDouble("inity") + 1, itemStack.getOrCreateTag().getDouble("initz"), 100, 0.0D, 10.0D, 0.0D, 1.0D);
+                serverLevel.sendParticles(ParticleTypes.PORTAL, itemStack.getOrCreateTag().getDouble("targx"), itemStack.getOrCreateTag().getDouble("targy") + 1, itemStack.getOrCreateTag().getDouble("targz"), 100, 0.0D, 10.0D, 0.0D, 1.0D);
             }
         }
 

@@ -16,7 +16,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        //You dont have blocks yet, so this is empty
         blockWithItem(BlockInit.ABERRANT_BLOCK);
         blockWithItem(BlockInit.ABERRANT_ORE);
 
