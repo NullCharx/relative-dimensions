@@ -1,5 +1,6 @@
 package es.nullbyte.charmiscmods.datagen;
 
+import es.nullbyte.charmiscmods.blocks.init.BlockInit;
 import es.nullbyte.charmiscmods.items.init.ItemInit;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -27,8 +28,16 @@ public class ModItemModelProvider extends ItemModelProvider {
         generateCompassTextures(); //Generates the tracker compass textures (both normal and teamed)
         generateCompassModel(ItemInit.PLAYER_TRACKER_COMPASS, 32, "compassstate"); //Generates the tracker compass model
         generateCompassModel(ItemInit.TEAM_TRACKER_COMPASS, 32, "tcompassstate"); //Generates the tracker compass model
+        simpleItem(ItemInit.ABERRANT_SHARD); //Aberrant shard
+        simpleItem(ItemInit.ABERRANT_INGOT); //Aberrant ingot
+        blockItem(BlockInit.ABERRANT_BLOCK); //Aberrant block block item
+        blockItem(BlockInit.ABERRANT_ORE); //Aberrant ore block item
     }
 
+    private ItemModelBuilder blockItem(RegistryObject<Block> block) {
+        return withExistingParent(block.getId().getPath(),
+                new ResourceLocation(MOD_ID, "block/" + block.getId().getPath()));
+    }
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
@@ -46,6 +55,9 @@ public class ModItemModelProvider extends ItemModelProvider {
                 new ResourceLocation(MOD_ID,"item/" + item.getId().getPath()));
     }
 
+
+
+    //--Custom methods-----
     //The base of the folder system is models. You have to manually add the items
     private void generateCompassTextures() {
         for (int i = 0; i <= 31; i++) {

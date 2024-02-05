@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods.datagen.loot;
 
 import es.nullbyte.charmiscmods.blocks.init.BlockInit;
+import es.nullbyte.charmiscmods.items.init.ItemInit;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
@@ -32,7 +33,15 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         //This will, for BLOCK2, create a loot table that will drop between 2 and 5 instances of CUSTOM_ITEM
         //As per generated createCustomOreDrop method below
         //this.add (blockInit.BLOCK2.get(),
-               // block -> createCustomOreDrop(blockInit.BLOCK2.get(), ItemInit.CUSTOM_ITEM.get()));
+                // block -> createCustomOreDrop(blockInit.BLOCK2.get(), ItemInit.CUSTOM_ITEM.get()));
+
+        //When mining ABERRANT_ORE, it will drop between none and 2 instances of ABERRANT_SHARD
+        this.add(BlockInit.ABERRANT_ORE.get(),
+                block -> createCustomOreDrop(BlockInit.ABERRANT_ORE.get(), ItemInit.ABERRANT_SHARD.get(), 0.0F, 2.0F));
+
+        //When mining ABERRANT_BLOCK, it will drop an instance of itself
+        this.dropSelf(BlockInit.ABERRANT_BLOCK.get());
+
     }
 
     //Direct copy of createOreDrops from BlockLootSubProvider
@@ -43,11 +52,11 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     //4. Apply the loot item (the item that will be dropped)
     //5. Apply the set count function (the amount of items that will be dropped, in this case, between 2 and 5 items)
     //6. Apply the apply bonus count function (if the block is mined with fortune, it will drop more items)
-    protected LootTable.Builder createCustomOreDrop(Block block, Item dropItem) {
+    protected LootTable.Builder createCustomOreDrop(Block block, Item dropItem, float minDrop, float maxDrop) {
         return createSilkTouchDispatchTable(block,
                 this.applyExplosionDecay(block,
                         LootItem.lootTableItem(dropItem)
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 5.0F)))
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(minDrop, maxDrop)))
                                 .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
     }
 

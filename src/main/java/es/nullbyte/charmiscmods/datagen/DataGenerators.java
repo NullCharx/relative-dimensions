@@ -3,7 +3,6 @@ package es.nullbyte.charmiscmods.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.server.packs.repository.Pack;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,7 +29,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new ModRecipeProvider(output)); //Recipe provider
         generator.addProvider(event.includeServer(), ModLootTableProvider.create(output)); //Loot table provider
 
-        generator.addProvider(event.includeClient(), new ModBlocKStateProvider(output,existingFileHelper)); //Block state provider
+        generator.addProvider(event.includeClient(), new ModBlockStateProvider(output,existingFileHelper)); //Block state provider
         generator.addProvider(event.includeClient(), new ModItemModelProvider(output,existingFileHelper)); //Loot table provider
 
         ModBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),

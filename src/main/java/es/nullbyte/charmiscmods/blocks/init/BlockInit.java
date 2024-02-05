@@ -25,6 +25,7 @@ public class BlockInit {
     public static final RegistryObject<Block> ABERRANT_ORE = registerBlock("aberrant_ore",
             () -> new Block(Block.Properties.ofFullCopy(Blocks.IRON_ORE)));
 
+
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         //T is the block type. It will register the block and the block item.
         RegistryObject<T> returnBlock = BLOCKS.register(name, block); //Register the block

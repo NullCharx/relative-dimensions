@@ -9,16 +9,16 @@ import net.minecraftforge.registries.RegistryObject;
 
 import static es.nullbyte.charmiscmods.CharMiscModsMain.MOD_ID;
 
-public class ModBlocKStateProvider extends BlockStateProvider {
-    public ModBlocKStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+public class ModBlockStateProvider extends BlockStateProvider {
+    public ModBlockStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output,MOD_ID,existingFileHelper);
     }
 
     @Override
     protected void registerStatesAndModels() {
         //You dont have blocks yet, so this is empty
-        //blockWithItem(BlockInit.ABERRANT_BLOCK);
-        //blockWithItem(BlockInit.ABERRANT_ORE);
+        blockWithItem(BlockInit.ABERRANT_BLOCK);
+        blockWithItem(BlockInit.ABERRANT_ORE);
 
     }
 
