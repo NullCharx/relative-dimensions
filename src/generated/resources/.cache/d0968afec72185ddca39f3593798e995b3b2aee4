@@ -1,4 +1,4 @@
-// 1.20.4	2024-02-04T22:58:17.5090331	Item Models: chrmscmds
+// 1.20.4	2024-02-05T01:13:14.237818	Item Models: chrmscmds
 36dd9eb15be5b2e9b756316988b0bcfb4d1fd523 assets/chrmscmds/models/item/avidsdpt.json
 5673bc4362b924a3d883a127b34bf2ed3db45139 assets/chrmscmds/models/item/compassstate/compass_disarmed.json
 f8c916d047fb199162e9f60f0106e94981f04fe5 assets/chrmscmds/models/item/compassstate/trackercompass_00.json
@@ -66,7 +66,7 @@ a1bba231e445d4071c43519e08188f78eeb30939 assets/chrmscmds/models/item/tcompassst
 6b0608d7e0d455bd3ab860f5dd25533124d03236 assets/chrmscmds/models/item/tcompassstate/teamtrackercompass_29.json
 93a02cefe8b7854284c94b26472ed8ded742dbd7 assets/chrmscmds/models/item/tcompassstate/teamtrackercompass_30.json
 bc27d3225da759c91463ded49245bdb4b2ef09a3 assets/chrmscmds/models/item/tcompassstate/teamtrackercompass_31.json
-d570b4df2b2c9714de21652ba08fa380e987baaf assets/chrmscmds/models/item/teamtrackercompass.json
+d0c66d526dc5b40fcf35288a582e51cf3c5a2491 assets/chrmscmds/models/item/teamtrackercompass.json
 8b87b2b0aff6b9dcd53720cf4bbcf9c5c71462ec assets/chrmscmds/models/item/testitem1.json
-ab30214c1405b0837127432841ae77db5ba9ccbb assets/chrmscmds/models/item/trackercompass.json
+27ffcd4ab0b3c423941419ef01fa6fe6e9652945 assets/chrmscmds/models/item/trackercompass.json
 27571ecf4ce96118ab22049b74613a241cf9c75a assets/chrmscmds/models/item/transmatbeamemt.json

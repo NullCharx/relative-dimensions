@@ -2,6 +2,7 @@ package es.nullbyte.charmiscmods;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.blocks.init.BlockInit;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.charspvp.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.charspvp.network.ModMessages;
@@ -63,6 +64,9 @@ public class CharMiscModsMain {
 
         //Register ITEMS (Register Init)
         ItemInit.register(modEventBus);
+
+        //Register BLOCKS (Register Init)
+        BlockInit.register(modEventBus);
 
         // Register items to a vanilla creative tab
         modEventBus.addListener(this::addCreative);

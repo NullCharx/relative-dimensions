@@ -1,8 +1,10 @@
 package es.nullbyte.charmiscmods.items.init;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
+import es.nullbyte.charmiscmods.blocks.init.BlockInit;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -33,6 +35,18 @@ public class CreativeModTabs {
                     .displayItems((pParameters, pOutput) -> {   //List of items to display in the tab
                         pOutput.accept(ItemInit.PLAYER_TRACKER_COMPASS.get());
                         pOutput.accept(ItemInit.TEAM_TRACKER_COMPASS.get());
+                        //You can also add vanilla items to the tab
+                    })
+                    .build());
+
+    public static final RegistryObject<CreativeModeTab> DIMENSIONAL_ENVIRONMENT = CREATIVE_MOD_TABS.register("dimensionalenvironment",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ItemInit.TEAM_TRACKER_COMPASS.get())) //Use one of the items as icon
+                    .title(Component.translatable("creativetab.dimenv")) //Translation key for the tab name (lang file)
+                    .displayItems((pParameters, pOutput) -> {   //List of items to display in the tab
+                        pOutput.accept(ItemInit.ABERRANT_CRYSTAL.get());
+                        pOutput.accept(BlockInit.ABERRANT_BLOCK.get());
+                        pOutput.accept(BlockInit.ABERRANT_ORE.get());
                         //You can also add vanilla items to the tab
                     })
                     .build());

@@ -1,5 +1,6 @@
 package es.nullbyte.charmiscmods.datagen;
 
+import es.nullbyte.charmiscmods.blocks.init.BlockInit;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -16,7 +17,9 @@ public class ModBlocKStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         //You dont have blocks yet, so this is empty
-        //blockWithItem(blockInit.EXAMPLE_BLOCK);
+        //blockWithItem(BlockInit.ABERRANT_BLOCK);
+        //blockWithItem(BlockInit.ABERRANT_ORE);
+
     }
 
     //Simple registry pass object block so you dont need the obj.

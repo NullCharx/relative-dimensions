@@ -36,6 +36,14 @@
   "block.chrmscmds.tsrail": "Rail piece part of the AVID center transit system",
 
 
+  "creativetab.dimenv" : "Errors... You can find them all around...",
+  "block.chrmscmds.aberrant_block": "Aberrant block",
+  "block.chrmscmds.aberrant_block.tooltip": "It phases in and out of reality after having absorbed too much atron energy and, thus, unstable. You don't know if you should touch it",
+  "block.chrmscmds.aberrant_ore" : "Aberrant ore",
+  "block.chrmscmds.aberrant_ore.tooltip" : "Once a normal mineral, this ore seems to be a an error. As if it came from another place.",
+  "item.chrmscmds.aberrant_crystal" : "Aberrant crystal",
+  "item.chrmscmds.aberrant_crystal.tooltip" : "A crystal that holds properties beyond your comprehension. It could be used as a source of energy. Or as a weapon. Or...",
+
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: OFF———————\n",
   "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ON———————\n",
   "cmds.modpvp.level.ultra" : "⚠⚠⚠——————PVP: ULTRA———————\n",

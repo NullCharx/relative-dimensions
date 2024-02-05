@@ -16,6 +16,10 @@ public class ItemInit {
     public static final RegistryObject<Item> TESTITEM1 = ITEMS.register("testitem1",
             () -> new Item(new Item.Properties()));
 
+    //Aberrant crystal
+    public static final RegistryObject<Item> ABERRANT_CRYSTAL = ITEMS.register("aberrant_crystal",
+            () -> new Item(new Item.Properties()));
+
     //AVID short distance matter particle transmitter
     public static final RegistryObject<Item> AVID_SDPT = ITEMS.register("avidsdpt",
             () -> new AvidShortDistanceParticleTransmitter(new Item.Properties().durability(1000)));

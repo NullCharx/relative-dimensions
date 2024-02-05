@@ -35,6 +35,13 @@
 
   "block.chrmscmds.tsrail": "Pieza de rail parte del sistema de transporte del centro AVID",
 
+  "creativetab.dimenv" : "Fallas... Están por todas partes...",
+  "block.chrmscmds.aberrant_block": "Bloque aberrante",
+  "block.chrmscmds.aberrant_block.tooltip": "Parece que por momentos escapa de esta realidad tras haber absorbido demasiada energia atron y es inestable.. No sabes si deberías tocarlo",
+  "block.chrmscmds.aberrant_ore" : "Mena de mineral aberrante",
+  "block.chrmscmds.aberrant_ore.tooltip" : "Otrora un mineral normal, esta mena parece un fallo. Como si viniera de otro lugar.",
+  "item.chrmscmds.aberrant_crystal" : "Cristal aberrante",
+  "item.chrmscmds.aberrant_crystal.tooltip" : "Un cristal que guarda propiedades más allá de tu comprensión. Podría usarse como fuente de energia. O como arma. O...",
 
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: DESACTIVADO———————\n",
   "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ACTIVADO———————\n",
