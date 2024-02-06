@@ -2,6 +2,8 @@ package es.nullbyte.charmiscmods;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.blocks.auxiliar.customFog.CustomFogRenderState;
+import es.nullbyte.charmiscmods.blocks.auxiliar.customFog.network.AberrantOreProxHandler;
 import es.nullbyte.charmiscmods.blocks.init.BlockInit;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.charspvp.network.DailyTimeLimitHandler;
@@ -11,9 +13,12 @@ import es.nullbyte.charmiscmods.charspvp.network.RemainingTimeHandler;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -43,11 +48,15 @@ import java.util.Random;
 @Mod(CharMiscModsMain.MOD_ID)
 @Mod.EventBusSubscriber(modid = CharMiscModsMain.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CharMiscModsMain {
+
+
     // Define mod id in a common place for everything to reference.
     //TEst forGUI mac.
     public static final String MOD_ID = "chrmscmds";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
+
+
 
     public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
@@ -85,6 +94,9 @@ public class CharMiscModsMain {
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingAttack);
         MinecraftForge.EVENT_BUS.addListener(this::onChatReceived);
+        //MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
+        //MinecraftForge.EVENT_BUS.addListener(CustomFogRenderState::onFogDensity);
+        //MinecraftForge.EVENT_BUS.addListener(CustomFogRenderState::onFogColors);
 
     }
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -94,6 +106,7 @@ public class CharMiscModsMain {
             PVPStateHandler.register();
             DailyTimeLimitHandler.register();
             ModMessages.register();
+            //AberrantOreProxHandler.register();
         });
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
@@ -145,6 +158,7 @@ public class CharMiscModsMain {
 
     //register buildcontents event to the event bus
 
+
     public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
         //REGISTER THE COMMANDS HERE!
         LOGGER.info("[CHARMISCMODS - MAIN] Initial command registration");
@@ -170,4 +184,15 @@ public class CharMiscModsMain {
         }
     }
 
+    public static CustomFogRenderState USERFOGRENDERER;
+    @SubscribeEvent
+    public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        //Do something when a player logs in
+        //Check which side is the event being called from
+        if (event.getEntity().level().isClientSide) {
+            //Do something on the client side
+            USERFOGRENDERER = new CustomFogRenderState();
+
+        }
+    }
 }

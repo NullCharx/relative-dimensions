@@ -2,6 +2,8 @@ package es.nullbyte.charmiscmods.blocks.auxiliar.customFog;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
+import es.nullbyte.charmiscmods.blocks.auxiliar.customFog.network.AberrantOreProxHandler;
+import es.nullbyte.charmiscmods.blocks.auxiliar.customFog.network.packet.C2SProximityStateReq;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -14,14 +16,16 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class CustomFogRenderState {
     // Indicates whether custom fog rendering should be applied
-    private boolean shouldRenderCustomFog = false;
+    private static boolean shouldRenderCustomFog = false;
 
     // Custom fog color components
 
     //TARDIS BLUE FOG
-    private float tardisRed = 0.0f;
-    private float tardisGreen = 0.2f;
-    private float tardisBlue = 0.749f;
+    private static float tardisRed = 0.0f;
+    private static float tardisGreen = 0.2f;
+    private static float tardisBlue = 0.749f;
+
+    //FOg desnisties
 
     private float defaultRed = 1.0f;
     private float defaultGreen = 1.0f;
@@ -40,39 +44,30 @@ public class CustomFogRenderState {
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public void onFogDensity(ViewportEvent.RenderFog event) {
+    public static void onFogDensity(ViewportEvent.RenderFog event) {
         // Your logic to determine if custom fog should be applied
         if (shouldRenderCustomFog()) {
             RenderSystem.setShaderFogColor(tardisRed,tardisGreen,tardisBlue);
             RenderSystem.setShaderFogShape(FogShape.SPHERE);
-            RenderSystem.setShaderFogStart(0.5f);
-            RenderSystem.setShaderFogEnd(2.0f);
         }
+        System.out.println("Fog density event");
     }
 
     @SubscribeEvent
-    public void onFogColors(ViewportEvent.ComputeFogColor event) {
+    public static void onFogColors(ViewportEvent.ComputeFogColor event) {
         // Get the active render view entity, which is usually the player
-        Entity entity = event.getCamera().getEntity();
+        ;
 
-        if (entity instanceof Player) {
-            Player player = (Player) entity;
+        if (event.getCamera().getEntity() != null && event.getCamera().getEntity() instanceof Player) {
+            Player player = (Player) event.getCamera().getEntity();
 
             // Now you have access to the player's position
             BlockPos playerPos = new BlockPos((int) player.getX(),(int) player.getY(), (int) player.getZ());
 
-            // Check if the player is near an aberrant ore change this to update with distance
-            if (checkNearbyAberrantOre(playerPos) && !shouldRenderCustomFog()) {
-                // Modify fog colors based on your requirements
-                event.setRed(tardisRed);
-                event.setGreen(tardisGreen);
-                event.setBlue(tardisBlue);
-                setShouldRenderCustomFog(true);
-            } else if (shouldRenderCustomFog() && !checkNearbyAberrantOre(playerPos)) {
-                reset();
-                setShouldRenderCustomFog(false);
-            }
+            //Send packet to server to check if player is near an aberrant ore
+            AberrantOreProxHandler.sendToServer(new C2SProximityStateReq(playerPos.getX(), playerPos.getY(), playerPos.getZ()));
         }
+        System.out.println("Fog color event");
     }
 
     private boolean checkNearbyAberrantOre(BlockPos playerPos) {
@@ -85,12 +80,12 @@ public class CustomFogRenderState {
         //Probably have the fog be thicker the closer the player is to the ore
         return false;
     }
-    public boolean shouldRenderCustomFog() {
+    public static boolean shouldRenderCustomFog() {
         return shouldRenderCustomFog;
     }
 
     public void setShouldRenderCustomFog(boolean shouldRenderCustomFog) {
-        this.shouldRenderCustomFog = shouldRenderCustomFog;
+        CustomFogRenderState.shouldRenderCustomFog = shouldRenderCustomFog;
     }
 
 
@@ -113,6 +108,14 @@ public class CustomFogRenderState {
     public float getEnd() {
         return RenderSystem.getShaderFogEnd();
     }
+    public float getShape() {
+        return RenderSystem.getShaderFogShape().ordinal();
+    }
+
+    public void setFogDensity(float start, float end) {
+        RenderSystem.setShaderFogStart(start);
+        RenderSystem.setShaderFogEnd(end);
+    }
 
     // Reset to default state
     public void reset() {
@@ -124,6 +127,4 @@ public class CustomFogRenderState {
 
 
     }
-
-    //Playertick event that checks wether player is near am ABERRANT_ORE block. If it is,
 }
