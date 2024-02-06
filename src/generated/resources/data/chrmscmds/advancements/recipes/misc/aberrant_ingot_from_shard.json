@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "aberrant_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "chrmscmds:aberrant_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "chrmscmds:aberrant_ingot_from_shard"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "aberrant_shard"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "chrmscmds:aberrant_ingot_from_shard"
+    ]
+  }
+}

@@ -36,7 +36,5 @@ public ModBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Pr
                 .add(BlockInit.ABERRANT_ORE.get())
                 .add(BlockInit.ABERRANT_BLOCK.get()
                 );
-
-
     }
 }

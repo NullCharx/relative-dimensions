@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "aberrant_ingot_smelt",
+  "ingredient": {
+    "item": "chrmscmds:aberrant_ore"
+  },
+  "result": "chrmscmds:aberrant_shard"
+}

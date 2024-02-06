@@ -33,7 +33,7 @@
                   "add": false,
                   "count": {
                     "type": "minecraft:uniform",
-                    "max": 2.0,
+                    "max": 3.0,
                     "min": 0.0
                   },
                   "function": "minecraft:set_count"
@@ -47,7 +47,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "chrmscmds:aberrant_shard"
+              "name": "chrmscmds:aberrant_ore"
             }
           ]
         }
