@@ -63,7 +63,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.ABERRANT_INGOT.get()) //The recipe is of type MISC and the result is item2
                 .pattern("###")
-                .pattern("###")
                 .define('#', ItemInit.ABERRANT_SHARD.get()).unlockedBy(ItemInit.ABERRANT_SHARD.get().toString(), has(ItemInit.ABERRANT_SHARD.get())) //The item2 recipe is unlocked by having item1
                 .save(pRecipeOutput, MOD_ID + ":aberrant_ingot_from_shard"); //Save the recipe to the output
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ABERRANT_BLOCK.get()) //The recipe is of type MISC and the result is item2
