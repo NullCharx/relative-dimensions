@@ -58,8 +58,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
         List<ItemLike> ingridients = List.of(BlockInit.ABERRANT_ORE.get().asItem());
-        oreSmelting(pRecipeOutput, ingridients, RecipeCategory.MISC, ItemInit.ABERRANT_SHARD.get(), 0.7F, 200, MOD_ID + ":aberrant_ingot_smelt");
-        oreBlasting(pRecipeOutput, ingridients, RecipeCategory.MISC, ItemInit.ABERRANT_SHARD.get(), 0.7F, 200, MOD_ID + ":aberrant_ingot_blast");
+        oreSmelting(pRecipeOutput, ingridients, RecipeCategory.MISC, ItemInit.ABERRANT_SHARD.get(), 0.5F, 200, MOD_ID + ":aberrant_ingot_smelt");
+        oreBlasting(pRecipeOutput, ingridients, RecipeCategory.MISC, ItemInit.ABERRANT_SHARD.get(), 0.7F, 120, MOD_ID + ":aberrant_ingot_blast");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.ABERRANT_INGOT.get()) //The recipe is of type MISC and the result is item2
                 .pattern("###")
