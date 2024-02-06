@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "chrmscmds:aberrant_shard"
+    }
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "item": "chrmscmds:aberrant_ingot"
+  }
+}

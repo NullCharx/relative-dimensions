@@ -2,6 +2,7 @@ package es.nullbyte.charmiscmods.datagen.loot;
 
 import es.nullbyte.charmiscmods.blocks.init.BlockInit;
 import es.nullbyte.charmiscmods.items.init.ItemInit;
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
@@ -40,7 +41,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
         //When mining ABERRANT_ORE, it will drop between none and 2 instances of ABERRANT_SHARD
         this.add(BlockInit.ABERRANT_ORE.get(),
-                block -> createCustomOreDrop(BlockInit.ABERRANT_ORE.get(), ItemInit.ABERRANT_SHARD.get(), 0.0F, 5.0F));
+                block -> createCustomOreDrop(BlockInit.ABERRANT_ORE.get(), BlockInit.ABERRANT_ORE.get().asItem(), 0.0F, 3.0F));
 
         //When mining ABERRANT_BLOCK, it will drop an instance of itself
         this.dropSelf(BlockInit.ABERRANT_BLOCK.get());
@@ -70,4 +71,5 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         //It will ignore any block with .noLootTable() in its properties
         return BlockInit.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
     }
+
 }

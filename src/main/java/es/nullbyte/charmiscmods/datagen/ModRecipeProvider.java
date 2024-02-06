@@ -1,10 +1,14 @@
 package es.nullbyte.charmiscmods.datagen;
 
+import es.nullbyte.charmiscmods.blocks.init.BlockInit;
 import es.nullbyte.charmiscmods.items.init.ItemInit;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
@@ -46,10 +50,33 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         //The criteria for unlocking the recipe (unlocked_by) is that the player has item2
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.ITEM1.get(), 9) //The recipe is of type MISC and the result is 9 item1
                 .requires(ItemInit.ITEM2.get())
-                .unlockedBy(ItemInit.ITEM2.get(), has(ItemInit.ITEM2.get())) //The item1 recipe is unlocked by having item2
+                .unlockedBy(ItemInit.ITEM2.get(), has(ItemInit.ITEM2.get()) //The item1 recipe is unlocked by having item2
                 .save(pRecipeOutput); //Save the recipe to the output
 
         **/
+        //Alwais add custom ids at the save method. In the instances of an item having multiple recipes, the id will be the same, and runData will error out
+
+
+        List<ItemLike> ingridients = List.of(BlockInit.ABERRANT_ORE.get().asItem());
+        oreSmelting(pRecipeOutput, ingridients, RecipeCategory.MISC, ItemInit.ABERRANT_SHARD.get(), 0.5F, 200, MOD_ID + ":aberrant_ingot_smelt");
+        oreBlasting(pRecipeOutput, ingridients, RecipeCategory.MISC, ItemInit.ABERRANT_SHARD.get(), 0.7F, 120, MOD_ID + ":aberrant_ingot_blast");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.ABERRANT_INGOT.get()) //The recipe is of type MISC and the result is item2
+                .pattern("###")
+                .define('#', ItemInit.ABERRANT_SHARD.get()).unlockedBy(ItemInit.ABERRANT_SHARD.get().toString(), has(ItemInit.ABERRANT_SHARD.get())) //The item2 recipe is unlocked by having item1
+                .save(pRecipeOutput, MOD_ID + ":aberrant_ingot_from_shard"); //Save the recipe to the output
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ABERRANT_BLOCK.get()) //The recipe is of type MISC and the result is item2
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get())) //The item2 recipe is unlocked by having item1
+                .save(pRecipeOutput, MOD_ID + ":abberant_block_from_ingot"); //Save the recipe to the output
+
+        //Save the recipe to the output
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.ABERRANT_INGOT.get(), 9) //The recipe is of type MISC and the result is 9 item1
+                .requires(BlockInit.ABERRANT_BLOCK.get())
+                .unlockedBy(BlockInit.ABERRANT_BLOCK.get().toString(), has(BlockInit.ABERRANT_BLOCK.get())) //The item1 recipe is unlocked by having item2
+                .save(pRecipeOutput, MOD_ID + ":aberrant_ingot_from_block");
     }
 
     //Due to hardcoded constraint, ore smelting, blasting and cooking must be copied from the original RecipeProvider

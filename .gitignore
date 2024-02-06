@@ -27,4 +27,3 @@ forge*changelog.txt
 run-data/logs/*.log
 run-data/logs/*.gz
 run-data/logs/*.log.gz
-*/.cache
