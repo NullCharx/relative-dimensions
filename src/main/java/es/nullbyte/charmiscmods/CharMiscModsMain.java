@@ -2,8 +2,6 @@ package es.nullbyte.charmiscmods;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
-import es.nullbyte.charmiscmods.blocks.auxiliar.customFog.CustomFogRenderState;
-import es.nullbyte.charmiscmods.blocks.auxiliar.customFog.network.AberrantOreProxHandler;
 import es.nullbyte.charmiscmods.blocks.init.BlockInit;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.charspvp.network.DailyTimeLimitHandler;
@@ -181,18 +179,6 @@ public class CharMiscModsMain {
         if (message.equals(I18n.get("multiplayer.player.joined", event.getSender()))||message.equals(I18n.get("multiplayer.player.left", event.getSender()))) {
             // If the message is the "player has joined" or "player has left" message, cancel the event to prevent it from being displayed
             event.setCanceled(true);
-        }
-    }
-
-    public static CustomFogRenderState USERFOGRENDERER;
-    @SubscribeEvent
-    public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        //Do something when a player logs in
-        //Check which side is the event being called from
-        if (event.getEntity().level().isClientSide) {
-            //Do something on the client side
-            USERFOGRENDERER = new CustomFogRenderState();
-
         }
     }
 }
