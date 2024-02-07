@@ -20,11 +20,11 @@ public class BlockInit {
             DeferredRegister.create(ForgeRegistries.BLOCKS, RelativeDimensionsMain.MOD_ID);
 
     public static final RegistryObject<Block> ABERRANT_BLOCK = registerBlock("aberrant_block",
-            () -> new Block(Block.Properties.ofFullCopy(Blocks.GLASS).emissiveRendering((state, world, pos) -> true)
-                    .lightLevel((light) -> 15)));
+            () -> new Block(Block.Properties.ofFullCopy(Blocks.GLASS)));
     public static final RegistryObject<Block> ABERRANT_ORE = registerBlock("aberrant_ore",
-            () -> new aberrantOre(Block.Properties.ofFullCopy(Blocks.IRON_ORE).emissiveRendering((state, world, pos) -> true)
-                    .lightLevel((light) -> 10).requiresCorrectToolForDrops()));
+            () -> new aberrantOre(Block.Properties.ofFullCopy(Blocks.IRON_ORE)));
+    public static final RegistryObject<Block> ABERRANT_MINERALOID = registerBlock("aberrant_mineraloid",
+            () -> new aberrantOre(Block.Properties.ofFullCopy(Blocks.IRON_ORE)));
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

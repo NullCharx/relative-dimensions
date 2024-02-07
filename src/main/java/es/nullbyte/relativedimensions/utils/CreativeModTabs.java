@@ -48,6 +48,7 @@ public class CreativeModTabs {
                         pOutput.accept(ItemInit.ABERRANT_SHARD.get());
                         pOutput.accept(ItemInit.ABERRANT_INGOT.get());
                         pOutput.accept(BlockInit.ABERRANT_BLOCK.get());
+                        pOutput.accept(BlockInit.ABERRANT_MINERALOID.get());
                         pOutput.accept(ItemInit.ABERRANT_SWORD.get());
                         pOutput.accept(ItemInit.ABERRANT_PICK.get());
 

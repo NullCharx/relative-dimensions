@@ -18,6 +18,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         blockWithItem(BlockInit.ABERRANT_BLOCK);
         blockWithItem(BlockInit.ABERRANT_ORE);
+        blockWithItem(BlockInit.ABERRANT_MINERALOID);
 
     }
 

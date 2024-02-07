@@ -37,12 +37,16 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         //Remember to add the ores to the tag MINEABLE_WITH_[TOOL] to make them mineable with the correct tool or else
         //They wont drop anything even if their loot table is correctly set up
 
+
         //When mining ABERRANT_ORE, it will drop between none and 2 instances of ABERRANT_SHARD
         this.add(BlockInit.ABERRANT_ORE.get(),
                 block -> createCustomOreDrop(BlockInit.ABERRANT_ORE.get(), BlockInit.ABERRANT_ORE.get().asItem(), 0.0F, 3.0F));
 
         //When mining ABERRANT_BLOCK, it will drop an instance of itself
         this.dropSelf(BlockInit.ABERRANT_BLOCK.get());
+
+        //When mining ABERRANT_MINERALOID, drop thyself
+        this.dropSelf(BlockInit.ABERRANT_MINERALOID.get());
 
     }
 

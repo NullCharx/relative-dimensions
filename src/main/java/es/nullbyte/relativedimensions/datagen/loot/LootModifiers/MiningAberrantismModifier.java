@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import es.nullbyte.relativedimensions.blocks.init.BlockInit;
 import es.nullbyte.relativedimensions.items.init.ItemInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -46,6 +47,9 @@ public class MiningAberrantismModifier extends LootModifier {
             if (block != null && block.is(Tags.Blocks.ORES) && block.getBlock() != BlockInit.ABERRANT_ORE.get()){
                 generatedLoot.clear(); // Clear existing loot
                 generatedLoot.add(new ItemStack(BlockInit.ABERRANT_ORE.get())); // Add ABERRANT_ORE
+            } else if (block != null && block.is(BlockTags.MINEABLE_WITH_PICKAXE) && block.getBlock() != BlockInit.ABERRANT_BLOCK.get()) {
+                generatedLoot.clear(); // Clear existing loot
+                generatedLoot.add(new ItemStack(BlockInit.ABERRANT_MINERALOID.get())); // Add ABERRANT_BLOCK
             }
             //Later: Aberrantism for stone blocks, etc
         }

@@ -1,6 +1,7 @@
 package es.nullbyte.relativedimensions.items;
 
 import es.nullbyte.relativedimensions.items.init.ItemInit;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -31,7 +32,10 @@ public class AberrantPickaxe extends PickaxeItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level plevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        //MAke a component which has the translation key of the tooltip and then the modifiers formatted as bold purple text
         pTooltipComponents.add(Component.translatable("item.relativedimensions.aberrant_pickaxe.tooltip"));
+        pTooltipComponents.add(Component.translatable("item.relativedimensions.aberrant_pickaxe.tooltip_modifiers").withStyle(ChatFormatting.BOLD, ChatFormatting.LIGHT_PURPLE));
+
         super.appendHoverText(pStack, plevel, pTooltipComponents, pIsAdvanced);
     }
 }
