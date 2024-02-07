@@ -1,8 +1,8 @@
 {
-  "type": "relativedimensions:relativedimensions_mining_aberrantism",
+  "type": "relativedimensions:relativedimensions_mining_dimensional_shift",
   "conditions": [
     {
-      "chance": 0.15,
+      "chance": 0.5,
       "condition": "minecraft:random_chance"
     }
   ],

@@ -43,7 +43,7 @@ public class MiningAberrantismModifier extends LootModifier {
         //Check if the tool is the aberrant pickaxe
         if (tool != null && tool.getItem() == ItemInit.ABERRANT_PICK.get() ) {
             //Aberrantism for ores
-            if (block != null && block.is(Tags.Blocks.ORES)) {
+            if (block != null && block.is(Tags.Blocks.ORES) && block.getBlock() != BlockInit.ABERRANT_ORE.get()){
                 generatedLoot.clear(); // Clear existing loot
                 generatedLoot.add(new ItemStack(BlockInit.ABERRANT_ORE.get())); // Add ABERRANT_ORE
             }

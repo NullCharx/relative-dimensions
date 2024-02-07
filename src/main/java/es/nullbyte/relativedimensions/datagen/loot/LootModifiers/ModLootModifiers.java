@@ -19,10 +19,10 @@ public class ModLootModifiers {
 
     //Mining aberrantism loot modifier: For aberrant pickaxe, ores and other mineable blocks will drop aberrant
     public static final RegistryObject<Codec<? extends IGlobalLootModifier>> MINING_ABERRANTISM =
-            LOOT_MODIFIERS_SERIALIZERS.register(MOD_ID + ":mining_aberrantism", MiningAberrantismModifier.CODEC);
+            LOOT_MODIFIERS_SERIALIZERS.register(MOD_ID + "_mining_aberrantism", MiningAberrantismModifier.CODEC);
 
     public static final RegistryObject<Codec<? extends IGlobalLootModifier>> MINING_DIMENSIONAL_SHIFT =
-            LOOT_MODIFIERS_SERIALIZERS.register(MOD_ID + ":mining_dimensional_shift", MiningDimensionalShiftModifier.CODEC);
+            LOOT_MODIFIERS_SERIALIZERS.register(MOD_ID + "_mining_dimensional_shift", MiningDimensionalShiftModifier.CODEC);
     public static void register(IEventBus eventBus) {
         LOOT_MODIFIERS_SERIALIZERS.register(eventBus);
     }
