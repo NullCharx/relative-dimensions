@@ -1,7 +1,8 @@
-package es.nullbyte.charmiscmods.items.init;
+package es.nullbyte.charmiscmods.utils;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
 import es.nullbyte.charmiscmods.blocks.init.BlockInit;
+import es.nullbyte.charmiscmods.items.init.ItemInit;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -47,6 +48,8 @@ public class CreativeModTabs {
                         pOutput.accept(ItemInit.ABERRANT_SHARD.get());
                         pOutput.accept(ItemInit.ABERRANT_INGOT.get());
                         pOutput.accept(BlockInit.ABERRANT_BLOCK.get());
+                        pOutput.accept(ItemInit.ABERRANT_SWORD.get());
+                        pOutput.accept(ItemInit.ABERRANT_PICK.get());
 
                         //You can also add vanilla items to the tab
                     })

@@ -44,6 +44,10 @@
   "item.chrmscmds.aberrant_shard.tooltip" : "Un fragmento mineral que guarda propiedades más allá de tu comprensión. Parece distorsionar la realidad a su alrededor.",
   "item.chrmscmds.aberrant_ingot" : "Lingote de mineral aberrante",
   "item.chrmscmds.aberrant_ingot.tooltip" : "Un lingote de mineral que parece emanar energía dimensional. Podría usarse como fuente de energia. O como arma. O...",
+  "item.chrmscmds.aberrant_pickaxe" : "Pico aberrante",
+  "item.chrmscmds.aberrant_pickaxe.tooltip" : "Un pico alimentado por la radiación de dimensiones exteriores. Tiene una probabilidad de cambiar o corromper los bloques que mina",
+  "item.chrmscmds.aberrant_sword" : "Espada aberrante",
+  "item.chrmscmds.aberrant_sword.tooltip" : "Una espada alimentada por la energía del vacío entre dimensiones. Tiene una probabilidad de teletransportar a cualquier cosa que golpee a una posición aleatoria en un radio corto y envenenar a su portador con materia de vacío",
 
 
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: DESACTIVADO———————\n",

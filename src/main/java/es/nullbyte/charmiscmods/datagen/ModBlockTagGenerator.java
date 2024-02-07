@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods.datagen;
 
 import es.nullbyte.charmiscmods.blocks.init.BlockInit;
+import es.nullbyte.charmiscmods.utils.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -36,5 +37,8 @@ public ModBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Pr
                 .add(BlockInit.ABERRANT_ORE.get())
                 .add(BlockInit.ABERRANT_BLOCK.get()
                 );
+        //Empty
+        this.tag(ModTags.Blocks.NEED_ABERRANT_TOOL);
+
     }
 }

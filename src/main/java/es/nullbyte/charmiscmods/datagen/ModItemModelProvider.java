@@ -25,11 +25,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldRodItem(ItemInit.AVID_SDPT); //Avid SDPT
         handheldItem(ItemInit.TRANSMAT_BEAM_EMITTER);   //Transmat Beam Emitter
         simpleItem(ItemInit.TESTITEM1); //Test item 1
-        generateCompassTextures(); //Generates the tracker compass textures (both normal and teamed)
+        generateCompassTextures(); //Generates the tracker compass texture states (both normal and teamed)
         generateCompassModel(ItemInit.PLAYER_TRACKER_COMPASS, 32, "compassstate"); //Generates the tracker compass model
         generateCompassModel(ItemInit.TEAM_TRACKER_COMPASS, 32, "tcompassstate"); //Generates the tracker compass model
         simpleItem(ItemInit.ABERRANT_SHARD); //Aberrant shard
         simpleItem(ItemInit.ABERRANT_INGOT); //Aberrant ingot
+        handheldItem(ItemInit.ABERRANT_SWORD); //Aberrant sword
+        handheldItem(ItemInit.ABERRANT_PICK); //Aberrant pickaxe
         blockItem(BlockInit.ABERRANT_BLOCK); //Aberrant block block item
         blockItem(BlockInit.ABERRANT_ORE); //Aberrant ore block item
     }
