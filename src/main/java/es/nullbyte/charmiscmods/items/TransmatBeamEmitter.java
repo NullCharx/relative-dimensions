@@ -35,36 +35,31 @@ public class TransmatBeamEmitter extends Item {
     //https://moddingtutorials.org/advanced-items
 
     //Settable variables
-    private final int NUMUSES = 15;
-    private double failure;
-    private final double FAILURE_CHANCE = 20; //Out of 100
-
+    private final int NUMUSES;
+    private final double FAILURE_CHANCE; //Out of 100
 
 
     //Internal variables
-    Vec3 posInit;
-    Vec3 targetPos;
-    Player itemPlayer;
-    int ticksCounter = 0;
     MobEffectInstance effectInstanceLevitate;
     MobEffectInstance effectInstancemmobile;
     MobEffectInstance effectInstanceNausea;
     MobEffectInstance effectInstanceBlind;
     MobEffectInstance effectInstanceDark;
-    private ItemStack itemStack; //Stack of the player that uses the compass - important to keep track of the item nbttags
-
 
 
     public TransmatBeamEmitter(Properties properties) {
         super(properties);
         MinecraftForge.EVENT_BUS.register(this); //Register the class on the event bus so any events it has will be called
+        //Can be changed (or set ot a config file)
+        FAILURE_CHANCE = 20;
+        NUMUSES = 15;
     }
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, @NotNull Player player, @NotNull InteractionHand hand) {
         Vec3 posInit;
         Vec3 targetPos;
-        failure = (RANDOM.nextInt(101));
+        double failure = (RANDOM.nextInt(101));
 
         if (world.isClientSide()) {
             player.displayClientMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilishing"),false);
@@ -83,15 +78,10 @@ public class TransmatBeamEmitter extends Item {
         //save the target position
         targetPos = new Vec3(lookPos.getX(), lookPos.getY(), lookPos.getZ());
         //---------------------------------------------------
-        itemStack = player.getItemInHand(hand);
+        //Stack of the player that uses the compass - important to keep track of the item nbttags
+        ItemStack itemStack = player.getItemInHand(hand);
 
         //Set NBT data
-        //Failure chance
-        if(failure <= FAILURE_CHANCE) {
-            itemStack.getOrCreateTag().putBoolean("isFailure", true);
-        } else {
-            itemStack.getOrCreateTag().putBoolean("isFailure", false);
-        }
         //Set initial and target positions
         itemStack.getOrCreateTag().putDouble("initX", posInit.x());
         itemStack.getOrCreateTag().putDouble("inity", posInit.y());
@@ -99,13 +89,13 @@ public class TransmatBeamEmitter extends Item {
         itemStack.getOrCreateTag().putDouble("targx", targetPos.x());
         itemStack.getOrCreateTag().putDouble("targy", targetPos.y());
         itemStack.getOrCreateTag().putDouble("targz", targetPos.z());
+
+        //Initiate ticks counter
+        itemStack.getOrCreateTag().putInt("ticksCounter", -1);
         //Set active state
         itemStack.getOrCreateTag().putBoolean("isActive", true);
-
-
-
-        // allow the teleport to cancel fall damage
-        player.fallDistance = 0F;
+        //Failure chance
+        itemStack.getOrCreateTag().putBoolean("isFailure", failure <= FAILURE_CHANCE);
 
         // reduce durability
         ItemStack stack = player.getItemInHand(hand);
@@ -113,119 +103,94 @@ public class TransmatBeamEmitter extends Item {
 
         // break if durability gets to 0
         if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(stack.getCount() - 1);
-
+        player.getCooldowns().addCooldown(this, 999 * 20);
         return super.use(world, player, hand);
 
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, Level itemLevel, Entity itemEntity, int itemSlot, boolean isSelected) {
+    public void inventoryTick(ItemStack itemStack, @NotNull Level itemLevel, @NotNull Entity itemEntity, int itemSlot, boolean isSelected) {
         //Increment variable if item was used
-        if (itemStack.getOrCreateTag().getBoolean("isActive") && itemEntity instanceof Player && itemStack.getOrCreateTag().getBoolean("isActive")) {
-            ticksCounter++;
-            switch (ticksCounter) {
-                case 1:
-                    itemPlayer = (Player) itemEntity;//Set entity player
+        if (itemStack.getOrCreateTag().getBoolean("isActive") && itemEntity instanceof Player itemPlayer) {//Set entity player
+            itemStack.getOrCreateTag().putInt("ticksCounter", itemStack.getOrCreateTag().getInt("ticksCounter") + 1);
+            if(itemStack.getOrCreateTag().getInt("ticksCounter") == 1) {
 
-                    //Retrieve initial and target positions from NBT tags
-                    posInit = new Vec3(itemStack.getOrCreateTag().getDouble("initX"), itemStack.getOrCreateTag().getDouble("inity"), itemStack.getOrCreateTag().getDouble("initz"));
-                    targetPos = new Vec3(itemStack.getOrCreateTag().getDouble("targx"), itemStack.getOrCreateTag().getDouble("targy"), itemStack.getOrCreateTag().getDouble("targz"));
 
+                if (itemLevel.isClientSide()) {
+                    itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.locking"));
+                }
+                itemLevel.playSound(itemPlayer, itemPlayer.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
+
+                //Apply visual effects durinng transmat charge
+                effectInstanceLevitate = new MobEffectInstance(MobEffects.LEVITATION, 7 * 20, 1, true, false, false);
+                effectInstancemmobile = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 6 * 20, 1, true, false, false);
+                effectInstanceNausea = new MobEffectInstance(MobEffects.CONFUSION, 7 * 20, 255, true, false, false);
+                effectInstanceBlind = new MobEffectInstance(MobEffects.BLINDNESS, 7 * 20, 1, true, false, false);
+                effectInstanceDark = new MobEffectInstance(MobEffects.DARKNESS, 7 * 20, 1, true, false, false);
+                itemPlayer.addEffect(effectInstanceLevitate);
+                itemPlayer.addEffect(effectInstancemmobile);
+                itemPlayer.addEffect(effectInstanceNausea);
+                itemPlayer.addEffect(effectInstanceBlind);
+                itemPlayer.addEffect(effectInstanceDark);
+            } else if (itemStack.getOrCreateTag().getInt("ticksCounter") == 51) {
+                if (itemLevel.isClientSide()) {
+                    itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.upstrtransmat"));
+                }
+            } else if (itemStack.getOrCreateTag().getInt("ticksCounter") == 86) {
+                if (itemLevel.isClientSide()) {
+                    itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.energizing"));
+                }
+            } else if (itemStack.getOrCreateTag().getInt("ticksCounter") == 121) {
+                if (itemLevel.isClientSide()) {
+                    itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilished"));
+                }
+                System.out.println(itemPlayer.position());
+                //Random low chance of failure
+                if (itemStack.getOrCreateTag().getBoolean("isFailure")) {
                     if (itemLevel.isClientSide()) {
-                        itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.locking"));
+                        itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.randerror"));
                     }
-                    itemLevel.playSound(itemPlayer, itemPlayer.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-                    //Apply visual effects durinng transmat charge
-                    effectInstanceLevitate = new MobEffectInstance(MobEffects.LEVITATION, 999 * 20, 1, true, false, false);
-                    effectInstancemmobile = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 99 * 20, 255, true, false, false);
-                    effectInstanceNausea = new MobEffectInstance(MobEffects.CONFUSION, 999 * 20, 255, true, false, false);
-                    effectInstanceBlind = new MobEffectInstance(MobEffects.BLINDNESS, 999 * 20, 255, true, false, false);
-                    effectInstanceDark = new MobEffectInstance(MobEffects.DARKNESS, 999 * 20, 255, true, false, false);
-                    itemPlayer.addEffect(effectInstanceLevitate);
-                    itemPlayer.addEffect(effectInstancemmobile);
-                    itemPlayer.addEffect(effectInstanceNausea);
-                    itemPlayer.addEffect(effectInstanceBlind);
-                    itemPlayer.addEffect(effectInstanceDark);
-                    break;
-                case 51:
+                    if (itemPlayer instanceof ServerPlayer serverPlayer) {
+                        serverPlayer.teleportTo(itemStack.getOrCreateTag().getDouble("initx"), itemStack.getOrCreateTag().getDouble("inity"),itemStack.getOrCreateTag().getDouble("initz"));
+                    }
+                    itemPlayer.getCooldowns().removeCooldown(this);
+                    itemPlayer.getCooldowns().addCooldown(this, 35 * 20);
+                } else {
+
+                    //Teleport player with sound
+                    itemLevel.playSound(itemPlayer, itemPlayer.getX(), itemPlayer.getY(), itemPlayer.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    if (itemPlayer instanceof ServerPlayer serverPlayer) {
+                        serverPlayer.teleportTo(itemStack.getOrCreateTag().getDouble("targx"),itemStack.getOrCreateTag().getDouble("targy"), itemStack.getOrCreateTag().getDouble("targz"));
+                    }
+                    itemLevel.playSound(itemPlayer, itemPlayer.getX(), itemPlayer.getY(), itemPlayer.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
                     if (itemLevel.isClientSide()) {
-                        itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.upstrtransmat"));
+                        itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.success"));
                     }
-                    break;
-                case 166:
-                    if (itemLevel.isClientSide()) {
-                        itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.energizing"));
-                    }
-                    //Slow player floating, to simulate the energy charge
-                    itemPlayer.removeEffect(MobEffects.LEVITATION);
-                    effectInstanceLevitate = new MobEffectInstance(MobEffects.LEVITATION, 999*20, 0, false, true, false);
-                    itemPlayer.addEffect(effectInstanceLevitate);
-                    break;
-                case 201:
-                    if (itemLevel.isClientSide()) {
-                        itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.stabilished"));
-                    }
+                    itemPlayer.getCooldowns().removeCooldown(this);
+                    itemPlayer.getCooldowns().addCooldown(this, 15 * 20);
+                }
+                // allow the teleport to cancel fall damage
+                itemPlayer.fallDistance = 0F;
+                System.out.println(itemPlayer.position());
+                //State cleanup
+                itemPlayer.removeEffect(MobEffects.LEVITATION);
+                itemPlayer.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+                itemPlayer.removeEffect(MobEffects.CONFUSION);
+                itemPlayer.removeEffect(MobEffects.BLINDNESS);
+                itemPlayer.removeEffect(MobEffects.DARKNESS);
 
-
-                    System.out.println(itemPlayer.position());
-
-                    //Random low chance of failure
-                    if (failure <= itemStack.getOrCreateTag().getDouble("isFailure")) {
-                        if (itemLevel.isClientSide()) {
-                            itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.randerror"));
-                        }
-                        itemPlayer.getCooldowns().removeCooldown(this);
-                        itemPlayer.getCooldowns().addCooldown(this, 35 * 20);
-                        if (!itemLevel.isClientSide() && itemPlayer instanceof ServerPlayer serverPlayer) {
-                            serverPlayer.teleportTo(posInit.x(), posInit.y(), posInit.z());
-                        }
-                        itemPlayer.getCooldowns().removeCooldown(this);
-                        itemPlayer.getCooldowns().addCooldown(this, 15 * 20 * 3);
-                    } else {
-
-                        //Teleport player with sound
-                        itemLevel.playSound(itemPlayer, itemPlayer.getX(), itemPlayer.getY(), itemPlayer.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                        if (!itemLevel.isClientSide() && itemPlayer instanceof ServerPlayer serverPlayer) {
-                            serverPlayer.teleportTo(targetPos.x(), targetPos.y(), targetPos.z());
-                        }
-                        itemLevel.playSound(itemPlayer, itemPlayer.getX(), itemPlayer.getY(), itemPlayer.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                        if (itemLevel.isClientSide()) {
-                            itemPlayer.sendSystemMessage(Component.translatable("item.charmiscmods.transmatbeamemitter.state.success"));
-                        }
-                        itemPlayer.getCooldowns().removeCooldown(this);
-                        itemPlayer.getCooldowns().addCooldown(this, 15 * 20);
-                    }
-                    System.out.println(itemPlayer.position());
-                    //State cleanup
-                    itemPlayer.removeEffect(MobEffects.LEVITATION);
-                    itemPlayer.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
-                    itemPlayer.removeEffect(MobEffects.CONFUSION);
-                    itemPlayer.removeEffect(MobEffects.BLINDNESS);
-                    itemPlayer.removeEffect(MobEffects.DARKNESS);
-
-                    //Reset ticks counter
-                    ticksCounter = 0;
-                    //Stop transmat
-                    itemStack.getOrCreateTag().putBoolean("isActive", false);
-                    itemStack.getOrCreateTag().putBoolean("isFailure", false);
-                    //Remove the positions from the NBT tags since a value of 0 is a valid position
-                    itemStack.removeTagKey("initX");
-                    itemStack.removeTagKey("inity");
-                    itemStack.removeTagKey("initz");
-                    itemStack.removeTagKey("targx");
-                    itemStack.removeTagKey("targy");
-                    itemStack.removeTagKey("targz");
-                    break;
-                default:
-                    //Cant reset here, it will clean the tags between tick counts
-                    break;
+                //Reset ticks counter
+                itemStack.getOrCreateTag().putInt("ticksCounter", -1);
+                //Stop transmat
+                itemStack.getOrCreateTag().putBoolean("isActive", false);
+                itemStack.getOrCreateTag().putBoolean("isFailure", false);
 
             }
             //Particle effect
-            if (itemLevel instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.PORTAL, posInit.x(), posInit.y() + 1, posInit.z(), 100, 0.0D, 10.0D, 0.0D, 1.0D);
-                serverLevel.sendParticles(ParticleTypes.PORTAL, targetPos.x, targetPos.y + 1, targetPos.z, 100, 0.0D, 10.0D, 0.0D, 1.0D);
+            if (itemLevel instanceof ServerLevel serverLevel && itemStack.getOrCreateTag().getBoolean("isActive") && itemStack.getOrCreateTag().getInt("ticksCounter") > 0) {
+                serverLevel.sendParticles(ParticleTypes.PORTAL, itemStack.getOrCreateTag().getDouble("initx"), itemStack.getOrCreateTag().getDouble("inity") + 1, itemStack.getOrCreateTag().getDouble("initz"), 100, 0.0D, 10.0D, 0.0D, 1.0D);
+                serverLevel.sendParticles(ParticleTypes.PORTAL, itemStack.getOrCreateTag().getDouble("targx"), itemStack.getOrCreateTag().getDouble("targy") + 1, itemStack.getOrCreateTag().getDouble("targz"), 100, 0.0D, 10.0D, 0.0D, 1.0D);
             }
         }
 

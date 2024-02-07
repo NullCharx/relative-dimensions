@@ -2,11 +2,13 @@ package es.nullbyte.charmiscmods;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
+import es.nullbyte.charmiscmods.blocks.init.BlockInit;
 import es.nullbyte.charmiscmods.charspvp.PlayerTimeLimit.PvpManager;
 import es.nullbyte.charmiscmods.charspvp.network.DailyTimeLimitHandler;
 import es.nullbyte.charmiscmods.charspvp.network.ModMessages;
 import es.nullbyte.charmiscmods.charspvp.network.PVPStateHandler;
 import es.nullbyte.charmiscmods.charspvp.network.RemainingTimeHandler;
+import es.nullbyte.charmiscmods.utils.CreativeModTabs;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -42,11 +44,15 @@ import java.util.Random;
 @Mod(CharMiscModsMain.MOD_ID)
 @Mod.EventBusSubscriber(modid = CharMiscModsMain.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CharMiscModsMain {
+
+
     // Define mod id in a common place for everything to reference.
     //TEst forGUI mac.
     public static final String MOD_ID = "chrmscmds";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
+
+
 
     public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
@@ -63,6 +69,9 @@ public class CharMiscModsMain {
 
         //Register ITEMS (Register Init)
         ItemInit.register(modEventBus);
+
+        //Register BLOCKS (Register Init)
+        BlockInit.register(modEventBus);
 
         // Register items to a vanilla creative tab
         modEventBus.addListener(this::addCreative);
@@ -81,6 +90,9 @@ public class CharMiscModsMain {
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(PvpManager::onLivingAttack);
         MinecraftForge.EVENT_BUS.addListener(this::onChatReceived);
+        //MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
+        //MinecraftForge.EVENT_BUS.addListener(CustomFogRenderState::onFogDensity);
+        //MinecraftForge.EVENT_BUS.addListener(CustomFogRenderState::onFogColors);
 
     }
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -90,6 +102,7 @@ public class CharMiscModsMain {
             PVPStateHandler.register();
             DailyTimeLimitHandler.register();
             ModMessages.register();
+            //AberrantOreProxHandler.register();
         });
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
@@ -103,7 +116,7 @@ public class CharMiscModsMain {
         //Add the item to an existing vanilla creative tab
         //For example, add the testitem to the "ingredients" tab
         if(event.getTabKey() == CreativeModeTabs.INGREDIENTS){
-            event.accept(ItemInit.testitem1);
+            event.accept(ItemInit.TESTITEM1);
         }
     }
 
@@ -141,6 +154,7 @@ public class CharMiscModsMain {
 
     //register buildcontents event to the event bus
 
+
     public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
         //REGISTER THE COMMANDS HERE!
         LOGGER.info("[CHARMISCMODS - MAIN] Initial command registration");
@@ -165,5 +179,4 @@ public class CharMiscModsMain {
             event.setCanceled(true);
         }
     }
-
 }

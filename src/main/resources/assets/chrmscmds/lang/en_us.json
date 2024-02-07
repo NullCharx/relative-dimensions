@@ -36,6 +36,21 @@
   "block.chrmscmds.tsrail": "Rail piece part of the AVID center transit system",
 
 
+  "creativetab.dimenv" : "Errors... You can find them all around...",
+  "block.chrmscmds.aberrant_block": "Aberrant block",
+  "block.chrmscmds.aberrant_block.tooltip": "It phases in and out of reality after having absorbed too much atron energy and, thus, unstable. You don't know if you should touch it",
+  "block.chrmscmds.aberrant_ore" : "Aberrant ore",
+  "block.chrmscmds.aberrant_ore.tooltip" : "Once a normal mineral, this ore seems to be a an error. As if it came from another place.",
+  "item.chrmscmds.aberrant_shard" : "Aberrant mineral shard",
+  "item.chrmscmds.aberrant_shard.tooltip" : "A shard that holds properties beyond your comprehension. It warp reality around it",
+  "item.chrmscmds.aberrant_ingot" : "Aberrant mineral ingot",
+  "item.chrmscmds.aberrant_ingot.tooltip" : "A mineral ingot that seems to emanate dimensional energy. It could be used as a source of energy. Or as a weapon. Or...",
+  "item.chrmscmds.aberrant_pickaxe" : "Aberrant pickaxe",
+  "item.chrmscmds.aberrant_pickaxe.tooltip" : "A pickaxe powered by radiation from outer dimensions. It has a chance to randomly change or corrupt the blocks it mines",
+  "item.chrmscmds.aberrant_sword" : "Aberrant sword",
+  "item.chrmscmds.aberrant_sword.tooltip" : "A sword powered by the energy of the void between dimensions. It has a chance to teleport anything it hits to a random position in a short radius and poison its wielder with void stuff",
+
+
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: OFF———————\n",
   "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ON———————\n",
   "cmds.modpvp.level.ultra" : "⚠⚠⚠——————PVP: ULTRA———————\n",

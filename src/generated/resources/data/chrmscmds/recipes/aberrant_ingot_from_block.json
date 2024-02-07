@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "chrmscmds:aberrant_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "chrmscmds:aberrant_ingot"
+  }
+}

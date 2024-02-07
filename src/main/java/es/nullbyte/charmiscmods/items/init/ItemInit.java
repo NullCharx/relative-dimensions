@@ -1,6 +1,7 @@
 package es.nullbyte.charmiscmods.items.init;
 
 import es.nullbyte.charmiscmods.CharMiscModsMain;
+import es.nullbyte.charmiscmods.utils.ModToolTiers;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -13,9 +14,30 @@ public class ItemInit {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, CharMiscModsMain.MOD_ID);
     //Test 1
-    public static final RegistryObject<Item> testitem1 = ITEMS.register("testitem1",
+    public static final RegistryObject<Item> TESTITEM1 = ITEMS.register("testitem1",
             () -> new Item(new Item.Properties()));
 
+    //Aberrant shard
+    public static final RegistryObject<Item> ABERRANT_SHARD = ITEMS.register("aberrant_shard",
+            () -> new Item(new Item.Properties().fireResistant()));
+
+    //Aberrant ingot
+    public static final RegistryObject<Item> ABERRANT_INGOT = ITEMS.register("aberrant_ingot",
+            () -> new Item(new Item.Properties().fireResistant()));;
+
+    //ABERRANT SWORD
+    public static final RegistryObject<Item> ABERRANT_SWORD = ITEMS.register("aberrant_sword",
+            () -> new AberrantSword(ModToolTiers.ABERRANT,3, 3, new Item.Properties()));
+
+   public static final RegistryObject<Item> ABERRANT_PICK= ITEMS.register("aberrant_pickaxe",
+            () -> new AberrantPickaxe(ModToolTiers.ABERRANT,3, 3, new Item.Properties()));
+   /**public static final RegistryObject<Item> ABERRANT_AXE = ITEMS.register("aberrant_axe",
+            () -> new AberrantAxe(ModToolTiers.ABERRANT,3, 3, new Item.Properties()));
+   public static final RegistryObject<Item> ABERRANT_SHOVEL = ITEMS.register("aberrant_shovel",
+            () -> new AberrantShovel(ModToolTiers.ABERRANT,3, 3, new Item.Properties()));
+   public static final RegistryObject<Item> ABERRANT_HOE = ITEMS.register("aberrant_hoe",
+            () -> new AberrantHoe(ModToolTiers.ABERRANT,3, 3, new Item.Properties()));
+**/
     //AVID short distance matter particle transmitter
     public static final RegistryObject<Item> AVID_SDPT = ITEMS.register("avidsdpt",
             () -> new AvidShortDistanceParticleTransmitter(new Item.Properties().durability(1000)));

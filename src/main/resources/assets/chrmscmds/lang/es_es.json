@@ -35,6 +35,20 @@
 
   "block.chrmscmds.tsrail": "Pieza de rail parte del sistema de transporte del centro AVID",
 
+  "creativetab.dimenv" : "Fallas... Están por todas partes...",
+  "block.chrmscmds.aberrant_block": "Bloque aberrante",
+  "block.chrmscmds.aberrant_block.tooltip": "Parece que por momentos escapa de esta realidad tras haber absorbido demasiada energia atron y es inestable.. No sabes si deberías tocarlo",
+  "block.chrmscmds.aberrant_ore" : "Mena de mineral aberrante",
+  "block.chrmscmds.aberrant_ore.tooltip" : "Otrora un mineral normal, esta mena parece un fallo. Como si viniera de otro lugar.",
+  "item.chrmscmds.aberrant_shard" : "Fragmento de mineral aberrante",
+  "item.chrmscmds.aberrant_shard.tooltip" : "Un fragmento mineral que guarda propiedades más allá de tu comprensión. Parece distorsionar la realidad a su alrededor.",
+  "item.chrmscmds.aberrant_ingot" : "Lingote de mineral aberrante",
+  "item.chrmscmds.aberrant_ingot.tooltip" : "Un lingote de mineral que parece emanar energía dimensional. Podría usarse como fuente de energia. O como arma. O...",
+  "item.chrmscmds.aberrant_pickaxe" : "Pico aberrante",
+  "item.chrmscmds.aberrant_pickaxe.tooltip" : "Un pico alimentado por la radiación de dimensiones exteriores. Tiene una probabilidad de cambiar o corromper los bloques que mina",
+  "item.chrmscmds.aberrant_sword" : "Espada aberrante",
+  "item.chrmscmds.aberrant_sword.tooltip" : "Una espada alimentada por la energía del vacío entre dimensiones. Tiene una probabilidad de teletransportar a cualquier cosa que golpee a una posición aleatoria en un radio corto y envenenar a su portador con materia de vacío",
+
 
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: DESACTIVADO———————\n",
   "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ACTIVADO———————\n",
@@ -55,6 +69,7 @@
   "cmds.timerpvp.error.timeargumentOOB" : "Error de argumento (formato 24 horas entre 00:00 y 23:59)",
   "cmds.timerpvp.error.timeargumenttoosmall" : "Error de argumento. Al menos un minuto de juego debe ser especificado",
   "cmds.timerpvp.error.timeargumenttoobig" : "Error de argumento. Máximo de 99 horas permitido",
+
 
   "gui.pvpoverlay.time_remaining" : "Tiempo restante: ",
 
