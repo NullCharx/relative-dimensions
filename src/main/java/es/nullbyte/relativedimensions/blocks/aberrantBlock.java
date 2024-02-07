@@ -13,9 +13,8 @@ import java.util.List;
 public class aberrantBlock extends Block {
 
     public aberrantBlock(Properties properties) {
-        super(properties);
-        properties.emissiveRendering((state, world, pos) -> true)
-                .lightLevel((light) -> 15);
+        super(properties.emissiveRendering((state, world, pos) -> true)
+                .lightLevel((light) -> 15));
     }
 
 

@@ -32,6 +32,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ItemInit.ABERRANT_PICK); //Aberrant pickaxe
         blockItem(BlockInit.ABERRANT_BLOCK); //Aberrant block block item
         blockItem(BlockInit.ABERRANT_ORE); //Aberrant ore block item
+        blockItem(BlockInit.ABERRANT_MINERALOID); //Aberrant mineraloid block item
     }
 
     private ItemModelBuilder blockItem(RegistryObject<Block> block) {

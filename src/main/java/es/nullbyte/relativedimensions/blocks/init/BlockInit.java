@@ -1,6 +1,7 @@
 package es.nullbyte.relativedimensions.blocks.init;
 
 import es.nullbyte.relativedimensions.RelativeDimensionsMain;
+import es.nullbyte.relativedimensions.blocks.aberrantMineraloid;
 import es.nullbyte.relativedimensions.blocks.aberrantOre;
 import es.nullbyte.relativedimensions.items.init.ItemInit;
 import net.minecraft.world.item.BlockItem;
@@ -24,7 +25,7 @@ public class BlockInit {
     public static final RegistryObject<Block> ABERRANT_ORE = registerBlock("aberrant_ore",
             () -> new aberrantOre(Block.Properties.ofFullCopy(Blocks.IRON_ORE)));
     public static final RegistryObject<Block> ABERRANT_MINERALOID = registerBlock("aberrant_mineraloid",
-            () -> new aberrantOre(Block.Properties.ofFullCopy(Blocks.IRON_ORE)));
+            () -> new aberrantMineraloid(Block.Properties.ofFullCopy(Blocks.IRON_ORE)));
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

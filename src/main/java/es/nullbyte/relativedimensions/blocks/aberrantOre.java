@@ -16,7 +16,6 @@ public class aberrantOre extends Block {
     public aberrantOre(Properties properties) {
         super(properties.emissiveRendering((state, world, pos) -> true)
                 .lightLevel((light) -> 5));
-        ;
     }
 
 
