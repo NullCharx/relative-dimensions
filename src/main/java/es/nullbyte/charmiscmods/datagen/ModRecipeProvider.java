@@ -76,14 +76,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern(" # ")
                 .pattern("---")
                 .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
-                .define('-', Items.STICK).unlockedBy(Items.STICK.toString(), has(Items.STICK))
+                .define('-', Items.STICK)
                 .save(pRecipeOutput, MOD_ID + ":abberant_sword_vanilla");
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.ABERRANT_PICK.get()) //The recipe is of type MISC and the result is item2
                 .pattern("###")
                 .pattern(" - ")
                 .pattern(" - ")
                 .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
-                .define('-', Items.STICK).unlockedBy(Items.STICK.toString(), has(Items.STICK))
+                .define('-', Items.STICK)
                 .save(pRecipeOutput, MOD_ID + ":abberant_axe_vanilla");
         //Save the recipe to the output
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.ABERRANT_INGOT.get(), 9) //The recipe is of type MISC and the result is 9 item1
