@@ -2,6 +2,7 @@ TODO: Retest the team commands. Retest the tracker compasses.
 TODO: Test the teams, team visibility, team collision, team damage.
 TODO: Retest spawn loot chest command
 TODO: aberrant tree/grass/coblestone?
+TODO: Aberrant items withe effects?
 TODO: When that isdone, integrate aberrant tree/grass/cobblestone
 TODO: When that is done, define a custom biome with the aberrant items.
 TODO: When that is done, add the aberrant biome to the overworld generation.
