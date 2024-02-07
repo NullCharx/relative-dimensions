@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "relativedimensions:aberrant_shard"
+    }
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "item": "relativedimensions:aberrant_ingot"
+  }
+}

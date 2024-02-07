@@ -1,6 +1,6 @@
 {
   "values": [
-    "chrmscmds:aberrant_ore",
-    "chrmscmds:aberrant_block"
+    "relativedimensions:aberrant_ore",
+    "relativedimensions:aberrant_block"
   ]
 }

@@ -1,0 +1,86 @@
+{
+  "itemGroup.relativedimensions": "Propiedad del grupo de Desarrollo e Inteligencia Avanzado",
+
+
+  "block.relativedimensions.test-block": "Test block! (sin funcionalidad)",
+  "item.relativedimensions.testitem1": "Test item 1! (sin funcionalidad)",
+
+
+  "creativetab.avidtp": "Items de teleportacion local de AVID",
+  "item.relativedimensions.avidsdpt": "Transmisor de particulas de corta distancia de AVID",
+  "item.relativedimensions.avidsdpt.tooltip": "Haz click en un bloque cercano para teletransportarte instantaneamente a el",
+  "item.relativedimensions.transmatbeamemt": "Emisor de haz transmat",
+  "item.relativedimensions.transmatbeamemitter.state.stabilishing": "Estableciendo canal transmat...",
+  "item.relativedimensions.transmatbeamemitter.state.locking": "Bloqueando coordenadas de salida...",
+  "item.relativedimensions.transmatbeamemitter.state.targetlacq": "Coordenadas de destino fijadas: %s",
+  "item.relativedimensions.transmatbeamemitter.state.upstrtransmat" : "Generando haz transmat de subida...",
+  "item.relativedimensions.transmatbeamemitter.state.energizing" : "Energizando...",
+  "item.relativedimensions.transmatbeamemitter.state.stabilished" : "Canal transmat establecido.",
+  "item.relativedimensions.transmatbeamemitter.state.error" : "Error durante la tranmisión de materia. Teletransporte abortado.",
+  "item.relativedimensions.transmatbeamemitter.state.randerror" : "Error de translocación. Teletransporte abortado. Recalibrando...",
+  "item.relativedimensions.transmatbeamemitter.state.success" : "Transmitiendo materia...",
+  "item.relativedimensions.transmatbeamemitter.tooltip" : "Haz click en un bloque en tu rango de visión para teletransportarte a él tras un tiempo corto.",
+
+
+  "creativetab.avidpvp": "Items de control de personal de AVID",
+  "item.relativedimensions.trackercompass": "Rastreador de jugadores de AVID ",
+  "item.relativedimensions.trackercompass.tooltip": "¡Usa el item para rastrear a un jugador! Si no hay jugadores dentro del area de uso, no se activará",
+  "item.relativedimensions.teamtrackercompass": "Rastreador de jugadores de equipo de AVID ",
+  "item.relativedimensions.teamtrackercompass.tooltip": "¡Usa el item para rastrear a un jugador de tu equipo! Si no hay jugadores dentro del area de uso, no se activará",
+  "item.relativedimensions.trackers.no_players_found": "No se encontraron jugadores cerca",
+  "item.relativedimensions.trackers.player_found" : "Jugador encontrado, brujula armada",
+  "item.relativedimensions.trackers.compass_already_armed": "Brújula ya armada y apuntando a un jugador",
+  "item.relativedimensions.trackers.player_too_close": "Debido a la cercanía con el objetivo, la brújula se ha sobrecargado y ya no funciona.La energía sobrante te ha permitido ver como la brújula se ha volatilizado antes tus ojos",
+
+
+  "block.relativedimensions.tsrail": "Pieza de rail parte del sistema de transporte del centro AVID",
+
+  "creativetab.dimenv" : "Fallas... Están por todas partes...",
+  "block.relativedimensions.aberrant_block": "Bloque aberrante",
+  "block.relativedimensions.aberrant_block.tooltip": "Parece que por momentos escapa de esta realidad tras haber absorbido demasiada energia atron y es inestable.. No sabes si deberías tocarlo",
+  "block.relativedimensions.aberrant_ore" : "Mena de mineral aberrante",
+  "block.relativedimensions.aberrant_ore.tooltip" : "Otrora un mineral normal, esta mena parece un fallo. Como si viniera de otro lugar.",
+  "item.relativedimensions.aberrant_shard" : "Fragmento de mineral aberrante",
+  "item.relativedimensions.aberrant_shard.tooltip" : "Un fragmento mineral que guarda propiedades más allá de tu comprensión. Parece distorsionar la realidad a su alrededor.",
+  "item.relativedimensions.aberrant_ingot" : "Lingote de mineral aberrante",
+  "item.relativedimensions.aberrant_ingot.tooltip" : "Un lingote de mineral que parece emanar energía dimensional. Podría usarse como fuente de energia. O como arma. O...",
+  "item.relativedimensions.aberrant_pickaxe" : "Pico aberrante",
+  "item.relativedimensions.aberrant_pickaxe.tooltip" : "Un pico alimentado por la radiación de dimensiones exteriores. Tiene una probabilidad de cambiar o corromper los bloques que mina",
+  "item.relativedimensions.aberrant_sword" : "Espada aberrante",
+  "item.relativedimensions.aberrant_sword.tooltip" : "Una espada alimentada por la energía del vacío entre dimensiones. Tiene una probabilidad de teletransportar a cualquier cosa que golpee a una posición aleatoria en un radio corto y envenenar a su portador con materia de vacío",
+
+
+  "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: DESACTIVADO———————\n",
+  "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ACTIVADO———————\n",
+  "cmds.modpvp.level.ultra" : "⚠⚠⚠——————PVP: ULTRA———————\n",
+  "cmds.modpvp.error.levelnotvalid" : "Nivel PVP no valido. Los valores validos son -1 (no pvp), 0 (pvp), 1 (ultra pvp)",
+  "cmds.modpvp.error.highestlevel" : "Error: El nivel de PVP ya es el mas alto posible",
+  "cmds.modpvp.error.lowestlevel" : "Error: El nivel de PVP ya es el mas bajo posible",
+  "cmds.timerpvp.showtimelimit" : "Limite diario: %s",
+  "cmds.timerpvp.showresettime" : "El reseteo diario será: %s",
+  "cmds.timerpvp.timeplayedtoday": "Tiempo de juego de hoy de %s: %s",
+  "cmds.timerpvp.timerenabled" : "Contador activado",
+  "cmds.timerpvp.timerdisabled" : "Contador desactivado",
+  "cmds.timerpvp.resettimeset" : "Hora de reseteo fijada a %s : %s",
+  "cmds.timerpvp.dailytimelimitset" : "Limite diario fijado a %s",
+  "cmds.timerpvp.publictimerenabled" : "[S.P.A.S] - El tiempo de juego ha comenzado. ¡A explorar! (Y cuidado por donde pisais)",
+  "cmds.timerpvp.publictimerdisabled" : " [S.P.A.S] - Contador detenido ",
+  "cmds.timerpvp.error.usernotfound" : "Error: Usuario no encontrado",
+  "cmds.timerpvp.error.timeargumentOOB" : "Error de argumento (formato 24 horas entre 00:00 y 23:59)",
+  "cmds.timerpvp.error.timeargumenttoosmall" : "Error de argumento. Al menos un minuto de juego debe ser especificado",
+  "cmds.timerpvp.error.timeargumenttoobig" : "Error de argumento. Máximo de 99 horas permitido",
+
+
+  "gui.pvpoverlay.time_remaining" : "Tiempo restante: ",
+
+
+  "system.announcer.playerdeath.header" : "☠ HA HABIDO UNA MUERTE\n",
+  "system.announcer.playerdeath.emptyline" : "          \n",
+  "system.announcer.playerdeath.id" : "La aventura de %s ha llegado a su fin\n",
+  "system.announcer.playerdeath.footer" : "§m☠-------------------------------\n",
+  "system.announcer.playerdeath.final" : "",
+  "system.disconnectmsg.exceededplaytime" : "Tu tiempo de juego diario ha sido excedido.¡Vuelve mañana!",
+  "system.disconnectmsg.playerdeath" : "¡Has sido eliminado! Gracias por jugar con nosotros",
+  "system.worldborder.outofbounds" : "¡Estas fuera de limites! Teletransportando dentro del área de juego en %s segundos...",
+  "system.worldborder.tpback" : "Teletransportando al area de juego..."
+}
