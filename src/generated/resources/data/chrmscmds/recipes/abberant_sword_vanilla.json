@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "chrmscmds:aberrant_ingot"
+    },
+    "-": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    " # ",
+    " # ",
+    "---"
+  ],
+  "result": {
+    "item": "chrmscmds:aberrant_sword"
+  }
+}
