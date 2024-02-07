@@ -37,7 +37,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new ModelItemTagGenerator(output,lookupProvider,blockTagGenerator.contentsGetter(),existingFileHelper)); //Item tag provider
 
         //SPACE FOR GLOBAL LOOT MODIFIERS HERE
-        //
+        generator.addProvider(event.includeServer(), new ModGlobalLootModifersProvider(output)); //Global loot modifiers provider
         //
 
         generator.addProvider(event.includeServer(), new ModWorldGenProvider(output,lookupProvider)); //World gen provider

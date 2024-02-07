@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 
-public class AberrantPickaxe extends AxeItem {
+public class AberrantPickaxe extends PickaxeItem {
     public AberrantPickaxe(Tier tier, int attackDamageModifier, float attackSpeedModifier, Properties properties) {
         super(tier, attackDamageModifier, attackSpeedModifier, properties);
     }

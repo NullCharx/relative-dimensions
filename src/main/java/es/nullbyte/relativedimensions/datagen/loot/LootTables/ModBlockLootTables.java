@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.datagen.loot;
+package es.nullbyte.relativedimensions.datagen.loot.LootTables;
 
 import es.nullbyte.relativedimensions.blocks.init.BlockInit;
 import net.minecraft.data.loot.BlockLootSubProvider;

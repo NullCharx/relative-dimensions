@@ -1,0 +1,10 @@
+{
+  "type": "relativedimensions:ore_mining_aberrantism",
+  "conditions": [
+    {
+      "chance": 0.5,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "relativedimensions:aberrant_ore"
+}

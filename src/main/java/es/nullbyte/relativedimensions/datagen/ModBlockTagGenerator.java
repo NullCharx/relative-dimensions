@@ -5,6 +5,7 @@ import es.nullbyte.relativedimensions.utils.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -38,6 +39,9 @@ public ModBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Pr
                 );
         //Empty
         this.tag(ModTags.Blocks.NEED_ABERRANT_TOOL);
+
+        this.tag(Tags.Blocks.ORES)
+                .add(BlockInit.ABERRANT_ORE.get());
 
     }
 }

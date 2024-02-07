@@ -1,6 +1,6 @@
 package es.nullbyte.relativedimensions.datagen;
 
-import es.nullbyte.relativedimensions.datagen.loot.ModBlockLootTables;
+import es.nullbyte.relativedimensions.datagen.loot.LootTables.ModBlockLootTables;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;

@@ -8,6 +8,7 @@ import es.nullbyte.relativedimensions.charspvp.network.DailyTimeLimitHandler;
 import es.nullbyte.relativedimensions.charspvp.network.ModMessages;
 import es.nullbyte.relativedimensions.charspvp.network.PVPStateHandler;
 import es.nullbyte.relativedimensions.charspvp.network.RemainingTimeHandler;
+import es.nullbyte.relativedimensions.datagen.loot.LootModifiers.ModLootModifiers;
 import es.nullbyte.relativedimensions.utils.CreativeModTabs;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
@@ -52,8 +53,6 @@ public class RelativeDimensionsMain {
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
-
-
     public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
     public static final Random RANDOM = new Random();
@@ -78,6 +77,9 @@ public class RelativeDimensionsMain {
 
         //Register custom creative tab registry
         CreativeModTabs.register(modEventBus);
+
+        //Register global loot modifiers
+        ModLootModifiers.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

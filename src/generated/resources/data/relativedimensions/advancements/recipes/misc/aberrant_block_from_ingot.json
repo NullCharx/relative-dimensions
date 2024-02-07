@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "relativedimensions:abberant_axe_vanilla"
+        "recipe": "relativedimensions:aberrant_block_from_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "relativedimensions:abberant_axe_vanilla"
+      "relativedimensions:aberrant_block_from_ingot"
     ]
   }
 }

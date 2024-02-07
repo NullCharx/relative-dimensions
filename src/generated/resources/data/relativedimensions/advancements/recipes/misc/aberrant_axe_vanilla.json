@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "relativedimensions:abberant_sword_vanilla"
+        "recipe": "relativedimensions:aberrant_axe_vanilla"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "relativedimensions:abberant_sword_vanilla"
+      "relativedimensions:aberrant_axe_vanilla"
     ]
   }
 }
