@@ -18,7 +18,6 @@ public class VoidBleed extends MobEffect {
     private final boolean doHalf = RANDOM.nextBoolean();
     private final int damageInterval = duration/damage;
     public VoidBleed(MobEffectCategory category, int color) {
-
         super(category, color); // Color of the effect, e.g., dark red
     }
     @Override
