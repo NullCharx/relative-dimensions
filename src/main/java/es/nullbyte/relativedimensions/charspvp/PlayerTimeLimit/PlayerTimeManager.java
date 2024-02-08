@@ -369,7 +369,7 @@ public class PlayerTimeManager {
 
             marqueeup = Component.translatable("system.announcer.playerdeath.header");
             space1 = Component.translatable("system.announcer.playerdeath.emptyline");
-            message = Component.translatable("system.announcer.playerdeath.id" + player.getName().getString());
+            message = Component.translatable("system.announcer.playerdeath.id", player.getName().getString());
             space2 = Component.translatable("system.announcer.playerdeath.emptyline");
             marqueedown = Component.translatable("system.announcer.playerdeath.footer");
 

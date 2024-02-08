@@ -28,7 +28,7 @@ public class ItemInit {
 
     //ABERRANT SWORD
     public static final RegistryObject<Item> ABERRANT_SWORD = ITEMS.register("aberrant_sword",
-            () -> new AberrantSword(ModToolTiers.ABERRANT,10, 10, new Item.Properties()));
+            () -> new AberrantSword(ModToolTiers.ABERRANT,0, 10, new Item.Properties()));
 
     //ABERRANT PICKAXE
     public static final RegistryObject<Item> ABERRANT_PICK= ITEMS.register("aberrant_pickaxe",

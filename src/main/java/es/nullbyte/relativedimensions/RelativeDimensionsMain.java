@@ -9,6 +9,7 @@ import es.nullbyte.relativedimensions.charspvp.network.ModMessages;
 import es.nullbyte.relativedimensions.charspvp.network.PVPStateHandler;
 import es.nullbyte.relativedimensions.charspvp.network.RemainingTimeHandler;
 import es.nullbyte.relativedimensions.datagen.loot.LootModifiers.ModLootModifiers;
+import es.nullbyte.relativedimensions.effects.init.ModEffects;
 import es.nullbyte.relativedimensions.utils.CreativeModTabs;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
@@ -81,11 +82,15 @@ public class RelativeDimensionsMain {
         //Register global loot modifiers
         ModLootModifiers.register(modEventBus);
 
+        //Register custom effects
+        ModEffects.registerEffects(modEventBus);
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
         //Register the class on the event bus so any events it has will be called
         MinecraftForge.EVENT_BUS.register(PvpManager.class);
+
 
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here

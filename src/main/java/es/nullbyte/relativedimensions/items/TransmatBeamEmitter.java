@@ -194,6 +194,8 @@ public class TransmatBeamEmitter extends Item {
             }
         }
 
+        super.inventoryTick(itemStack, itemLevel, itemEntity, itemSlot, isSelected);
+
     }
 
 
@@ -210,7 +212,7 @@ public class TransmatBeamEmitter extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level plevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.relativedimensions.avidsdpt.tooltip"));
+        pTooltipComponents.add(Component.translatable("item.relativedimensions.transmatbeamemitter.tooltip"));
         super.appendHoverText(pStack, plevel, pTooltipComponents, pIsAdvanced);
     }
 
