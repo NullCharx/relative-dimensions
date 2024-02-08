@@ -2,15 +2,12 @@ package es.nullbyte.relativedimensions;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
-import es.nullbyte.relativedimensions.blocks.init.BlockInit;
 import es.nullbyte.relativedimensions.charspvp.PlayerTimeLimit.PvpManager;
 import es.nullbyte.relativedimensions.charspvp.network.DailyTimeLimitHandler;
 import es.nullbyte.relativedimensions.charspvp.network.ModMessages;
 import es.nullbyte.relativedimensions.charspvp.network.PVPStateHandler;
 import es.nullbyte.relativedimensions.charspvp.network.RemainingTimeHandler;
-import es.nullbyte.relativedimensions.datagen.loot.LootModifiers.ModLootModifiers;
-import es.nullbyte.relativedimensions.effects.init.ModEffects;
-import es.nullbyte.relativedimensions.utils.CreativeModTabs;
+
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -35,7 +32,6 @@ import es.nullbyte.relativedimensions.charspvp.PlayerTimeLimit.mgrcmds.modPVPcmd
 import es.nullbyte.relativedimensions.charspvp.PlayerTimeLimit.mgrcmds.modTimercmd;
 import es.nullbyte.relativedimensions.events.OutOfBorderChecker;
 import es.nullbyte.relativedimensions.charspvp.commands.WinnerEnabler;
-import es.nullbyte.relativedimensions.items.init.*;
 
 import java.util.Random;
 
@@ -66,24 +62,6 @@ public class RelativeDimensionsMain {
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-
-        //Register ITEMS (Register Init)
-        ItemInit.register(modEventBus);
-
-        //Register BLOCKS (Register Init)
-        BlockInit.register(modEventBus);
-
-        // Register items to a vanilla creative tab
-        modEventBus.addListener(this::addCreative);
-
-        //Register custom creative tab registry
-        CreativeModTabs.register(modEventBus);
-
-        //Register global loot modifiers
-        ModLootModifiers.register(modEventBus);
-
-        //Register custom effects
-        ModEffects.registerEffects(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -116,16 +94,6 @@ public class RelativeDimensionsMain {
     }
 
 
-
-    //@SubscribeEvent
-    // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        //Add the item to an existing vanilla creative tab
-        //For example, add the testitem to the "ingredients" tab
-        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS){
-            event.accept(ItemInit.TESTITEM1);
-        }
-    }
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)

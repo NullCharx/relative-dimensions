@@ -53,7 +53,7 @@
   "item.relativedimensions.aberrant_sword" : "Aberrant sword",
   "item.relativedimensions.aberrant_sword.tooltip" : "A sword powered by the no-energy of the void between dimensions.\n",
   "item.relativedimensions.aberrant_sword.tooltip_modifiers" : "SLASHING ABERRANTISM:\nLow chance of teleporting any entity it hits in a random block-free direction in a short radius\n\nVOID RADIATION POISONING:\nLow chance of irradiating its wielder with exotic void radiation, causing one random negative effect and a random small amount of damage (Between 1.5 and 5 hearts).",
-  "effects.relativedimensions.void_bleed" : "Void radiation poisoning",
+  "effects.relativedimensions.void_bleed" : "Void radiation",
 
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: OFF———————\n",
   "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ON———————\n",

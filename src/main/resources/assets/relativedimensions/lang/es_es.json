@@ -52,7 +52,7 @@
   "item.relativedimensions.aberrant_sword" : "Espada aberrante",
   "item.relativedimensions.aberrant_sword.tooltip" : "Una espada alimentada por la no-energía del vacío entre dimensiones.\n",
   "item.relativedimensions.aberrant_sword.tooltip_modifiers" : "ABERRANTISMO GUERRERO:\nBaja probabilidad de teletransportar cualquier entidad golpeada en una dirección aleatoria libre de bloques en un pequeño radio\n\n ENVENENAMIENTO POR RADIACIÓN DEL VACÍO:\nBaja probabilidad de irradiar a su portador con radiación exótica del vacío, causando un efecto negativo aleatorio y una cantidad pequeña aleatoria de daño (Entre 1.5 y 5 corazones).",
-  "effects.relativedimensions.void_bleed" : "Envenenamiento por radiación del vacío",
+  "effects.relativedimensions.void_bleed" : "Irradiación del vacío",
 
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: DESACTIVADO———————\n",
   "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ACTIVADO———————\n",
