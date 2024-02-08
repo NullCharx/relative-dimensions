@@ -25,7 +25,8 @@ public class ModGlobalLootModifersProvider extends GlobalLootModifierProvider {
 
        //This will add a 15% chance to drop the item ABERRANT_SHARD when mining an ore with the tool ABERRANT_PICK
        add("ore_aberrantism_modifier", new MiningAberrantismModifier(new LootItemCondition[]{
-                LootItemRandomChanceCondition.randomChance(0.15f).build()}, BlockInit.ABERRANT_ORE.get().asItem()));
+                LootItemRandomChanceCondition.randomChance(0.15f).build()}, BlockInit.ABERRANT_ORE.get().asItem())
+               );
 
         //This will add a 5% chance to drop a random item from the game when mining an ore with the tool ABERRANT_PICK
         //The tiers and items are implemented inside the MiningDimensionalShiftModifier class

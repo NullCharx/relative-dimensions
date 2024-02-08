@@ -219,6 +219,11 @@ public class PlayerTrackerCompass extends Item implements Vanishable {
     }
 
     @Override
+    public boolean isFoil(@NotNull ItemStack stack) {
+        return isArmed;
+    }
+
+    @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level plevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("item.relativedimensions.trackercompass.tooltip"));
         super.appendHoverText(pStack, plevel, pTooltipComponents, pIsAdvanced);

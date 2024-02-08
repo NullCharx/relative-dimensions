@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import es.nullbyte.relativedimensions.blocks.init.BlockInit;
 import es.nullbyte.relativedimensions.items.init.ItemInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -61,7 +62,13 @@ public class MiningDimensionalShiftModifier extends LootModifier {
             if (block != null && block.is(Tags.Blocks.ORES) && block.getBlock() != BlockInit.ABERRANT_ORE.get()){
                 generatedLoot.clear(); // Clear existing loot
                 generatedLoot.add(new ItemStack(getRandomItemToDrop()));
-                //Dimensional shift by tiers
+            } else if (block != null && block.is(BlockTags.MINEABLE_WITH_PICKAXE) && block.getBlock() != BlockInit.ABERRANT_BLOCK.get()) {
+                if (RANDOM.nextInt(100) < 20) {
+                    generatedLoot.clear(); // Clear existing loot
+                    generatedLoot.add(new ItemStack(getRandomItemToDrop()));
+                }
+                generatedLoot.clear(); // Clear existing loot
+                generatedLoot.add(new ItemStack(getRandomItemToDrop()));
             }
             //Later: Dimensional shift for stone blocks, etc (Very low chances, do not use upper three tiers
         }

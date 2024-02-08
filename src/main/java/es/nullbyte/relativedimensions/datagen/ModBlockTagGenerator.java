@@ -35,7 +35,8 @@ public ModBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Pr
                 );
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(BlockInit.ABERRANT_ORE.get())
-                .add(BlockInit.ABERRANT_BLOCK.get()
+                .add(BlockInit.ABERRANT_BLOCK.get())
+                .add(BlockInit.ABERRANT_MINERALOID.get()
                 );
         //Empty
         this.tag(ModTags.Blocks.NEED_ABERRANT_TOOL);

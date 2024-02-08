@@ -19,7 +19,7 @@ public class ModToolTiers {
             //Speed is swing speed, attack damage is damage per hit
             //Aberrant tools are at the same level as diamond, but with a less durability and more speed. The last line
             //Places aberrant items before diamond items in the tier list
-            new ForgeTier(3, 500, 6.8F, 3.2F, 20,
+            new ForgeTier(3, 300, 6.8F, 3.2F, 20,
                     ModTags.Blocks.NEED_ABERRANT_TOOL, ()-> Ingredient.of(ItemInit.ABERRANT_INGOT.get())),
             new ResourceLocation(MOD_ID, "aberrant"), List.of(Tiers.DIAMOND), List.of());
 

@@ -224,6 +224,10 @@ public class TeamTrackerCompass extends Item implements Vanishable {
         return 10;
     }*/
 
+    @Override
+    public boolean isFoil(@NotNull ItemStack stack) {
+        return isArmed;
+    }
     // makes it repairable
     @Override
     public boolean isRepairable(@NotNull ItemStack stack) {
