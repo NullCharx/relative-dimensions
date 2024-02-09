@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.items;
+package es.nullbyte.relativedimensions.items.tracking;
 
 import net.minecraft.network.chat.Component;
 

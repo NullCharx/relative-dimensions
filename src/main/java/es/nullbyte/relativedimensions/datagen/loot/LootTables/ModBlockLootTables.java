@@ -1,7 +1,7 @@
 package es.nullbyte.relativedimensions.datagen.loot.LootTables;
 
 import es.nullbyte.relativedimensions.blocks.BlockInit;
-import es.nullbyte.relativedimensions.items.init.ItemInit;
+import es.nullbyte.relativedimensions.items.ItemInit;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
@@ -65,7 +65,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(BlockInit.ABERRANT_PLANK.get());
 
         //When mining ABERRANT_LEAVES??? TODO
-        this.dropSelf(BlockInit.ABERRANT_LEAVE.get());
+        this.createLeavesDrops(BlockInit.ABERRANT_LEAVE.get(), BlockInit.ABERRANT_LEAVE.get());
 
 
     }

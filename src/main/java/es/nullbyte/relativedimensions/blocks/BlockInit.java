@@ -5,7 +5,7 @@ import es.nullbyte.relativedimensions.blocks.aberrant.aberrantMineraloid;
 import es.nullbyte.relativedimensions.blocks.aberrant.aberrantOre;
 import es.nullbyte.relativedimensions.blocks.flammables.ModFlammableRotatedPillarBlock;
 import es.nullbyte.relativedimensions.blocks.flammables.ModFlammableRotatedPlank;
-import es.nullbyte.relativedimensions.items.init.ItemInit;
+import es.nullbyte.relativedimensions.items.ItemInit;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -32,17 +32,23 @@ public class BlockInit {
 
 
     public static final RegistryObject<Block> ABERRANT_LOG = registerBlock("aberrant_log",
-            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_LOG)));
+            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_LOG).emissiveRendering((state, world, pos) -> true)
+                    .lightLevel((light) -> 5)));
     public static final RegistryObject<Block> ABERRANT_PLANK = registerBlock("aberrant_plank",
-            () -> new ModFlammableRotatedPlank(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+            () -> new ModFlammableRotatedPlank(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS).emissiveRendering((state, world, pos) -> true)
+                    .lightLevel((light) -> 1)));
     public static final RegistryObject<Block> ABERRANT_WOOD = registerBlock("aberrant_wood",
-            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_WOOD)));
+            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_WOOD).emissiveRendering((state, world, pos) -> true)
+                    .lightLevel((light) -> 5)));
     public static final RegistryObject<Block> STRIPPED_ABERRANT_LOG = registerBlock("stripped_aberrant_log",
-            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG)));
+            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).emissiveRendering((state, world, pos) -> true)
+                    .lightLevel((light) -> 8)));
     public static final RegistryObject<Block> STRIPPED_ABERRANT_WOOD = registerBlock("stripped_aberrant_wood",
-            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD)));
+            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD).emissiveRendering((state, world, pos) -> true)
+                    .lightLevel((light) -> 8)));
     public static final RegistryObject<Block> ABERRANT_LEAVE = registerBlock("aberrant_leave",
-            () -> new LeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
+            () -> new LeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).emissiveRendering((state, world, pos) -> true)
+                    .lightLevel((light) -> 15)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         //T is the block type. It will register the block and the block item.

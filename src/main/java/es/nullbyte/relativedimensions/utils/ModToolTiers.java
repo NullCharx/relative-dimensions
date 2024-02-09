@@ -1,6 +1,6 @@
 package es.nullbyte.relativedimensions.utils;
 
-import es.nullbyte.relativedimensions.items.init.ItemInit;
+import es.nullbyte.relativedimensions.items.ItemInit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;

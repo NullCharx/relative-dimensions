@@ -2,7 +2,7 @@ package es.nullbyte.relativedimensions.utils;
 
 import es.nullbyte.relativedimensions.RelativeDimensionsMain;
 import es.nullbyte.relativedimensions.blocks.BlockInit;
-import es.nullbyte.relativedimensions.items.init.ItemInit;
+import es.nullbyte.relativedimensions.items.ItemInit;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;

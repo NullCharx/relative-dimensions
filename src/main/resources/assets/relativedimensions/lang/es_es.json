@@ -55,6 +55,7 @@
   "item.relativedimensions.aberrant_sword.tooltip" : "Una espada alimentada por la no-energía del vacío entre dimensiones.\n",
   "item.relativedimensions.aberrant_sword.tooltip_modifiers" : "ABERRANTISMO GUERRERO:\nBaja probabilidad de teletransportar cualquier entidad golpeada en una dirección aleatoria libre de bloques en un pequeño radio\n\n ENVENENAMIENTO POR RADIACIÓN DEL VACÍO:\nBaja probabilidad de irradiar a su portador con radiación exótica del vacío, causando un efecto negativo aleatorio y una cantidad pequeña aleatoria de daño (Entre 1.5 y 5 corazones).",
   "effect.relativedimensions.void_bleed" : "Irradiado",
+  "effect.relativedimensions.dimensional_nausea" : "Nausea dimensional",
 
   "item.relativedimensions.aberrant_axe" : "Hacha aberrante",
   "item.relativedimensions.aberrant_axe.tooltip" : "Un hacha hecha en parte con materia de otra dimensión.\n",

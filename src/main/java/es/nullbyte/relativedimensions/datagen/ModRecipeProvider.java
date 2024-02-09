@@ -1,7 +1,7 @@
 package es.nullbyte.relativedimensions.datagen;
 
 import es.nullbyte.relativedimensions.blocks.BlockInit;
-import es.nullbyte.relativedimensions.items.init.ItemInit;
+import es.nullbyte.relativedimensions.items.ItemInit;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;

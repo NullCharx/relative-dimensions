@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.effects;
+package es.nullbyte.relativedimensions.effects.aberrant.sword;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.damagesource.DamageType;
@@ -15,10 +15,7 @@ import static es.nullbyte.relativedimensions.RelativeDimensionsMain.RANDOM;
 //Like poison, it cant kill the player, but it can leave them with half a heart.
 public class VoidBleed extends MobEffect {
 
-    private int duration = 1;
-    private final int damage = RANDOM.nextInt(1, 5);
     private final boolean doHalf = RANDOM.nextBoolean();
-    private final int damageInterval = duration/damage;
     public VoidBleed(MobEffectCategory category, int color) {
         super(category, color); // Color of the effect, e.g., dark red
     }

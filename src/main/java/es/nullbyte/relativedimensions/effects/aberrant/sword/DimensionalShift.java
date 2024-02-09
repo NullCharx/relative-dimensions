@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.effects;
+package es.nullbyte.relativedimensions.effects.aberrant.sword;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -17,10 +17,9 @@ import java.util.Random;
 import static es.nullbyte.relativedimensions.RelativeDimensionsMain.RANDOM;
 
 public class DimensionalShift extends MobEffect {
-    public static final double TP_DISTANCE = 14.0;
 
-    public DimensionalShift() {
-        super(MobEffectCategory.HARMFUL, 0x3D1585); // Dark red color for the effect
+    public DimensionalShift(MobEffectCategory category, int color) {
+        super(category, color); // Color of the effect, e.g., dark red
     }
 
     @Override
@@ -28,16 +27,19 @@ public class DimensionalShift extends MobEffect {
         Level level = entity.level();
         if (!level.isClientSide && entity instanceof Player) {
             // Simplified check, since the instanceof Player check is redundant here
-            tputils.teleportRandomly(entity, TP_DISTANCE);
             int duration;
             try {
                 duration = entity.getEffect(this).getDuration();
             } catch (NullPointerException e) {
                 duration = 7*20;
             }
-            entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, duration, 0, false, true, true));
-            entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, duration, 0, false, true, true));
+            entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, duration, 0, false, false, false));
         }
+    }
+
+    @Override
+    public boolean shouldApplyEffectTickThisTick(int durationRemaining, int amplifier) {
+        return true; // Apply effect every 20 ticks (1 second)
     }
 
 

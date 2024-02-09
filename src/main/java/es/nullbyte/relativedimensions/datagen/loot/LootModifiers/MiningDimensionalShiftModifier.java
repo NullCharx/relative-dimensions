@@ -4,7 +4,7 @@ import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import es.nullbyte.relativedimensions.blocks.BlockInit;
-import es.nullbyte.relativedimensions.items.init.ItemInit;
+import es.nullbyte.relativedimensions.items.ItemInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -274,12 +274,12 @@ public class MiningDimensionalShiftModifier extends LootModifier {
         List<Item> selectedItems = new ArrayList<>();
         // List to hold one randomly chosen item from each category, with associated weights
         List<WeightedItem<Item>> weightedSelectedItems = new ArrayList<>();
-        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(commonItems), 48));
-        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(uncommonItems), 25));
-        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(rareItems), 12.55));
-        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(epicItems), 8.8));
-        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(legendaryItems), 5.1399));
-        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(oneInABazzilionItems), 0.5101));
+        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(commonItems), 55));
+        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(uncommonItems), 35));
+        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(rareItems), 5.8));
+        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(epicItems), 3.2));
+        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(legendaryItems), 0.9101));
+        weightedSelectedItems.add(new WeightedItem<>(selectRandomItem(oneInABazzilionItems), 0.0899));
 
 
         // Now, choose one item from the selected items with equal weights

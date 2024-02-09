@@ -1,6 +1,6 @@
-package es.nullbyte.relativedimensions.items;
+package es.nullbyte.relativedimensions.items.aberrant;
 
-import es.nullbyte.relativedimensions.items.init.ItemInit;
+import es.nullbyte.relativedimensions.items.ItemInit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;

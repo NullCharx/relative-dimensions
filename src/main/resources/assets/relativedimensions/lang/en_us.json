@@ -56,6 +56,7 @@
   "item.relativedimensions.aberrant_sword.tooltip" : "A sword powered by the no-energy of the void between dimensions.\n",
   "item.relativedimensions.aberrant_sword.tooltip_modifiers" : "SLASHING ABERRANTISM:\nLow chance of teleporting any entity it hits in a random block-free direction in a short radius\n\nVOID RADIATION POISONING:\nLow chance of irradiating its wielder with exotic void radiation, causing one random negative effect and a random small amount of damage (Between 1.5 and 5 hearts).",
   "effect.relativedimensions.void_bleed" : "Irradiated",
+  "effect.relativedimensions.dimensional_nausea" : "Dimensional nausea",
 
   "item.relativedimensions.aberrant_axe" : "Aberrant axe",
   "item.relativedimensions.aberrant_axe.tooltip" : "An axe made partly by matter from another dimension.\n",

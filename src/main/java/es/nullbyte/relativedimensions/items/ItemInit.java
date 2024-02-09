@@ -1,13 +1,18 @@
-package es.nullbyte.relativedimensions.items.init;
+package es.nullbyte.relativedimensions.items;
 
 import es.nullbyte.relativedimensions.RelativeDimensionsMain;
+import es.nullbyte.relativedimensions.items.aberrant.AberrantPickaxe;
+import es.nullbyte.relativedimensions.items.aberrant.AberrantSword;
+import es.nullbyte.relativedimensions.items.tp.AvidShortDistanceParticleTransmitter;
+import es.nullbyte.relativedimensions.items.tp.TransmatBeamEmitter;
+import es.nullbyte.relativedimensions.items.tracking.PlayerTrackerCompass;
+import es.nullbyte.relativedimensions.items.tracking.TeamTrackerCompass;
 import es.nullbyte.relativedimensions.utils.ModToolTiers;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import es.nullbyte.relativedimensions.items.*;
 
 public class ItemInit {
     //https://moddingtutorials.org/basic-items

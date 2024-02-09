@@ -1,39 +1,32 @@
-package es.nullbyte.relativedimensions.items;
+package es.nullbyte.relativedimensions.items.aberrant;
 
-import es.nullbyte.relativedimensions.effects.init.ModEffects;
+import es.nullbyte.relativedimensions.effects.ModEffects;
 import es.nullbyte.relativedimensions.effects.utils.tputils;
-import es.nullbyte.relativedimensions.items.init.ItemInit;
+import es.nullbyte.relativedimensions.items.ItemInit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.*;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static es.nullbyte.relativedimensions.RelativeDimensionsMain.RANDOM;
-import static es.nullbyte.relativedimensions.effects.DimensionalShift.TP_DISTANCE;
 
 
 public class AberrantSword extends SwordItem {
 
     //probabilities over 100
-    public final static double TP_CHANCE = 50.0;
-    public final static double WIELDER_SUFFERING_CHANCE = 50.0;
+    public final static double TP_CHANCE = 510.0;
+    public final static double WIELDER_SUFFERING_CHANCE = 15.0;
     public final static double WIELDER_SUFFERING_DURATION_SECS = 15.0;
     public final static double TARGET_TP_DIZZY = 5.0;
+    public static final double TP_DISTANCE = 7.0;
 
     private final static List<MobEffect> harmfulEffectslist = new ArrayList<>();
     private final static List<MobEffect> harmfulLongEffectslist = new ArrayList<>();
@@ -81,7 +74,8 @@ public class AberrantSword extends SwordItem {
         //Test frist for the TP_CHANCE
         if (RANDOM.nextDouble(100.0) < TP_CHANCE) {
             if (target instanceof Player targetPlayer){
-                targetPlayer.addEffect(new MobEffectInstance(ModEffects.DIMENSIONAL_SHIFT.get(), (int) TARGET_TP_DIZZY *20 , 0, true, true, true));
+                tputils.teleportRandomly(target, 14.0);
+                targetPlayer.addEffect(new MobEffectInstance(ModEffects.DIMENSIONAL_NAUSEA.get(), (int) TARGET_TP_DIZZY *20 , 0, true, true, true));
             } else {
                 tputils.teleportRandomly(target, TP_DISTANCE);
             }
@@ -92,14 +86,18 @@ public class AberrantSword extends SwordItem {
             //Get all the effects labeled as harmful
             MobEffect chosenEffect = harmfulEffectslist.get(RANDOM.nextInt(harmfulEffectslist.size()));
             if (harmfulShortEffectslist.contains(chosenEffect)) {
-                attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20), 0, true, true, true));
+                if (chosenEffect == MobEffects.LEVITATION) {
+                    attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (4*20), 0, true, true, true));
+                } else {
+                    attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20), 0, true, true, true));
+                }
             } else if (harmfulShortishEffectslist.contains(chosenEffect)) {
                 attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20 *2), 0, true, true, true));
             } else if (harmfulLongEffectslist.contains(chosenEffect) && !attackerPlayer.hasEffect(MobEffects.BAD_OMEN) && !attackerPlayer.hasEffect(MobEffects.UNLUCK) && !attackerPlayer.hasEffect(MobEffects.HUNGER) && !attackerPlayer.hasEffect(MobEffects.DIG_SLOWDOWN)){
                 //see if player already has a harmful long effect using sets
                 attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20*8), 0, true, true, true));
             }
-            attackerPlayer.addEffect(new MobEffectInstance(ModEffects.VOID_BLEED.get(), (int) (WIELDER_SUFFERING_DURATION_SECS*20), 0, true, true, true));
+            attackerPlayer.addEffect(new MobEffectInstance(ModEffects.VOID_BLEED.get(), (int) ( RANDOM.nextInt(1, 10)*20), 0, true, true, true));
         }
         return damage;
     }

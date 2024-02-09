@@ -4,7 +4,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
 import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.datagen.loot.LootModifiers.ModLootModifiers;
-import es.nullbyte.relativedimensions.effects.init.ModEffects;
+import es.nullbyte.relativedimensions.effects.ModEffects;
+import es.nullbyte.relativedimensions.items.ItemInit;
 import es.nullbyte.relativedimensions.utils.CreativeModTabs;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
@@ -38,7 +39,6 @@ import es.nullbyte.relativedimensions.charspvp.commands.WinnerEnabler;
  import es.nullbyte.relativedimensions.charspvp.network.PVPStateHandler;
  import es.nullbyte.relativedimensions.charspvp.network.RemainingTimeHandler;
  **/
-import es.nullbyte.relativedimensions.items.init.*;
 
 import java.util.Random;
 

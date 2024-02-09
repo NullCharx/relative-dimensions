@@ -1,6 +1,6 @@
-package es.nullbyte.relativedimensions.items;
+package es.nullbyte.relativedimensions.items.tp;
 
-import es.nullbyte.relativedimensions.items.init.ItemInit;
+import es.nullbyte.relativedimensions.items.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
