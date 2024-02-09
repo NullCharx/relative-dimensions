@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "relativedimensions:block/stripped_aberrant_log",
+      "x": 90
+    },
+    "axis=y": {
+      "model": "relativedimensions:block/stripped_aberrant_log"
+    },
+    "axis=z": {
+      "model": "relativedimensions:block/stripped_aberrant_log",
+      "y": 90
+    }
+  }
+}

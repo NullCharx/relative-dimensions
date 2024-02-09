@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "relativedimensions:aberrant_log"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "relativedimensions:aberrant_plank"
+  }
+}

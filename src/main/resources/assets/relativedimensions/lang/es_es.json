@@ -65,8 +65,12 @@
   "block.relativedimensions.aberrant_leave.tooltip" : "Partículas parecen estar suspendidas en las hojas. No son de este mundo",
   "block.relativedimensions.aberrant_plank" : "Tablón aberrante",
   "block.relativedimensions.aberrant_plank.tooltip" : "No muy diferente de otras realidades, los tablones están hechos de madera apilada de uno de esos extraños troncos",
-  "block.relativedimensions.aberrant_wood" : "Madera aberrante",
+  "block.relativedimensions.aberrant_wood" : "Leño aberrante",
   "block.relativedimensions.aberrant_wood.tooltip" : "Incluso cuando es cortada, una realidad nueva tomará el lugar de esta. Es un ciclo sin fin",
+  "block.relativedimensions.stripped_aberrant_log" : "Tronco aberrante sin corteza",
+  "block.relativedimensions.stripped_aberrant_log.tooltip" : "Capa tras capa, el tronco se mantiene firme",
+  "block.relativedimensions.stripped_aberrant_wood" : "Leño aberrante sin corteza",
+  "block.relativedimensions.stripped_aberrant_wood.tooltip" : "Capa tras capa, el tronco se mantiene firme",
 
   "block.relativedimensions.aberrant_sapling" : "Aberrant sapling",
   "block.relativedimensions.aberrant_sapling.tooltip" : "This sapling is the perfect representation of the potentiality of life. So many branches, so many leaves, so many possibilities",

@@ -57,7 +57,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         oreSmelting(pRecipeOutput, ingridients, RecipeCategory.MISC, ItemInit.ABERRANT_SHARD.get(), 0.5F, 200, MOD_ID + ":aberrant_ingot_smelt");
         oreBlasting(pRecipeOutput, ingridients, RecipeCategory.MISC, ItemInit.ABERRANT_SHARD.get(), 0.7F, 120, MOD_ID + ":aberrant_ingot_blast");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.ABERRANT_INGOT.get()) //The recipe is of type MISC and the result is item2
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_INGOT.get()) //The recipe is of type MISC and the result is item2
                 .pattern("###")
                 .define('#', ItemInit.ABERRANT_SHARD.get()).unlockedBy(ItemInit.ABERRANT_SHARD.get().toString(), has(ItemInit.ABERRANT_SHARD.get())) //The item2 recipe is unlocked by having item1
                 .save(pRecipeOutput, MOD_ID + ":aberrant_ingot_from_shard"); //Save the recipe to the output
@@ -67,14 +67,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("###")
                 .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get())) //The item2 recipe is unlocked by having item1
                 .save(pRecipeOutput, MOD_ID + ":aberrant_block_from_ingot"); //Save the recipe to the output
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.ABERRANT_SWORD.get()) //The recipe is of type MISC and the result is item2
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_SWORD.get()) //The recipe is of type MISC and the result is item2
                 .pattern(" # ")
                 .pattern(" # ")
-                .pattern("---")
+                .pattern(" - ")
                 .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
                 .define('-', Items.STICK)
                 .save(pRecipeOutput, MOD_ID + ":aberrant_sword_vanilla");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.ABERRANT_PICK.get()) //The recipe is of type MISC and the result is item2
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_PICK.get()) //The recipe is of type MISC and the result is item2
                 .pattern("###")
                 .pattern(" - ")
                 .pattern(" - ")
@@ -82,10 +82,25 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('-', Items.STICK)
                 .save(pRecipeOutput, MOD_ID + ":aberrant_axe_vanilla");
         //Save the recipe to the output
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.ABERRANT_INGOT.get(), 9) //The recipe is of type MISC and the result is 9 item1
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.ABERRANT_INGOT.get(), 9)
                 .requires(BlockInit.ABERRANT_BLOCK.get())
-                .unlockedBy(BlockInit.ABERRANT_BLOCK.get().toString(), has(BlockInit.ABERRANT_BLOCK.get())) //The item1 recipe is unlocked by having item2
+                .unlockedBy(BlockInit.ABERRANT_BLOCK.get().toString(), has(BlockInit.ABERRANT_BLOCK.get()))
                 .save(pRecipeOutput, MOD_ID + ":aberrant_ingot_from_block");
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, BlockInit.ABERRANT_PLANK.get(), 4)
+                .requires(BlockInit.ABERRANT_LOG.get())
+                .unlockedBy(BlockInit.ABERRANT_LOG.get().toString(), has(BlockInit.ABERRANT_LOG.get()))
+                .save(pRecipeOutput, MOD_ID + ":aberrant_plank_from_log");
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, BlockInit.ABERRANT_WOOD.get(), 3)
+                .requires(BlockInit.ABERRANT_LOG.get(), 4)
+                .unlockedBy(BlockInit.ABERRANT_LOG.get().toString(), has(BlockInit.ABERRANT_LOG.get())) //The item1 recipe is unlocked by having item2
+                .save(pRecipeOutput, MOD_ID + ":aberrant_wood_from_log");
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, BlockInit.STRIPPED_ABERRANT_WOOD.get(), 3)
+                .requires(BlockInit.STRIPPED_ABERRANT_LOG.get(), 4)
+                .unlockedBy(BlockInit.STRIPPED_ABERRANT_LOG.get().toString(), has(BlockInit.STRIPPED_ABERRANT_LOG.get())) //The item1 recipe is unlocked by having item2
+                .save(pRecipeOutput, MOD_ID + ":stripepd_aberrant_wood_from_stripepd_log");
     }
 
     //Due to hardcoded constraint, ore smelting, blasting and cooking must be copied from the original RecipeProvider

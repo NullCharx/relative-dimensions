@@ -33,16 +33,17 @@ public class BlockInit {
 
     public static final RegistryObject<Block> ABERRANT_LOG = registerBlock("aberrant_log",
             () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_LOG)));
+    public static final RegistryObject<Block> ABERRANT_PLANK = registerBlock("aberrant_plank",
+            () -> new ModFlammableRotatedPlank(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
     public static final RegistryObject<Block> ABERRANT_WOOD = registerBlock("aberrant_wood",
             () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_WOOD)));
     public static final RegistryObject<Block> STRIPPED_ABERRANT_LOG = registerBlock("stripped_aberrant_log",
             () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG)));
     public static final RegistryObject<Block> STRIPPED_ABERRANT_WOOD = registerBlock("stripped_aberrant_wood",
             () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD)));
-    public static final RegistryObject<Block> ABERRANT_PLANKS = registerBlock("aberrant_planks",
-            () -> new ModFlammableRotatedPlank(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
-    public static final RegistryObject<Block> ABERRANT_LEAVES = registerBlock("aberrant_leaves",
+    public static final RegistryObject<Block> ABERRANT_LEAVE = registerBlock("aberrant_leave",
             () -> new LeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
+
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         //T is the block type. It will register the block and the block item.
         RegistryObject<T> returnBlock = BLOCKS.register(name, block); //Register the block

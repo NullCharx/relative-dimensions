@@ -49,6 +49,25 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         //When mining ABERRANT_MINERALOID, drop thyself
         this.dropSelf(BlockInit.ABERRANT_MINERALOID.get());
 
+        //When mining ABERRANT_LOG, drop thyself
+        this.dropSelf(BlockInit.ABERRANT_LOG.get());
+
+        //When mining ABERRANT_WOOD, drop thyself
+        this.dropSelf(BlockInit.ABERRANT_WOOD.get());
+
+        //When mining STRIPPED_ABERRANT_LOG, drop thyself
+        this.dropSelf(BlockInit.STRIPPED_ABERRANT_LOG.get());
+
+        //When mining STRIPPED_ABERRANT_WOOD, drop thyself
+        this.dropSelf(BlockInit.STRIPPED_ABERRANT_WOOD.get());
+
+        //When mining ABERRANT_PLANKS, drop thyself
+        this.dropSelf(BlockInit.ABERRANT_PLANK.get());
+
+        //When mining ABERRANT_LEAVES??? TODO
+        this.dropSelf(BlockInit.ABERRANT_LEAVE.get());
+
+
     }
 
     //Direct copy of createOreDrops from BlockLootSubProvider

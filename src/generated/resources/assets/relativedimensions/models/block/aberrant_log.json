@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "relativedimensions:block/aberrant_log_top",
+    "side": "relativedimensions:block/aberrant_log"
+  }
+}

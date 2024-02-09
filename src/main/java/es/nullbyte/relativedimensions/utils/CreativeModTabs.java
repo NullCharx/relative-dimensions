@@ -57,9 +57,9 @@ public class CreativeModTabs {
                         pOutput.accept(BlockInit.ABERRANT_LOG.get());
                         pOutput.accept(BlockInit.ABERRANT_WOOD.get());
                         pOutput.accept(BlockInit.STRIPPED_ABERRANT_LOG.get());
-                        pOutput.accept(BlockInit.STRIPPED_ABERRANT_LOG.get());
-                        pOutput.accept(BlockInit.ABERRANT_PLANKS.get());
-                        pOutput.accept(BlockInit.ABERRANT_LEAVES.get());
+                        pOutput.accept(BlockInit.STRIPPED_ABERRANT_WOOD.get());
+                        pOutput.accept(BlockInit.ABERRANT_PLANK.get());
+                        pOutput.accept(BlockInit.ABERRANT_LEAVE.get());
 
                         //You can also add vanilla items to the tab
                     })

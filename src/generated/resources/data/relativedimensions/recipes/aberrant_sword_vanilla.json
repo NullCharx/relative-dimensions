@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "equipment",
   "key": {
     "#": {
       "item": "relativedimensions:aberrant_ingot"
@@ -12,7 +12,7 @@
   "pattern": [
     " # ",
     " # ",
-    "---"
+    " - "
   ],
   "result": {
     "item": "relativedimensions:aberrant_sword"

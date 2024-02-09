@@ -26,13 +26,21 @@ public class ModItemModelProvider extends ItemModelProvider {
         generateCompassTextures(); //Generates the tracker compass texture states (both normal and teamed)
         generateCompassModel(ItemInit.PLAYER_TRACKER_COMPASS, 32, "compassstate"); //Generates the tracker compass model
         generateCompassModel(ItemInit.TEAM_TRACKER_COMPASS, 32, "tcompassstate"); //Generates the tracker compass model
+        handheldItem(ItemInit.ABERRANT_PICK); //Aberrant pickaxe
         simpleItem(ItemInit.ABERRANT_SHARD); //Aberrant shard
         simpleItem(ItemInit.ABERRANT_INGOT); //Aberrant ingot
         handheldItem(ItemInit.ABERRANT_SWORD); //Aberrant sword
-        handheldItem(ItemInit.ABERRANT_PICK); //Aberrant pickaxe
         blockItem(BlockInit.ABERRANT_BLOCK); //Aberrant block block item
         blockItem(BlockInit.ABERRANT_ORE); //Aberrant ore block item
         blockItem(BlockInit.ABERRANT_MINERALOID); //Aberrant mineraloid block item
+
+        blockItem(BlockInit.ABERRANT_LOG); //Aberrant log block item
+        blockItem(BlockInit.ABERRANT_WOOD); //Aberrant wood block item
+        blockItem(BlockInit.ABERRANT_PLANK); //Aberrant plank block item
+        blockItem(BlockInit.ABERRANT_LEAVE); //Aberrant leave block item
+        blockItem(BlockInit.STRIPPED_ABERRANT_LOG); //Stripped aberrant log block item
+        blockItem(BlockInit.STRIPPED_ABERRANT_WOOD); //Stripped aberrant wood block item
+
     }
 
     private ItemModelBuilder blockItem(RegistryObject<Block> block) {

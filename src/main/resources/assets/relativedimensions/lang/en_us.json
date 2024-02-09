@@ -68,6 +68,10 @@
   "block.relativedimensions.aberrant_plank.tooltip" : "Not unlike different realities, the planks are made from layered wood of those strange logs",
   "block.relativedimensions.aberrant_wood" : "Aberrant wood",
   "block.relativedimensions.aberrant_wood.tooltip" : "Even when cut down, another reality will take the place of this one. It's a neverending cycle",
+  "block.relativedimensions.stripped_aberrant_log" : "Stripped aberrant log",
+  "block.relativedimensions.stripped_aberrant_log.tooltip" : "Layer after layer, the wood is still resilient.",
+  "block.relativedimensions.stripped_aberrant_wood" : "Stripped aberrant wood",
+  "block.relativedimensions.stripped_aberrant_wood.tooltip" : "Layer after layer, the wood is still resilient.",
 
   "block.relativedimensions.aberrant_sapling" : "Aberrant sapling",
   "block.relativedimensions.aberrant_sapling.tooltip" : "This sapling is the perfect representation of the potentiality of life. So many branches, so many leaves, so many possibilities",
