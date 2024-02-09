@@ -1,6 +1,6 @@
 package es.nullbyte.relativedimensions.datagen;
 
-import es.nullbyte.relativedimensions.blocks.init.BlockInit;
+import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.utils.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;

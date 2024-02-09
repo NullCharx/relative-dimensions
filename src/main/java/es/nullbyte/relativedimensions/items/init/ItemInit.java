@@ -3,7 +3,6 @@ package es.nullbyte.relativedimensions.items.init;
 import es.nullbyte.relativedimensions.RelativeDimensionsMain;
 import es.nullbyte.relativedimensions.utils.ModToolTiers;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

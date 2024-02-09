@@ -5,6 +5,7 @@ TODO: aberrant tree/grass/coblestone?
 TODO: Check all the refactorization of the code is correct
 TODO: Recode the tracker compass to not use local variables like the team one
 --------------------------------------------
+FIRST: MAKE THE LOGS TEXTURES: ADD THE LOGS AND THE LOOTS https://www.youtube.com/watch?v=tVPmF1dq_uo&list=PLKGarocXCE1H9Y21-pxjt5Pt8bW14twa-&index=40&t=1s
 TODO: Calibrate mining aberrantism epic and higher drops for axe to be more rare. Make aberrantism more common but dimshift less common.
 TODO: Menu text and icon for aberrant slash dont work.
 TODO: Check if the player already has one of the long term effects before applying it. If he has just apply aerrantism

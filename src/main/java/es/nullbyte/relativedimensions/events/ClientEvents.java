@@ -18,9 +18,13 @@ public class ClientEvents {
 
 
         //Both the id of the hud and the path to gui resource must contain no uppercase letters or speciañ characters other than underscore
+        //Comment PVPStateOverlay
+
+        /**
         @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
             event.registerAboveAll("pvpstateov", PVPStateOverlay.PVP_STATE_HUD);
         }
+        **/
     }
 }

@@ -1,7 +1,7 @@
 package es.nullbyte.relativedimensions.utils;
 
 import es.nullbyte.relativedimensions.RelativeDimensionsMain;
-import es.nullbyte.relativedimensions.blocks.init.BlockInit;
+import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.items.init.ItemInit;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -44,13 +44,22 @@ public class CreativeModTabs {
                     .icon(() -> new ItemStack(ItemInit.TEAM_TRACKER_COMPASS.get())) //Use one of the items as icon
                     .title(Component.translatable("creativetab.dimenv")) //Translation key for the tab name (lang file)
                     .displayItems((pParameters, pOutput) -> {   //List of items to display in the tab
+                        pOutput.accept(ItemInit.ABERRANT_PICK.get());
                         pOutput.accept(BlockInit.ABERRANT_ORE.get());
                         pOutput.accept(ItemInit.ABERRANT_SHARD.get());
                         pOutput.accept(ItemInit.ABERRANT_INGOT.get());
                         pOutput.accept(BlockInit.ABERRANT_BLOCK.get());
                         pOutput.accept(BlockInit.ABERRANT_MINERALOID.get());
+
                         pOutput.accept(ItemInit.ABERRANT_SWORD.get());
-                        pOutput.accept(ItemInit.ABERRANT_PICK.get());
+
+                        //pOutput.accept(ItemInit.ABERRANT_AXE.get());
+                        pOutput.accept(BlockInit.ABERRANT_LOG.get());
+                        pOutput.accept(BlockInit.ABERRANT_WOOD.get());
+                        pOutput.accept(BlockInit.STRIPPED_ABERRANT_LOG.get());
+                        pOutput.accept(BlockInit.STRIPPED_ABERRANT_LOG.get());
+                        pOutput.accept(BlockInit.ABERRANT_PLANKS.get());
+                        pOutput.accept(BlockInit.ABERRANT_LEAVES.get());
 
                         //You can also add vanilla items to the tab
                     })

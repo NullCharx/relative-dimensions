@@ -3,7 +3,7 @@ package es.nullbyte.relativedimensions.datagen.loot.LootModifiers;
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import es.nullbyte.relativedimensions.blocks.init.BlockInit;
+import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.items.init.ItemInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.tags.BlockTags;

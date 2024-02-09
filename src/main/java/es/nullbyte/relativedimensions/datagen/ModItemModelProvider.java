@@ -1,6 +1,6 @@
 package es.nullbyte.relativedimensions.datagen;
 
-import es.nullbyte.relativedimensions.blocks.init.BlockInit;
+import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.items.init.ItemInit;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;

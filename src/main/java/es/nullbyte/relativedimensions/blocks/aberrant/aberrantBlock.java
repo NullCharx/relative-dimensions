@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.blocks;
+package es.nullbyte.relativedimensions.blocks.aberrant;
 
 
 import net.minecraft.network.chat.Component;

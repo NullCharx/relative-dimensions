@@ -1,6 +1,6 @@
 package es.nullbyte.relativedimensions.datagen.loot.LootTables;
 
-import es.nullbyte.relativedimensions.blocks.init.BlockInit;
+import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.items.init.ItemInit;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
@@ -41,7 +41,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
         //When mining ABERRANT_ORE, it will drop between none and 2 instances of ABERRANT_SHARD
         this.add(BlockInit.ABERRANT_ORE.get(),
-                block -> createCustomOreDrop(BlockInit.ABERRANT_ORE.get(), ItemInit.ABERRANT_SHARD.get().asItem(), 4.0F, 6.0F));
+                block -> createCustomOreDrop(BlockInit.ABERRANT_ORE.get(), ItemInit.ABERRANT_SHARD.get().asItem(), 2.0F, 4.0F));
 
         //When mining ABERRANT_BLOCK, it will drop an instance of itself
         this.dropSelf(BlockInit.ABERRANT_BLOCK.get());

@@ -36,7 +36,11 @@
   "block.relativedimensions.tsrail": "Rail piece part of the AVID center transit system",
 
 
-  "creativetab.dimenv" : "Errors... You can find them all around...",
+  "creativetab.dimenv" : "Extradimensional environment",
+
+  "item.relativedimensions.aberrant_pickaxe" : "Aberrant pickaxe",
+  "item.relativedimensions.aberrant_pickaxe.tooltip" : "A pickaxe powered by radiation from outer dimensions:\n",
+  "item.relativedimensions.aberrant_pickaxe.tooltip_modifiers" : "MINING ABERRANTISM:\nLow chance of corrupting any block mined, specially ores, into aberrant blocks\n\nDIMENSIONAL SHIFTING:\nLow chance of switching the block mined, specially ores, with a random one from another dimension",
   "block.relativedimensions.aberrant_block": "Aberrant block",
   "block.relativedimensions.aberrant_block.tooltip": "It phases in and out of reality after having absorbed too much atron energy and, thus, unstable. You don't know if you should touch it",
   "block.relativedimensions.aberrant_ore" : "Aberrant ore",
@@ -47,13 +51,26 @@
   "block.relativedimensions.aberrant_mineraloid.tooltip": "A cluster of rocks and minerals of the sorrounding area, compressed by dimensional distorsion. It gives off faint heat",
   "item.relativedimensions.aberrant_ingot" : "Aberrant mineral ingot",
   "item.relativedimensions.aberrant_ingot.tooltip" : "A mineral ingot that seems to emanate dimensional energy. It could be used as a source of energy. Or as a weapon. Or...",
-  "item.relativedimensions.aberrant_pickaxe" : "Aberrant pickaxe",
-  "item.relativedimensions.aberrant_pickaxe.tooltip" : "A pickaxe powered by radiation from outer dimensions:\n",
-  "item.relativedimensions.aberrant_pickaxe.tooltip_modifiers" : "MINING ABERRANTISM:\nLow chance of corrupting any block mined, specially ores, into aberrant blocks\n\nDIMENSIONAL SHIFTING:\nLow chance of switching the block mined, specially ores, with a random one from another dimension",
+
   "item.relativedimensions.aberrant_sword" : "Aberrant sword",
   "item.relativedimensions.aberrant_sword.tooltip" : "A sword powered by the no-energy of the void between dimensions.\n",
   "item.relativedimensions.aberrant_sword.tooltip_modifiers" : "SLASHING ABERRANTISM:\nLow chance of teleporting any entity it hits in a random block-free direction in a short radius\n\nVOID RADIATION POISONING:\nLow chance of irradiating its wielder with exotic void radiation, causing one random negative effect and a random small amount of damage (Between 1.5 and 5 hearts).",
-  "effects.relativedimensions.void_bleed" : "Void radiation poisoning",
+  "effect.relativedimensions.void_bleed" : "Irradiated",
+
+  "item.relativedimensions.aberrant_axe" : "Aberrant axe",
+  "item.relativedimensions.aberrant_axe.tooltip" : "An axe made partly by matter from another dimension.\n",
+  "item.relativedimensions.aberrant_axe.tooltip_modifiers" : "WOODCUTTING ABERRANTISM:\nLow chance of corrupting any block chopped, specially wood, into aberrant blocks\n\nDIMENSIONAL SHIFTING:\nLow chance of switching the block chopped, specially wood, with a random one from another dimension",
+  "block.relativedimensions.aberrant_log" : "Aberrant log",
+  "block.relativedimensions.aberrant_log.tooltip" : "A log that hums when you touch it. It looks devoid of life, but it's not dead",
+  "block.relativedimensions.aberrant_leave" : "Aberrant leaves",
+  "block.relativedimensions.aberrant_leave.tooltip" : "Suspended particles seem to be trapped in the leaves. They are not from this world",
+  "block.relativedimensions.aberrant_plank" : "Aberrant plank",
+  "block.relativedimensions.aberrant_plank.tooltip" : "Not unlike different realities, the planks are made from layered wood of those strange logs",
+  "block.relativedimensions.aberrant_wood" : "Aberrant wood",
+  "block.relativedimensions.aberrant_wood.tooltip" : "Even when cut down, another reality will take the place of this one. It's a neverending cycle",
+
+  "block.relativedimensions.aberrant_sapling" : "Aberrant sapling",
+  "block.relativedimensions.aberrant_sapling.tooltip" : "This sapling is the perfect representation of the potentiality of life. So many branches, so many leaves, so many possibilities",
 
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: OFF———————\n",
   "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ON———————\n",

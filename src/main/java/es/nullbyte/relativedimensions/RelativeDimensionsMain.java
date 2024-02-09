@@ -2,12 +2,7 @@ package es.nullbyte.relativedimensions;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
-import es.nullbyte.relativedimensions.blocks.init.BlockInit;
-import es.nullbyte.relativedimensions.charspvp.PlayerTimeLimit.PvpManager;
-import es.nullbyte.relativedimensions.charspvp.network.DailyTimeLimitHandler;
-import es.nullbyte.relativedimensions.charspvp.network.ModMessages;
-import es.nullbyte.relativedimensions.charspvp.network.PVPStateHandler;
-import es.nullbyte.relativedimensions.charspvp.network.RemainingTimeHandler;
+import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.datagen.loot.LootModifiers.ModLootModifiers;
 import es.nullbyte.relativedimensions.effects.init.ModEffects;
 import es.nullbyte.relativedimensions.utils.CreativeModTabs;
@@ -30,11 +25,19 @@ import org.slf4j.Logger;
 import es.nullbyte.relativedimensions.charspvp.commands.ListPlayersCommand;
 import es.nullbyte.relativedimensions.charspvp.commands.DespawnChestCommand;
 import es.nullbyte.relativedimensions.charspvp.commands.SpawnChestCommand;
+//Commented PVP imports
+/**
+ import es.nullbyte.relativedimensions.charspvp.PlayerTimeLimit.PvpManager;
 import es.nullbyte.relativedimensions.charspvp.PlayerTimeLimit.PlayerTimeManager;
 import es.nullbyte.relativedimensions.charspvp.PlayerTimeLimit.mgrcmds.modPVPcmd;
 import es.nullbyte.relativedimensions.charspvp.PlayerTimeLimit.mgrcmds.modTimercmd;
 import es.nullbyte.relativedimensions.events.OutOfBorderChecker;
 import es.nullbyte.relativedimensions.charspvp.commands.WinnerEnabler;
+ import es.nullbyte.relativedimensions.charspvp.network.DailyTimeLimitHandler;
+ import es.nullbyte.relativedimensions.charspvp.network.ModMessages;
+ import es.nullbyte.relativedimensions.charspvp.network.PVPStateHandler;
+ import es.nullbyte.relativedimensions.charspvp.network.RemainingTimeHandler;
+ **/
 import es.nullbyte.relativedimensions.items.init.*;
 
 import java.util.Random;
@@ -54,12 +57,15 @@ public class RelativeDimensionsMain {
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    public static final Random RANDOM = new Random();
+
+    //Commented PVP instances
+    /**
     public static final int DEF_TIMELIMIT = 4*60*60; //4 hours
     public static final int DEF_RESETTIME = 6; //6am 35 minutes
-    public static final Random RANDOM = new Random();
     public static final PlayerTimeManager timeManager = new PlayerTimeManager(DEF_TIMELIMIT,DEF_RESETTIME);
     public static final OutOfBorderChecker borderchecker = new OutOfBorderChecker(10);
-
+    **/
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public RelativeDimensionsMain() {
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -88,9 +94,12 @@ public class RelativeDimensionsMain {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-        //Register the class on the event bus so any events it has will be called
-        MinecraftForge.EVENT_BUS.register(PvpManager.class);
 
+
+        //Commented PVP listen events
+        /**
+         //Register the class on the event bus so any events it has will be called
+         MinecraftForge.EVENT_BUS.register(PvpManager.class);
 
         //Add listeners for the events we want to listen to. Since this is not an item or blocck, that are managed in
         //The main class, we need to add the listeners here
@@ -100,16 +109,16 @@ public class RelativeDimensionsMain {
         //MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         //MinecraftForge.EVENT_BUS.addListener(CustomFogRenderState::onFogDensity);
         //MinecraftForge.EVENT_BUS.addListener(CustomFogRenderState::onFogColors);
-
+        **/
     }
     private void commonSetup(final FMLCommonSetupEvent event) {
         //Registrar eventos encolados, includos los paquetes de red!
         event.enqueueWork(() -> {
-            RemainingTimeHandler.register();
+            //Commented PVP handlers
+            /**RemainingTimeHandler.register();
             PVPStateHandler.register();
             DailyTimeLimitHandler.register();
-            ModMessages.register();
-            //AberrantOreProxHandler.register();
+            ModMessages.register();**/
         });
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
@@ -131,13 +140,8 @@ public class RelativeDimensionsMain {
     public void onServerStarting(ServerStartingEvent event)
     {
         // Do something when the server starts
-        LOGGER.info("--->CHAR'S MISCELANEOUS MODIFICATIONS.");
-        LOGGER.info("Here's a list of what this version of the mod contains");
-        LOGGER.info("->Short distance teleporter item");
-        LOGGER.info("->Delayed long distance teleporter item");
-        LOGGER.info("->Functioning player tracking compass");
-        LOGGER.info("->Functioning team player tracking compass");
-        LOGGER.info("->Custom PVP GUI");
+        LOGGER.info("--->CHAR'S RELATIVE DIMENSIONS MOD.");
+        LOGGER.info("->This mod is still in development. PVP part unavailable for the moment.");
 
         LOGGER.info("->Thank you for using this mod!");
         LOGGER.info("--------------------------------");
@@ -149,13 +153,15 @@ public class RelativeDimensionsMain {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
         registerCommands(dispatcher);
         LOGGER.info("[CHARMISCMODS - MAIN] Loading manager registry");
-        timeManager.loadManagerData();
+        //Commented PVP timemanagement
+        //timeManager.loadManagerData();
     }
 
     @SubscribeEvent
     public void onServerStopping(ServerStoppingEvent event) {
         LOGGER.info("[CHARMISCMODS - MAIN] Saving manager registry");
-        timeManager.saveManagerData();
+        //Commented PVP timemanagement
+        //timeManager.saveManagerData();
     }
 
 
@@ -165,12 +171,14 @@ public class RelativeDimensionsMain {
     public static void registerCommands (CommandDispatcher<CommandSourceStack> dispatcher) {
         //REGISTER THE COMMANDS HERE!
         LOGGER.info("[CHARMISCMODS - MAIN] Initial command registration");
-        modPVPcmd.register(dispatcher);
+        //Commented PVP commands
+        /**modPVPcmd.register(dispatcher);
         modTimercmd.register(dispatcher);
+        WinnerEnabler.register(dispatcher);
+        */
         SpawnChestCommand.register(dispatcher);
         DespawnChestCommand.register(dispatcher);
         ListPlayersCommand.register(dispatcher);
-        WinnerEnabler.register(dispatcher);
     }
 
     //Disable join messages

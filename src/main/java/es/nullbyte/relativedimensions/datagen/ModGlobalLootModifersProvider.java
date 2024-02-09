@@ -1,6 +1,6 @@
 package es.nullbyte.relativedimensions.datagen;
 
-import es.nullbyte.relativedimensions.blocks.init.BlockInit;
+import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.datagen.loot.LootModifiers.MiningAberrantismModifier;
 import es.nullbyte.relativedimensions.datagen.loot.LootModifiers.MiningDimensionalShiftModifier;
 import net.minecraft.data.PackOutput;

@@ -1,13 +1,16 @@
-package es.nullbyte.relativedimensions.blocks.init;
+package es.nullbyte.relativedimensions.blocks;
 
 import es.nullbyte.relativedimensions.RelativeDimensionsMain;
-import es.nullbyte.relativedimensions.blocks.aberrantMineraloid;
-import es.nullbyte.relativedimensions.blocks.aberrantOre;
+import es.nullbyte.relativedimensions.blocks.aberrant.aberrantMineraloid;
+import es.nullbyte.relativedimensions.blocks.aberrant.aberrantOre;
+import es.nullbyte.relativedimensions.blocks.flammables.ModFlammableRotatedPillarBlock;
+import es.nullbyte.relativedimensions.blocks.flammables.ModFlammableRotatedPlank;
 import es.nullbyte.relativedimensions.items.init.ItemInit;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -28,6 +31,18 @@ public class BlockInit {
             () -> new aberrantMineraloid(Block.Properties.ofFullCopy(Blocks.IRON_ORE)));
 
 
+    public static final RegistryObject<Block> ABERRANT_LOG = registerBlock("aberrant_log",
+            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_LOG)));
+    public static final RegistryObject<Block> ABERRANT_WOOD = registerBlock("aberrant_wood",
+            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_WOOD)));
+    public static final RegistryObject<Block> STRIPPED_ABERRANT_LOG = registerBlock("stripped_aberrant_log",
+            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG)));
+    public static final RegistryObject<Block> STRIPPED_ABERRANT_WOOD = registerBlock("stripped_aberrant_wood",
+            () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD)));
+    public static final RegistryObject<Block> ABERRANT_PLANKS = registerBlock("aberrant_planks",
+            () -> new ModFlammableRotatedPlank(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+    public static final RegistryObject<Block> ABERRANT_LEAVES = registerBlock("aberrant_leaves",
+            () -> new LeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         //T is the block type. It will register the block and the block item.
         RegistryObject<T> returnBlock = BLOCKS.register(name, block); //Register the block
