@@ -10,7 +10,9 @@ import net.minecraft.world.entity.player.Player;
 
 import static es.nullbyte.relativedimensions.RelativeDimensionsMain.RANDOM;
 
-
+//This effect is applied to the wielder of the AberrantSword when it is used to attack an entity, randomly.
+//It is a harmful effect that causes the player to take damage over time.
+//Like poison, it cant kill the player, but it can leave them with half a heart.
 public class VoidBleed extends MobEffect {
 
     private int duration = 1;
@@ -32,4 +34,5 @@ public class VoidBleed extends MobEffect {
     public boolean shouldApplyEffectTickThisTick(int durationRemaining, int amplifier) {
         return durationRemaining % 20 == 0; // Apply effect every 20 ticks (1 second)
     }
+
 }

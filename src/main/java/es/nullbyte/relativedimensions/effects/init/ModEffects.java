@@ -16,6 +16,9 @@ public class ModEffects {
     public static final RegistryObject<MobEffect> VOID_BLEED = MOD_EFFECTS.register("void_bleed",
             () -> new VoidBleed(MobEffectCategory.HARMFUL, 0x3D1585));
 
+    public static final RegistryObject<MobEffect> DIMENSIONAL_SHIFT = MOD_EFFECTS.register("dimensional_shift",
+            () -> new VoidBleed(MobEffectCategory.HARMFUL, 0x3D1585));
+
     public static void registerEffects(IEventBus eventBus) {
         MOD_EFFECTS.register(eventBus);
     }

@@ -1,6 +1,7 @@
 package es.nullbyte.relativedimensions.items;
 
 import es.nullbyte.relativedimensions.effects.init.ModEffects;
+import es.nullbyte.relativedimensions.effects.utils.tputils;
 import es.nullbyte.relativedimensions.items.init.ItemInit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -18,25 +19,26 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static es.nullbyte.relativedimensions.RelativeDimensionsMain.RANDOM;
+import static es.nullbyte.relativedimensions.effects.DimensionalShift.TP_DISTANCE;
 
 
 public class AberrantSword extends SwordItem {
 
     //probabilities over 100
-    public final static double TP_CHANCE = 10.0;
+    public final static double TP_CHANCE = 50.0;
     public final static double WIELDER_SUFFERING_CHANCE = 50.0;
-    public final static double TP_DISTANCE = 14.0;
-    public final static double WIELDER_SUFFERING_DURATION_SECS = 5.0;
+    public final static double WIELDER_SUFFERING_DURATION_SECS = 15.0;
+    public final static double TARGET_TP_DIZZY = 5.0;
 
-    public static List<MobEffect> harmfulEffectslist = new ArrayList<>();
-    public static List<MobEffect> harmfulDamageEffectslist = new ArrayList<>();
-    public static List<MobEffect> harmfulLongEffectslist = new ArrayList<>();
-    public static List<MobEffect> harmfulShortishEffectslist = new ArrayList<>();
-    public static List<MobEffect> harmfulShortEffectslist = new ArrayList<>();
-
+    private final static List<MobEffect> harmfulEffectslist = new ArrayList<>();
+    private final static List<MobEffect> harmfulLongEffectslist = new ArrayList<>();
+    private final static List<MobEffect> harmfulShortishEffectslist = new ArrayList<>();
+    private final static List<MobEffect> harmfulShortEffectslist = new ArrayList<>();
 
 
     public AberrantSword(Tier tier, int attackDamageModifier, float attackSpeedModifier, Properties properties) {
@@ -45,25 +47,27 @@ public class AberrantSword extends SwordItem {
         //Fill the harmfulEffectslist
         harmfulShortEffectslist.add(MobEffects.LEVITATION);
         harmfulShortEffectslist.add(MobEffects.WEAKNESS);
-        harmfulShortEffectslist.add(MobEffects.HUNGER);
-        harmfulShortEffectslist.add(MobEffects.DIG_SLOWDOWN);
 
         harmfulShortishEffectslist.add(MobEffects.DARKNESS);
         harmfulShortishEffectslist.add(MobEffects.CONFUSION);
         harmfulShortishEffectslist.add(MobEffects.MOVEMENT_SLOWDOWN);
+        harmfulShortishEffectslist.add(MobEffects.BLINDNESS);
 
         harmfulLongEffectslist.add(MobEffects.BAD_OMEN);
         harmfulLongEffectslist.add(MobEffects.UNLUCK);
-        harmfulLongEffectslist.add(MobEffects.BLINDNESS);
+        harmfulLongEffectslist.add(MobEffects.HUNGER);
+        harmfulShortEffectslist.add(MobEffects.DIG_SLOWDOWN);
 
-        harmfulDamageEffectslist.add(MobEffects.WITHER);
-        harmfulDamageEffectslist.add(MobEffects.POISON);
-        harmfulDamageEffectslist.add(MobEffects.HARM);
-
-        harmfulEffectslist.addAll(harmfulShortEffectslist);
-        harmfulEffectslist.addAll(harmfulShortishEffectslist);
-        harmfulEffectslist.addAll(harmfulLongEffectslist);
-        harmfulEffectslist.addAll(harmfulDamageEffectslist);
+        harmfulEffectslist.add(MobEffects.LEVITATION);
+        harmfulEffectslist.add(MobEffects.WEAKNESS);
+        harmfulEffectslist.add(MobEffects.HUNGER);
+        harmfulEffectslist.add(MobEffects.DIG_SLOWDOWN);
+        harmfulEffectslist.add(MobEffects.DARKNESS);
+        harmfulEffectslist.add(MobEffects.CONFUSION);
+        harmfulEffectslist.add(MobEffects.MOVEMENT_SLOWDOWN);
+        harmfulEffectslist.add(MobEffects.BAD_OMEN);
+        harmfulEffectslist.add(MobEffects.UNLUCK);
+        harmfulEffectslist.add(MobEffects.BLINDNESS);
 
     }
 
@@ -73,44 +77,29 @@ public class AberrantSword extends SwordItem {
     @Override
     public boolean hurtEnemy(@NotNull ItemStack stack, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
         Boolean damage = super.hurtEnemy(stack, target, attacker);
-
+        Player attackerPlayer = (Player) attacker;
         //Test frist for the TP_CHANCE
         if (RANDOM.nextDouble(100.0) < TP_CHANCE) {
+            if (target instanceof Player targetPlayer){
+                targetPlayer.addEffect(new MobEffectInstance(ModEffects.DIMENSIONAL_SHIFT.get(), (int) TARGET_TP_DIZZY *20 , 0, true, true, true));
+            } else {
+                tputils.teleportRandomly(target, TP_DISTANCE);
+            }
             //Play endder teleport sound
-            target.level().playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-            //Teleport the target
-            target.teleportTo(attacker.getX() + (Math.random() * TP_DISTANCE * 2 - TP_DISTANCE), attacker.getY() + 1, attacker.getZ() + (Math.random() * TP_DISTANCE * 2 - TP_DISTANCE));
-            target.level().playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
-
         }
         //Now test for the WIELDER_SUFFERING_CHANCE
         if (RANDOM.nextDouble(100.0) < WIELDER_SUFFERING_CHANCE) {
-            System.out.println("Wielder suffering");
-            Player player = (Player) attacker;
             //Get all the effects labeled as harmful
-            MobEffect harmfulEffect = harmfulEffectslist.get(RANDOM.nextInt(harmfulEffectslist.size()));
-            //Firstly apply the harmful effect to the wielder
-            //Then apply the void bleed effect
-            //If the effect is harmful, just apply void bleed
-            if (harmfulShortEffectslist.contains(harmfulEffect)) {
-                player.addEffect(new MobEffectInstance(harmfulEffect, (int) WIELDER_SUFFERING_DURATION_SECS *20 , 0, true, true, true));
-                player.addEffect(new MobEffectInstance(ModEffects.VOID_BLEED.get(), (int) (WIELDER_SUFFERING_DURATION_SECS*20), 0, true, true, true));
-            } else if (harmfulShortishEffectslist.contains(harmfulEffect)) {
-                //If the harmful effect is darkness, then apply a padding effect to the wielder
-                player.addEffect(new MobEffectInstance(harmfulEffect, (int) WIELDER_SUFFERING_DURATION_SECS * 6 *20 , 0, true, true, true));
-                player.addEffect(new MobEffectInstance(ModEffects.VOID_BLEED.get(), (int) (WIELDER_SUFFERING_DURATION_SECS * 20), 0, true, true, true));
-            } else if (harmfulLongEffectslist.contains(harmfulEffect)) {
-                //Check if the player already has one effect of this list
-                //If the harmful effect is darkness, then apply a padding effect to the wielder
-                player.addEffect(new MobEffectInstance(harmfulEffect, (int) WIELDER_SUFFERING_DURATION_SECS * 120 * 20, 0, true, true, true));
-                player.addEffect(new MobEffectInstance(ModEffects.VOID_BLEED.get(), (int) (WIELDER_SUFFERING_DURATION_SECS * 20), 0, true, true, true));
-            } else if (harmfulDamageEffectslist.contains(harmfulEffect)) {
-                //If the harmful effect is darkness, then apply a padding effect to the wielder
-                player.addEffect(new MobEffectInstance(ModEffects.VOID_BLEED.get(), (int) (WIELDER_SUFFERING_DURATION_SECS * 20), 0, true, true, true));
+            MobEffect chosenEffect = harmfulEffectslist.get(RANDOM.nextInt(harmfulEffectslist.size()));
+            if (harmfulShortEffectslist.contains(chosenEffect)) {
+                attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20), 0, true, true, true));
+            } else if (harmfulShortishEffectslist.contains(chosenEffect)) {
+                attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20 *2), 0, true, true, true));
+            } else if (harmfulLongEffectslist.contains(chosenEffect) && !attackerPlayer.hasEffect(MobEffects.BAD_OMEN) && !attackerPlayer.hasEffect(MobEffects.UNLUCK) && !attackerPlayer.hasEffect(MobEffects.HUNGER) && !attackerPlayer.hasEffect(MobEffects.DIG_SLOWDOWN)){
+                //see if player already has a harmful long effect using sets
+                attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20*8), 0, true, true, true));
             }
-
-
-
+            attackerPlayer.addEffect(new MobEffectInstance(ModEffects.VOID_BLEED.get(), (int) (WIELDER_SUFFERING_DURATION_SECS*20), 0, true, true, true));
         }
         return damage;
     }
