@@ -4,13 +4,14 @@ import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.PickaxeLootModifiers.MiningAberrantismModifier;
 import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.PickaxeLootModifiers.MiningDimensionalShiftModifier;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.level.storage.loot.predicates.*;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 
 import static es.nullbyte.relativedimensions.RelativeDimensionsMain.MOD_ID;
 
-public class AberrantAxeGLMProvider extends GlobalLootModifierProvider {
-    public AberrantAxeGLMProvider(PackOutput output) {
+public class AberrantPickaxeGLMProvider extends GlobalLootModifierProvider {
+    public AberrantPickaxeGLMProvider(PackOutput output) {
         super(output, MOD_ID);
     }
 

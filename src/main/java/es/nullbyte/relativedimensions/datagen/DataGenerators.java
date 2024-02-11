@@ -4,7 +4,8 @@ import es.nullbyte.relativedimensions.datagen.blockproviders.ModBlockStateProvid
 import es.nullbyte.relativedimensions.datagen.blockproviders.ModBlockTagGenerator;
 import es.nullbyte.relativedimensions.datagen.itemproviders.ModItemModelProvider;
 import es.nullbyte.relativedimensions.datagen.itemproviders.ModelItemTagGenerator;
-import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.providers.AberrantAxeGLMProvider;
+import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.providers.AberrantPickaxeGLMProvider;
+import es.nullbyte.relativedimensions.datagen.recpieproviders.ModRecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -42,7 +43,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new ModelItemTagGenerator(output,lookupProvider,blockTagGenerator.contentsGetter(),existingFileHelper)); //Item tag provider
 
         //SPACE FOR GLOBAL LOOT MODIFIERS HERE
-        generator.addProvider(event.includeServer(), new AberrantAxeGLMProvider(output)); //Global loot modifiers provider
+        generator.addProvider(event.includeServer(), new AberrantPickaxeGLMProvider(output)); //Global loot modifiers provider
         //
 
         generator.addProvider(event.includeServer(), new ModWorldGenProvider(output,lookupProvider)); //World gen provider

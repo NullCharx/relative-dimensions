@@ -1,20 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
+  "category": "misc",
   "key": {
     "#": {
       "item": "relativedimensions:aberrant_ingot"
     },
     "-": {
       "item": "relativedimensions:aberrant_stick"
+    },
+    "0": {
+      "item": "minecraft:ender_pearl"
     }
   },
   "pattern": [
-    " ##",
-    " -#",
+    " 0 ",
+    " # ",
     " - "
   ],
   "result": {
-    "item": "relativedimensions:aberrant_axe"
+    "item": "relativedimensions:avidsdpt"
   }
 }

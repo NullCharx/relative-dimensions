@@ -39,13 +39,13 @@ public class ModPlacedFeatures {
         //first number is avg trees per chunk, second number is the chance of extra trees
         // (Must be an integer if divided by 1( for example 1/0.1 = 10)) 0.3 for example is not valid
         register(context, OW_ABERRANT_TREE_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.ABERRANT_TREE),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.005F, 1),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.0008F, 1),
                         BlockInit.ABERRANT_SAPLING.get()));
         register(context, NETHER_ABERRANT_TREE_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.ABERRANT_TREE),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.005F, 1),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.0008F, 1),
                         BlockInit.ABERRANT_SAPLING.get()));
         register(context, END_ABERRANT_TREE_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.ABERRANT_TREE),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.005F, 1),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.0008F, 1),
                         BlockInit.ABERRANT_SAPLING.get()));
 
         //ABERRANT ORE PLACEMENT CONFIGURATION------

@@ -25,7 +25,7 @@ public class AberrantSword extends SwordItem {
     private final static double TP_CHANCE = 10.0;
     private final static double WIELDER_SUFFERING_CHANCE = 15.0;
     private final static double WIELDER_SUFFERING_DURATION_SECS = 15.0;
-    private final static double TARGET_TP_DIZZY = 5.0;
+    private final static double TARGET_TP_DIZZY = 7.0;
     private static final double TP_DISTANCE = 14.0;
 
     private final static List<MobEffect> harmfulEffectslist = new ArrayList<>();

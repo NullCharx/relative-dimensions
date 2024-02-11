@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.datagen;
+package es.nullbyte.relativedimensions.datagen.recpieproviders;
 
 import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.items.ItemInit;
@@ -88,13 +88,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
                 .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(ItemInit.ABERRANT_STICK.get().toString(), has(ItemInit.ABERRANT_STICK.get()))
                 .save(pRecipeOutput, MOD_ID + ":aberrant_axe_vanilla_left");
-        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_AXE.get()) //The recipe is of type MISC and the result is item2
-                .pattern(" ##")
-                .pattern(" -#")
-                .pattern(" - ")
-                .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
-                .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(ItemInit.ABERRANT_STICK.get().toString(), has(ItemInit.ABERRANT_STICK.get()))
-                .save(pRecipeOutput, MOD_ID + ":aberrant_axe_vanilla_right");
+
         //Save the recipe to the output
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, ItemInit.ABERRANT_STICK.get(), 4)
                 .requires(BlockInit.ABERRANT_PLANK.get(),2)
@@ -120,6 +114,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(BlockInit.STRIPPED_ABERRANT_LOG.get(), 4)
                 .unlockedBy(BlockInit.STRIPPED_ABERRANT_LOG.get().toString(), has(BlockInit.STRIPPED_ABERRANT_LOG.get())) //The item1 recipe is unlocked by having item2
                 .save(pRecipeOutput, MOD_ID + ":stripepd_aberrant_wood_from_stripepd_log");
+
+        //TP Items
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.AVID_SDPT.get()) //The recipe is of type MISC and the result is item2
+                .pattern(" 0 ")
+                .pattern(" # ")
+                .pattern(" - ")
+                .define('0', Items.ENDER_PEARL) //The item2 recipe is unlocked by having item1
+                .define('#', ItemInit.ABERRANT_INGOT.get()) //The item2 recipe is unlocked by having item1
+                .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(Items.ENDER_PEARL.toString(), has(Items.ENDER_PEARL)) //The item2 recipe is unlocked by having item1
+                .save(pRecipeOutput, MOD_ID + ":avid_sdpt_recipe0"); //Save the recipe to the output
+
     }
 
     //Due to hardcoded constraint, ore smelting, blasting and cooking must be copied from the original RecipeProvider

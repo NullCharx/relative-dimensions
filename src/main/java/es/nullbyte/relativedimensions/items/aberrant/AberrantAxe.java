@@ -1,9 +1,11 @@
 package es.nullbyte.relativedimensions.items.aberrant;
 
+import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.effects.ModEffects;
 import es.nullbyte.relativedimensions.effects.utils.tputils;
 import es.nullbyte.relativedimensions.items.ItemInit;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffect;
@@ -13,6 +15,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -28,8 +33,9 @@ public class AberrantAxe extends AxeItem {
     private final static double TP_CHANCE = 10.0;
     private final static double WIELDER_SUFFERING_CHANCE = 15.0;
     private final static double WIELDER_SUFFERING_DURATION_SECS = 15.0;
-    private final static double TARGET_TP_DIZZY = 5.0;
+    private final static double TARGET_TP_DIZZY = 7.0;
     private static final double TP_DISTANCE = 14.0;
+    private static final double WOOD_CORRUPTION = 5.0;
 
     private final static List<MobEffect> harmfulEffectslist = new ArrayList<>();
     private final static List<MobEffect> harmfulLongEffectslist = new ArrayList<>();
@@ -115,15 +121,50 @@ public class AberrantAxe extends AxeItem {
     }
 
     @Override
-    public boolean mineBlock(@NotNull ItemStack stack, @NotNull Level level, @NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.BlockPos pos, @NotNull LivingEntity entityLiving) {
-        return super.mineBlock(stack, level, state, pos, entityLiving);
+    public boolean mineBlock(@NotNull ItemStack stack, @NotNull Level level, @NotNull BlockState state, @NotNull net.minecraft.core.BlockPos pos, @NotNull LivingEntity entityLiving) {
 
         //Check on a small area (say a 7x7x7 block) around the block mined for any wood based block which have an
         //aberrant counterpart: Logs, wood, planks, stripped logs, stripped wood, leaves...
-        //TODO: Saplings, doors, trapdoors, fences, fence gates, pressure plates, buttons, signs, boats, chests, crafting tables, ladders, beds, bookshelves, jukeboxes, note blocks, lecterns, barrels, composters, beehives, honey blocks, scaffolding, campfires, soul campfires, lanterns, soul lanterns, chains, and all the other blocks that can be made of wood.
+        //TODO: doors, trapdoors, fences, fence gates, pressure plates, buttons, signs, boats, chests, crafting tables, ladders, beds, bookshelves, jukeboxes, note blocks, lecterns, barrels, composters, beehives, honey blocks, scaffolding, campfires, soul campfires, lanterns, soul lanterns, chains, and all the other blocks that can be made of wood.
         //If any of these blocks are found, replace them with their aberrant counterpart.
+        if (!level.isClientSide && (state.is(BlockTags.LOGS) || state.is(BlockTags.PLANKS) ||
+                state.is(Blocks.STRIPPED_OAK_LOG) || state.is(Blocks.STRIPPED_OAK_WOOD))) {
+                    BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(3, 3, 3))
+                    .forEach(adjacentPos -> {
+                net.minecraft.world.level.block.state.BlockState adjacentState = level.getBlockState(adjacentPos);
+                if (state.is(BlockTags.LOGS) || state.is(BlockTags.LEAVES) || state.is(BlockTags.SAPLINGS)
+                                || state.is(BlockTags.PLANKS) || state.is(Blocks.STRIPPED_OAK_LOG) || state.is(Blocks.STRIPPED_OAK_WOOD)) {
+                    if (RANDOM.nextDouble(100) < WOOD_CORRUPTION) { // 5% chance to corrupt
+                        Block aberrantBlock = getAberrantCounterpartForTag(adjacentState.getBlock());
+                        if (aberrantBlock != null) {
+                            level.setBlock(adjacentPos, aberrantBlock.defaultBlockState(), 3); // Replace with aberrant counterpart
+                        }
+                    }
+                }
+            });
+        }
+        return super.mineBlock(stack, level, state, pos, entityLiving);
+    }
 
-
+    // This method would need to be implemented to return the aberrant counterpart based on the block's tag
+    public static Block getAberrantCounterpartForTag(Block block) {
+        // Implement logic to determine and return the aberrant counterpart based on the block's tag
+        // Example: If the block is any kind of log, return the aberrant log block
+        if (block.defaultBlockState().is(BlockTags.LOGS)) {
+            return BlockInit.ABERRANT_LOG.get();
+        } else if (block.defaultBlockState().is(BlockTags.LEAVES)) {
+            return BlockInit.ABERRANT_LEAVE.get();
+        } else if (block.defaultBlockState().is(BlockTags.SAPLINGS)) {
+            return BlockInit.ABERRANT_SAPLING.get();
+        } else if (block.defaultBlockState().is(BlockTags.PLANKS)) {
+            return BlockInit.ABERRANT_PLANK.get();
+        } else if (block.defaultBlockState().is(Blocks.STRIPPED_OAK_LOG)) {
+            return BlockInit.STRIPPED_ABERRANT_LOG.get();
+        } else if (block.defaultBlockState().is(Blocks.STRIPPED_OAK_WOOD)) {
+            return BlockInit.STRIPPED_ABERRANT_WOOD.get();
+        }
+        // Extend the logic to cover other block types and tags as needed
+        return null;
     }
     // makes it repairable
     @Override

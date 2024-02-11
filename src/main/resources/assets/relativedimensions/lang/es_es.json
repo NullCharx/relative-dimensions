@@ -78,7 +78,8 @@
 
   "block.relativedimensions.aberrant_sapling" : "Brote aberrante",
   "block.relativedimensions.aberrant_sapling.tooltip" : "Este brote es la representación perfecta de la potencialidad de la vida. Tantas ramas, tantas hojas, tantas posibilidades",
-
+  "item.relativedimensions.aberrant_stick" : "Palo aberrante",
+  "item.relativedimensions.aberrant_stick_tooltip" : "Un palo hecho de madera con propiedades extrañas. Es el único tipo de madera que puede contener la energía de minerales aberrantes sin deteriorarse",
 
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: DESACTIVADO———————\n",
   "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ACTIVADO———————\n",
