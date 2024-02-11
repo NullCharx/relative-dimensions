@@ -64,9 +64,10 @@ public class AberrantBlockLootTables extends BlockLootSubProvider {
         //When mining ABERRANT_PLANKS, drop thyself
         this.dropSelf(BlockInit.ABERRANT_PLANK.get());
 
-        //When mining ABERRANT_LEAVES???
-        this.dropSelf(BlockInit.ABERRANT_LEAVE.get());
-        this.createLeavesDrops(BlockInit.ABERRANT_LEAVE.get(), BlockInit.ABERRANT_SAPLING.get(), 1.0F);
+        //When mining ABERRANT_LEAVES
+        this.add(BlockInit.ABERRANT_LEAVE.get(), block -> createLeavesDrops(block, BlockInit.ABERRANT_SAPLING.get(),
+                NORMAL_LEAVES_SAPLING_CHANCES));
+
 
         //When mining ABERRANT_SAPLING, drop thyself
         this.dropSelf(BlockInit.ABERRANT_SAPLING.get());

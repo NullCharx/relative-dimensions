@@ -1,6 +1,7 @@
 package es.nullbyte.relativedimensions.datagen.blockproviders;
 
 import es.nullbyte.relativedimensions.blocks.BlockInit;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -10,6 +11,7 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import static es.nullbyte.relativedimensions.RelativeDimensionsMain.MOD_ID;
@@ -26,12 +28,14 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(BlockInit.ABERRANT_MINERALOID);
 
         logBlock(BlockInit.ABERRANT_LOG);
+        axisBlock((RotatedPillarBlock) BlockInit.ABERRANT_WOOD.get(), blockTexture(BlockInit.ABERRANT_WOOD.get()), blockTexture(BlockInit.ABERRANT_LOG.get()));
+       //REVISIT ADDING CUSTOM WOOD TYPE IF YOU WANT TO CHANGE THE STRIPPED LOG TEXTURE
         blockWithItem(BlockInit.ABERRANT_PLANK);
         blockWithItem(BlockInit.ABERRANT_LEAVE);
-        blockWithItem(BlockInit.ABERRANT_WOOD);
         blockWithItem(BlockInit.STRIPPED_ABERRANT_WOOD);
         logBlock(BlockInit.STRIPPED_ABERRANT_LOG);
-        blockWithItem(BlockInit.ABERRANT_SAPLING); //Cross block model ? xD lol
+
+        saplingBlock(BlockInit.ABERRANT_SAPLING); //Cross block model ? xD lol
 
 
 
@@ -65,5 +69,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         } else {
             blockWithItem(blockRegistryObj);
         }
+    }
+
+    private void saplingBlock(RegistryObject<Block> blockRegistryObj) {
+        simpleBlock(blockRegistryObj.get(),
+                models().cross(ForgeRegistries.BLOCKS.getKey(blockRegistryObj.get()).getPath(), blockTexture(blockRegistryObj.get())).renderType("cutout"));
     }
 }
