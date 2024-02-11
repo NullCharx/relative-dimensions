@@ -7,6 +7,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import static es.nullbyte.relativedimensions.RelativeDimensionsMain.RANDOM;
 
@@ -31,5 +32,4 @@ public class VoidBleed extends MobEffect {
     public boolean shouldApplyEffectTickThisTick(int durationRemaining, int amplifier) {
         return durationRemaining % 20 == 0; // Apply effect every 20 ticks (1 second)
     }
-
 }

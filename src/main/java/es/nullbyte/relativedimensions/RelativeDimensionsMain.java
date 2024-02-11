@@ -6,7 +6,7 @@ import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.datagen.loot.LootModifiers.ModLootModifiers;
 import es.nullbyte.relativedimensions.effects.ModEffects;
 import es.nullbyte.relativedimensions.items.ItemInit;
-import es.nullbyte.relativedimensions.utils.CreativeModTabs;
+import es.nullbyte.relativedimensions.items.CreativeModTabs;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.item.CreativeModeTabs;

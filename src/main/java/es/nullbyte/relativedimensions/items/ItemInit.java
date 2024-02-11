@@ -1,13 +1,14 @@
 package es.nullbyte.relativedimensions.items;
 
 import es.nullbyte.relativedimensions.RelativeDimensionsMain;
+import es.nullbyte.relativedimensions.items.aberrant.AberrantAxe;
 import es.nullbyte.relativedimensions.items.aberrant.AberrantPickaxe;
 import es.nullbyte.relativedimensions.items.aberrant.AberrantSword;
 import es.nullbyte.relativedimensions.items.tp.AvidShortDistanceParticleTransmitter;
 import es.nullbyte.relativedimensions.items.tp.TransmatBeamEmitter;
 import es.nullbyte.relativedimensions.items.tracking.PlayerTrackerCompass;
 import es.nullbyte.relativedimensions.items.tracking.TeamTrackerCompass;
-import es.nullbyte.relativedimensions.utils.ModToolTiers;
+import es.nullbyte.relativedimensions.items.utils.ModToolTiers;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -30,6 +31,9 @@ public class ItemInit {
     public static final RegistryObject<Item> ABERRANT_INGOT = ITEMS.register("aberrant_ingot",
             () -> new Item(new Item.Properties().fireResistant()));
 
+    //Aberrant stick
+    public static final RegistryObject<Item> ABERRANT_STICK = ITEMS.register("aberrant_stick",
+            () -> new Item(new Item.Properties().fireResistant()));
     //ABERRANT SWORD
     public static final RegistryObject<Item> ABERRANT_SWORD = ITEMS.register("aberrant_sword",
             () -> new AberrantSword(ModToolTiers.ABERRANT,0, 10, new Item.Properties()));
@@ -37,9 +41,9 @@ public class ItemInit {
     //ABERRANT PICKAXE
     public static final RegistryObject<Item> ABERRANT_PICK= ITEMS.register("aberrant_pickaxe",
             () -> new AberrantPickaxe(ModToolTiers.ABERRANT,3, 3, new Item.Properties()));
-   /**public static final RegistryObject<Item> ABERRANT_AXE = ITEMS.register("aberrant_axe",
-            () -> new AberrantAxe(ModToolTiers.ABERRANT,3, 3, new Item.Properties()));
-   public static final RegistryObject<Item> ABERRANT_SHOVEL = ITEMS.register("aberrant_shovel",
+   public static final RegistryObject<Item> ABERRANT_AXE = ITEMS.register("aberrant_axe",
+            () -> new AberrantAxe(ModToolTiers.ABERRANT,2, 2, new Item.Properties()));
+    /** public static final RegistryObject<Item> ABERRANT_SHOVEL = ITEMS.register("aberrant_shovel",
             () -> new AberrantShovel(ModToolTiers.ABERRANT,3, 3, new Item.Properties()));
    public static final RegistryObject<Item> ABERRANT_HOE = ITEMS.register("aberrant_hoe",
             () -> new AberrantHoe(ModToolTiers.ABERRANT,3, 3, new Item.Properties()));

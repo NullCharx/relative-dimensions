@@ -40,7 +40,8 @@
 
   "item.relativedimensions.aberrant_pickaxe" : "Aberrant pickaxe",
   "item.relativedimensions.aberrant_pickaxe.tooltip" : "A pickaxe powered by radiation from outer dimensions:\n",
-  "item.relativedimensions.aberrant_pickaxe.tooltip_modifiers" : "MINING ABERRANTISM:\nLow chance of corrupting any block mined, specially ores, into aberrant blocks\n\nDIMENSIONAL SHIFTING:\nLow chance of switching the block mined, specially ores, with a random one from another dimension",
+    "item.relativedimensions.aberrant_pickaxe.tooltip_modifiers_list" : "MINING ABERRANTISM CURSE\n\nDIMENSIONAL SHIFTING",
+  "item.relativedimensions.aberrant_pickaxe.tooltip_modifiers" : "MINING ABERRANTISM CURSE:\nLow chance of corrupting any block mined, specially ores, into aberrant blocks\n\nDIMENSIONAL SHIFTING:\nLow chance of switching the block mined, specially ores, with a random one from another dimension",
   "block.relativedimensions.aberrant_block": "Aberrant block",
   "block.relativedimensions.aberrant_block.tooltip": "It phases in and out of reality after having absorbed too much atron energy and, thus, unstable. You don't know if you should touch it",
   "block.relativedimensions.aberrant_ore" : "Aberrant ore",
@@ -54,13 +55,15 @@
 
   "item.relativedimensions.aberrant_sword" : "Aberrant sword",
   "item.relativedimensions.aberrant_sword.tooltip" : "A sword powered by the no-energy of the void between dimensions.\n",
-  "item.relativedimensions.aberrant_sword.tooltip_modifiers" : "SLASHING ABERRANTISM:\nLow chance of teleporting any entity it hits in a random block-free direction in a short radius\n\nVOID RADIATION POISONING:\nLow chance of irradiating its wielder with exotic void radiation, causing one random negative effect and a random small amount of damage (Between 1.5 and 5 hearts).",
+  "item.relativedimensions.aberrant_sword.tooltip_modifiers_list" : "SLASHING ABERRANTISM CURSE\n\nVOID RADIATION EMISSION",
+  "item.relativedimensions.aberrant_sword.tooltip_modifiers" : "SLASHING ABERRANTISM CURSE:\nLow chance of teleporting any entity it hits in a random block-free direction in a short radius\n\nVOID RADIATION EMISSION:\nLow chance of irradiating its wielder with exotic void radiation, causing one random negative effect and a random small amount of damage (Between 1.5 and 5 hearts).",
   "effect.relativedimensions.void_bleed" : "Irradiated",
   "effect.relativedimensions.dimensional_nausea" : "Dimensional nausea",
 
   "item.relativedimensions.aberrant_axe" : "Aberrant axe",
   "item.relativedimensions.aberrant_axe.tooltip" : "An axe made partly by matter from another dimension.\n",
-  "item.relativedimensions.aberrant_axe.tooltip_modifiers" : "WOODCUTTING ABERRANTISM:\nLow chance of corrupting any block chopped, specially wood, into aberrant blocks\n\nDIMENSIONAL SHIFTING:\nLow chance of switching the block chopped, specially wood, with a random one from another dimension",
+  "item.relativedimensions.aberrant_axe.tooltip_modifiers_list" : "WOODCUTTING ABERRANTISM CURSE\n\nDIMENSIONAL BREACHING\n\nEXTRA-DIMENSIONAL PARTICLE EMISSION",
+  "item.relativedimensions.aberrant_axe.tooltip_modifiers" : "WOODCUTTING ABERRANTISM:\nLow chance of corrupting any structure sorrounding a wood-based block mined into its abrrent counterparts\n\nDIMENSIONAL BREACHING:\nIf mining a wood-related block, low chance of switching it with a random item from another dimension. If hitting an entity, low chance of teleporting it to a free block in a random direction in a small radius.\n\nEXTRA-DIMENSIONAL PARTICLE EMISSION:\nLow chance of emitting particles from another dimension, causing a random effect to the player and a small amount of damage (Between 1.5 and 5 hearts) when hitting entities or mining blocks.",
   "block.relativedimensions.aberrant_log" : "Aberrant log",
   "block.relativedimensions.aberrant_log.tooltip" : "A log that hums when you touch it. It looks devoid of life, but it's not dead",
   "block.relativedimensions.aberrant_leave" : "Aberrant leaves",

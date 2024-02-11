@@ -1,16 +1,19 @@
 package es.nullbyte.relativedimensions.blocks;
 
 import es.nullbyte.relativedimensions.RelativeDimensionsMain;
+import es.nullbyte.relativedimensions.blocks.aberrant.AberrantSapling;
 import es.nullbyte.relativedimensions.blocks.aberrant.aberrantMineraloid;
 import es.nullbyte.relativedimensions.blocks.aberrant.aberrantOre;
 import es.nullbyte.relativedimensions.blocks.flammables.ModFlammableRotatedPillarBlock;
 import es.nullbyte.relativedimensions.blocks.flammables.ModFlammableRotatedPlank;
 import es.nullbyte.relativedimensions.items.ItemInit;
+import es.nullbyte.relativedimensions.worldgen.aberrant.treegen.AberrantTreeGrower;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -23,6 +26,7 @@ public class BlockInit {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, RelativeDimensionsMain.MOD_ID);
 
+    //Aberrant mineral blocks
     public static final RegistryObject<Block> ABERRANT_BLOCK = registerBlock("aberrant_block",
             () -> new Block(Block.Properties.ofFullCopy(Blocks.GLASS)));
     public static final RegistryObject<Block> ABERRANT_ORE = registerBlock("aberrant_ore",
@@ -30,7 +34,10 @@ public class BlockInit {
     public static final RegistryObject<Block> ABERRANT_MINERALOID = registerBlock("aberrant_mineraloid",
             () -> new aberrantMineraloid(Block.Properties.ofFullCopy(Blocks.IRON_ORE)));
 
+    //Aberrant natural blocks
 
+    public static final RegistryObject<Block> ABERRANT_SAPLING = registerBlock("aberrant_sapling",
+            () -> new AberrantSapling(new AberrantTreeGrower().getGrowerOfAberrantTree(), Block.Properties.ofFullCopy(Blocks.OAK_SAPLING)));
     public static final RegistryObject<Block> ABERRANT_LOG = registerBlock("aberrant_log",
             () -> new ModFlammableRotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_LOG).emissiveRendering((state, world, pos) -> true)
                     .lightLevel((light) -> 5)));

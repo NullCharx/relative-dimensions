@@ -1,6 +1,6 @@
 package es.nullbyte.relativedimensions.datagen;
 
-import es.nullbyte.relativedimensions.datagen.loot.LootTables.ModBlockLootTables;
+import es.nullbyte.relativedimensions.datagen.loot.LootTables.aberrantblocks.AberrantBlockLootTables;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -15,7 +15,7 @@ public class ModLootTableProvider {
     //second argument, is a provider for block loot tables
     public static LootTableProvider create (PackOutput output) {
         return new LootTableProvider(output, Set.of(), List.of(
-                new LootTableProvider.SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK)
+                new LootTableProvider.SubProviderEntry(AberrantBlockLootTables::new, LootContextParamSets.BLOCK)
         ));
     }
 }

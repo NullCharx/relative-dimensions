@@ -1,8 +1,8 @@
 package es.nullbyte.relativedimensions.datagen;
 
-import es.nullbyte.relativedimensions.worldgen.BiomeModifiers;
-import es.nullbyte.relativedimensions.worldgen.ConfiguredFeatures;
-import es.nullbyte.relativedimensions.worldgen.PlacedFeatures;
+import es.nullbyte.relativedimensions.worldgen.aberrant.ModBiomeModifier;
+import es.nullbyte.relativedimensions.worldgen.aberrant.ModConfiguredFeatures;
+import es.nullbyte.relativedimensions.worldgen.aberrant.ModPlacedFeatures;
 import net.minecraft.core.HolderLookup;
 import es.nullbyte.relativedimensions.datagen.tempaux.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -17,9 +17,10 @@ import static es.nullbyte.relativedimensions.RelativeDimensionsMain.MOD_ID;
 
 public class ModWorldGenProvider extends DatapackBuiltinEntriesProvider {
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-            .add(Registries.CONFIGURED_FEATURE, ConfiguredFeatures::bootstap)
-            .add(Registries.PLACED_FEATURE, PlacedFeatures::bootstap)
-            .add(ForgeRegistries.Keys.BIOME_MODIFIERS, BiomeModifiers::bootstap);
+            .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstap)
+            .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstap)
+            .add(ForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifier::bootstap);
+
     public ModWorldGenProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, BUILDER, Set.of(MOD_ID));
     }

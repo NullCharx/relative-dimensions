@@ -22,11 +22,11 @@ import static es.nullbyte.relativedimensions.RelativeDimensionsMain.RANDOM;
 public class AberrantSword extends SwordItem {
 
     //probabilities over 100
-    public final static double TP_CHANCE = 510.0;
-    public final static double WIELDER_SUFFERING_CHANCE = 15.0;
-    public final static double WIELDER_SUFFERING_DURATION_SECS = 15.0;
-    public final static double TARGET_TP_DIZZY = 5.0;
-    public static final double TP_DISTANCE = 7.0;
+    private final static double TP_CHANCE = 10.0;
+    private final static double WIELDER_SUFFERING_CHANCE = 15.0;
+    private final static double WIELDER_SUFFERING_DURATION_SECS = 15.0;
+    private final static double TARGET_TP_DIZZY = 5.0;
+    private static final double TP_DISTANCE = 14.0;
 
     private final static List<MobEffect> harmfulEffectslist = new ArrayList<>();
     private final static List<MobEffect> harmfulLongEffectslist = new ArrayList<>();
@@ -40,8 +40,8 @@ public class AberrantSword extends SwordItem {
         //Fill the harmfulEffectslist
         harmfulShortEffectslist.add(MobEffects.LEVITATION);
         harmfulShortEffectslist.add(MobEffects.WEAKNESS);
+        harmfulShortEffectslist.add(MobEffects.DARKNESS);
 
-        harmfulShortishEffectslist.add(MobEffects.DARKNESS);
         harmfulShortishEffectslist.add(MobEffects.CONFUSION);
         harmfulShortishEffectslist.add(MobEffects.MOVEMENT_SLOWDOWN);
         harmfulShortishEffectslist.add(MobEffects.BLINDNESS);
@@ -74,11 +74,14 @@ public class AberrantSword extends SwordItem {
         //Test frist for the TP_CHANCE
         if (RANDOM.nextDouble(100.0) < TP_CHANCE) {
             if (target instanceof Player targetPlayer){
-                tputils.teleportRandomly(target, 14.0);
+                tputils.teleportRandomly(target, TP_DISTANCE);
                 targetPlayer.addEffect(new MobEffectInstance(ModEffects.DIMENSIONAL_NAUSEA.get(), (int) TARGET_TP_DIZZY *20 , 0, true, true, true));
+                //Negate target fall damage
             } else {
                 tputils.teleportRandomly(target, TP_DISTANCE);
             }
+            //Negate fall distance for any entity
+            target.fallDistance = 0.0F;
             //Play endder teleport sound
         }
         //Now test for the WIELDER_SUFFERING_CHANCE
@@ -92,8 +95,15 @@ public class AberrantSword extends SwordItem {
                     attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20), 0, true, true, true));
                 }
             } else if (harmfulShortishEffectslist.contains(chosenEffect)) {
-                attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20 *2), 0, true, true, true));
-            } else if (harmfulLongEffectslist.contains(chosenEffect) && !attackerPlayer.hasEffect(MobEffects.BAD_OMEN) && !attackerPlayer.hasEffect(MobEffects.UNLUCK) && !attackerPlayer.hasEffect(MobEffects.HUNGER) && !attackerPlayer.hasEffect(MobEffects.DIG_SLOWDOWN)){
+                //If the player already has two effects of this category applied, do nothing.
+                if (!((attackerPlayer.hasEffect(MobEffects.CONFUSION) && attackerPlayer.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) ||
+                    (attackerPlayer.hasEffect(MobEffects.CONFUSION) && attackerPlayer.hasEffect(MobEffects.BLINDNESS)) ||
+                        (attackerPlayer.hasEffect(MobEffects.MOVEMENT_SLOWDOWN) && attackerPlayer.hasEffect(MobEffects.BLINDNESS)))){
+                    attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20 *2), 0, true, true, true));
+                }
+            } else if (harmfulLongEffectslist.contains(chosenEffect) && !attackerPlayer.hasEffect(MobEffects.BAD_OMEN)
+                    && !attackerPlayer.hasEffect(MobEffects.UNLUCK) && !attackerPlayer.hasEffect(MobEffects.HUNGER)
+                    && !attackerPlayer.hasEffect(MobEffects.DIG_SLOWDOWN)){
                 //see if player already has a harmful long effect using sets
                 attackerPlayer.addEffect(new MobEffectInstance(chosenEffect, (int) (WIELDER_SUFFERING_DURATION_SECS*20*8), 0, true, true, true));
             }
@@ -116,7 +126,7 @@ public class AberrantSword extends SwordItem {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level plevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("item.relativedimensions.aberrant_sword.tooltip"));
-        pTooltipComponents.add(Component.translatable("item.relativedimensions.aberrant_sword.tooltip_modifiers").withStyle(ChatFormatting.BOLD, ChatFormatting.LIGHT_PURPLE));
+        pTooltipComponents.add(Component.translatable("item.relativedimensions.aberrant_sword.tooltip_modifiers_list").withStyle(ChatFormatting.BOLD, ChatFormatting.LIGHT_PURPLE));
 
         super.appendHoverText(pStack, plevel, pTooltipComponents, pIsAdvanced);
     }

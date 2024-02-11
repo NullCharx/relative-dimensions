@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "relativedimensions:nether_aberrant_tree_placed",
+  "step": "vegetal_decoration"
+}

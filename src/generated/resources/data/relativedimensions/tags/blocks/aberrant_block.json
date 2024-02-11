@@ -1,0 +1,13 @@
+{
+  "values": [
+    "relativedimensions:aberrant_block",
+    "relativedimensions:aberrant_ore",
+    "relativedimensions:aberrant_mineraloid",
+    "relativedimensions:aberrant_plank",
+    "relativedimensions:aberrant_log",
+    "relativedimensions:aberrant_wood",
+    "relativedimensions:aberrant_leave",
+    "relativedimensions:stripped_aberrant_log",
+    "relativedimensions:stripped_aberrant_wood"
+  ]
+}

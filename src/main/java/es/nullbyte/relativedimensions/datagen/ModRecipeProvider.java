@@ -72,16 +72,35 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern(" # ")
                 .pattern(" - ")
                 .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
-                .define('-', Items.STICK)
+                .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(ItemInit.ABERRANT_STICK.get().toString(), has(ItemInit.ABERRANT_STICK.get()))
                 .save(pRecipeOutput, MOD_ID + ":aberrant_sword_vanilla");
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_PICK.get()) //The recipe is of type MISC and the result is item2
                 .pattern("###")
                 .pattern(" - ")
                 .pattern(" - ")
                 .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
-                .define('-', Items.STICK)
-                .save(pRecipeOutput, MOD_ID + ":aberrant_axe_vanilla");
+                .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(ItemInit.ABERRANT_STICK.get().toString(), has(ItemInit.ABERRANT_STICK.get()))
+                .save(pRecipeOutput, MOD_ID + ":aberrant_pickaxe_vanilla");
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_AXE.get()) //The recipe is of type MISC and the result is item2
+                .pattern("## ")
+                .pattern("#- ")
+                .pattern(" - ")
+                .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
+                .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(ItemInit.ABERRANT_STICK.get().toString(), has(ItemInit.ABERRANT_STICK.get()))
+                .save(pRecipeOutput, MOD_ID + ":aberrant_axe_vanilla_left");
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_AXE.get()) //The recipe is of type MISC and the result is item2
+                .pattern(" ##")
+                .pattern(" -#")
+                .pattern(" - ")
+                .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
+                .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(ItemInit.ABERRANT_STICK.get().toString(), has(ItemInit.ABERRANT_STICK.get()))
+                .save(pRecipeOutput, MOD_ID + ":aberrant_axe_vanilla_right");
         //Save the recipe to the output
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, ItemInit.ABERRANT_STICK.get(), 4)
+                .requires(BlockInit.ABERRANT_PLANK.get(),2)
+                .unlockedBy(BlockInit.ABERRANT_PLANK.get().toString(), has(BlockInit.ABERRANT_PLANK.get()))
+                .save(pRecipeOutput, MOD_ID + ":aberrant_stick_from_plank");
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.ABERRANT_INGOT.get(), 9)
                 .requires(BlockInit.ABERRANT_BLOCK.get())
                 .unlockedBy(BlockInit.ABERRANT_BLOCK.get().toString(), has(BlockInit.ABERRANT_BLOCK.get()))

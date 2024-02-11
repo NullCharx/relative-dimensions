@@ -39,7 +39,8 @@
 
   "item.relativedimensions.aberrant_pickaxe" : "Pico aberrante",
   "item.relativedimensions.aberrant_pickaxe.tooltip" : "Un pico alimentado por la radiación de dimensiones exteriores:\n",
-  "item.relativedimensions.aberrant_pickaxe.tooltip_modifiers" : "ABERRANTISMO MINERO:\nBaja probabilidad de corromper cualquier bloque minado, especialmente minerales, en bloques aberrantes\n\nDESPLAZAMIENTO DIMENSIONAL:\nBaja probabilidad de intercambiar el bloque minado, especialmente minerales, con otro aleatorio de otra dimensión",
+  "item.relativedimensions.aberrant_pickaxe.tooltip_modifiers_list" : "MALDICIÓN DE ABERRANTISMO MINERO\n\nREBOTE DIMENSIONAL",
+  "item.relativedimensions.aberrant_pickaxe.tooltip_modifiers" : "MALDICIÓN DE ABERRANTISMO MINERO:\nBaja probabilidad de corromper cualquier bloque minado, especialmente minerales, en bloques aberrantes\n\nREBOTE DIMENSIONAL DIMENSIONAL:\nBaja probabilidad de intercambiar el bloque minado, especialmente minerales, con otro aleatorio de otra dimensión",
   "block.relativedimensions.aberrant_block": "Bloque aberrante",
   "block.relativedimensions.aberrant_block.tooltip": "Parece que por momentos escapa de esta realidad tras haber absorbido demasiada energia atron y es inestable.. No sabes si deberías tocarlo",
   "block.relativedimensions.aberrant_ore" : "Mena de mineral aberrante",
@@ -53,13 +54,15 @@
 
   "item.relativedimensions.aberrant_sword" : "Espada aberrante",
   "item.relativedimensions.aberrant_sword.tooltip" : "Una espada alimentada por la no-energía del vacío entre dimensiones.\n",
-  "item.relativedimensions.aberrant_sword.tooltip_modifiers" : "ABERRANTISMO GUERRERO:\nBaja probabilidad de teletransportar cualquier entidad golpeada en una dirección aleatoria libre de bloques en un pequeño radio\n\n ENVENENAMIENTO POR RADIACIÓN DEL VACÍO:\nBaja probabilidad de irradiar a su portador con radiación exótica del vacío, causando un efecto negativo aleatorio y una cantidad pequeña aleatoria de daño (Entre 1.5 y 5 corazones).",
+  "item.relativedimensions.aberrant_sword.tooltip_modifiers_list" : "MALDICIÓN DE ABERRANTISMO GUERRERO\n\nEMISIÓN DE RADIACIÓN DEL VACÍO",
+  "item.relativedimensions.aberrant_sword.tooltip_modifiers" : "MALDICIÓN DE ABERRANTISMO GUERRERO:\nBaja probabilidad de teletransportar cualquier entidad golpeada en una dirección aleatoria libre de bloques en un pequeño radio\n\n EMISIÓN DE RADIACIÓN DEL VACÍO:\nBaja probabilidad de irradiar a su portador con radiación exótica del vacío, causando un efecto negativo aleatorio y una cantidad pequeña aleatoria de daño (Entre 1.5 y 5 corazones).",
   "effect.relativedimensions.void_bleed" : "Irradiado",
   "effect.relativedimensions.dimensional_nausea" : "Nausea dimensional",
 
   "item.relativedimensions.aberrant_axe" : "Hacha aberrante",
   "item.relativedimensions.aberrant_axe.tooltip" : "Un hacha hecha en parte con materia de otra dimensión.\n",
-  "item.relativedimensions.aberrant_axe.tooltip_modifiers" : "ABERRANTISMO LEÑADOR:\nBaja probabilidad de corromper cualquier bloque cortado, especialmente madera, en bloques aberrantes\n\nDESPLAZAMIENTO DIMENSIONAL:\nBaja probabilidad de intercambiar el bloque cortado, especialmente madera, con otro aleatorio de otra dimensión",
+  "item.relativedimensions.aberrant_axe.tooltip_modifiers_list" : "MALDICIÓN DE ABERRANTISMO LEÑADOR\n\nVOID RADIATION EMISSION",
+  "item.relativedimensions.aberrant_axe.tooltip_modifiers" : "MALDICIÓN DE ABERRANTISMO LEÑADOR:\nBaja probabilidad de corromper cualquier estructura circundante de madera mianada en sus contrapartes abrrentes\n\nBRECHA DIMENSIONAL:\nSi minas un bloque de madera, baja probabilidad de intercambiarlo con un bloque aleatorio de otra dimensión. Si golpeas una entidad, baja probabilidad de teletransportarla a un bloque libre en una dirección aleatoria en un radio pequeño.\n\nEMISIÓN DE PARTICULAS EXTRA-DIMENSIONALES:\nBaja probabilidad de emitir partículas de otra dimensión, causando un efecto aleatorio al jugador y una pequeña cantidad de daño (Entre 1.5 y 5 corazones) al golpear o minar.",
   "block.relativedimensions.aberrant_log" : "Tronco aberrante",
   "block.relativedimensions.aberrant_log.tooltip" : "Un tronco que zumba cuando lo tocas. Parece desprovisto de vida, pero no está muerto",
   "block.relativedimensions.aberrant_leave" : "Hojas aberrantes",

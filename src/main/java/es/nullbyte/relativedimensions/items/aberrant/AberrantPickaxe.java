@@ -34,7 +34,7 @@ public class AberrantPickaxe extends PickaxeItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level plevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         //MAke a component which has the translation key of the tooltip and then the modifiers formatted as bold purple text
         pTooltipComponents.add(Component.translatable("item.relativedimensions.aberrant_pickaxe.tooltip"));
-        pTooltipComponents.add(Component.translatable("item.relativedimensions.aberrant_pickaxe.tooltip_modifiers").withStyle(ChatFormatting.BOLD, ChatFormatting.LIGHT_PURPLE));
+        pTooltipComponents.add(Component.translatable("item.relativedimensions.aberrant_pickaxe.tooltip_modifiers_list").withStyle(ChatFormatting.BOLD, ChatFormatting.LIGHT_PURPLE));
 
         super.appendHoverText(pStack, plevel, pTooltipComponents, pIsAdvanced);
     }
