@@ -33,7 +33,7 @@ public class DimensionalShift extends MobEffect {
             } catch (NullPointerException e) {
                 duration = 7*20;
             }
-            entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, duration, 0, false, false, false));
+            entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, duration, 3, false, false, false));
         }
     }
 

@@ -1,5 +1,6 @@
 package es.nullbyte.relativedimensions.items.tp;
 
+import es.nullbyte.relativedimensions.effects.ModEffects;
 import es.nullbyte.relativedimensions.items.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -7,6 +8,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -18,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static es.nullbyte.relativedimensions.RelativeDimensionsMain.RANDOM;
 
 
 public class AvidShortDistanceParticleTransmitter extends Item {
@@ -45,6 +49,8 @@ public class AvidShortDistanceParticleTransmitter extends Item {
         // reduce durability
         ItemStack stack = player.getItemInHand(hand);
         stack.setDamageValue(stack.getDamageValue() + 3);
+
+        player.addEffect(new MobEffectInstance(ModEffects.DIMENSIONAL_NAUSEA.get(), 7 * 20, 0, true, true, true));
 
         // break if durability gets to 0
         if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(0);

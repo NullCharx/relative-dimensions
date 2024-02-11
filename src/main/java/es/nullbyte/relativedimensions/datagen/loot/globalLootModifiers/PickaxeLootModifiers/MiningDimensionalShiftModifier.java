@@ -8,6 +8,7 @@ import es.nullbyte.relativedimensions.items.ItemInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -35,6 +36,8 @@ import static es.nullbyte.relativedimensions.RelativeDimensionsMain.RANDOM;
  * game. Modded items wont be included in this loot table for the time being unless they are added to a vanilla tag.
  */
 public class MiningDimensionalShiftModifier extends LootModifier {
+
+    private static final int SHIFTING_CHANCES = 25; //25% over the loot modifier base chances
     public static final Supplier<Codec<MiningDimensionalShiftModifier>> CODEC = Suppliers.memoize(()
     -> RecordCodecBuilder.create(instance -> codecStart(instance).and(ForgeRegistries.ITEMS.getCodec()
             .fieldOf("item").forGetter(m -> m.item)).apply(instance, MiningDimensionalShiftModifier::new)));
@@ -59,7 +62,7 @@ public class MiningDimensionalShiftModifier extends LootModifier {
                 generatedLoot.clear(); // Clear existing loot
                 generatedLoot.add(new ItemStack(getRandomItemToDrop()));
             } else if (block != null && block.is(BlockTags.MINEABLE_WITH_PICKAXE) && block.getBlock() != BlockInit.ABERRANT_BLOCK.get()) {
-                if (RANDOM.nextInt(100) < 20) {
+                if (RANDOM.nextInt(100) < SHIFTING_CHANCES) {
                     generatedLoot.clear(); // Clear existing loot
                     generatedLoot.add(new ItemStack(getRandomItemToDrop()));
                 }
@@ -166,6 +169,10 @@ public class MiningDimensionalShiftModifier extends LootModifier {
         uncommonItems.add(Blocks.BLACK_WOOL.asItem());
         uncommonItems.add(Blocks.COAL_BLOCK.asItem());
         uncommonItems.add(Blocks.COPPER_BLOCK.asItem());
+        uncommonItems.add(BlockInit.ABERRANT_PLANK.get().asItem());
+        uncommonItems.add(ItemInit.ABERRANT_STICK.get());
+
+
         rareItems.add(Blocks.IRON_BLOCK.asItem());
         rareItems.add(Blocks.OAK_LOG.asItem());
         rareItems.add(Blocks.SPRUCE_LOG.asItem());
@@ -177,6 +184,14 @@ public class MiningDimensionalShiftModifier extends LootModifier {
         rareItems.add(Blocks.WHITE_WOOL.asItem());
         rareItems.add(Blocks.MANGROVE_LOG.asItem());
         rareItems.add(Blocks.ORANGE_WOOL.asItem());
+        rareItems.add(Blocks.MAGENTA_WOOL.asItem());
+        rareItems.add(Blocks.LIGHT_BLUE_WOOL.asItem());
+        rareItems.add(Blocks.YELLOW_WOOL.asItem());
+        rareItems.add(Blocks.LIME_WOOL.asItem());
+        rareItems.add(Blocks.PINK_WOOL.asItem());
+        rareItems.add(Blocks.GRAY_WOOL.asItem());
+        rareItems.add(Blocks.LIGHT_GRAY_WOOL.asItem());
+
 
 
 
@@ -189,6 +204,10 @@ public class MiningDimensionalShiftModifier extends LootModifier {
         rareItems.add(Blocks.BOOKSHELF.asItem());
         rareItems.add(Blocks.NETHER_BRICKS.asItem());
         rareItems.add(Blocks.NETHER_WART_BLOCK.asItem());
+        rareItems.add(Blocks.PRISMARINE.asItem());
+        rareItems.add(BlockInit.ABERRANT_SAPLING.get().asItem());
+        rareItems.add(BlockInit.ABERRANT_LOG.get().asItem());
+
 
 
 
