@@ -61,7 +61,7 @@
 
   "item.relativedimensions.aberrant_axe" : "Hacha aberrante",
   "item.relativedimensions.aberrant_axe.tooltip" : "Un hacha hecha en parte con materia de otra dimensión.\n",
-  "item.relativedimensions.aberrant_axe.tooltip_modifiers_list" : "MALDICIÓN DE ABERRANTISMO LEÑADOR\n\nVOID RADIATION EMISSION",
+  "item.relativedimensions.aberrant_axe.tooltip_modifiers_list" : "MALDICIÓN DE ABERRANTISMO LEÑADOR\n\nBRECHA DIMENSIONAL\n\nEMISIÓN DE PARTICULAS EXTRA-DIMENSIONALES",
   "item.relativedimensions.aberrant_axe.tooltip_modifiers" : "MALDICIÓN DE ABERRANTISMO LEÑADOR:\nBaja probabilidad de corromper cualquier estructura circundante de madera mianada en sus contrapartes abrrentes\n\nBRECHA DIMENSIONAL:\nSi minas un bloque de madera, baja probabilidad de intercambiarlo con un bloque aleatorio de otra dimensión. Si golpeas una entidad, baja probabilidad de teletransportarla a un bloque libre en una dirección aleatoria en un radio pequeño.\n\nEMISIÓN DE PARTICULAS EXTRA-DIMENSIONALES:\nBaja probabilidad de emitir partículas de otra dimensión, causando un efecto aleatorio al jugador y una pequeña cantidad de daño (Entre 1.5 y 5 corazones) al golpear o minar.",
   "block.relativedimensions.aberrant_log" : "Tronco aberrante",
   "block.relativedimensions.aberrant_log.tooltip" : "Un tronco que zumba cuando lo tocas. Parece desprovisto de vida, pero no está muerto",
@@ -76,9 +76,8 @@
   "block.relativedimensions.stripped_aberrant_wood" : "Leño aberrante sin corteza",
   "block.relativedimensions.stripped_aberrant_wood.tooltip" : "Capa tras capa, el tronco se mantiene firme",
 
-  "block.relativedimensions.aberrant_sapling" : "Aberrant sapling",
-  "block.relativedimensions.aberrant_sapling.tooltip" : "This sapling is the perfect representation of the potentiality of life. So many branches, so many leaves, so many possibilities",
-
+  "block.relativedimensions.aberrant_sapling" : "Brote aberrante",
+  "block.relativedimensions.aberrant_sapling.tooltip" : "Este brote es la representación perfecta de la potencialidad de la vida. Tantas ramas, tantas hojas, tantas posibilidades",
 
 
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: DESACTIVADO———————\n",
