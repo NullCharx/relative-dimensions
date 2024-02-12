@@ -1,0 +1,35 @@
+{
+  "criteria": {
+    "has_avidsdpt": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "relativedimensions:avidsdpt"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "background": "relativedimensions:textures/item/avidsdpt.png",
+    "description": {
+      "translate": "advancements.relativedimensions.teleportation_root.toast"
+    },
+    "icon": {
+      "item": "relativedimensions:avidsdpt",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.relativedimensions.teleportation_root.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_avidsdpt"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
