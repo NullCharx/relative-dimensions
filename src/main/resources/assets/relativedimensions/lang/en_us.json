@@ -90,6 +90,8 @@
   "block.relativedimensions.aberrant_snowy_grass" : "Aberrant snowy grass",
   "item.relativedimensions.aberrant_snowy_grass.tooltip" : "Dirt with snow on top. Instead of melting, the snow seems to be absorbed by the dirt due to the radiation inside the block.",
 
+  "biomes.relativedimensions.aberrant_forest" : "Aberrant forest",
+  "biomes.relativedimensions.aberrant_plains" : "Aberrant plains",
 
   "advancements.relativedimensions.aberrant_root.title" : "Reality glitch hunter",
   "advancements.relativedimensions.aberrant_root.toast" : "You just found something that shouldn't be there",

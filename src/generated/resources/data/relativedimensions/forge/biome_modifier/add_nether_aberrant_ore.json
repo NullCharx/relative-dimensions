@@ -1,6 +1,6 @@
 {
   "type": "forge:add_features",
   "biomes": "#minecraft:is_nether",
-  "features": "relativedimensions:nether_aberrant_ore_placed",
+  "features": "relativedimensions:aberrant_ore_placed_vanilla_biomes",
   "step": "underground_ores"
 }

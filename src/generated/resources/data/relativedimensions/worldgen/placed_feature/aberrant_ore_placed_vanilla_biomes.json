@@ -1,5 +1,5 @@
 {
-  "feature": "relativedimensions:ow_aberrant_ore",
+  "feature": "relativedimensions:aberrant_ore_config",
   "placement": [
     {
       "type": "minecraft:count",

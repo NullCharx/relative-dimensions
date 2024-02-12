@@ -7,9 +7,12 @@ import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModif
 import es.nullbyte.relativedimensions.effects.ModEffects;
 import es.nullbyte.relativedimensions.items.ItemInit;
 import es.nullbyte.relativedimensions.items.CreativeModTabs;
+import es.nullbyte.relativedimensions.worldgen.aberrant.biomes.TerraBlenderInterface;
+import es.nullbyte.relativedimensions.worldgen.aberrant.biomes.surface.ModSurfaceRules;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -26,6 +29,7 @@ import org.slf4j.Logger;
 import es.nullbyte.relativedimensions.charspvp.commands.ListPlayersCommand;
 import es.nullbyte.relativedimensions.charspvp.commands.DespawnChestCommand;
 import es.nullbyte.relativedimensions.charspvp.commands.SpawnChestCommand;
+import terrablender.api.SurfaceRuleManager;
 //Commented PVP imports
 /**
  import es.nullbyte.relativedimensions.charspvp.PlayerTimeLimit.PvpManager;
@@ -91,6 +95,9 @@ public class RelativeDimensionsMain {
         //Register custom effects
         ModEffects.registerEffects(modEventBus);
 
+        //Register terrablender regions interface
+        TerraBlenderInterface.registerRegions();
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -120,6 +127,9 @@ public class RelativeDimensionsMain {
             DailyTimeLimitHandler.register();
             ModMessages.register();**/
         });
+
+        // Register the surface manager
+        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
     }
