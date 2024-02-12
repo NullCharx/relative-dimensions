@@ -1,5 +1,5 @@
 {
-  "feature": "relativedimensions:ow_aberrant_tree",
+  "feature": "relativedimensions:aberrant_tree_config",
   "placement": [
     {
       "type": "minecraft:count",
@@ -8,7 +8,7 @@
         "distribution": [
           {
             "data": 0,
-            "weight": 1249
+            "weight": 199
           },
           {
             "data": 1,

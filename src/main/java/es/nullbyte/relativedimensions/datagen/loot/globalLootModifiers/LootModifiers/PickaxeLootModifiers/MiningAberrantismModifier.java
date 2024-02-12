@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.PickaxeLootModifiers;
+package es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModifiers.PickaxeLootModifiers;
 
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;

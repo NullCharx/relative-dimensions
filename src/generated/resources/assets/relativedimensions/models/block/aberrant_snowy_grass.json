@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "relativedimensions:block/aberrant_snowy_grass_bottom",
+    "side": "relativedimensions:block/aberrant_snowy_grass_side",
+    "top": "relativedimensions:block/aberrant_snowy_grass_top"
+  }
+}

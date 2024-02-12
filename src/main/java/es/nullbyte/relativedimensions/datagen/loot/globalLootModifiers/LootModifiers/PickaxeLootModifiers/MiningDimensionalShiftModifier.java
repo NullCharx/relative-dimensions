@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.PickaxeLootModifiers;
+package es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModifiers.PickaxeLootModifiers;
 
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
@@ -8,7 +8,6 @@ import es.nullbyte.relativedimensions.items.ItemInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
