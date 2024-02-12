@@ -1,8 +1,8 @@
 package es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.providers;
 
 import es.nullbyte.relativedimensions.blocks.BlockInit;
-import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.PickaxeLootModifiers.MiningAberrantismModifier;
-import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.PickaxeLootModifiers.MiningDimensionalShiftModifier;
+import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModifiers.PickaxeLootModifiers.MiningAberrantismModifier;
+import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModifiers.PickaxeLootModifiers.MiningDimensionalShiftModifier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;

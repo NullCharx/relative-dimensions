@@ -41,7 +41,7 @@ public class CreativeModTabs {
 
     public static final RegistryObject<CreativeModeTab> DIMENSIONAL_ENVIRONMENT = CREATIVE_MOD_TABS.register("dimensionalenvironment",
             () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(ItemInit.TEAM_TRACKER_COMPASS.get())) //Use one of the items as icon
+                    .icon(() -> new ItemStack(BlockInit.ABERRANT_GRASS.get())) //Use one of the items as icon
                     .title(Component.translatable("creativetab.dimenv")) //Translation key for the tab name (lang file)
                     .displayItems((pParameters, pOutput) -> {   //List of items to display in the tab. Items are ordered in the order they are added
                         pOutput.accept(ItemInit.ABERRANT_PICK.get());
@@ -63,6 +63,10 @@ public class CreativeModTabs {
 
                         pOutput.accept(ItemInit.ABERRANT_SWORD.get());
 
+                        //pOutput.accept(ItemInit.ABERRANT_SHOVEL.get());
+                        pOutput.accept(BlockInit.ABERRANT_GRASS.get());
+                        pOutput.accept(BlockInit.ABERRANT_DIRT.get());
+                        pOutput.accept(BlockInit.ABERRANT_SNOWY_GRASS.get());
 
                         //You can also add vanilla items to the tab
                     })

@@ -1,6 +1,7 @@
 package es.nullbyte.relativedimensions.blocks;
 
 import es.nullbyte.relativedimensions.RelativeDimensionsMain;
+import es.nullbyte.relativedimensions.blocks.aberrant.AberrantGrass;
 import es.nullbyte.relativedimensions.blocks.aberrant.AberrantSapling;
 import es.nullbyte.relativedimensions.blocks.aberrant.aberrantMineraloid;
 import es.nullbyte.relativedimensions.blocks.aberrant.aberrantOre;
@@ -10,10 +11,7 @@ import es.nullbyte.relativedimensions.items.ItemInit;
 import es.nullbyte.relativedimensions.worldgen.aberrant.treegen.AberrantTreeGrower;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -36,6 +34,7 @@ public class BlockInit {
 
     //Aberrant natural blocks
 
+    //---Wood
     public static final RegistryObject<Block> ABERRANT_SAPLING = registerBlock("aberrant_sapling",
             () -> new AberrantSapling(new AberrantTreeGrower().getGrowerOfAberrantTree(), Block.Properties.ofFullCopy(Blocks.OAK_SAPLING)));
     public static final RegistryObject<Block> ABERRANT_LOG = registerBlock("aberrant_log",
@@ -57,6 +56,16 @@ public class BlockInit {
             () -> new LeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).emissiveRendering((state, world, pos) -> true)
                     .lightLevel((light) -> 15)));
 
+    //---Grass and dirt
+    public static final RegistryObject<Block> ABERRANT_GRASS = registerBlock("aberrant_grass",
+            () -> new AberrantGrass(Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK).emissiveRendering((state, world, pos) -> true)
+                    .lightLevel((light) -> 3)));
+    public static final RegistryObject<Block> ABERRANT_DIRT = registerBlock("aberrant_dirt",
+            () -> new Block(Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK).emissiveRendering((state, world, pos) -> true)
+                    .lightLevel((light) -> 1)));
+    public static final RegistryObject<Block> ABERRANT_SNOWY_GRASS = registerBlock("aberrant_snowy_grass",
+            () -> new SnowyDirtBlock(Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK).emissiveRendering((state, world, pos) -> true)
+                    .lightLevel((light) -> 1)));
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         //T is the block type. It will register the block and the block item.
         RegistryObject<T> returnBlock = BLOCKS.register(name, block); //Register the block

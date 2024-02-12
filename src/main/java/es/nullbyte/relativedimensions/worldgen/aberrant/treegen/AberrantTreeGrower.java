@@ -15,13 +15,13 @@ public class AberrantTreeGrower {
     //Now the class is the complete opposite: a final class that can be instantitated but cant be extended or inherited.
     //The way to creat a custom tree grower is a new instance of the class (the way its made on TreeGrower.java)
     //And make a getter to said instance.
-    private static final TreeGrower GROWER_OF_ABERRANT_TREE = new TreeGrower("aberranttreegrower", 1F, Optional.empty(), Optional.empty(), Optional.of(ModConfiguredFeatures.ABERRANT_TREE),Optional.empty(),Optional.empty(),Optional.empty());
+    private static final TreeGrower GROWER_OF_ABERRANT_TREE = new TreeGrower("aberranttreegrower", 1F, Optional.empty(), Optional.empty(), Optional.of(ModConfiguredFeatures.ABERRANT_TREE_CONFIG),Optional.empty(),Optional.empty(),Optional.empty());
     public AberrantTreeGrower() {
         super();
     }
 
     protected ResourceKey<ConfiguredFeature<?,?>> getConfiguredFeature(RandomSource pRandom, boolean pHasflower) {
-        return ModConfiguredFeatures.ABERRANT_TREE;
+        return ModConfiguredFeatures.ABERRANT_TREE_CONFIG;
     }
 
     public TreeGrower getGrowerOfAberrantTree() {

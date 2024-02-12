@@ -1,9 +1,9 @@
-package es.nullbyte.relativedimensions.datagen.loot.LootModifiers;
+package es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModifiers;
 
 import com.mojang.serialization.Codec;
-import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.PickaxeLootModifiers.AddItemModifier;
-import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.PickaxeLootModifiers.MiningAberrantismModifier;
-import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.PickaxeLootModifiers.MiningDimensionalShiftModifier;
+import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModifiers.PickaxeLootModifiers.AddItemModifier;
+import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModifiers.PickaxeLootModifiers.MiningAberrantismModifier;
+import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModifiers.PickaxeLootModifiers.MiningDimensionalShiftModifier;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
