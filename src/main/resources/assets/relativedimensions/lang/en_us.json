@@ -76,11 +76,18 @@
   "block.relativedimensions.stripped_aberrant_log.tooltip" : "Layer after layer, the wood is still resilient.",
   "block.relativedimensions.stripped_aberrant_wood" : "Stripped aberrant wood",
   "block.relativedimensions.stripped_aberrant_wood.tooltip" : "Layer after layer, the wood is still resilient.",
-
   "block.relativedimensions.aberrant_sapling" : "Aberrant sapling",
   "block.relativedimensions.aberrant_sapling.tooltip" : "This sapling is the perfect representation of the potentiality of life. So many branches, so many leaves, so many possibilities",
   "item.relativedimensions.aberrant_stick" : "Aberrant stick",
   "item.relativedimensions.aberrant_stick_tooltip" : "Stick made from wood with strange properties. It is the only kind of wood that can hold the energy of aberrant minerals without deteriorating",
+
+  "advancements.relativedimensions.aberrant_root.title" : "A crack in the fabric of reality",
+  "advancements.relativedimensions.aberrant_root.toast" : "You just found something that shouldn't be there",
+  "advancements.relativedimensions.aberrant_tool.title" : "Mastering the glitches",
+  "advancements.relativedimensions.aberrant_tool.toast" : "Get any aberrant tool",
+
+  "advancements.relativedimensions.teleportation_root.title" : "Quantum tunneling",
+  "advancements.relativedimensions.teleportation_root.toast" : "When live gives you lemmons, teleport them away",
 
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: OFF———————\n",
   "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ON———————\n",

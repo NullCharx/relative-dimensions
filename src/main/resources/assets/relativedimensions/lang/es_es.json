@@ -81,6 +81,15 @@
   "item.relativedimensions.aberrant_stick" : "Palo aberrante",
   "item.relativedimensions.aberrant_stick_tooltip" : "Un palo hecho de madera con propiedades extrañas. Es el único tipo de madera que puede contener la energía de minerales aberrantes sin deteriorarse",
 
+  "advancements.relativedimensions.aberrant_root.title" : "Una grieta en el tejido de la realidad",
+  "advancements.relativedimensions.aberrant_root.toast" : "Has encontrado algo que no debería estar aquí",
+  "advancements.relativedimensions.aberrant_tool.title" : "Controlando las fallas dimensionales",
+  "advancements.relativedimensions.aberrant_tool.toast" : "Consigue cualquier herramienta aberrante",
+
+
+  "advancements.relativedimensions.teleportation_root.title" : "Tunelamiento cuántico",
+  "advancements.relativedimensions.teleportation_root.toast" : "Si la vida te da limones, teletransportalos lejos.",
+
   "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: DESACTIVADO———————\n",
   "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ACTIVADO———————\n",
   "cmds.modpvp.level.ultra" : "⚠⚠⚠——————PVP: ULTRA———————\n",

@@ -1,0 +1,49 @@
+{
+  "criteria": {
+    "has_aberrant_log": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "relativedimensions:aberrant_log"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_aberrant_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "relativedimensions:aberrant_ore"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "background": "relativedimensions:textures/block/aberrant_ore.png",
+    "description": {
+      "translate": "advancements.relativedimensions.aberrant_root.toast"
+    },
+    "icon": {
+      "item": "relativedimensions:aberrant_ore"
+    },
+    "title": {
+      "translate": "advancements.relativedimensions.aberrant_root.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_aberrant_ore"
+    ],
+    [
+      "has_aberrant_log"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
