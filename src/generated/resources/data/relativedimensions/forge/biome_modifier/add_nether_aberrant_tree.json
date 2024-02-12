@@ -1,6 +1,6 @@
 {
   "type": "forge:add_features",
-  "biomes": "#minecraft:is_overworld",
-  "features": "relativedimensions:nether_aberrant_tree_placed",
+  "biomes": "#minecraft:is_nether",
+  "features": "relativedimensions:aberrant_tree_placed_vanilla_biomes",
   "step": "vegetal_decoration"
 }

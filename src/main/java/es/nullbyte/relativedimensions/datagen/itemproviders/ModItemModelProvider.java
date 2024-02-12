@@ -46,6 +46,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         blockItem(BlockInit.STRIPPED_ABERRANT_WOOD); //Stripped aberrant wood block item
         blockItem(BlockInit.ABERRANT_SAPLING); //Aberrant sapling block item
 
+        blockItem(BlockInit.ABERRANT_GRASS); //Aberrant grass block item
+        blockItem(BlockInit.ABERRANT_DIRT); //Aberrant dirt block item
+        blockItem(BlockInit.ABERRANT_SNOWY_GRASS); //Aberrant snowy grass block item
     }
 
     private ItemModelBuilder blockItem(RegistryObject<Block> block) {

@@ -6,7 +6,6 @@ import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -16,7 +15,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.RandomSpreadFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.BendingTrunkPlacer;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
@@ -27,18 +25,24 @@ import java.util.List;
 
 import static es.nullbyte.relativedimensions.RelativeDimensionsMain.MOD_ID;
 
+/**
+ * Configured features controls how "individual features" are placed in the world.
+ * For example: In a custom tree, this class would control how the tree can look: What block the trunks and leave are made of,
+ * and how the tree ITSLEF is generated.
+ * For ores, this class would control, mainly which blocks can be replaced by the ore.
+ */
 public class ModConfiguredFeatures {
 
-    public static final ResourceKey<ConfiguredFeature<?,?>> ABERRANT_TREE = registerKey("ow_aberrant_tree");
+    public static final ResourceKey<ConfiguredFeature<?,?>> ABERRANT_TREE_CONFIG = registerKey("aberrant_tree_config");
 
-    public static final ResourceKey<ConfiguredFeature<?,?>> OVERWORLD_ABERRANT_ORE = registerKey("ow_aberrant_ore");
-    public static final ResourceKey<ConfiguredFeature<?,?>> NETHER_ABERRANT_ORE = registerKey("nether_aberrant_ore");
-    public static final ResourceKey<ConfiguredFeature<?,?>> END_ABERRANT_ORE = registerKey("end_aberrant_ore");
+    public static final ResourceKey<ConfiguredFeature<?,?>> ABERRANT_ORE_CONFIG = registerKey("aberrant_ore_config");
+    public static final ResourceKey<ConfiguredFeature<?,?>> ABERRANT_GRASS_ON_ABERRANT_BIOME_CONFIG= registerKey("aberrant_grass_on_aberrant_config");
+    public static final ResourceKey<ConfiguredFeature<?,?>> ABERRANT_DIRT_ON_ABERRANT_BIOME_CONFIG = registerKey("aberrant_dirt_on_aberrant_config");
 
     public static void bootstap(BootstapContext<ConfiguredFeature<?, ?>> context) {
 
         //ABERRANT TREE GEN CONFIGURATION------
-        register(context, ABERRANT_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
+        register(context, ABERRANT_TREE_CONFIG, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(BlockInit.ABERRANT_LOG.get()), //Log
                 new BendingTrunkPlacer(5, 2, 2, 3, UniformInt.of(1,3)), //Trunk generator
                 BlockStateProvider.simple(BlockInit.ABERRANT_LEAVE.get()), //Leave
@@ -51,8 +55,6 @@ public class ModConfiguredFeatures {
         //ABERRANT ORE GEN CONFIGURATION------
         RuleTest stoneReplacement = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES); //Tag which indicates ores that can replace stone
         RuleTest deepslateReplacement = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES); //Tag which indicates ores that can replace deepslate
-        RuleTest netherrackReplacement = new BlockMatchTest(Blocks.NETHERRACK); //Tag which indicates blocks that can replace netherrack
-        RuleTest endstoneReplacement = new BlockMatchTest(Blocks.END_STONE); //Tag which indicates blocks that can replace endstone
 
         //In case that more than one ruletest apply for a given dimension, use a list as below:
         //In this case, aberrant ore can replace stone and deepslate in the overworld
@@ -63,10 +65,11 @@ public class ModConfiguredFeatures {
         //Register the generation configuration for the overworld, nether and end. The number at the end indicates vein size.
         //Since this block represent an "aberrant" ore, there is no need to make distinct ore textures for different
         //Types of soils (i.e aberrant ore in stone, aberrant ore in deepslate, netherrack, endstone etc)
-        register(context, OVERWORLD_ABERRANT_ORE, Feature.ORE, new OreConfiguration(overworldAberrantOres, 5));
-        register(context, NETHER_ABERRANT_ORE, Feature.ORE, new OreConfiguration(netherrackReplacement, BlockInit.ABERRANT_ORE.get().defaultBlockState(), 8));
-        register(context, END_ABERRANT_ORE, Feature.ORE, new OreConfiguration(endstoneReplacement, BlockInit.ABERRANT_ORE.get().defaultBlockState(), 8));
+        register(context, ABERRANT_ORE_CONFIG, Feature.ORE, new OreConfiguration(overworldAberrantOres, 5));
 
+        RuleTest dirtReplacement = new BlockMatchTest(Blocks.DIRT);
+        RuleTest grassReplacement = new BlockMatchTest(Blocks.GRASS_BLOCK);
+        
     }
 
     //Creating resource keys for the configured features

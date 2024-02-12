@@ -35,8 +35,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(BlockInit.STRIPPED_ABERRANT_WOOD);
         logBlock(BlockInit.STRIPPED_ABERRANT_LOG);
 
-        saplingBlock(BlockInit.ABERRANT_SAPLING); //Cross block model ? xD lol
-
+        saplingBlock(BlockInit.ABERRANT_SAPLING);
+        grassBlock(BlockInit.ABERRANT_GRASS);
+        blockWithItem(BlockInit.ABERRANT_DIRT);
+        grassBlock(BlockInit.ABERRANT_SNOWY_GRASS);
 
 
     }
@@ -74,5 +76,14 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void saplingBlock(RegistryObject<Block> blockRegistryObj) {
         simpleBlock(blockRegistryObj.get(),
                 models().cross(ForgeRegistries.BLOCKS.getKey(blockRegistryObj.get()).getPath(), blockTexture(blockRegistryObj.get())).renderType("cutout"));
+    }
+
+    private void grassBlock(RegistryObject<Block> blockRegistryObj) {
+        String blockName = blockRegistryObj.getId().getPath();
+        ModelFile grassModel = models().withExistingParent(blockName, "block/cube_bottom_top")
+                .texture("top", modLoc("block/" + blockName + "_top"))
+                .texture("bottom", modLoc("block/" + blockName + "_bottom"))
+                .texture("side", modLoc("block/" + blockName + "_side"));
+        simpleBlock(blockRegistryObj.get(), grassModel);
     }
 }

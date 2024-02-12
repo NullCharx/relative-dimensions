@@ -90,6 +90,8 @@
   "block.relativedimensions.aberrant_snowy_grass" : "Césped nevado aberrante",
   "item.relativedimensions.aberrant_snowy_grass.tooltip" : "Tierra con nieve encima. En lugar de derretirse, la nieve parece ser absorbida por la tierra debido a la radiación dentro del bloque.",
 
+  "biomes.relativedimensions.aberrant_forest" : "Bosque aberrante",
+  "biomes.relativedimensions.aberrant_plains" : "Llanura aberrante",
 
   "advancements.relativedimensions.aberrant_root.title" : "Cazador de fallas dimensionales",
   "advancements.relativedimensions.aberrant_root.toast" : "Has encontrado algo que no debería estar aquí",
