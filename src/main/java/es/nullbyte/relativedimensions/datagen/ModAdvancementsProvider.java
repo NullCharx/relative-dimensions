@@ -38,8 +38,7 @@ public class ModAdvancementsProvider implements ForgeAdvancementProvider.Advance
                         Optional.of(new ResourceLocation(MOD_ID, "textures/block/aberrant_ore.png")), //Texture full path for the advancement window background
                         AdvancementType.TASK, //Advancement type
                         true, true, false)) //Show the advancement notification, Show chat notif, hidden advancement
-                .addCriterion("has_aberrant_ore", InventoryChangeTrigger.TriggerInstance.hasItems(BlockInit.ABERRANT_ORE.get().asItem()))
-                .addCriterion("has_aberrant_log", InventoryChangeTrigger.TriggerInstance.hasItems(BlockInit.ABERRANT_LOG.get().asItem()))
+                .addCriterion("has_aberrant_ore_or_log", InventoryChangeTrigger.TriggerInstance.hasItems(BlockInit.ABERRANT_ORE.get().asItem(), BlockInit.ABERRANT_LOG.get()))
                 .save(saver, new ResourceLocation(MOD_ID, "aberrant_root_advancement"));
 
 
@@ -51,9 +50,7 @@ public class ModAdvancementsProvider implements ForgeAdvancementProvider.Advance
                         AdvancementType.TASK, //Advancement type
                         true, true, false)) //Show the advancement notification, Show chat notif, hidden advancement
                 .parent(aberrant_root)
-                .addCriterion("has_aberrant_axe", InventoryChangeTrigger.TriggerInstance.hasItems(ItemInit.ABERRANT_AXE.get()))
-                .addCriterion("has_aberrant_sword", InventoryChangeTrigger.TriggerInstance.hasItems(ItemInit.ABERRANT_SWORD.get()))
-                .addCriterion("has_aberrant_picakxe", InventoryChangeTrigger.TriggerInstance.hasItems(ItemInit.ABERRANT_PICK.get()))
+                .addCriterion("has_aberrant_tool", InventoryChangeTrigger.TriggerInstance.hasItems(ItemInit.ABERRANT_AXE.get(),ItemInit.ABERRANT_SWORD.get(),ItemInit.ABERRANT_PICK.get()))
                 .save(saver, new ResourceLocation(MOD_ID, "aberrant_tool_advancement"));
 
         AdvancementHolder teleportation_root = Advancement.Builder.advancement()
