@@ -1,0 +1,25 @@
+{
+  "type": "relativedimensions:aberrant_overworld_type",
+  "generator": {
+    "type": "minecraft:noise",
+    "biome_source": {
+      "type": "minecraft:multi_noise",
+      "biomes": [
+        {
+        "biome": "relativedimensions:aberant_forest",
+        "parameters": {
+            "temperature": [-0.88, 0.2],
+            "humidity": [-0.99, 1.22],
+            "continentalness": [-0.429, 0.249],
+            "erosion": [-1, 1],
+            "weirdness": [-1, 1],
+            "depth": 1,
+            "offset": 0
+          }
+        }
+      ],
+      "preset": "minecraft:overworld"
+    },
+    "settings": "minecraft:overworld"
+  }
+}

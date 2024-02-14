@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.worldgen.aberrant;
+package es.nullbyte.relativedimensions.worldgen;
 
 import es.nullbyte.relativedimensions.blocks.BlockInit;
 import net.minecraft.core.registries.Registries;

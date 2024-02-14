@@ -1,7 +1,7 @@
-package es.nullbyte.relativedimensions.worldgen.aberrant;
+package es.nullbyte.relativedimensions.worldgen;
 
 import es.nullbyte.relativedimensions.blocks.BlockInit;
-import es.nullbyte.relativedimensions.worldgen.aberrant.oregen.OrePlacement;
+import es.nullbyte.relativedimensions.worldgen.oregen.OrePlacement;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -59,7 +59,7 @@ public class ModPlacedFeatures {
 
         //ABERRANT TREE PLACEMENT CONFIGURATION FOR ABERRANT BIOMES ------ (More likely to spawn than on vanilla biomes)
         register(context, ABERRANT_TREE_PLACED_ABERRANT_BIOMES, configuredFeatures.getOrThrow(ModConfiguredFeatures.ABERRANT_TREE_CONFIG),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.005F, 1),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.05F, 1),
                         BlockInit.ABERRANT_SAPLING.get()));
         //ABERRANT ORE PLACEMENT CONFIGURATION FOR ABERRANT BIOMES ------ (More likely to spawn than on vanilla biomes)
         register(context, ABERRANT_ORE_PLACED_ABERRANT_BIOMES, configuredFeatures.getOrThrow(ModConfiguredFeatures.ABERRANT_ORE_CONFIG),
