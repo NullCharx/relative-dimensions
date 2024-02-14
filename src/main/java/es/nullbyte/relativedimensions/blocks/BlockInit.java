@@ -8,7 +8,7 @@ import es.nullbyte.relativedimensions.blocks.aberrant.aberrantOre;
 import es.nullbyte.relativedimensions.blocks.flammables.ModFlammableRotatedPillarBlock;
 import es.nullbyte.relativedimensions.blocks.flammables.ModFlammableRotatedPlank;
 import es.nullbyte.relativedimensions.items.ItemInit;
-import es.nullbyte.relativedimensions.worldgen.aberrant.treegen.AberrantTreeGrower;
+import es.nullbyte.relativedimensions.worldgen.treegen.AberrantTreeGrower;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;

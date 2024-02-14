@@ -1,7 +1,7 @@
-package es.nullbyte.relativedimensions.worldgen.aberrant.biomes.custom;
+package es.nullbyte.relativedimensions.worldgen.biomes.custom;
 
 import com.mojang.datafixers.util.Pair;
-import es.nullbyte.relativedimensions.worldgen.aberrant.biomes.ModBiomes;
+import es.nullbyte.relativedimensions.worldgen.biomes.ModBiomes;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -25,8 +25,8 @@ public class ModOverworldRegion extends Region {
 
         //A certain percentage of the specified biomes will be overriden by the region's biomes
         this.addModifiedVanillaOverworldBiomes(mapper, modifiedVanillaOverworldBuilder -> {
-            modifiedVanillaOverworldBuilder.replaceBiome(Biomes.FOREST, ModBiomes.ABERRANT_FOREST);
-            modifiedVanillaOverworldBuilder.replaceBiome(Biomes.PLAINS, ModBiomes.ABERRANT_PLAINS);
+            modifiedVanillaOverworldBuilder.replaceBiome(Biomes.MUSHROOM_FIELDS, ModBiomes.ABERRANT_FOREST);
+            modifiedVanillaOverworldBuilder.replaceBiome(Biomes.STONY_SHORE, ModBiomes.ABERRANT_PLAINS);
         });
     }
 }

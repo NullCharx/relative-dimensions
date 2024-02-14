@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.worldgen.aberrant.oregen;
+package es.nullbyte.relativedimensions.worldgen.oregen;
 
 import net.minecraft.world.level.levelgen.placement.*;
 

@@ -1,6 +1,6 @@
-package es.nullbyte.relativedimensions.worldgen.aberrant.treegen;
+package es.nullbyte.relativedimensions.worldgen.treegen;
 
-import es.nullbyte.relativedimensions.worldgen.aberrant.ModConfiguredFeatures;
+import es.nullbyte.relativedimensions.worldgen.ModConfiguredFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.TreeGrower;

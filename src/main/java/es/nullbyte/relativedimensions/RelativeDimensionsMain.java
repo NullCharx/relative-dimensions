@@ -7,12 +7,11 @@ import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModif
 import es.nullbyte.relativedimensions.effects.ModEffects;
 import es.nullbyte.relativedimensions.items.ItemInit;
 import es.nullbyte.relativedimensions.items.CreativeModTabs;
-import es.nullbyte.relativedimensions.worldgen.aberrant.biomes.TerraBlenderInterface;
-import es.nullbyte.relativedimensions.worldgen.aberrant.biomes.surface.ModSurfaceRules;
+import es.nullbyte.relativedimensions.worldgen.biomes.TerraBlenderInterface;
+import es.nullbyte.relativedimensions.worldgen.biomes.surface.ModSurfaceRules;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;

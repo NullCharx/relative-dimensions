@@ -1,4 +1,4 @@
-package es.nullbyte.relativedimensions.worldgen.aberrant;
+package es.nullbyte.relativedimensions.worldgen;
 
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
