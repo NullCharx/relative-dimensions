@@ -1,16 +1,14 @@
 package es.nullbyte.relativedimensions.worldgen.dimensions;
 
-import com.mojang.datafixers.util.Pair;
 import es.nullbyte.relativedimensions.worldgen.biomes.ModBiomes;
+import es.nullbyte.relativedimensions.worldgen.dimensions.auxpackage.utilityClass;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.Container;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
@@ -19,7 +17,6 @@ import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 
-import java.util.List;
 import java.util.OptionalLong;
 
 import static es.nullbyte.relativedimensions.RelativeDimensionsMain.MOD_ID;
@@ -70,7 +67,7 @@ public class ModDimensions {
                 MultiNoiseBiomeSource.createFromList(
                         utilityClass.customOverworldDefaults(biomeRegistry)
                 ),
-                noiseGenSettings.getOrThrow(NoiseGeneratorSettings.AMPLIFIED));
+                noiseGenSettings.getOrThrow(NoiseGeneratorSettings.OVERWORLD));
 
         LevelStem stem = new LevelStem(dimTypes.getOrThrow(ModDimensions.ABERRANT_OVERWORLD_DIMENSION_TYPE), noiseBasedChunkGenerator);
 
