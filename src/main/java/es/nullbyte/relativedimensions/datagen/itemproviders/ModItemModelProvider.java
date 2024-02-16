@@ -1,7 +1,7 @@
 package es.nullbyte.relativedimensions.datagen.itemproviders;
 
 import es.nullbyte.relativedimensions.blocks.BlockInit;
-import es.nullbyte.relativedimensions.items.ItemInit;
+import es.nullbyte.relativedimensions.items.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -20,24 +20,24 @@ public class ModItemModelProvider extends ItemModelProvider {
     }
     @Override
     protected void registerModels() {
-        handheldRodItem(ItemInit.AVID_SDPT); //Avid SDPT
-        handheldItem(ItemInit.TRANSMAT_BEAM_EMITTER);   //Transmat Beam Emitter
-        simpleItem(ItemInit.TESTITEM1); //Test item 1
+        handheldRodItem(ModItems.AVID_SDPT); //Avid SDPT
+        handheldItem(ModItems.TRANSMAT_BEAM_EMITTER);   //Transmat Beam Emitter
+        simpleItem(ModItems.TESTITEM1); //Test item 1
         generateCompassTextures(); //Generates the tracker compass texture states (both normal and teamed)
-        generateCompassModel(ItemInit.PLAYER_TRACKER_COMPASS, 32, "compassstate"); //Generates the tracker compass model
-        generateCompassModel(ItemInit.TEAM_TRACKER_COMPASS, 32, "tcompassstate"); //Generates the tracker compass model
+        generateCompassModel(ModItems.PLAYER_TRACKER_COMPASS, 31, "compassstate"); //Generates the tracker compass model
+        generateCompassModel(ModItems.TEAM_TRACKER_COMPASS, 31, "tcompassstate"); //Generates the tracker compass model
 
-        simpleItem(ItemInit.ABERRANT_STICK); //Aberrant stick
+        simpleItem(ModItems.ABERRANT_STICK); //Aberrant stick
 
-        handheldItem(ItemInit.ABERRANT_PICK); //Aberrant pickaxe
-        simpleItem(ItemInit.ABERRANT_SHARD); //Aberrant shard
-        simpleItem(ItemInit.ABERRANT_INGOT); //Aberrant ingot
-        handheldItem(ItemInit.ABERRANT_SWORD); //Aberrant sword
+        handheldItem(ModItems.ABERRANT_PICK); //Aberrant pickaxe
+        simpleItem(ModItems.ABERRANT_SHARD); //Aberrant shard
+        simpleItem(ModItems.ABERRANT_INGOT); //Aberrant ingot
+        handheldItem(ModItems.ABERRANT_SWORD); //Aberrant sword
         blockItem(BlockInit.ABERRANT_BLOCK); //Aberrant block block item
         blockItem(BlockInit.ABERRANT_ORE); //Aberrant ore block item
         blockItem(BlockInit.ABERRANT_MINERALOID); //Aberrant mineraloid block item
 
-        handheldItem(ItemInit.ABERRANT_AXE); //Aberrant axe
+        handheldItem(ModItems.ABERRANT_AXE); //Aberrant axe
         blockItem(BlockInit.ABERRANT_LOG); //Aberrant log block item
         blockItem(BlockInit.ABERRANT_WOOD); //Aberrant wood block item
         blockItem(BlockInit.ABERRANT_PLANK); //Aberrant plank block item
@@ -94,28 +94,52 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .texture("layer0", modLoc("item/tcompassstate/" + "tcompass_disarmed"));
     }
 
+
     private void generateCompassModel(RegistryObject<Item> item, int states, String folder) {
+        // Initialize the model builder with the parent model and texture
+        ItemModelBuilder modelBuilder = folder.equals("compassstate") ?  withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(MOD_ID, "item/" + folder + "/compass_disarmed")) :
+                withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(MOD_ID, "item/" + folder + "/tcompass_disarmed"));
 
-        ItemModelBuilder modelBuilder =  withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(MOD_ID,"item/" + item.getId().getPath()));
-
+        // The default model, used when no other predicates match
         if (folder.equals("compassstate")) {
             modelBuilder.override()
-                    .predicate(new ResourceLocation("custom_model_data"), 0)
-                    .model(getExistingFile(modLoc("item/compassstate/compass_disarmed")));
+                    .predicate(new ResourceLocation("angle"), -1) // Using 0 as a placeholder; no angle predicate needed for default
+                    .model(getExistingFile(new ResourceLocation(MOD_ID, "item/" + folder + "/compass_disarmed")));
         } else {
             modelBuilder.override()
-                    .predicate(new ResourceLocation("custom_model_data"), 0)
-                    .model(getExistingFile(modLoc("item/tcompassstate/tcompass_disarmed")));
+                    .predicate(new ResourceLocation("angle"), -1) // Using 0 as a placeholder; no angle predicate needed for default
+                    .model(getExistingFile(new ResourceLocation(MOD_ID, "item/" + folder + "/tcompass_disarmed")));
         }
 
-        for (int i = 1; i < states; i++) {
-            String number = String.format("%02d", i); // Formats the number with leading zeros
+        // Specific angles and corresponding model files from the original compass
+        float[] angles = {
+                0.000000f, 0.015625f, 0.046875f, 0.078125f, 0.109375f, 0.140625f, 0.171875f, 0.203125f,
+                0.234375f, 0.265625f, 0.296875f, 0.328125f, 0.359375f, 0.390625f, 0.421875f, 0.453125f,
+                0.484375f, 0.515625f, 0.546875f, 0.578125f, 0.609375f, 0.640625f, 0.671875f, 0.703125f,
+                0.734375f, 0.765625f, 0.796875f, 0.828125f, 0.859375f, 0.890625f, 0.921875f, 0.953125f,
+                0.984375f // This last entry aligns with the wrap-around to the default model.
+        };
+        for (int i = 0; i < angles.length-1; i++) {
+            String modelName;
+            if (i == 0) {
+                // The first override uses the disarmed model as per your requirement
+                modelName = folder.equals("compassstate") ? "compass_disarmed" : "tcompass_disarmed";
+            } else {
+                // Subsequent models follow the naming convention and are indexed from 00 to 31
+                modelName = String.format("%s_%02d", folder.equals("compassstate") ? "trackercompass" : "teamtrackercompass", i);
+            }
+
             modelBuilder.override()
-                    .predicate(new ResourceLocation("custom_model_data"), i)
-                    .model(getExistingFile(modLoc("item/" + folder + "/" + item.getId().getPath() + "_" + number)));
+                    .predicate(new ResourceLocation("angle"), angles[i])
+                    .model(getExistingFile(new ResourceLocation(MOD_ID, "item/" + folder + "/" + modelName)));
         }
     }
+
 }
+
+
 

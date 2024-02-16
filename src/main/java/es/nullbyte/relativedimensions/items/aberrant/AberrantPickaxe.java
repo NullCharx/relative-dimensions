@@ -1,6 +1,6 @@
 package es.nullbyte.relativedimensions.items.aberrant;
 
-import es.nullbyte.relativedimensions.items.ItemInit;
+import es.nullbyte.relativedimensions.items.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -27,7 +27,7 @@ public class AberrantPickaxe extends PickaxeItem {
 
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, ItemStack material) {
-        return material.getItem() == ItemInit.AVID_SDPT.get();
+        return material.getItem() == ModItems.AVID_SDPT.get();
     }
 
     @Override

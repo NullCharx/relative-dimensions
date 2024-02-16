@@ -1,7 +1,7 @@
 package es.nullbyte.relativedimensions.datagen.recpieproviders;
 
 import es.nullbyte.relativedimensions.blocks.BlockInit;
-import es.nullbyte.relativedimensions.items.ItemInit;
+import es.nullbyte.relativedimensions.items.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
@@ -54,48 +54,48 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
         List<ItemLike> ingridients = List.of(BlockInit.ABERRANT_ORE.get().asItem());
-        oreSmelting(pRecipeOutput, ingridients, RecipeCategory.MISC, ItemInit.ABERRANT_SHARD.get(), 0.5F, 200, MOD_ID + ":aberrant_ingot_smelt");
-        oreBlasting(pRecipeOutput, ingridients, RecipeCategory.MISC, ItemInit.ABERRANT_SHARD.get(), 0.7F, 120, MOD_ID + ":aberrant_ingot_blast");
+        oreSmelting(pRecipeOutput, ingridients, RecipeCategory.MISC, ModItems.ABERRANT_SHARD.get(), 0.5F, 200, MOD_ID + ":aberrant_ingot_smelt");
+        oreBlasting(pRecipeOutput, ingridients, RecipeCategory.MISC, ModItems.ABERRANT_SHARD.get(), 0.7F, 120, MOD_ID + ":aberrant_ingot_blast");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_INGOT.get()) //The recipe is of type MISC and the result is item2
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.ABERRANT_INGOT.get()) //The recipe is of type MISC and the result is item2
                 .pattern("###")
-                .define('#', ItemInit.ABERRANT_SHARD.get()).unlockedBy(ItemInit.ABERRANT_SHARD.get().toString(), has(ItemInit.ABERRANT_SHARD.get())) //The item2 recipe is unlocked by having item1
+                .define('#', ModItems.ABERRANT_SHARD.get()).unlockedBy(ModItems.ABERRANT_SHARD.get().toString(), has(ModItems.ABERRANT_SHARD.get())) //The item2 recipe is unlocked by having item1
                 .save(pRecipeOutput, MOD_ID + ":aberrant_ingot_from_shard"); //Save the recipe to the output
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ABERRANT_BLOCK.get()) //The recipe is of type MISC and the result is item2
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")
-                .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get())) //The item2 recipe is unlocked by having item1
+                .define('#', ModItems.ABERRANT_INGOT.get()).unlockedBy(ModItems.ABERRANT_INGOT.get().toString(), has(ModItems.ABERRANT_INGOT.get())) //The item2 recipe is unlocked by having item1
                 .save(pRecipeOutput, MOD_ID + ":aberrant_block_from_ingot"); //Save the recipe to the output
-        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_SWORD.get()) //The recipe is of type MISC and the result is item2
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.ABERRANT_SWORD.get()) //The recipe is of type MISC and the result is item2
                 .pattern(" # ")
                 .pattern(" # ")
                 .pattern(" - ")
-                .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
-                .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(ItemInit.ABERRANT_STICK.get().toString(), has(ItemInit.ABERRANT_STICK.get()))
+                .define('#', ModItems.ABERRANT_INGOT.get()).unlockedBy(ModItems.ABERRANT_INGOT.get().toString(), has(ModItems.ABERRANT_INGOT.get()))
+                .define('-', ModItems.ABERRANT_STICK.get()).unlockedBy(ModItems.ABERRANT_STICK.get().toString(), has(ModItems.ABERRANT_STICK.get()))
                 .save(pRecipeOutput, MOD_ID + ":aberrant_sword_vanilla");
-        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_PICK.get()) //The recipe is of type MISC and the result is item2
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.ABERRANT_PICK.get()) //The recipe is of type MISC and the result is item2
                 .pattern("###")
                 .pattern(" - ")
                 .pattern(" - ")
-                .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
-                .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(ItemInit.ABERRANT_STICK.get().toString(), has(ItemInit.ABERRANT_STICK.get()))
+                .define('#', ModItems.ABERRANT_INGOT.get()).unlockedBy(ModItems.ABERRANT_INGOT.get().toString(), has(ModItems.ABERRANT_INGOT.get()))
+                .define('-', ModItems.ABERRANT_STICK.get()).unlockedBy(ModItems.ABERRANT_STICK.get().toString(), has(ModItems.ABERRANT_STICK.get()))
                 .save(pRecipeOutput, MOD_ID + ":aberrant_pickaxe_vanilla");
-        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemInit.ABERRANT_AXE.get()) //The recipe is of type MISC and the result is item2
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.ABERRANT_AXE.get()) //The recipe is of type MISC and the result is item2
                 .pattern("## ")
                 .pattern("#- ")
                 .pattern(" - ")
-                .define('#', ItemInit.ABERRANT_INGOT.get()).unlockedBy(ItemInit.ABERRANT_INGOT.get().toString(), has(ItemInit.ABERRANT_INGOT.get()))
-                .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(ItemInit.ABERRANT_STICK.get().toString(), has(ItemInit.ABERRANT_STICK.get()))
+                .define('#', ModItems.ABERRANT_INGOT.get()).unlockedBy(ModItems.ABERRANT_INGOT.get().toString(), has(ModItems.ABERRANT_INGOT.get()))
+                .define('-', ModItems.ABERRANT_STICK.get()).unlockedBy(ModItems.ABERRANT_STICK.get().toString(), has(ModItems.ABERRANT_STICK.get()))
                 .save(pRecipeOutput, MOD_ID + ":aberrant_axe_vanilla_left");
 
         //Save the recipe to the output
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, ItemInit.ABERRANT_STICK.get(), 4)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, ModItems.ABERRANT_STICK.get(), 4)
                 .requires(BlockInit.ABERRANT_PLANK.get(),2)
                 .unlockedBy(BlockInit.ABERRANT_PLANK.get().toString(), has(BlockInit.ABERRANT_PLANK.get()))
                 .save(pRecipeOutput, MOD_ID + ":aberrant_stick_from_plank");
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.ABERRANT_INGOT.get(), 9)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ABERRANT_INGOT.get(), 9)
                 .requires(BlockInit.ABERRANT_BLOCK.get())
                 .unlockedBy(BlockInit.ABERRANT_BLOCK.get().toString(), has(BlockInit.ABERRANT_BLOCK.get()))
                 .save(pRecipeOutput, MOD_ID + ":aberrant_ingot_from_block");
@@ -116,13 +116,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pRecipeOutput, MOD_ID + ":stripepd_aberrant_wood_from_stripepd_log");
 
         //TP Items
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.AVID_SDPT.get()) //The recipe is of type MISC and the result is item2
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.AVID_SDPT.get()) //The recipe is of type MISC and the result is item2
                 .pattern(" 0 ")
                 .pattern(" # ")
                 .pattern(" - ")
                 .define('0', Items.ENDER_PEARL) //The item2 recipe is unlocked by having item1
-                .define('#', ItemInit.ABERRANT_INGOT.get()) //The item2 recipe is unlocked by having item1
-                .define('-', ItemInit.ABERRANT_STICK.get()).unlockedBy(Items.ENDER_PEARL.toString(), has(Items.ENDER_PEARL)) //The item2 recipe is unlocked by having item1
+                .define('#', ModItems.ABERRANT_INGOT.get()) //The item2 recipe is unlocked by having item1
+                .define('-', ModItems.ABERRANT_STICK.get()).unlockedBy(Items.ENDER_PEARL.toString(), has(Items.ENDER_PEARL)) //The item2 recipe is unlocked by having item1
                 .save(pRecipeOutput, MOD_ID + ":avid_sdpt_recipe0"); //Save the recipe to the output
 
     }

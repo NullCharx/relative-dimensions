@@ -1,7 +1,7 @@
 package es.nullbyte.relativedimensions.items.tp;
 
 import es.nullbyte.relativedimensions.effects.ModEffects;
-import es.nullbyte.relativedimensions.items.ItemInit;
+import es.nullbyte.relativedimensions.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -20,8 +20,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static es.nullbyte.relativedimensions.RelativeDimensionsMain.RANDOM;
 
 
 public class AvidShortDistanceParticleTransmitter extends Item {
@@ -73,7 +71,7 @@ public class AvidShortDistanceParticleTransmitter extends Item {
 
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, ItemStack material) {
-        return material.getItem() == ItemInit.AVID_SDPT.get();
+        return material.getItem() == ModItems.AVID_SDPT.get();
     }
 
     @Override

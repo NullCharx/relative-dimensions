@@ -5,8 +5,9 @@ import com.mojang.logging.LogUtils;
 import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModifiers.ModLootModifiers;
 import es.nullbyte.relativedimensions.effects.ModEffects;
-import es.nullbyte.relativedimensions.items.ItemInit;
+import es.nullbyte.relativedimensions.items.ModItems;
 import es.nullbyte.relativedimensions.items.CreativeModTabs;
+import es.nullbyte.relativedimensions.items.tracking.common.CompassRenderProperties;
 import es.nullbyte.relativedimensions.worldgen.biomes.TerraBlenderInterface;
 import es.nullbyte.relativedimensions.worldgen.biomes.surface.ModSurfaceRules;
 import es.nullbyte.relativedimensions.worldgen.dimensions.auxpackage.utilityClass;
@@ -22,6 +23,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -59,7 +61,7 @@ public class RelativeDimensionsMain {
     //TEst forGUI mac.
     public static final String MOD_ID = "relativedimensions";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public static final Random RANDOM = new Random();
 
@@ -78,7 +80,7 @@ public class RelativeDimensionsMain {
         modEventBus.addListener(this::commonSetup);
 
         //Register ITEMS (Register Init)
-        ItemInit.register(modEventBus);
+        ModItems.register(modEventBus);
 
         //Register BLOCKS (Register Init)
         BlockInit.register(modEventBus);
@@ -118,6 +120,8 @@ public class RelativeDimensionsMain {
         //MinecraftForge.EVENT_BUS.addListener(CustomFogRenderState::onFogColors);
         **/
     }
+
+    //Setup events (common for both client and server)
     private void commonSetup(final FMLCommonSetupEvent event) {
         //Registrar eventos encolados, includos los paquetes de red!
         event.enqueueWork(() -> {
@@ -137,6 +141,14 @@ public class RelativeDimensionsMain {
     }
 
 
+    //Client-side setup events (only for client)
+    @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        // Register the compass properties renderer (for needle pointing to nearest player)
+        //This renderer will use synchronized NBT data from the server item to render the compass needle
+        CompassRenderProperties.registerCompassProperty(ModItems.PLAYER_TRACKER_COMPASS.get());
+        CompassRenderProperties.registerCompassProperty(ModItems.TEAM_TRACKER_COMPASS.get());
+    }
 
     //@SubscribeEvent
     // Add the example block item to the building blocks tab
@@ -144,7 +156,7 @@ public class RelativeDimensionsMain {
         //Add the item to an existing vanilla creative tab
         //For example, add the testitem to the "ingredients" tab
         if(event.getTabKey() == CreativeModeTabs.INGREDIENTS){
-            event.accept(ItemInit.TESTITEM1);
+            event.accept(ModItems.TESTITEM1);
         }
     }
 
@@ -192,6 +204,7 @@ public class RelativeDimensionsMain {
         DespawnChestCommand.register(dispatcher);
         ListPlayersCommand.register(dispatcher);
     }
+
 
     //Disable join messages
     @SubscribeEvent(priority = EventPriority.HIGHEST)

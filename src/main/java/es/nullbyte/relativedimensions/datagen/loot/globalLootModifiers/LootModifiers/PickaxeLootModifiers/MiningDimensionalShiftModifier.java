@@ -4,7 +4,7 @@ import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import es.nullbyte.relativedimensions.blocks.BlockInit;
-import es.nullbyte.relativedimensions.items.ItemInit;
+import es.nullbyte.relativedimensions.items.ModItems;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -55,7 +55,7 @@ public class MiningDimensionalShiftModifier extends LootModifier {
         BlockState block = context.getParamOrNull(LootContextParams.BLOCK_STATE);
 
         //Check if the tool is the aberrant pickaxe
-        if (tool != null && tool.getItem() == ItemInit.ABERRANT_PICK.get() ) {
+        if (tool != null && tool.getItem() == ModItems.ABERRANT_PICK.get() ) {
             //Aberrantism for ores
             if (block != null && block.is(Tags.Blocks.ORES) && block.getBlock() != BlockInit.ABERRANT_ORE.get()){
                 generatedLoot.clear(); // Clear existing loot
@@ -169,7 +169,7 @@ public class MiningDimensionalShiftModifier extends LootModifier {
         uncommonItems.add(Blocks.COAL_BLOCK.asItem());
         uncommonItems.add(Blocks.COPPER_BLOCK.asItem());
         uncommonItems.add(BlockInit.ABERRANT_PLANK.get().asItem());
-        uncommonItems.add(ItemInit.ABERRANT_STICK.get());
+        uncommonItems.add(ModItems.ABERRANT_STICK.get());
 
 
         rareItems.add(Blocks.IRON_BLOCK.asItem());
