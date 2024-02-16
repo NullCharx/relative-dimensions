@@ -27,10 +27,11 @@
   "item.relativedimensions.trackercompass.tooltip": "Use the item to track a player! If there are no players in range, the compass will not activate.",
   "item.relativedimensions.teamtrackercompass": "AVID team player tracking compass",
   "item.relativedimensions.teamtrackercompass.tooltip": "Use the item to track a player of your team! If there are no players in range, the compass will not acivate.",
-  "item.relativedimensions.trackers.no_players_found": "No players found nearby",
+  "item.relativedimensions.trackers.no_players_found": "No players found nearby. Awaiting recalibration...",
   "item.relativedimensions.trackers.player_found" : "Player found, compass armed",
-  "item.relativedimensions.trackers.compass_already_armed": "Compass already armed and locked on to a player",
   "item.relativedimensions.trackers.player_too_close": "Due to target proximity, the compass has overloaded and no longer works. The excess energy vaporized the compass before your eyes",
+  "item.relativedimensions.trackers.recalibrating": "Triangulation error. Recalibration completed. Try again",
+  "item.relativedimensions.trackers.errorleftwhiletracking": "Triangulation error. Energy signature lost. Recalibration completed",
 
 
   "block.relativedimensions.tsrail": "Rail piece part of the AVID center transit system",

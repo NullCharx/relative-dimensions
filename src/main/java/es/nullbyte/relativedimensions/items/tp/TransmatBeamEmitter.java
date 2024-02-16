@@ -1,6 +1,6 @@
 package es.nullbyte.relativedimensions.items.tp;
 
-import es.nullbyte.relativedimensions.items.ItemInit;
+import es.nullbyte.relativedimensions.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -207,7 +207,7 @@ public class TransmatBeamEmitter extends Item {
 
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, ItemStack material) {
-        return material.getItem() == ItemInit.AVID_SDPT.get();
+        return material.getItem() == ModItems.AVID_SDPT.get();
     }
 
     @Override

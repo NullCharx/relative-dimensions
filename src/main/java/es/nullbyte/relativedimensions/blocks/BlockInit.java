@@ -7,7 +7,7 @@ import es.nullbyte.relativedimensions.blocks.aberrant.aberrantMineraloid;
 import es.nullbyte.relativedimensions.blocks.aberrant.aberrantOre;
 import es.nullbyte.relativedimensions.blocks.flammables.ModFlammableRotatedPillarBlock;
 import es.nullbyte.relativedimensions.blocks.flammables.ModFlammableRotatedPlank;
-import es.nullbyte.relativedimensions.items.ItemInit;
+import es.nullbyte.relativedimensions.items.ModItems;
 import es.nullbyte.relativedimensions.worldgen.treegen.AberrantTreeGrower;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -74,7 +74,7 @@ public class BlockInit {
     }
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
         //T is the block type. It will register the block and the block item.
-        return ItemInit.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        return ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
     public  static  void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);

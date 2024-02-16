@@ -3,7 +3,7 @@ package es.nullbyte.relativedimensions.items.aberrant;
 import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.effects.ModEffects;
 import es.nullbyte.relativedimensions.effects.utils.tputils;
-import es.nullbyte.relativedimensions.items.ItemInit;
+import es.nullbyte.relativedimensions.items.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -174,7 +174,7 @@ public class AberrantAxe extends AxeItem {
 
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, ItemStack material) {
-        return material.getItem() == ItemInit.AVID_SDPT.get();
+        return material.getItem() == ModItems.AVID_SDPT.get();
     }
 
     @Override

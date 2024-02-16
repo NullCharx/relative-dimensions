@@ -5,12 +5,15 @@ TODO: aberrant tree/grass/coblestone?
 TODO: Check all the refactorization of the code is correct
 TODO: Recode the tracker compass to not use local variables like the team one
 --------------------------------------------
-TODO: CHCEK BIOME GENRATION (single nbiome)AND BIOME GEN ON OVERWORLD
-TODO: Calibrate mining aberrantism epic and higher drops for axe to be more rare. Make aberrantism more common but dimshift less common.
-TODO: Menu text and icon for aberrant slash dont work.
-TODO: Check if the player already has one of the long term effects before applying it. If he has just apply aerrantism
+TODO: Check the compass update method. Check generally.
+TODO: Make the inventory tick for compass volatilization (both)
+TODO: Redo teamtracker compass too.
+TODO: Check the teamtracker compass update method.
 
-TODO: Aberrant items withe effects?: axe, shovel, hoe.
+
+TODO: CHCEK BIOME GENRATION (single nbiome)AND BIOME GEN ON OVERWORLD
+TODO: Aberrant items withe effects?:  shovel, hoe.
+TODO: SURFACE RULES NEED TO BE CHANGED_
 TODO: When that isdone, integrate aberrant tree/grass/cobblestone
 TODO: When that is done, define a custom biome with the aberrant items.
 TODO: When that is done, add the aberrant biome to the overworld generation.
