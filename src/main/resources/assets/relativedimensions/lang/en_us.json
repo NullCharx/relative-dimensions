@@ -23,16 +23,24 @@
 
 
   "creativetab.avidpvp": "AVID staff control items",
+  "item.relativedimensions.disarmedtrackercompass": "Disarmed AVID player tracking compass",
+  "item.relativedimensions.disarmedtrackercompass.tooltip": "Use the item to track a player! If there are no players in range, the compass will not activate.",
+  "item.relativedimensions.disarmedteamtrackercompass": "Disarmed AVID team player tracking compass",
+  "item.relativedimensions.disarmedteamtrackercompass.tooltip": "Use the item to track a player of your team! If there are no players in range, the compass will not acivate.",
+
   "item.relativedimensions.trackercompass": "AVID player tracking compass",
-  "item.relativedimensions.trackercompass.tooltip": "Use the item to track a player! If there are no players in range, the compass will not activate.",
+  "item.relativedimensions.trackercompass.tooltip": "Quick, follow the needle! Use again while tracking to update the target position",
   "item.relativedimensions.teamtrackercompass": "AVID team player tracking compass",
-  "item.relativedimensions.teamtrackercompass.tooltip": "Use the item to track a player of your team! If there are no players in range, the compass will not acivate.",
+  "item.relativedimensions.teamtrackercompass.tooltip":  "Quick, follow the needle! Use again while tracking to update the target position",
+
   "item.relativedimensions.trackers.no_players_found": "No players found nearby. Awaiting recalibration...",
-  "item.relativedimensions.trackers.player_found" : "Player found, compass armed",
+  "item.relativedimensions.trackers.player_found" : "Player found, compass armed. Use again to update position",
+  "item.relativedimensions.trackers.pos_updated": "Compass latched, position updated",
   "item.relativedimensions.trackers.player_too_close": "Due to target proximity, the compass has overloaded and no longer works. The excess energy vaporized the compass before your eyes",
   "item.relativedimensions.trackers.recalibrating": "Triangulation error. Recalibration completed. Try again",
-  "item.relativedimensions.trackers.errorleftwhiletracking": "Triangulation error. Energy signature lost. Recalibration completed",
-
+  "item.relativedimensions.trackers.errorleftwhiletracking": "Triangulation error. Energy signature lost. Recalibration completed. Use again to retrack the player once their signature is found",
+  "item.relativedimensions.trackers.state2": "Locked on target.",
+  "item.relativedimensions.trackers.state3": "Locked target lost. Running from memory...",
 
   "block.relativedimensions.tsrail": "Rail piece part of the AVID center transit system",
 

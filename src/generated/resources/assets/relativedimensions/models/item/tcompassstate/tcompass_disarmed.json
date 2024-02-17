@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "relativedimensions:item/tcompassstate/tcompass_disarmed"
+    "layer0": "relativedimensions:item/compass_disarmed"
   }
 }

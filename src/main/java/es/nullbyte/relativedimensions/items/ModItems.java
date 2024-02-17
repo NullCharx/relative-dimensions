@@ -7,6 +7,7 @@ import es.nullbyte.relativedimensions.items.aberrant.AberrantSword;
 import es.nullbyte.relativedimensions.items.tp.AvidShortDistanceParticleTransmitter;
 import es.nullbyte.relativedimensions.items.tp.TransmatBeamEmitter;
 import es.nullbyte.relativedimensions.items.tracking.PlayerTrackerCompass;
+import es.nullbyte.relativedimensions.items.tracking.DisarmedPlayerTrackerCompass;
 import es.nullbyte.relativedimensions.items.tracking.TeamTrackerCompass;
 import es.nullbyte.relativedimensions.items.utils.ModToolTiers;
 import net.minecraft.world.item.Item;
@@ -57,8 +58,13 @@ public class ModItems {
             () -> new TransmatBeamEmitter(new Item.Properties().durability(1000)));
 
     //Detector compass
+    public static final RegistryObject<Item> DISARMEDPLAYER_TRACKER_COMPASS = ITEMS.register("disarmedtrackercompass",
+            () -> new DisarmedPlayerTrackerCompass(new Item.Properties().durability(1000)));
     public static final RegistryObject<Item> PLAYER_TRACKER_COMPASS = ITEMS.register("trackercompass",
             () -> new PlayerTrackerCompass(new Item.Properties().durability(1000)));
+
+    public static final RegistryObject<Item> DISARMEDTEAM_TRACKER_COMPASS = ITEMS.register("disarmedteamtrackercompass",
+            () -> new TeamTrackerCompass(new Item.Properties().durability(1000)));
 
     public static final RegistryObject<Item> TEAM_TRACKER_COMPASS = ITEMS.register("teamtrackercompass",
             () -> new TeamTrackerCompass(new Item.Properties().durability(1000)));

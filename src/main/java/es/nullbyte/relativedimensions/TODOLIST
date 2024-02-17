@@ -5,10 +5,7 @@ TODO: aberrant tree/grass/coblestone?
 TODO: Check all the refactorization of the code is correct
 TODO: Recode the tracker compass to not use local variables like the team one
 --------------------------------------------
-TODO: Check the compass update method. Check generally.
-TODO: Make the inventory tick for compass volatilization (both)
-TODO: Redo teamtracker compass too.
-TODO: Check the teamtracker compass update method.
+TODO: Problem in compasses with teams enabled (people in teams dont get tracked)
 
 
 TODO: CHCEK BIOME GENRATION (single nbiome)AND BIOME GEN ON OVERWORLD
