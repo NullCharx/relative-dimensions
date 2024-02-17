@@ -7,12 +7,14 @@ import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.LootModif
 import es.nullbyte.relativedimensions.effects.ModEffects;
 import es.nullbyte.relativedimensions.items.ModItems;
 import es.nullbyte.relativedimensions.items.CreativeModTabs;
-import es.nullbyte.relativedimensions.items.tracking.common.CompassRenderProperties;
+import es.nullbyte.relativedimensions.items.tracking.common.CustomCompassRenderProperties;
 import es.nullbyte.relativedimensions.worldgen.biomes.TerraBlenderInterface;
 import es.nullbyte.relativedimensions.worldgen.biomes.surface.ModSurfaceRules;
 import es.nullbyte.relativedimensions.worldgen.dimensions.auxpackage.utilityClass;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -106,7 +108,7 @@ public class RelativeDimensionsMain {
 
 
         //Commented PVP listen events
-        /**
+        /*
          //Register the class on the event bus so any events it has will be called
          MinecraftForge.EVENT_BUS.register(PvpManager.class);
 
@@ -126,7 +128,8 @@ public class RelativeDimensionsMain {
         //Registrar eventos encolados, includos los paquetes de red!
         event.enqueueWork(() -> {
             //Commented PVP handlers
-            /**RemainingTimeHandler.register();
+            /*
+            RemainingTimeHandler.register();
             PVPStateHandler.register();
             DailyTimeLimitHandler.register();
             ModMessages.register();**/
@@ -146,8 +149,9 @@ public class RelativeDimensionsMain {
     public static void onClientSetup(FMLClientSetupEvent event) {
         // Register the compass properties renderer (for needle pointing to nearest player)
         //This renderer will use synchronized NBT data from the server item to render the compass needle
-        CompassRenderProperties.registerCompassProperty(ModItems.PLAYER_TRACKER_COMPASS.get());
-        CompassRenderProperties.registerCompassProperty(ModItems.TEAM_TRACKER_COMPASS.get());
+
+        ItemProperties.register(ModItems.PLAYER_TRACKER_COMPASS.get(), new ResourceLocation("angle"), new CustomCompassRenderProperties());
+        ItemProperties.register(ModItems.TEAM_TRACKER_COMPASS.get(), new ResourceLocation("angle"), new CustomCompassRenderProperties());
     }
 
     //@SubscribeEvent
@@ -196,7 +200,8 @@ public class RelativeDimensionsMain {
         //REGISTER THE COMMANDS HERE!
         LOGGER.info("[CHARMISCMODS - MAIN] Initial command registration");
         //Commented PVP commands
-        /**modPVPcmd.register(dispatcher);
+        /*
+        modPVPcmd.register(dispatcher);
         modTimercmd.register(dispatcher);
         WinnerEnabler.register(dispatcher);
         */

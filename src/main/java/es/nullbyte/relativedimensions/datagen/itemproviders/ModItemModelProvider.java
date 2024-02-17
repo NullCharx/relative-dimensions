@@ -24,8 +24,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.TRANSMAT_BEAM_EMITTER);   //Transmat Beam Emitter
         simpleItem(ModItems.TESTITEM1); //Test item 1
         generateCompassTextures(); //Generates the tracker compass texture states (both normal and teamed)
-        generateCompassModel(ModItems.PLAYER_TRACKER_COMPASS, 31, "compassstate"); //Generates the tracker compass model
-        generateCompassModel(ModItems.TEAM_TRACKER_COMPASS, 31, "tcompassstate"); //Generates the tracker compass model
+        disarmedCompass(ModItems.DISARMEDPLAYER_TRACKER_COMPASS); //Disarmed tracker compass
+        disarmedCompass(ModItems.DISARMEDTEAM_TRACKER_COMPASS); //Disarmed team tracker compass
+        generateCompassModel(ModItems.PLAYER_TRACKER_COMPASS, "compassstate"); //Generates the tracker compass model
+        generateCompassModel(ModItems.TEAM_TRACKER_COMPASS, "tcompassstate"); //Generates the tracker compass model
 
         simpleItem(ModItems.ABERRANT_STICK); //Aberrant stick
 
@@ -61,6 +63,12 @@ public class ModItemModelProvider extends ItemModelProvider {
                 new ResourceLocation(MOD_ID, "item/" + item.getId().getPath()));
     }
 
+    private ItemModelBuilder disarmedCompass(RegistryObject<Item> item) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(MOD_ID,"item/compass_disarmed"));
+    }
+
     private ItemModelBuilder handheldItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/handheld")).texture("layer0",
@@ -77,67 +85,50 @@ public class ModItemModelProvider extends ItemModelProvider {
     //--Custom methods-----
     //The base of the folder system is models. You have to manually add the items
     private void generateCompassTextures() {
+        withExistingParent( "item/compassstate/" + "compass_disarmed", mcLoc("item/generated"))
+                .texture("layer0", modLoc("item/compass_disarmed"));
         for (int i = 0; i <= 31; i++) {
             String modelName = "trackercompass_" + String.format("%02d", i);
             withExistingParent( "item/compassstate/" + modelName, mcLoc("item/generated"))
                     .texture("layer0", modLoc("item/compassstate/" + modelName));
         }
-        withExistingParent( "item/compassstate/" + "compass_disarmed", mcLoc("item/generated"))
-                .texture("layer0", modLoc("item/compassstate/" + "compass_disarmed"));
 
+        withExistingParent( "item/tcompassstate/" + "tcompass_disarmed", mcLoc("item/generated"))
+                .texture("layer0", modLoc("item/compass_disarmed"));
         for (int i = 0; i <= 31; i++) {
             String modelName = "teamtrackercompass_" + String.format("%02d", i);
             withExistingParent( "item/tcompassstate/" + modelName, mcLoc("item/generated"))
                     .texture("layer0", modLoc("item/tcompassstate/" + modelName));
         }
-        withExistingParent( "item/tcompassstate/" + "tcompass_disarmed", mcLoc("item/generated"))
-                .texture("layer0", modLoc("item/tcompassstate/" + "tcompass_disarmed"));
+
     }
 
 
-    private void generateCompassModel(RegistryObject<Item> item, int states, String folder) {
-        // Initialize the model builder with the parent model and texture
-        ItemModelBuilder modelBuilder = folder.equals("compassstate") ?  withExistingParent(item.getId().getPath(),
+    private void generateCompassModel(RegistryObject<Item> item, String folder) {
+        // Initialize the model builder with the parent model and texture for disarmed state
+        ItemModelBuilder modelBuilder = withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated"))
-                .texture("layer0", new ResourceLocation(MOD_ID, "item/" + folder + "/compass_disarmed")) :
-                withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/generated"))
-                .texture("layer0", new ResourceLocation(MOD_ID, "item/" + folder + "/tcompass_disarmed"));
+                .texture("layer0", new ResourceLocation(MOD_ID, "item/compass_disarmed"));
 
-        // The default model, used when no other predicates match
-        if (folder.equals("compassstate")) {
-            modelBuilder.override()
-                    .predicate(new ResourceLocation("angle"), -1) // Using 0 as a placeholder; no angle predicate needed for default
-                    .model(getExistingFile(new ResourceLocation(MOD_ID, "item/" + folder + "/compass_disarmed")));
-        } else {
-            modelBuilder.override()
-                    .predicate(new ResourceLocation("angle"), -1) // Using 0 as a placeholder; no angle predicate needed for default
-                    .model(getExistingFile(new ResourceLocation(MOD_ID, "item/" + folder + "/tcompass_disarmed")));
-        }
-
-        // Specific angles and corresponding model files from the original compass
+        // Define the specific angles and corresponding model names as provided
         float[] angles = {
                 0.000000f, 0.015625f, 0.046875f, 0.078125f, 0.109375f, 0.140625f, 0.171875f, 0.203125f,
                 0.234375f, 0.265625f, 0.296875f, 0.328125f, 0.359375f, 0.390625f, 0.421875f, 0.453125f,
                 0.484375f, 0.515625f, 0.546875f, 0.578125f, 0.609375f, 0.640625f, 0.671875f, 0.703125f,
-                0.734375f, 0.765625f, 0.796875f, 0.828125f, 0.859375f, 0.890625f, 0.921875f, 0.953125f,
-                0.984375f // This last entry aligns with the wrap-around to the default model.
+                0.734375f, 0.765625f, 0.796875f, 0.828125f, 0.859375f, 0.890625f, 0.921875f, 0.953125f, 0.984375f
         };
-        for (int i = 0; i < angles.length-1; i++) {
-            String modelName;
-            if (i == 0) {
-                // The first override uses the disarmed model as per your requirement
-                modelName = folder.equals("compassstate") ? "compass_disarmed" : "tcompass_disarmed";
-            } else {
-                // Subsequent models follow the naming convention and are indexed from 00 to 31
-                modelName = String.format("%s_%02d", folder.equals("compassstate") ? "trackercompass" : "teamtrackercompass", i);
-            }
+        String prefix = folder.equals("compassstate") ? "trackercompass_" : "teamtrackercompass_";
 
+        // Generate model overrides based on angles
+        for (int i = 0; i < angles.length; i++) {
+            // Correcting the model name to use the provided scheme, starting from 16 and wrapping to 00 after 31
+            String modelName = prefix + String.format("%02d", (i + 16) % 32);
             modelBuilder.override()
                     .predicate(new ResourceLocation("angle"), angles[i])
                     .model(getExistingFile(new ResourceLocation(MOD_ID, "item/" + folder + "/" + modelName)));
         }
     }
+
 
 }
 

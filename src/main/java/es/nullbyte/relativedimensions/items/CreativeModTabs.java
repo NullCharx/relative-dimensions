@@ -29,11 +29,14 @@ public class CreativeModTabs {
                     .build());
     public static final RegistryObject<CreativeModeTab> AVID_PVP_ITEMS = CREATIVE_MOD_TABS.register("avidpvpitems",
             () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(ModItems.TEAM_TRACKER_COMPASS.get())) //Use one of the items as icon
+                    .icon(() -> new ItemStack(ModItems.DISARMEDTEAM_TRACKER_COMPASS.get())) //Use one of the items as icon
                     .title(Component.translatable("creativetab.avidpvp")) //Translation key for the tab name (lang file)
                     .displayItems((pParameters, pOutput) -> {   //List of items to display in the tab
-                        pOutput.accept(ModItems.PLAYER_TRACKER_COMPASS.get());
+                        //Put the disarmed tracker compass ONLY
                         pOutput.accept(ModItems.TEAM_TRACKER_COMPASS.get());
+                        pOutput.accept(ModItems.PLAYER_TRACKER_COMPASS.get());
+                        pOutput.accept(ModItems.DISARMEDTEAM_TRACKER_COMPASS.get());
+                        pOutput.accept(ModItems.DISARMEDPLAYER_TRACKER_COMPASS.get());
                         //You can also add vanilla items to the tab
                     })
                     .build());

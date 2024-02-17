@@ -1,41 +1,206 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "relativedimensions:item/tcompassstate/tcompass_disarmed"
-  },
+  "parent": "minecraft:item/generated",
   "overrides": [
-    { "predicate": { "angle": 0.000000 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_16" },
-    { "predicate": { "angle": 0.015625 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_17" },
-    { "predicate": { "angle": 0.046875 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_18" },
-    { "predicate": { "angle": 0.078125 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_19" },
-    { "predicate": { "angle": 0.109375 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_20" },
-    { "predicate": { "angle": 0.140625 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_21" },
-    { "predicate": { "angle": 0.171875 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_22" },
-    { "predicate": { "angle": 0.203125 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_23" },
-    { "predicate": { "angle": 0.234375 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_24" },
-    { "predicate": { "angle": 0.265625 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_25" },
-    { "predicate": { "angle": 0.296875 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_26" },
-    { "predicate": { "angle": 0.328125 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_27" },
-    { "predicate": { "angle": 0.359375 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_28" },
-    { "predicate": { "angle": 0.390625 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_19" },
-    { "predicate": { "angle": 0.421875 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_30" },
-    { "predicate": { "angle": 0.453125 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_31" },
-    { "predicate": { "angle": 0.484375 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_00" },
-    { "predicate": { "angle": 0.515625 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_01" },
-    { "predicate": { "angle": 0.546875 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_02" },
-    { "predicate": { "angle": 0.578125 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_03" },
-    { "predicate": { "angle": 0.609375 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_04" },
-    { "predicate": { "angle": 0.640625 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_05" },
-    { "predicate": { "angle": 0.671875 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_06" },
-    { "predicate": { "angle": 0.703125 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_07" },
-    { "predicate": { "angle": 0.734375 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_08" },
-    { "predicate": { "angle": 0.765625 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_09" },
-    { "predicate": { "angle": 0.796875 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_10" },
-    { "predicate": { "angle": 0.828125 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_11" },
-    { "predicate": { "angle": 0.859375 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_12" },
-    { "predicate": { "angle": 0.890625 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_13" },
-    { "predicate": { "angle": 0.921875 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_14" },
-    { "predicate": { "angle": 0.953125 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_15" },
-    { "predicate": { "angle": 0.984375 }, "model": "relativedimensions:item/tcompassstate/teamtrackercompass_16" }
-  ]
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_16",
+      "predicate": {
+        "minecraft:angle": 0.0
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_17",
+      "predicate": {
+        "minecraft:angle": 0.015625
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_18",
+      "predicate": {
+        "minecraft:angle": 0.046875
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_19",
+      "predicate": {
+        "minecraft:angle": 0.078125
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_20",
+      "predicate": {
+        "minecraft:angle": 0.109375
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_21",
+      "predicate": {
+        "minecraft:angle": 0.140625
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_22",
+      "predicate": {
+        "minecraft:angle": 0.171875
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_23",
+      "predicate": {
+        "minecraft:angle": 0.203125
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_24",
+      "predicate": {
+        "minecraft:angle": 0.234375
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_25",
+      "predicate": {
+        "minecraft:angle": 0.265625
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_26",
+      "predicate": {
+        "minecraft:angle": 0.296875
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_27",
+      "predicate": {
+        "minecraft:angle": 0.328125
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_28",
+      "predicate": {
+        "minecraft:angle": 0.359375
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_29",
+      "predicate": {
+        "minecraft:angle": 0.390625
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_30",
+      "predicate": {
+        "minecraft:angle": 0.421875
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_31",
+      "predicate": {
+        "minecraft:angle": 0.453125
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_00",
+      "predicate": {
+        "minecraft:angle": 0.484375
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_01",
+      "predicate": {
+        "minecraft:angle": 0.515625
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_02",
+      "predicate": {
+        "minecraft:angle": 0.546875
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_03",
+      "predicate": {
+        "minecraft:angle": 0.578125
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_04",
+      "predicate": {
+        "minecraft:angle": 0.609375
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_05",
+      "predicate": {
+        "minecraft:angle": 0.640625
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_06",
+      "predicate": {
+        "minecraft:angle": 0.671875
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_07",
+      "predicate": {
+        "minecraft:angle": 0.703125
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_08",
+      "predicate": {
+        "minecraft:angle": 0.734375
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_09",
+      "predicate": {
+        "minecraft:angle": 0.765625
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_10",
+      "predicate": {
+        "minecraft:angle": 0.796875
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_11",
+      "predicate": {
+        "minecraft:angle": 0.828125
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_12",
+      "predicate": {
+        "minecraft:angle": 0.859375
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_13",
+      "predicate": {
+        "minecraft:angle": 0.890625
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_14",
+      "predicate": {
+        "minecraft:angle": 0.921875
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_15",
+      "predicate": {
+        "minecraft:angle": 0.953125
+      }
+    },
+    {
+      "model": "relativedimensions:item/tcompassstate/teamtrackercompass_16",
+      "predicate": {
+        "minecraft:angle": 0.984375
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "relativedimensions:item/compass_disarmed"
+  }
 }
