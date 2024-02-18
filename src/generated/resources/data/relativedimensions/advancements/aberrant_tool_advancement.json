@@ -1,22 +1,36 @@
 {
   "parent": "relativedimensions:aberrant_root_advancement",
   "criteria": {
-    "has_aberrant_tool": {
+    "has_aberrant_axe": {
       "conditions": {
         "items": [
           {
             "items": [
               "relativedimensions:aberrant_axe"
             ]
-          },
-          {
-            "items": [
-              "relativedimensions:aberrant_sword"
-            ]
-          },
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_aberrant_pick": {
+      "conditions": {
+        "items": [
           {
             "items": [
               "relativedimensions:aberrant_pickaxe"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_aberrant_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "relativedimensions:aberrant_sword"
             ]
           }
         ]
@@ -38,7 +52,9 @@
   },
   "requirements": [
     [
-      "has_aberrant_tool"
+      "has_aberrant_axe",
+      "has_aberrant_sword",
+      "has_aberrant_pick"
     ]
   ],
   "sends_telemetry_event": true

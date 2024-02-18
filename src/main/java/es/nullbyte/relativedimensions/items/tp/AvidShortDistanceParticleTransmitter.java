@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -53,7 +54,7 @@ public class AvidShortDistanceParticleTransmitter extends Item {
         // break if durability gets to 0
         if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(0);
 
-        return super.use(world, player, hand);
+        return InteractionResultHolder.success(stack);
 
     }
 

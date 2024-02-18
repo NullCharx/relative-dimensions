@@ -103,8 +103,9 @@ public class TransmatBeamEmitter extends Item {
 
         // break if durability gets to 0
         if (stack.getDamageValue() >= stack.getMaxDamage()) stack.setCount(stack.getCount() - 1);
+
         player.getCooldowns().addCooldown(this, 999 * 20);
-        return super.use(world, player, hand);
+        return InteractionResultHolder.success(stack);
 
     }
 

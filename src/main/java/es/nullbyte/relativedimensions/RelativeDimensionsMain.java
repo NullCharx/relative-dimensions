@@ -57,7 +57,7 @@ import java.util.Random;
 @Mod(RelativeDimensionsMain.MOD_ID)
 @Mod.EventBusSubscriber(modid = RelativeDimensionsMain.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RelativeDimensionsMain {
-    private static final boolean ABERRANT_DIMENSION_OVERRIDE = false; //Only set this to true if you randata and want to override the aberrant overworld dimension biome properties
+    private static final boolean ABERRANT_DIMENSION_OVERRIDE = true; //Only set this to true if you randata and want to override the aberrant overworld dimension biome properties
 
     // Define mod id in a common place for everything to reference.
     //TEst forGUI mac.
@@ -133,12 +133,14 @@ public class RelativeDimensionsMain {
             PVPStateHandler.register();
             DailyTimeLimitHandler.register();
             ModMessages.register();**/
+
+            // Register the surface manager
+            SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.customMakeRules());
         });
         if (ABERRANT_DIMENSION_OVERRIDE){
             utilityClass.patchAberrantOverworld();
         }
-        // Register the surface manager
-        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
+
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
     }

@@ -1,16 +1,23 @@
 {
   "criteria": {
-    "has_aberrant_ore_or_log": {
+    "has_aberrant_log": {
       "conditions": {
         "items": [
           {
             "items": [
-              "relativedimensions:aberrant_ore"
+              "relativedimensions:aberrant_log"
             ]
-          },
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_aberrant_oreshard": {
+      "conditions": {
+        "items": [
           {
             "items": [
-              "relativedimensions:aberrant_log"
+              "relativedimensions:aberrant_shard"
             ]
           }
         ]
@@ -32,7 +39,8 @@
   },
   "requirements": [
     [
-      "has_aberrant_ore_or_log"
+      "has_aberrant_oreshard",
+      "has_aberrant_log"
     ]
   ],
   "sends_telemetry_event": true

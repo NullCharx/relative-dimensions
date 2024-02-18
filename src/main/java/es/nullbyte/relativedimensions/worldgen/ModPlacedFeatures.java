@@ -59,7 +59,7 @@ public class ModPlacedFeatures {
 
         //ABERRANT TREE PLACEMENT CONFIGURATION FOR ABERRANT BIOMES ------ (More likely to spawn than on vanilla biomes)
         register(context, ABERRANT_TREE_PLACED_ABERRANT_BIOMES, configuredFeatures.getOrThrow(ModConfiguredFeatures.ABERRANT_TREE_CONFIG),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.05F, 1),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(1, 0.5F, 3),
                         BlockInit.ABERRANT_SAPLING.get()));
         //ABERRANT ORE PLACEMENT CONFIGURATION FOR ABERRANT BIOMES ------ (More likely to spawn than on vanilla biomes)
         register(context, ABERRANT_ORE_PLACED_ABERRANT_BIOMES, configuredFeatures.getOrThrow(ModConfiguredFeatures.ABERRANT_ORE_CONFIG),

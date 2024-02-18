@@ -7,8 +7,9 @@ TODO: Recode the tracker compass to not use local variables like the team one
 --------------------------------------------
 TODO: Problem in compasses with teams enabled (people in teams dont get tracked)
 
-
+TODO Should make more checks, specially for the grass underground and the aberrant mineraloid taking all underground space
 TODO: CHCEK BIOME GENRATION (single nbiome)AND BIOME GEN ON OVERWORLD
+
 TODO: Aberrant items withe effects?:  shovel, hoe.
 TODO: SURFACE RULES NEED TO BE CHANGED_
 TODO: When that isdone, integrate aberrant tree/grass/cobblestone

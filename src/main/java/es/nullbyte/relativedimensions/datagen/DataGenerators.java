@@ -1,12 +1,12 @@
 package es.nullbyte.relativedimensions.datagen;
 
+import es.nullbyte.relativedimensions.datagen.advancements.ModAdvancementsProvider;
 import es.nullbyte.relativedimensions.datagen.blockproviders.ModBlockStateProvider;
 import es.nullbyte.relativedimensions.datagen.blockproviders.ModBlockTagGenerator;
 import es.nullbyte.relativedimensions.datagen.itemproviders.ModItemModelProvider;
 import es.nullbyte.relativedimensions.datagen.itemproviders.ModelItemTagGenerator;
 import es.nullbyte.relativedimensions.datagen.loot.globalLootModifiers.providers.AberrantPickaxeGLMProvider;
 import es.nullbyte.relativedimensions.datagen.recpieproviders.ModRecipeProvider;
-import es.nullbyte.relativedimensions.worldgen.dimensions.auxpackage.utilityClass;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;

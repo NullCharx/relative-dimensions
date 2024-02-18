@@ -3,38 +3,40 @@ package es.nullbyte.relativedimensions.worldgen.biomes.surface;
 import es.nullbyte.relativedimensions.blocks.BlockInit;
 import es.nullbyte.relativedimensions.worldgen.biomes.ModBiomes;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.SurfaceRules;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
+
+import static net.minecraft.world.level.levelgen.SurfaceRules.*;
 
 public class ModSurfaceRules {
-    private static final SurfaceRules.RuleSource DIRT = makeStateRule(Blocks.DIRT);
-    private static final SurfaceRules.RuleSource GRASS_BLOCK = makeStateRule(Blocks.GRASS_BLOCK);
-    private static final SurfaceRules.RuleSource ABERRANT_DIRT = makeStateRule(BlockInit.ABERRANT_DIRT.get());
+    // Existing custom block rules
     private static final SurfaceRules.RuleSource ABERRANT_GRASS_BLOCK = makeStateRule(BlockInit.ABERRANT_GRASS.get());
-    private static final SurfaceRules.RuleSource ABERRANT_MINERALOID = makeStateRule(BlockInit.ABERRANT_MINERALOID.get());
-    private static final SurfaceRules.RuleSource ABERRANT_ORE = makeStateRule(BlockInit.ABERRANT_ORE.get());
+    //if specifying an specific blocks, you can use the following method
+    //SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState());
+    //Offset, add_surace_depth,surface type
+    private static final SurfaceRules.RuleSource ABERRANT_DIRT = makeStateRule(BlockInit.ABERRANT_DIRT.get());
 
-    public static SurfaceRules.RuleSource makeRules() {
-        SurfaceRules.ConditionSource isAtOrAboveWaterLevel = SurfaceRules.waterBlockCheck(-1, 0);
+    private static final SurfaceRules.RuleSource ABERRANT_STONE = makeStateRule(BlockInit.ABERRANT_MINERALOID.get()); // Assuming you have ABERRANT_STONE
+    private static final SurfaceRules.RuleSource ABERRANT_SNOWY_GRASS = makeStateRule(BlockInit.ABERRANT_SNOWY_GRASS.get()); // For snow coverage
 
-        SurfaceRules.RuleSource grassSurface = SurfaceRules.sequence(SurfaceRules.ifTrue(isAtOrAboveWaterLevel, ABERRANT_GRASS_BLOCK), ABERRANT_DIRT);
-
-        SurfaceRules.RuleSource stoneRule = SurfaceRules.state(Blocks.STONE.defaultBlockState());
+    public static SurfaceRules.RuleSource customMakeRules() {
 
         return SurfaceRules.sequence(
-                SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.isBiome(ModBiomes.ABERRANT_FOREST),
-                                SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, ABERRANT_MINERALOID)),
-                        SurfaceRules.ifTrue(SurfaceRules.ON_CEILING, ABERRANT_ORE)),
+            SurfaceRules.ifTrue(SurfaceRules.isBiome(ModBiomes.ABERRANT_FOREST), SurfaceRules.sequence(
+                SurfaceRules.ifTrue(SurfaceRules.temperature(), ABERRANT_SNOWY_GRASS),
+                SurfaceRules.ifTrue(ON_FLOOR, ABERRANT_GRASS_BLOCK),
+                SurfaceRules.ifTrue(ON_FLOOR, SurfaceRules.ifTrue(SurfaceRules.waterBlockCheck(0,2),ABERRANT_DIRT)),
+                SurfaceRules.ifTrue(UNDER_FLOOR, ABERRANT_DIRT),
+                SurfaceRules.ifTrue(yBlockCheck(VerticalAnchor.absolute(18), 2),ABERRANT_STONE))
+            ),
 
-                SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.isBiome(ModBiomes.ABERRANT_PLAINS),
-                                SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, ABERRANT_MINERALOID)),
-                        SurfaceRules.ifTrue(SurfaceRules.ON_CEILING, ABERRANT_ORE)),
-
-
-                // Default to a grass and dirt surface
-                SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, grassSurface),
-
-                SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, GRASS_BLOCK)
+            SurfaceRules.ifTrue(SurfaceRules.isBiome(ModBiomes.ABERRANT_PLAINS), SurfaceRules.sequence(
+                SurfaceRules.ifTrue(SurfaceRules.temperature(), ABERRANT_SNOWY_GRASS),
+                SurfaceRules.ifTrue(ON_FLOOR, ABERRANT_GRASS_BLOCK),
+                SurfaceRules.ifTrue(ON_FLOOR, SurfaceRules.ifTrue(SurfaceRules.waterBlockCheck(0,2),ABERRANT_DIRT)),
+                SurfaceRules.ifTrue(UNDER_FLOOR, ABERRANT_DIRT),
+                SurfaceRules.ifTrue(yBlockCheck(VerticalAnchor.absolute(18), 2),ABERRANT_STONE))
+            )
         );
     }
 
@@ -42,3 +44,5 @@ public class ModSurfaceRules {
         return SurfaceRules.state(block.defaultBlockState());
     }
 }
+
+
