@@ -71,7 +71,8 @@ public class ModDimensions {
         //Multinoise multi biome (regular overworld)-----
         NoiseBasedChunkGenerator noiseBasedChunkGenerator = new NoiseBasedChunkGenerator(
                 MultiNoiseBiomeSource.createFromList(new Climate.ParameterList<>(List.of(
-                Pair.of(Climate.parameters(Climate.Parameter.span(-1F, 1F), Climate.Parameter.span(0.58F, 0.62F), Climate.Parameter.span(-0.429F, 0.449F), Climate.Parameter.span(0.08F, 0.14F), Climate.Parameter.span(-1F, 1F), Climate.Parameter.span(-0.007F,0.02F), 0.115F), biomeRegistry.getOrThrow(ModBiomes.ABERRANT_FOREST)),
+                Pair.of(Climate.parameters(Climate.Parameter.span(-0.88F, 0.22F), Climate.Parameter.span(-0.99F, 1.22F), Climate.Parameter.span(-0.429F, 0.249F), Climate.Parameter.span(-1F, 1F), Climate.Parameter.span(-1F, 1F), Climate.Parameter.point(0F), 0F), biomeRegistry.getOrThrow(ModBiomes.ABERRANT_FOREST)),
+                //Pair.of(Climate.parameters(Climate.Parameter.span(-1F, 1F), Climate.Parameter.span(0.58F, 0.62F), Climate.Parameter.span(-0.429F, 0.449F), Climate.Parameter.span(0.08F, 0.14F), Climate.Parameter.span(-1F, 1F), Climate.Parameter.span(-0.007F,0.02F), 0.115F), biomeRegistry.getOrThrow(ModBiomes.ABERRANT_FOREST)),
                 Pair.of(Climate.parameters(Climate.Parameter.span(-0.88F, 1.22F), Climate.Parameter.span(0.99F, 1.22F), Climate.Parameter.span(0.429F, 1.249F), Climate.Parameter.span(-1F, 1F), Climate.Parameter.span(-1F, 1F), Climate.Parameter.span(0.5F, 1.5F), 0F), biomeRegistry.getOrThrow(ModBiomes.ABERRANT_FOREST)),
                 Pair.of(Climate.parameters(Climate.Parameter.span(-0.88F, 1.22F), Climate.Parameter.span(0.99F, 1.22F), Climate.Parameter.span(0.429F, 1.249F), Climate.Parameter.span(-1F, 1F), Climate.Parameter.span(-1F, 1F), Climate.Parameter.span(0.5F, 1.5F), 1F), biomeRegistry.getOrThrow(ModBiomes.ABERRANT_FOREST))
         ))),

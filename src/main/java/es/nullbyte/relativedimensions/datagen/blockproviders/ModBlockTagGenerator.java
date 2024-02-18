@@ -71,5 +71,8 @@ public ModBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Pr
         this.tag(Tags.Blocks.ORES)
                 .add(BlockInit.ABERRANT_ORE.get());
 
+        //Makes it so that that ores can replace abberant mineraloid
+        this.tag(BlockTags.STONE_ORE_REPLACEABLES)
+                .add(BlockInit.ABERRANT_MINERALOID.get());
     }
 }

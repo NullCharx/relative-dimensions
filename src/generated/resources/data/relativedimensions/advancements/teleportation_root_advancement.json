@@ -1,26 +1,51 @@
 {
   "criteria": {
-    "has_avidsdpt": {
+    "using_avidsdpt": {
       "conditions": {
-        "items": [
+        "item": {
+          "items": [
+            "relativedimensions:avidsdpt"
+          ]
+        },
+        "player": [
           {
-            "items": [
-              "relativedimensions:avidsdpt"
-            ]
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:player"
+            }
           }
         ]
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:using_item"
+    },
+    "using_avidsdpt_onloc": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {}
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "relativedimensions:avidsdpt"
+              ]
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
     }
   },
   "display": {
     "background": "relativedimensions:textures/item/avidsdpt.png",
     "description": {
-      "translate": "advancements.relativedimensions.teleportation_root.toast"
+      "translate": "advanczements.relativedimensions.teleportation_root.toast"
     },
     "icon": {
-      "item": "relativedimensions:avidsdpt",
-      "nbt": "{Damage:0}"
+      "item": "relativedimensions:aberrant_block"
     },
     "title": {
       "translate": "advancements.relativedimensions.teleportation_root.title"
@@ -28,7 +53,8 @@
   },
   "requirements": [
     [
-      "has_avidsdpt"
+      "using_avidsdpt",
+      "using_avidsdpt_onloc"
     ]
   ],
   "sends_telemetry_event": true

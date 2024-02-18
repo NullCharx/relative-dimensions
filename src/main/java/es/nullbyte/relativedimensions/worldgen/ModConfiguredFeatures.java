@@ -36,8 +36,6 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?,?>> ABERRANT_TREE_CONFIG = registerKey("aberrant_tree_config");
 
     public static final ResourceKey<ConfiguredFeature<?,?>> ABERRANT_ORE_CONFIG = registerKey("aberrant_ore_config");
-    public static final ResourceKey<ConfiguredFeature<?,?>> ABERRANT_GRASS_ON_ABERRANT_BIOME_CONFIG= registerKey("aberrant_grass_on_aberrant_config");
-    public static final ResourceKey<ConfiguredFeature<?,?>> ABERRANT_DIRT_ON_ABERRANT_BIOME_CONFIG = registerKey("aberrant_dirt_on_aberrant_config");
 
     public static void bootstap(BootstapContext<ConfiguredFeature<?, ?>> context) {
 
