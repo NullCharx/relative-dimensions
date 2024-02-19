@@ -1,5 +1,4 @@
 plugins {
-    id 'java'
 }
 
 group = 'es.nullbyte.relativedimensions'
