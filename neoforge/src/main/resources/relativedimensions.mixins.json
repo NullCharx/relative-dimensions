@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "es.nullbyte.relativedimensions.relativedimensions.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "untitled.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

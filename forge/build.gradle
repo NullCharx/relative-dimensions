@@ -6,7 +6,7 @@ plugins {
 
 
 base {
-    archivesBaseName = 'relativedimensions'
+    archivesName = mod_id
 }
 
 
@@ -193,7 +193,7 @@ tasks.named('jar', Jar).configure {
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {
-        register('mavenJava', MavenPublication) {
+        register('mavenJavaFrg', MavenPublication) {
             artifact jar
         }
     }
