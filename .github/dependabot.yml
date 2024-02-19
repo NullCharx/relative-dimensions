@@ -1,0 +1,34 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+registries:
+  maven-central:
+    type: maven-repository
+    url: https://repo.maven.apache.org/maven2/
+  parchment:
+    type: maven-repository
+    url: https://maven.parchmentmc.org/
+  neoforge:
+    type: maven-repository
+    url: https://maven.neoforged.net/
+  forge:
+    type: maven-repository
+    url: https://maven.minecraftforge.net/
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/"
+    registries:
+      - maven-central
+      - parchment
+      - neoforge
+      - forge
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "com.mojang:minecraft"
+        update-types: ["version-update:semver-minor"]
+      - dependency-name: "net.neoforged.neoforge"
+        update-types: ["version-update:semver-minor"]
