@@ -1,0 +1,148 @@
+{
+  "itemGroup.relativedimensions": "Propiedad del grupo de Desarrollo e Inteligencia Avanzado",
+
+
+  "block.relativedimensions.test-block": "Test block! (sin funcionalidad)",
+  "item.relativedimensions.testitem1": "Test item 1! (sin funcionalidad)",
+
+
+  "creativetab.avidtp": "Items de teleportacion local de AVID",
+  "item.relativedimensions.avidsdpt": "Transmisor de particulas de corta distancia de AVID",
+  "item.relativedimensions.avidsdpt.tooltip": "Haz click en un bloque cercano para teletransportarte instantaneamente a el",
+  "item.relativedimensions.transmatbeamemt": "Emisor de haz transmat",
+  "item.relativedimensions.transmatbeamemitter.state.stabilishing": "Estableciendo canal transmat...",
+  "item.relativedimensions.transmatbeamemitter.state.locking": "Bloqueando coordenadas de salida...",
+  "item.relativedimensions.transmatbeamemitter.state.targetlacq": "Coordenadas de destino fijadas: %s",
+  "item.relativedimensions.transmatbeamemitter.state.upstrtransmat" : "Generando haz transmat de subida...",
+  "item.relativedimensions.transmatbeamemitter.state.energizing" : "Energizando...",
+  "item.relativedimensions.transmatbeamemitter.state.stabilished" : "Canal transmat establecido.",
+  "item.relativedimensions.transmatbeamemitter.state.error" : "Error durante la tranmisión de materia. Teletransporte abortado.",
+  "item.relativedimensions.transmatbeamemitter.state.randerror" : "Error de translocación. Teletransporte abortado. Recalibrando...",
+  "item.relativedimensions.transmatbeamemitter.state.success" : "Transmitiendo materia...",
+  "item.relativedimensions.transmatbeamemitter.tooltip" : "Haz click en un bloque en tu rango de visión para teletransportarte a él tras un tiempo corto.",
+
+
+  "creativetab.avidpvp": "Items de control de personal de AVID",
+  "item.relativedimensions.disarmedtrackercompass": "Brújula rastreadora desactivada de AVID",
+  "item.relativedimensions.disarmedtrackercompass.tooltip": "Usa el item para rastrear a un jugador! Si no hay jugadores en rango, la brújula no se activará.",
+  "item.relativedimensions.disarmedteamtrackercompass": "Brújula rastreadora de equipo desactivada de AVID",
+  "item.relativedimensions.disarmedteamtrackercompass.tooltip": "Usa el item para rastrear a un jugador de tu equipo! Si no hay jugadores en rango, la brújula no se activará.",
+
+  "item.relativedimensions.trackercompass": "Brújula rastreadora de AVID",
+  "item.relativedimensions.trackercompass.tooltip": "¡Rápido! ¡Sigue la aguja! Usa el item de nuevo para actualizar la posición del objetivo",
+  "item.relativedimensions.teamtrackercompass": "Brújula rastreadora de equipo de AVID",
+  "item.relativedimensions.teamtrackercompass.tooltip":  "¡Rápido! ¡Sigue la aguja! Usa el item de nuevo para actualizar la posición del objetivo",
+
+
+  "item.relativedimensions.trackers.no_players_found": "No se encontraron jugadores cerca. Esperando recalibración,,,",
+  "item.relativedimensions.trackers.player_found" : "Jugador encontrado, brujula armada. Usa el item de nuevo para actualizar la posición del objetivo",
+  "item.relativedimensions.trackers.pos_updated": "Brújula armada, posición actualizada",
+  "item.relativedimensions.trackers.player_too_close": "Debido a la cercanía con el objetivo, la brújula se ha sobrecargado y ya no funciona.La energía sobrante te ha permitido ver como la brújula se ha volatilizado antes tus ojos",
+  "item.relativedimensions.trackers.recalibrating": "Error de triangulación. Recalibración completada. Prueba de nuevo.",
+  "item.relativedimensions.trackers.errorleftwhiletracking": "Error de triangulación. Huella energética perdida. Si el objetivo perdido vuelve al usar la brujula, se retomará el rastreo.",
+  "item.relativedimensions.trackers.state2": "Objetivo rastreado...",
+  "item.relativedimensions.trackers.state3": "Ovjetivo perdido. Usando ultima posición conocida...",
+
+  "block.relativedimensions.tsrail": "Pieza de rail parte del sistema de transporte del centro AVID",
+
+  "creativetab.dimenv" : "Entorno extradimensional.",
+
+  "item.relativedimensions.aberrant_pickaxe" : "Pico aberrante",
+  "item.relativedimensions.aberrant_pickaxe.tooltip" : "Un pico alimentado por la radiación de dimensiones exteriores:\n",
+  "item.relativedimensions.aberrant_pickaxe.tooltip_modifiers_list" : "MALDICIÓN DE ABERRANTISMO MINERO\n\nREBOTE DIMENSIONAL",
+  "item.relativedimensions.aberrant_pickaxe.tooltip_modifiers" : "MALDICIÓN DE ABERRANTISMO MINERO:\nBaja probabilidad de corromper cualquier bloque minado, especialmente minerales, en bloques aberrantes\n\nREBOTE DIMENSIONAL DIMENSIONAL:\nBaja probabilidad de intercambiar el bloque minado, especialmente minerales, con otro aleatorio de otra dimensión",
+  "block.relativedimensions.aberrant_block": "Bloque aberrante",
+  "block.relativedimensions.aberrant_block.tooltip": "Parece que por momentos escapa de esta realidad tras haber absorbido demasiada energia atron y es inestable.. No sabes si deberías tocarlo",
+  "block.relativedimensions.aberrant_ore" : "Mena de mineral aberrante",
+  "block.relativedimensions.aberrant_ore.tooltip" : "Otrora un mineral normal, esta mena parece un fallo. Como si viniera de otro lugar.",
+  "block.relativedimensions.aberrant_shard": "Fragmento de mineral aberrante",
+  "block.relativedimensions.aberrant_shard.tooltip": "Un fragmento mineral que guarda propiedades más allá de tu comprensión. Parece distorsionar la realidad a su alrededor.",
+  "block.relativedimensions.aberrant_mineraloid": "Amalgama aberrante de mineraloides",
+  "block.relativedimensions.aberrant_mineraloid.tooltip": "Un conjunto de rocas y minerales del área circundante, comprimidos debido a la distorsión dimensional. Desprende un calor tenue",
+  "item.relativedimensions.aberrant_ingot" : "Lingote de mineral aberrante",
+  "item.relativedimensions.aberrant_ingot.tooltip" : "Un lingote de mineral que parece emanar energía dimensional. Podría usarse como fuente de energia. O como arma. O...",
+
+  "item.relativedimensions.aberrant_sword" : "Espada aberrante",
+  "item.relativedimensions.aberrant_sword.tooltip" : "Una espada alimentada por la no-energía del vacío entre dimensiones.\n",
+  "item.relativedimensions.aberrant_sword.tooltip_modifiers_list" : "MALDICIÓN DE ABERRANTISMO GUERRERO\n\nEMISIÓN DE RADIACIÓN DEL VACÍO",
+  "item.relativedimensions.aberrant_sword.tooltip_modifiers" : "MALDICIÓN DE ABERRANTISMO GUERRERO:\nBaja probabilidad de teletransportar cualquier entidad golpeada en una dirección aleatoria libre de bloques en un pequeño radio\n\n EMISIÓN DE RADIACIÓN DEL VACÍO:\nBaja probabilidad de irradiar a su portador con radiación exótica del vacío, causando un efecto negativo aleatorio y una cantidad pequeña aleatoria de daño (Entre 1.5 y 5 corazones).",
+  "effect.relativedimensions.void_bleed" : "Irradiado",
+  "effect.relativedimensions.dimensional_nausea" : "Nausea dimensional",
+
+  "item.relativedimensions.aberrant_axe" : "Hacha aberrante",
+  "item.relativedimensions.aberrant_axe.tooltip" : "Un hacha hecha en parte con materia de otra dimensión.\n",
+  "item.relativedimensions.aberrant_axe.tooltip_modifiers_list" : "MALDICIÓN DE ABERRANTISMO LEÑADOR\n\nBRECHA DIMENSIONAL\n\nEMISIÓN DE PARTICULAS EXTRA-DIMENSIONALES",
+  "item.relativedimensions.aberrant_axe.tooltip_modifiers" : "MALDICIÓN DE ABERRANTISMO LEÑADOR:\nBaja probabilidad de corromper cualquier estructura circundante de madera mianada en sus contrapartes abrrentes\n\nBRECHA DIMENSIONAL:\nSi minas un bloque de madera, baja probabilidad de intercambiarlo con un bloque aleatorio de otra dimensión. Si golpeas una entidad, baja probabilidad de teletransportarla a un bloque libre en una dirección aleatoria en un radio pequeño.\n\nEMISIÓN DE PARTICULAS EXTRA-DIMENSIONALES:\nBaja probabilidad de emitir partículas de otra dimensión, causando un efecto aleatorio al jugador y una pequeña cantidad de daño (Entre 1.5 y 5 corazones) al golpear o minar.",
+  "block.relativedimensions.aberrant_log" : "Tronco aberrante",
+  "block.relativedimensions.aberrant_log.tooltip" : "Un tronco que zumba cuando lo tocas. Parece desprovisto de vida, pero no está muerto",
+  "block.relativedimensions.aberrant_leave" : "Hojas aberrantes",
+  "block.relativedimensions.aberrant_leave.tooltip" : "Partículas parecen estar suspendidas en las hojas. No son de este mundo",
+  "block.relativedimensions.aberrant_plank" : "Tablón aberrante",
+  "block.relativedimensions.aberrant_plank.tooltip" : "No muy diferente de otras realidades, los tablones están hechos de madera apilada de uno de esos extraños troncos",
+  "block.relativedimensions.aberrant_wood" : "Leño aberrante",
+  "block.relativedimensions.aberrant_wood.tooltip" : "Incluso cuando es cortada, una realidad nueva tomará el lugar de esta. Es un ciclo sin fin",
+  "block.relativedimensions.stripped_aberrant_log" : "Tronco aberrante sin corteza",
+  "block.relativedimensions.stripped_aberrant_log.tooltip" : "Capa tras capa, el tronco se mantiene firme",
+  "block.relativedimensions.stripped_aberrant_wood" : "Leño aberrante sin corteza",
+  "block.relativedimensions.stripped_aberrant_wood.tooltip" : "Capa tras capa, el tronco se mantiene firme",
+
+  "block.relativedimensions.aberrant_sapling" : "Brote aberrante",
+  "block.relativedimensions.aberrant_sapling.tooltip" : "Este brote es la representación perfecta de la potencialidad de la vida. Tantas ramas, tantas hojas, tantas posibilidades",
+  "item.relativedimensions.aberrant_stick" : "Palo aberrante",
+  "item.relativedimensions.aberrant_stick_tooltip" : "Un palo hecho de madera con propiedades extrañas. Es el único tipo de madera que puede contener la energía de minerales aberrantes sin deteriorarse",
+
+  "item.relativedimensions.aberrant_shovel" : "Pala aberrante",
+  "item.relativedimensions.aberrant_shovel.tooltip" : "Una pala con la capcidad de alterar la realidad.\n",
+  "block.relativedimensions.aberrant_grass" : "Césped aberrante",
+  "item.relativedimensions.aberrant_grass.tooltip" : "Tierra con césped que fue alterada por derramamientos dimensionales\n",
+  "block.relativedimensions.aberrant_dirt" : "Tierra aberrante",
+  "item.relativedimensions.aberrant_dirt.tooltip" : "Tierra que fue alterada por derramamientos dimensionales\n",
+  "block.relativedimensions.aberrant_snowy_grass" : "Césped nevado aberrante",
+  "item.relativedimensions.aberrant_snowy_grass.tooltip" : "Tierra con nieve encima. En lugar de derretirse, la nieve parece ser absorbida por la tierra debido a la radiación dentro del bloque.",
+
+  "relativedimensions.aberrant_forest" : "Bosque aberrante",
+  "relativedimensions.aberrant_plains" : "Llanura aberrante",
+
+  "advancements.relativedimensions.aberrant_root.title" : "Cazador de fallas dimensionales",
+  "advancements.relativedimensions.aberrant_root.toast" : "Has encontrado algo que no debería estar aquí",
+  "advancements.relativedimensions.aberrant_tool.title" : "Abriendo grietas en la realidad",
+  "advancements.relativedimensions.aberrant_tool.toast" : "Consigue cualquier herramienta aberrante",
+
+
+  "advancements.relativedimensions.teleportation_root.title" : "Tunelamiento cuántico",
+  "advancements.relativedimensions.teleportation_root.toast" : "Si la vida te da limones, teletransportalos lejos.",
+
+  "cmds.modpvp.level.off" : "⚠⚠⚠——————PVP: DESACTIVADO———————\n",
+  "cmds.modpvp.level.on" : "⚠⚠⚠——————PVP: ACTIVADO———————\n",
+  "cmds.modpvp.level.ultra" : "⚠⚠⚠——————PVP: ULTRA———————\n",
+  "cmds.modpvp.error.levelnotvalid" : "Nivel PVP no valido. Los valores validos son -1 (no pvp), 0 (pvp), 1 (ultra pvp)",
+  "cmds.modpvp.error.highestlevel" : "Error: El nivel de PVP ya es el mas alto posible",
+  "cmds.modpvp.error.lowestlevel" : "Error: El nivel de PVP ya es el mas bajo posible",
+  "cmds.timerpvp.showtimelimit" : "Limite diario: %s",
+  "cmds.timerpvp.showresettime" : "El reseteo diario será: %s",
+  "cmds.timerpvp.timeplayedtoday": "Tiempo de juego de hoy de %s: %s",
+  "cmds.timerpvp.timerenabled" : "Contador activado",
+  "cmds.timerpvp.timerdisabled" : "Contador desactivado",
+  "cmds.timerpvp.resettimeset" : "Hora de reseteo fijada a %s : %s",
+  "cmds.timerpvp.dailytimelimitset" : "Limite diario fijado a %s",
+  "cmds.timerpvp.publictimerenabled" : "[S.P.A.S] - El tiempo de juego ha comenzado. ¡A explorar! (Y cuidado por donde pisais)",
+  "cmds.timerpvp.publictimerdisabled" : " [S.P.A.S] - Contador detenido ",
+  "cmds.timerpvp.error.usernotfound" : "Error: Usuario no encontrado",
+  "cmds.timerpvp.error.timeargumentOOB" : "Error de argumento (formato 24 horas entre 00:00 y 23:59)",
+  "cmds.timerpvp.error.timeargumenttoosmall" : "Error de argumento. Al menos un minuto de juego debe ser especificado",
+  "cmds.timerpvp.error.timeargumenttoobig" : "Error de argumento. Máximo de 99 horas permitido",
+
+
+  "gui.pvpoverlay.time_remaining" : "Tiempo restante: ",
+
+
+  "system.announcer.playerdeath.header" : "☠ HA HABIDO UNA MUERTE\n",
+  "system.announcer.playerdeath.emptyline" : "          \n",
+  "system.announcer.playerdeath.id" : "La aventura de %s ha llegado a su fin\n",
+  "system.announcer.playerdeath.footer" : "§m☠-------------------------------\n",
+  "system.announcer.playerdeath.final" : "",
+  "system.disconnectmsg.exceededplaytime" : "Tu tiempo de juego diario ha sido excedido.¡Vuelve mañana!",
+  "system.disconnectmsg.playerdeath" : "¡Has sido eliminado! Gracias por jugar con nosotros",
+  "system.worldborder.outofbounds" : "¡Estas fuera de limites! Teletransportando dentro del área de juego en %s segundos...",
+  "system.worldborder.tpback" : "Teletransportando al area de juego..."
+}
